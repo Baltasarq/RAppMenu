@@ -228,7 +228,7 @@ namespace RAppMenu.Ui {
 			pnlActions.Controls.Add( this.btRemove );
 
 			this.pnlTree = new Panel();
-			this.pnlTree.Dock = DockStyle.Left;
+			this.pnlTree.Dock = DockStyle.Fill;
 			pnlActions.MaximumSize = new Size( int.MaxValue, this.btRemove.Height * 2 );
 			this.pnlTree.Padding = new Padding( 10 );
 
@@ -239,10 +239,8 @@ namespace RAppMenu.Ui {
 			this.tree.Nodes[ 0 ].ImageIndex = 0;
 			this.pnlTree.Controls.Add( this.tree );
 			this.pnlTree.Controls.Add( pnlActions );
-			this.pnlTree.AutoSize = true;
-			this.pnlTree.Resize += (sender, e) =>
-				this.pnlTree.MinimumSize =
-					new Size( this.ClientRectangle.Width / 2, this.ClientRectangle.Height );
+
+			this.splPanels.Panel1.Controls.Add( this.pnlTree );
 		}
 
 		private void BuildPropertiesPanel()
@@ -270,6 +268,8 @@ namespace RAppMenu.Ui {
 			pnlName.Controls.Add( this.lblName );
 			pnlName.MaximumSize = new Size( int.MaxValue, this.edName.Height );
 			pnlInnerProperties.Controls.Add( pnlName );
+
+			this.splPanels.Panel2.Controls.Add( this.pnlProperties );
 		}
 
 		private void BuildStatus()
@@ -327,21 +327,30 @@ namespace RAppMenu.Ui {
 			});
 		}
 
+		private void BuildSplitPanels()
+		{
+			this.splPanels = new SplitContainer();
+			this.splPanels.Dock = DockStyle.Fill;
+
+			this.splPanels.Resize += (sender, e) => {
+				this.splPanels.SplitterDistance = this.ClientRectangle.Width / 2;
+			};
+		}
+
 		private void Build()
 		{
 			this.BuildIcons();
 			this.BuildMenu();
+			this.BuildSplitPanels();
 			this.BuildTreePanel();
 			this.BuildPropertiesPanel();
 			this.BuildStatus();
 			this.BuildToolBar();
 
-			this.Controls.Add( this.pnlProperties );
-            this.Controls.Add( this.pnlTree );
+			this.Controls.Add( this.splPanels );
 			this.Controls.Add( this.tbBar );
 			this.Controls.Add( this.mMain );
             this.Controls.Add( this.stStatus );
-
 
 			this.Text = AppInfo.Name;
 			this.Icon = Icon.FromHandle( appIconBmp.GetHicon() );
@@ -373,6 +382,7 @@ namespace RAppMenu.Ui {
 		}
 
 		private TreeView tree;
+		private SplitContainer splPanels;
 		private GroupBox pnlProperties;
 		private Panel pnlTree;
 		private MenuStrip mMain;
