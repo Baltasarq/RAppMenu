@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<Menue>
+    
+<Function Name="Knob" HasData="TRUE" DefaultData="Knobdatos.csv" PreCommand = "@_Build_AdWorld_">
+<ExecuteComandOnce Name="require(MapsR)"/>
+<ExecuteComandOnce Name="data(adworld)"/>
+
+<ExecuteComandOnce Name="adworld1&lt;-NULL"/>
+
+<ExecuteComandOnce Name="adworld2&lt;-NULL"/>
+
+<Argument Name="Area" Viewer="Map" Tag="adworld1"/>
+      
+<Argument Name="exclude" Viewer="Map" Tag="adworld2"/>
+      
+<RequiredArgument Name="data"/>
+     <RequiredArgument Name="cell"/>
+     <RequiredArgument Name="method"/>
+     <RequiredArgument Name="index"/>
+     <RequiredArgument Name="Area"/>
+    
+</Function>
+    
+</Menue>

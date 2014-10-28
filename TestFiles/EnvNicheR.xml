@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Menue>
+  <MenueEntry Name="Niche estimation">
+    <Function Name="Niche" HasData="TRUE"  DefaultData="data(Carnivores)" StartColumn="1" RemoveQuotationMarks="TRUE">
+     <Argument Name="variables" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+     <RequiredArgument Name="data"/>
+     <RequiredArgument Name="variables"/>
+     <RequiredArgument Name="spatial"/>
+     <ReadOnlyArgument Name="Level"/>
+     <Argument Name="Taxon" Viewer="TaxTree" SecondValueField="Level" AllowMultiSelect="FALSE"/>
+    </Function>
+  </MenueEntry>
+  <MenueEntry Name="Niche overlap between taxa">
+    <Function Name="NicheOverlap" HasData="TRUE" DefaultData="data(Carnivores)" >
+     <RequiredArgument Name="data"/>
+     <ReadOnlyArgument Name="Level1"/>
+     <ReadOnlyArgument Name="Level2"/>
+     <RequiredArgument Name="Taxon1"/>
+     <RequiredArgument Name="Taxon2"/>
+     <Argument Name="Taxon1" Viewer="TaxTree" SecondValueField="Level1" AllowMultiSelect="FALSE"/>
+     <Argument Name="Taxon2" Viewer="TaxTree" SecondValueField="Level2" AllowMultiSelect="FALSE"/>
+    </Function>
+  </MenueEntry>
+  <MenueEntry Name="Niche overlap among all species within a taxa">
+    <Function Name="OverlapTaxa" HasData="TRUE" DefaultData="data(Carnivores)" EndColumn="5">
+     <RequiredArgument Name="data"/>
+     <RequiredArgument Name="Level"/>
+     <Argument Name="Level" Viewer="DataColumsViewer" AllowMultiSelect="FALSE"/>
+   </Function>
+  </MenueEntry>
+  <Separator/>
+  <PDF Name="EnvNicheR-manual.pdf"/>
+  </Menue>

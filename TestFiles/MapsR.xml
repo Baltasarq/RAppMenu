@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<Menue>
+    <MenueEntry Name="Maps of administrative areas">
+     <Function Name="adarea" HasData="FALSE" PreCommand = "@_Build_AdWorld_">
+       <ExecuteCommandOnce Name="require(MapsR)"/>
+       <ExecuteCommandOnce Name="data(adworld)"/>
+       <Argument Name="Area" Viewer="Map" Tag="adworld1"/>
+       <Argument Name="exclude" Viewer="Map" Tag="adworld2"/>
+       <RequiredArgument Name="Area"/>
+      </Function>
+    </MenueEntry>
+    <MenueEntry Name="Contour plots of environmental variables and richness">
+     <Function Name="rmap" HasData="TRUE" PreCommand = "@_Build_AdWorld_">
+       <ExecuteCommandOnce Name="require(MapsR)"/>
+       <ExecuteCommandOnce Name="data(adworld)"/>
+       <Argument Name="Area" Viewer="Map" Tag="adworld1"/>
+       <Argument Name="exclude" Viewer="Map" Tag="adworld2"/>
+       <RequiredArgument Name="Area"/>
+       <RequiredArgument Name="data"/>
+      </Function>
+    </MenueEntry>
+    
+</Menue>
