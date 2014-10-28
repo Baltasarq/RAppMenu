@@ -34,15 +34,39 @@ namespace RAppMenu.Ui {
 
 		private void OnAddMenuEntry()
 		{
-			TreeNode tr = this.tree.SelectedNode;
+            string id = "newMenuEntry";
 
-			if ( tr == null ) {
-				tr = this.tree.Nodes[ 0 ];
-			}
-			var node = new TreeNode( "nuevo", 0, 0 );
-			tr.Nodes.Add( node );
-			tr.Expand();
+            id += this.tree.GetNodeCount( true ).ToString();
+            this.AddTreeNode( new TreeNode( id, 0, 0 ) );
 		}
+
+        private void OnAddFunction()
+        {
+            string id = "newFunction";
+
+            id += this.tree.GetNodeCount( true ).ToString();
+            this.AddTreeNode( new TreeNode( id, 1, 1 ) );
+        }
+
+        private void OnAddPdf()
+        {
+            string id = "newPdf";
+
+            id += this.tree.GetNodeCount( true ).ToString();
+            this.AddTreeNode( new TreeNode( id, 2, 2 ) );
+        }
+
+        private void AddTreeNode(TreeNode newNode)
+        {
+            TreeNode tr = this.tree.SelectedNode;
+
+            if ( tr == null ) {
+                tr = this.tree.Nodes[ 0 ];
+            }
+
+            tr.Nodes.Add( newNode );
+            tr.Expand();
+        }
 
 		private void OnOpen()
 		{
@@ -185,6 +209,7 @@ namespace RAppMenu.Ui {
 		{
 			var imageList = new ImageList();
 			var pnlActions = new FlowLayoutPanel();
+            pnlActions.Font = new Font( pnlActions.Font, FontStyle.Regular );
 
 			pnlActions.Dock = DockStyle.Bottom;
 
@@ -206,19 +231,21 @@ namespace RAppMenu.Ui {
 			this.btAddFunction.Size = new Size( 32, 32 );
 			this.btAddFunction.ImageList = imageList;
 			this.btAddFunction.ImageIndex = 1;
+            this.btAddFunction.Click += (sender, e) => this.OnAddFunction();
 			pnlActions.Controls.Add( this.btAddFunction );
 
 			this.btAddPdf = new Button();
 			this.btAddPdf.Size = new Size( 32, 32 );
 			this.btAddPdf.ImageList = imageList;
 			this.btAddPdf.ImageIndex = 2;
+            this.btAddPdf.Click += (sender, e) => this.OnAddPdf();
 			pnlActions.Controls.Add( this.btAddPdf );
 
-			this.btAddGraphic = new Button();
-			this.btAddGraphic.Size = new Size( 32, 32 );
-			this.btAddGraphic.ImageList = imageList;
-			this.btAddGraphic.ImageIndex = 3;
-			pnlActions.Controls.Add( this.btAddGraphic );
+            this.btAddGraphicMenu = new Button();
+			this.btAddGraphicMenu.Size = new Size( 32, 32 );
+			this.btAddGraphicMenu.ImageList = imageList;
+			this.btAddGraphicMenu.ImageIndex = 3;
+			pnlActions.Controls.Add( this.btAddGraphicMenu );
 
 			this.btRemove = new Button();
 			this.btRemove.Size = new Size( 32, 32 );
@@ -226,21 +253,24 @@ namespace RAppMenu.Ui {
 			this.btRemove.ImageList = imageList;
 			this.btRemove.ImageIndex = 4;
 			pnlActions.Controls.Add( this.btRemove );
+            pnlActions.MaximumSize = new Size( int.MaxValue, this.btRemove.Height * 2 );
 
-			this.pnlTree = new Panel();
+            this.tree = new TreeView();
+            this.tree.Font = new Font( this.tree.Font, FontStyle.Regular );
+            this.tree.Dock = DockStyle.Fill;
+            this.tree.ImageList = imageList;
+            this.tree.Nodes.Add( "Root" );
+            this.tree.Nodes[ 0 ].ImageIndex = 0;
+
+            this.pnlTree = new GroupBox();
+            this.pnlTree.Font = new Font( this.pnlTree.Font, FontStyle.Bold );
+            this.pnlTree.Text = "Menu structure";
 			this.pnlTree.Dock = DockStyle.Fill;
-			pnlActions.MaximumSize = new Size( int.MaxValue, this.btRemove.Height * 2 );
-			this.pnlTree.Padding = new Padding( 10 );
-
-			this.tree = new TreeView();
-			this.tree.Dock = DockStyle.Fill;
-			this.tree.ImageList = imageList;
-			this.tree.Nodes.Add( "Root" );
-			this.tree.Nodes[ 0 ].ImageIndex = 0;
+            this.pnlTree.Padding = new Padding( 10 );
 			this.pnlTree.Controls.Add( this.tree );
 			this.pnlTree.Controls.Add( pnlActions );
 
-			this.splPanels.Panel1.Controls.Add( this.pnlTree );
+            this.splPanels.Panel1.Controls.Add( this.pnlTree );
 		}
 
 		private void BuildPropertiesPanel()
@@ -252,7 +282,7 @@ namespace RAppMenu.Ui {
 			pnlInnerProperties.Dock = DockStyle.Fill;
 			this.pnlProperties.Controls.Add( pnlInnerProperties );
 
-			this.pnlProperties.Text = "Properties";
+			this.pnlProperties.Text = "Item properties";
 			this.pnlProperties.Font = new Font( this.pnlProperties.Font, FontStyle.Bold );
 			this.pnlProperties.Dock = DockStyle.Fill;
 			this.pnlProperties.Padding = new Padding( 5 );
@@ -359,8 +389,7 @@ namespace RAppMenu.Ui {
 
 		private void PrepareView(bool view)
 		{
-			this.pnlTree.Visible = view;
-			this.pnlProperties.Visible = view;
+            this.splPanels.Visible = view;
 
 			this.SetStatus();
 		}
@@ -384,7 +413,7 @@ namespace RAppMenu.Ui {
 		private TreeView tree;
 		private SplitContainer splPanels;
 		private GroupBox pnlProperties;
-		private Panel pnlTree;
+        private GroupBox pnlTree;
 		private MenuStrip mMain;
 		private ToolStripMenuItem mFile;
 		private ToolStripMenuItem mHelp;
@@ -393,7 +422,7 @@ namespace RAppMenu.Ui {
 		private Button btAddMenuEntry;
 		private Button btAddFunction;
 		private Button btAddPdf;
-		private Button btAddGraphic;
+		private Button btAddGraphicMenu;
 		private Button btRemove;
 
 		private StatusStrip stStatus;
