@@ -1,8 +1,9 @@
-﻿<Properties>
+﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Core/MenuComponents/ImagesMenu.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Ui/MainWindow.cs">
     <Files>
-      <File FileName="Core/MenuComponents/ImagesMenu.cs" Line="19" Column="1" />
+      <File FileName="Core/MenuComponents/ImagesMenu.cs" Line="1" Column="1" />
+      <File FileName="Ui/MainWindow.cs" Line="347" Column="23" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

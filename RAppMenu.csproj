@@ -51,12 +51,18 @@
     <Compile Include="Core\MenuComponents\Function.cs" />
     <Compile Include="Core\MenuComponents\PdfFile.cs" />
     <Compile Include="Core\MenuComponents\ImagesMenu.cs" />
+    <Compile Include="Ui\TreeNodes\FunctionTreeNode.cs" />
+    <Compile Include="Ui\TreeNodes\MenuEntryTreeNode.cs" />
+    <Compile Include="Ui\TreeNodes\PdfTreeNode.cs" />
+    <Compile Include="Ui\TreeNodes\SeparatorTreeNode.cs" />
+    <Compile Include="Ui\TreeNodes\GraphicMenuTreeNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />
     <Folder Include="Ui\" />
     <Folder Include="Res\" />
     <Folder Include="Core\MenuComponents\" />
+    <Folder Include="Ui\TreeNodes\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Res\add.png" />
@@ -77,5 +83,8 @@
     <EmbeddedResource Include="Res\open.png" />
     <EmbeddedResource Include="Res\pdf.png" />
     <EmbeddedResource Include="Res\function.png" />
+    <EmbeddedResource Include="Res\separator.png" />
+    <EmbeddedResource Include="Res\down.png" />
+    <EmbeddedResource Include="Res\up.png" />
   </ItemGroup>
 </Project>
