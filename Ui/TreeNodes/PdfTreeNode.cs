@@ -1,12 +1,14 @@
 ﻿using System.Windows.Forms;
 
+using RAppMenu.Core.MenuComponents;
+
 namespace RAppMenu.Ui.TreeNodes {
     /// <summary>
     /// Tree node for PDF path terminals.
     /// </summary>
-    public class PdfTreeNode: TreeNode {
-        public PdfTreeNode(string text)
-            :base( text )
+    public class PdfTreeNode: MenuComponentTreeNode {
+        public PdfTreeNode(string text, PdfFile pdf)
+            :base( text, pdf )
         {
             this.ImageIndex = 2;
             this.SelectedImageIndex = 2;

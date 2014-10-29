@@ -35,10 +35,11 @@ namespace RAppMenu.Ui {
 
 		private void OnAddMenuEntry()
 		{
+			MenuComponent mc = this.GetSelectedMenuComponent();
             string id = "newMenuEntry";
 
             id += this.tree.GetNodeCount( true ).ToString();
-            this.AddTreeNode( new MenuEntryTreeNode( id ) );
+            this.AddTreeNode( MenuEntryTreeNode.Create( id, mc ) );
 		}
 
         private void OnAddFunction()
@@ -79,15 +80,28 @@ namespace RAppMenu.Ui {
         /// <param name="newNode">New node.</param>
         private void AddTreeNode(TreeNode newNode)
         {
-            TreeNode tr = this.tree.SelectedNode;
-
-            if ( tr == null ) {
-                tr = this.tree.Nodes[ 0 ];
-            }
+			TreeNode tr = this.GetSelectedTreeNode();
 
             tr.Nodes.Add( newNode );
             tr.Expand();
         }
+
+		private MenuComponentTreeNode GetSelectedTreeNode()
+		{
+			TreeNode toret = this.tree.SelectedNode;
+
+            if ( toret == null ) {
+                toret = this.tree.Nodes[ 0 ];
+				this.tree.SelectedNode = toret;
+			}
+
+			return (MenuComponent) toret;
+		}
+
+		private MenuComponent GetSelectedMenuComponent()
+		{
+			return this.GetSelectedTreeNode().MenuComponent;
+		}
 
         /// <summary>
         /// Removes the selected node in the tree
@@ -99,7 +113,10 @@ namespace RAppMenu.Ui {
             if ( tr != null
               && tr != this.tree.Nodes[ 0 ] )
             {
+				TreeNode newSelected = ( tr.PrevNode ?? tr.NextNode ) ?? tr.Parent;
+
                 tr.Remove();
+				this.tree.SelectedNode = newSelected;
             }
 
             return;
@@ -109,11 +126,27 @@ namespace RAppMenu.Ui {
         {
             TreeNode tr = this.tree.SelectedNode;
 
-            if ( tr != null
-              && tr != this.tree.Nodes[ 0 ] )
-            {
+            if ( tr != null ) {
+				TreeNode trPrev = tr.PrevNode;
+				TreeNode parent = tr.Parent;
 
-            }
+				if ( parent != null
+				  && trPrev != null
+	              && tr != this.tree.Nodes[ 0 ] )
+	            {
+					int trPrevIndex = parent.Nodes.IndexOf( trPrev );
+
+					// Remove the node and the next one
+					parent.Nodes.RemoveAt( trPrevIndex );
+					parent.Nodes.RemoveAt( trPrevIndex );
+
+					// Insert them on reverse order
+					parent.Nodes.Insert( trPrevIndex, trPrev );
+					parent.Nodes.Insert( trPrevIndex, tr );
+
+					this.tree.SelectedNode = tr;
+	            }
+			}
 
             return;
         }
@@ -122,11 +155,28 @@ namespace RAppMenu.Ui {
         {
             TreeNode tr = this.tree.SelectedNode;
 
-            if ( tr != null
-              && tr != this.tree.Nodes[ 0 ] )
-            {
+			if ( tr != null ) {
+				TreeNode trNext = tr.NextNode;
+				TreeNode parent = tr.Parent;
 
-            }
+	            if ( tr != null
+				  && parent != null
+				  && trNext != null
+	              && tr != this.tree.Nodes[ 0 ] )
+	            {
+					int trIndex = parent.Nodes.IndexOf( tr );
+
+					// Remove the node and the next one
+					parent.Nodes.RemoveAt( trIndex );
+					parent.Nodes.RemoveAt( trIndex );
+
+					// Insert them on reverse order
+					parent.Nodes.Insert( trIndex, tr );
+					parent.Nodes.Insert( trIndex, trNext );
+
+					this.tree.SelectedNode = tr;
+	            }
+			}
 
             return;
         }
@@ -145,8 +195,9 @@ namespace RAppMenu.Ui {
         private void SetActionStatus(TreeNode tr)
         {
             bool isTerminal = !( tr is MenuEntryTreeNode );
-
-            Console.WriteLine( "Item clicked. Is terminal: {0}", isTerminal );
+			bool isRoot = ( tr == this.tree.Nodes[ 0 ] );
+			bool hasNext = ( tr.NextNode != null );
+			bool hasPrev = ( tr.PrevNode != null );
 
             // Actions
             this.btAddPdf.Enabled = !isTerminal;
@@ -156,10 +207,8 @@ namespace RAppMenu.Ui {
             this.btAddGraphicMenu.Enabled = !isTerminal;
 
             // Movements
-            bool isRoot = ( tr == this.tree.Nodes[ 0 ] );
-
-            this.btUp.Enabled = !isRoot;
-            this.btDown.Enabled = !isRoot;
+            this.btUp.Enabled = ( !isRoot && hasPrev );
+			this.btDown.Enabled = ( !isRoot && hasNext );
             this.btRemove.Enabled = !isRoot;
         }
 
@@ -319,7 +368,9 @@ namespace RAppMenu.Ui {
 		{
 			var imageList = new ImageList();
 			var pnlActions = new FlowLayoutPanel();
+			var toolTipActions = new ToolTip();
             var pnlMovement = new FlowLayoutPanel();
+			var toolTipMovement = new ToolTip();
 
             pnlActions.Dock = DockStyle.Bottom;
             pnlActions.Font = new Font( pnlActions.Font, FontStyle.Regular );
@@ -342,6 +393,7 @@ namespace RAppMenu.Ui {
 			this.btAddMenuEntry.ImageList = imageList;
 			this.btAddMenuEntry.ImageIndex = 0;
 			this.btAddMenuEntry.Click += (sender, e) => this.OnAddMenuEntry();
+			toolTipActions.SetToolTip( this.btAddMenuEntry, "Add menu entry" );
 			pnlActions.Controls.Add( this.btAddMenuEntry );
 
 			this.btAddFunction = new Button();
@@ -349,6 +401,7 @@ namespace RAppMenu.Ui {
 			this.btAddFunction.ImageList = imageList;
 			this.btAddFunction.ImageIndex = 1;
             this.btAddFunction.Click += (sender, e) => this.OnAddFunction();
+			toolTipActions.SetToolTip( this.btAddFunction, "Add function" );
 			pnlActions.Controls.Add( this.btAddFunction );
 
 			this.btAddPdf = new Button();
@@ -356,6 +409,7 @@ namespace RAppMenu.Ui {
 			this.btAddPdf.ImageList = imageList;
 			this.btAddPdf.ImageIndex = 2;
             this.btAddPdf.Click += (sender, e) => this.OnAddPdf();
+			toolTipActions.SetToolTip( this.btAddPdf, "Add PDF file" );
 			pnlActions.Controls.Add( this.btAddPdf );
 
             this.btAddGraphicMenu = new Button();
@@ -363,6 +417,7 @@ namespace RAppMenu.Ui {
 			this.btAddGraphicMenu.ImageList = imageList;
 			this.btAddGraphicMenu.ImageIndex = 3;
             this.btAddGraphicMenu.Click += (sender, e) => this.OnAddGraphicMenu();
+			toolTipActions.SetToolTip( this.btAddGraphicMenu, "Add graphic menu" );
 			pnlActions.Controls.Add( this.btAddGraphicMenu );
 
             this.btAddSeparator = new Button();
@@ -370,29 +425,33 @@ namespace RAppMenu.Ui {
             this.btAddSeparator.ImageList = imageList;
             this.btAddSeparator.ImageIndex = 4;
             this.btAddSeparator.Click += (sender, e) => this.OnAddSeparator();
+			toolTipActions.SetToolTip( this.btAddSeparator, "Add entry separator" );
             pnlActions.Controls.Add( this.btAddSeparator );
-
-            this.btDown = new Button();
-            this.btDown.Size = new Size( 32, 32 );
-            this.btDown.Dock = DockStyle.Left;
-            this.btDown.ImageList = imageList;
-            this.btDown.ImageIndex = 6;
-            pnlMovement.Controls.Add( this.btDown );
-            this.btDown.Click += (sender, e) => this.OnDownTreeNode();
 
             this.btUp = new Button();
             this.btUp.Size = new Size( 32, 32 );
             this.btUp.Dock = DockStyle.Left;
             this.btUp.ImageList = imageList;
-            this.btUp.ImageIndex = 5;
+            this.btUp.ImageIndex = 6;
+			toolTipMovement.SetToolTip( this.btUp, "Swap entry with the previous one" );
             pnlMovement.Controls.Add( this.btUp );
             this.btUp.Click += (sender, e) => this.OnUpTreeNode();
+
+			this.btDown = new Button();
+            this.btDown.Size = new Size( 32, 32 );
+            this.btDown.Dock = DockStyle.Left;
+            this.btDown.ImageList = imageList;
+            this.btDown.ImageIndex = 5;
+			toolTipMovement.SetToolTip( this.btDown, "Swap entry with the next one" );
+            pnlMovement.Controls.Add( this.btDown );
+            this.btDown.Click += (sender, e) => this.OnDownTreeNode();
 
             this.btRemove = new Button();
             this.btRemove.Size = new Size( 32, 32 );
             this.btRemove.Dock = DockStyle.Left;
             this.btRemove.ImageList = imageList;
             this.btRemove.ImageIndex = 7;
+			toolTipMovement.SetToolTip( this.btRemove, "Remove entry" );
             pnlMovement.Controls.Add( this.btRemove );
             this.btRemove.Click += (sender, e) => this.OnRemoveTreeNode();
 
@@ -532,6 +591,10 @@ namespace RAppMenu.Ui {
 		private void PrepareView(bool view)
 		{
             this.splPanels.Visible = view;
+
+			if ( view ) {
+				this.SetActionStatus( this.tree.Nodes[ 0 ] );
+			}
 
 			this.SetStatus();
 		}
