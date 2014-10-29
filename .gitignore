@@ -1,5 +1,6 @@
 bin/
 obj/
+RAppMenu.userprefs
 
 # Object files
 *.o
