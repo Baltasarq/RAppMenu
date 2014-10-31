@@ -5,8 +5,8 @@ namespace RAppMenu.Core.MenuComponents {
         public const string TagName = "PDF";
         public const string EtqName = "Name";
 
-        public PdfFile(string filePath)
-            : base( filePath )
+        public PdfFile(string filePath, MenuEntry parent)
+            : base( filePath, parent )
         {
         }
 

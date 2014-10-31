@@ -5,13 +5,15 @@ using System.Text;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
+using RAppMenu.Core.MenuComponents;
+
 namespace RAppMenu.Core {
 	public class Document {
 		public const string TagName = "Menue";
 
 		public Document()
 		{
-			this.menuComponents = new List<MenuComponent>();
+			this.root = new RootMenuEntry();
 		}
 
 		/// <summary>
@@ -30,10 +32,7 @@ namespace RAppMenu.Core {
 			xmlDocWriter.WriteStartDocument();
 			xmlDocWriter.WriteStartElement( TagName );
 
-			// Run all over menu components
-			foreach (MenuComponent mc in this.menuComponents) {
-				mc.ToXml( xmlDocWriter );
-			}
+			this.Root.ToXml( xmlDocWriter );
 
 			// Produce the file
 			xmlDocWriter.WriteEndElement();
@@ -61,13 +60,12 @@ namespace RAppMenu.Core {
 		/// <value>
 		/// The menu entries, as a <see cref="MenuEntry"/> collection.
 		/// </value>
-		public ReadOnlyCollection<MenuComponent> MenuEntries {
+		public RootMenuEntry Root {
 			get {
-				return new ReadOnlyCollection<MenuComponent>(
-							this.menuComponents );
+				return this.root;
 			}
 		}
 
-		private List<MenuComponent> menuComponents;
+		private RootMenuEntry root;
 	}
 }

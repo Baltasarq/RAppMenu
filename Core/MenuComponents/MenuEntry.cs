@@ -22,14 +22,34 @@ namespace RAppMenu.Core.MenuComponents {
 		/// <param name='name'>
 		/// The name of the menu entry.
 		/// </param>
-		public MenuEntry(string name)
-            :base( name )
+		public MenuEntry(string name, MenuEntry parent)
+            :base( name, parent )
+		{
+			this.Init();
+		}
+
+		protected MenuEntry(string name)
+			:base( name )
+		{
+			this.Init();
+		}
+
+		private void Init()
 		{
             this.ImagePath = "";
             this.ImageToolTip = "";
             this.ImageWidth = this.ImageHeight = 0;
             this.MinimumNumberOfColumns = 0;
 			this.menuComponents = new List<MenuComponent>();
+		}
+
+		/// <summary>
+		/// Adds a given mc, which will become a subentry
+		/// </summary>
+		/// <param name="mc">Mc.</param>
+		public void Add(MenuComponent mc)
+		{
+			this.menuComponents.Add( mc );
 		}
 
 		/// <summary>

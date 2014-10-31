@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 
+using RAppMenu.Core;
 using RAppMenu.Core.MenuComponents;
 
 namespace RAppMenu.Ui.TreeNodes {
@@ -7,8 +8,8 @@ namespace RAppMenu.Ui.TreeNodes {
     /// Tree node for separators.
     /// </summary>
     public class SeparatorTreeNode: MenuComponentTreeNode {
-        public SeparatorTreeNode(string text, Separator s)
-            :base( text, s )
+        public SeparatorTreeNode(string text, MenuEntry parent)
+            :base( text, new Separator( parent ) )
         {
             this.ImageIndex = 4;
             this.SelectedImageIndex = 4;

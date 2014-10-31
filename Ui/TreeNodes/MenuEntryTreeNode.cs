@@ -7,11 +7,21 @@ namespace RAppMenu.Ui.TreeNodes {
     /// Tree node for a menu entry.
     /// </summary>
     public class MenuEntryTreeNode: MenuComponentTreeNode {
-        public MenuEntryTreeNode(string text, MenuEntry me)
-            :base( text, me )
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RAppMenu.Ui.TreeNodes.MenuEntryTreeNode"/> class.
+		/// </summary>
+		/// <param name="text">The entry's text.</param>
+		/// <param name="parent">The menu component parent.</param>
+        public MenuEntryTreeNode(string text, MenuEntry parent)
+            :base( text, new MenuEntry( text, parent ) )
         {
             this.ImageIndex = 0;
             this.SelectedImageIndex = 0;
         }
+
+		protected MenuEntryTreeNode(RootMenuEntry rme)
+			:base( rme.Name, rme )
+		{
+		}
     }
 }

@@ -57,6 +57,9 @@
     <Compile Include="Ui\TreeNodes\SeparatorTreeNode.cs" />
     <Compile Include="Ui\TreeNodes\GraphicMenuTreeNode.cs" />
     <Compile Include="Ui\MenuComponentTreeNode.cs" />
+    <Compile Include="Core\MenuComponents\RootMenuEntry.cs" />
+    <Compile Include="Ui\TreeNodes\RootMenuEntryTreeNode.cs" />
+    <Compile Include="Ui\UserAction.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />
