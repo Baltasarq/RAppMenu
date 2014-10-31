@@ -2,7 +2,6 @@ using System;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace RAppMenu.Ui {
 	/// <summary>
@@ -17,20 +16,20 @@ namespace RAppMenu.Ui {
 		/// is to control them all at the same time.
 		/// </summary>
 		/// <param name="f">F.</param>
-		public UserAction(Action f)
+		public UserAction(string txt, Action f)
 		{
+            this.Text = txt;
 			this.CallBack = f;
-			this.controls = new List<VisibleControl>();
+			this.controls = new List<Component>();
 		}
 
 		/// <summary>
 		/// Adds a given control for the list of controls
 		/// that triggers this action.
-		/// Need to adapt classes through <see cref="ControlAdapter"/>,
-		/// or <see cref="ToolStripItemAdapter"/>, or similar...
+		/// The class must be Widget. Be sure it supports Enabled and Visible.
 		/// </summary>
-		/// <param name="c">The given control, as a <see cref="Control"/> object</param>
-		public void AddComponent(VisibleControl c)
+		/// <param name="c">The given control, as a <see cref="Component"/> object</param>
+		public void AddComponent(Component c)
 		{
 			this.controls.Add( c );
 		}
@@ -70,7 +69,8 @@ namespace RAppMenu.Ui {
 			bool toret = false;
 
 			if ( this.controls.Count > 0 ) {
-				toret = this.controls[ 0 ].Visible;
+                dynamic c = this.controls[ 0 ];
+				toret = c.Visible;
 			}
 
 			return toret;
@@ -82,7 +82,7 @@ namespace RAppMenu.Ui {
 		/// <param name="visible">If set to <c>true</c> controls will be visible.</param>
 		public void SetVisible(bool visible)
 		{
-			foreach(VisibleControl c in this.controls) {
+			foreach(dynamic c in this.controls) {
 				c.Visible = visible;
 			}
 
@@ -115,7 +115,8 @@ namespace RAppMenu.Ui {
 			bool toret = false;
 
 			if ( this.controls.Count > 0 ) {
-				toret = this.controls[ 0 ].Enabled;
+                dynamic c = this.controls[ 0 ];
+				toret = c.Enabled;
 			}
 
 			return toret;
@@ -127,7 +128,7 @@ namespace RAppMenu.Ui {
 		/// <param name="enabled">If set to <c>true</c>, all enabled.</param>
 		public void SetEnabled(bool enabled)
 		{
-			foreach(VisibleControl c in this.controls) {
+			foreach(dynamic c in this.controls) {
 				c.Enabled = enabled;
 			}
 
@@ -168,13 +169,7 @@ namespace RAppMenu.Ui {
 		/// <value>The controls, as a collecion of controls.</value>
 		public ReadOnlyCollection<Component> Components {
 			get {
-				var toret = new List<Component>();
-
-				foreach(VisibleControl c in this.controls) {
-					toret.Add( c.Component );
-				}
-
-				return toret.AsReadOnly();
+                return this.controls.AsReadOnly();
 			}
 		}
 
@@ -186,95 +181,14 @@ namespace RAppMenu.Ui {
 			get; set;
 		}
 
-		private List<VisibleControl> controls;
-	}
+        /// <summary>
+        /// Gets or sets the text message associated to this action.
+        /// </summary>
+        /// <value>The text, as a string.</value>
+        public string Text {
+            get; set;
+        }
 
-	public abstract class VisibleControl {
-		public VisibleControl(Component c)
-		{
-			this.component = c;
-		}
-
-		public abstract bool Enabled {
-			get; set;
-		}
-
-		public abstract bool Visible {
-			get; set;
-		}
-
-		public Component Component {
-			get {
-				return this.component;
-			}
-		}
-
-		private readonly Component component;
-	}
-
-	public class ControlAdapter: VisibleControl {
-		public ControlAdapter(Control control)
-			:base( control )
-		{
-		}
-
-		public Control Control {
-			get {
-				return (Control) this.Component;
-			}
-		}
-
-		public override bool Enabled
-		{
-			get {
-				return this.Control.Enabled;
-			}
-			set {
-				this.Control.Enabled = value;
-			}
-		}
-
-		public override bool Visible
-		{
-			get {
-				return this.Control.Visible;
-			}
-			set {
-				this.Control.Visible = value;
-			}
-		}
-	}
-
-	public class ToolStripItemAdapter: VisibleControl {
-		public ToolStripItemAdapter(ToolStripItem toolStripItem)
-			:base( toolStripItem )
-		{
-		}
-
-		public ToolStripItem ToolStripItem {
-			get {
-				return (ToolStripItem) this.Component;
-			}
-		}
-
-		public override bool Visible
-		{
-			get {
-				return this.ToolStripItem.Visible;
-			}
-			set {
-				this.ToolStripItem.Visible = value;
-			}
-		}
-
-		public override bool Enabled
-		{
-			get {
-				return this.ToolStripItem.Enabled;
-			}
-			set {
-				this.ToolStripItem.Enabled = value;
-			}
-		}
+		private List<Component> controls;
 	}
 }

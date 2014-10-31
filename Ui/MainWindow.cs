@@ -328,24 +328,24 @@ namespace RAppMenu.Ui {
 
 		private void BuildMenu()
 		{
-			this.opNew = new ToolStripMenuItem( "&New" );
+            this.opNew = new ToolStripMenuItem( "&" + newAction.Text );
 			this.opNew.ShortcutKeys = Keys.Control | Keys.N;
-			this.opNew.Click += (sender, e) => this.OnNew();
+            this.opNew.Click += (sender, e) => this.newAction.CallBack();
 			this.opNew.Image = this.newIconBmp;
 
-			this.opLoad = new ToolStripMenuItem( "&Open" );
+            this.opLoad = new ToolStripMenuItem( "&" + loadAction.Text );
 			this.opLoad.ShortcutKeys = Keys.Control | Keys.O;
-			this.opLoad.Click += (sender, e) => this.OnOpen();
+            this.opLoad.Click += (sender, e) => this.loadAction.CallBack();
 			this.opLoad.Image = this.openIconBmp;
 
-			this.opSave = new ToolStripMenuItem( "&Save" );
+            this.opSave = new ToolStripMenuItem( "&" + saveAction.Text );
 			this.opSave.ShortcutKeys = Keys.Control | Keys.S;
-			this.opSave.Click += (sender, e) => this.OnSave();
+            this.opSave.Click += (sender, e) => this.saveAction.CallBack();
 			this.opSave.Image = this.saveIconBmp;
 
-			this.opQuit = new ToolStripMenuItem( "&Quit" );
+            this.opQuit = new ToolStripMenuItem( "&" + quitAction.Text );
 			this.opQuit.ShortcutKeys = Keys.Control | Keys.Q;
-			this.opQuit.Click += (sender, e) => this.OnQuit();
+            this.opQuit.Click += (sender, e) => this.quitAction.CallBack();
 			this.opQuit.Image = this.quitIconBmp;
 
 			var opWeb = new ToolStripMenuItem( "&Web" );
@@ -356,13 +356,21 @@ namespace RAppMenu.Ui {
 			this.mHelp = new ToolStripMenuItem( "&Help" );
 
 			this.mFile.DropDownItems.AddRange( new ToolStripItem[] {
-				this.opNew, this.opQuit
+                this.opNew, this.opLoad,
+                this.opSave, this.opQuit
 			});
 
 			this.mHelp.DropDownItems.AddRange( new ToolStripItem[]{
 				opWeb
 			});
 
+            // User actions
+            this.newAction.AddComponent( this.opNew );
+            this.quitAction.AddComponent( this.opQuit );
+            this.loadAction.AddComponent( this.opLoad );
+            this.saveAction.AddComponent( this.opSave );
+
+            // Insert in form
 			this.mMain = new MenuStrip();
 			this.mMain.Items.AddRange( new ToolStripItem[] {
 				this.mFile, this.mHelp }
@@ -402,7 +410,7 @@ namespace RAppMenu.Ui {
 			this.btAddMenuEntry.ImageList = imageList;
 			this.btAddMenuEntry.ImageIndex = 0;
 			this.btAddMenuEntry.Click += (sender, e) => this.OnAddMenuEntry();
-			toolTipActions.SetToolTip( this.btAddMenuEntry, "Add menu entry" );
+            toolTipActions.SetToolTip( this.btAddMenuEntry, this.addMenuAction.Text );
 			pnlActions.Controls.Add( this.btAddMenuEntry );
 
 			this.btAddFunction = new Button();
@@ -410,7 +418,7 @@ namespace RAppMenu.Ui {
 			this.btAddFunction.ImageList = imageList;
 			this.btAddFunction.ImageIndex = 1;
             this.btAddFunction.Click += (sender, e) => this.OnAddFunction();
-			toolTipActions.SetToolTip( this.btAddFunction, "Add function" );
+            toolTipActions.SetToolTip( this.btAddFunction, this.addFunctionAction.Text );
 			pnlActions.Controls.Add( this.btAddFunction );
 
 			this.btAddPdf = new Button();
@@ -418,23 +426,23 @@ namespace RAppMenu.Ui {
 			this.btAddPdf.ImageList = imageList;
 			this.btAddPdf.ImageIndex = 2;
             this.btAddPdf.Click += (sender, e) => this.OnAddPdf();
-			toolTipActions.SetToolTip( this.btAddPdf, "Add PDF file" );
+            toolTipActions.SetToolTip( this.btAddPdf, this.addPdfAction.Text );
 			pnlActions.Controls.Add( this.btAddPdf );
 
             this.btAddGraphicMenu = new Button();
 			this.btAddGraphicMenu.Size = new Size( 32, 32 );
 			this.btAddGraphicMenu.ImageList = imageList;
 			this.btAddGraphicMenu.ImageIndex = 3;
-            this.btAddGraphicMenu.Click += (sender, e) => this.OnAddGraphicMenu();
-			toolTipActions.SetToolTip( this.btAddGraphicMenu, "Add graphic menu" );
+            this.btAddGraphicMenu.Click += (sender, e) => this.addGraphicMenuAction.CallBack();
+            toolTipActions.SetToolTip( this.btAddGraphicMenu, this.addGraphicMenuAction.Text );
 			pnlActions.Controls.Add( this.btAddGraphicMenu );
 
             this.btAddSeparator = new Button();
             this.btAddSeparator.Size = new Size( 32, 32 );
             this.btAddSeparator.ImageList = imageList;
             this.btAddSeparator.ImageIndex = 4;
-            this.btAddSeparator.Click += (sender, e) => this.OnAddSeparator();
-			toolTipActions.SetToolTip( this.btAddSeparator, "Add entry separator" );
+            this.btAddSeparator.Click += (sender, e) => this.addSeparatorAction.CallBack();
+            toolTipActions.SetToolTip( this.btAddSeparator, this.addSeparatorAction.Text );
             pnlActions.Controls.Add( this.btAddSeparator );
 
             this.btUp = new Button();
@@ -442,27 +450,27 @@ namespace RAppMenu.Ui {
             this.btUp.Dock = DockStyle.Left;
             this.btUp.ImageList = imageList;
             this.btUp.ImageIndex = 6;
-			toolTipMovement.SetToolTip( this.btUp, "Swap entry with the previous one" );
+            toolTipMovement.SetToolTip( this.btUp, this.moveEntryUpAction.Text );
             pnlMovement.Controls.Add( this.btUp );
-            this.btUp.Click += (sender, e) => this.OnUpTreeNode();
+            this.btUp.Click += (sender, e) => this.moveEntryUpAction.CallBack();
 
 			this.btDown = new Button();
             this.btDown.Size = new Size( 32, 32 );
             this.btDown.Dock = DockStyle.Left;
             this.btDown.ImageList = imageList;
             this.btDown.ImageIndex = 5;
-			toolTipMovement.SetToolTip( this.btDown, "Swap entry with the next one" );
+            toolTipMovement.SetToolTip( this.btDown, this.moveEntryDownAction.Text );
             pnlMovement.Controls.Add( this.btDown );
-            this.btDown.Click += (sender, e) => this.OnDownTreeNode();
+            this.btDown.Click += (sender, e) => this.moveEntryDownAction.CallBack();
 
             this.btRemove = new Button();
             this.btRemove.Size = new Size( 32, 32 );
             this.btRemove.Dock = DockStyle.Left;
             this.btRemove.ImageList = imageList;
             this.btRemove.ImageIndex = 7;
-			toolTipMovement.SetToolTip( this.btRemove, "Remove entry" );
+            toolTipMovement.SetToolTip( this.btRemove, this.removeEntryAction.Text );
             pnlMovement.Controls.Add( this.btRemove );
-            this.btRemove.Click += (sender, e) => this.OnRemoveTreeNode();
+            this.btRemove.Click += (sender, e) => this.removeEntryAction.CallBack();
 
             this.tvMenu = new TreeView();
             this.tvMenu.AfterSelect += (sender, e) => this.OnTreeNodeSelected();
@@ -480,6 +488,16 @@ namespace RAppMenu.Ui {
             this.pnlTree.Controls.Add( pnlMovement );
 
             this.splPanels.Panel1.Controls.Add( this.pnlTree );
+
+            // User actions
+            this.addMenuAction.AddComponent( this.btAddMenuEntry );
+            this.addGraphicMenuAction.AddComponent( this.btAddGraphicMenu );
+            this.addFunctionAction.AddComponent( this.btAddFunction );
+            this.addPdfAction.AddComponent( this.btAddPdf );
+            this.removeEntryAction.AddComponent( this.btRemove );
+            this.moveEntryUpAction.AddComponent( this.btUp );
+            this.moveEntryDownAction.AddComponent( this.btDown );
+            this.addSeparatorAction.AddComponent( this.btAddSeparator );
 		}
 
 		private void BuildPropertiesPanel()
@@ -542,19 +560,19 @@ namespace RAppMenu.Ui {
 			// Buttons
 			this.tbbNew = new ToolStripButton();
 			this.tbbNew.ImageIndex = 0;
-			this.tbbNew.ToolTipText = "New";
+            this.tbbNew.ToolTipText = this.newAction.Text;
 			this.tbbNew.Click += (sender, e) => this.OnNew();
 			this.tbbOpen = new ToolStripButton();
 			this.tbbOpen.ImageIndex = 1;
-			this.tbbOpen.ToolTipText = "Open";
+            this.tbbOpen.ToolTipText = this.loadAction.Text;
 			this.tbbOpen.Click += (sender, e) => this.OnOpen();
 			this.tbbSave = new ToolStripButton();
 			this.tbbSave.ImageIndex = 2;
-			this.tbbSave.ToolTipText = "Save";
+            this.tbbSave.ToolTipText = this.saveAction.Text;
 			this.tbbOpen.Click += (sender, e) => this.OnSave();
 			this.tbbQuit = new ToolStripButton();
 			this.tbbQuit.ImageIndex = 3;
-			this.tbbQuit.ToolTipText = "Quit";
+            this.tbbQuit.ToolTipText = this.quitAction.Text;
 			this.tbbQuit.Click += (sender, e) => this.OnQuit();
 
 			// Polishing
@@ -564,6 +582,12 @@ namespace RAppMenu.Ui {
 				this.tbbNew, this.tbbOpen, this.tbbSave,
 				this.tbbQuit
 			});
+
+            // User actions
+            this.newAction.AddComponent( this.tbbNew );
+            this.loadAction.AddComponent( this.tbbOpen );
+            this.saveAction.AddComponent( this.tbbSave );
+            this.quitAction.AddComponent( this.tbbQuit );
 		}
 
 		private void BuildSplitPanels()
@@ -578,49 +602,24 @@ namespace RAppMenu.Ui {
 
 		private void BuildUserActions()
 		{
-			this.quitAction = new UserAction( this.OnQuit );
-			this.quitAction.AddComponent( new ToolStripItemAdapter( this.tbbQuit ) );
-			this.quitAction.AddComponent( new ToolStripItemAdapter( this.opQuit ) );
+			this.quitAction = new UserAction( "Quit", this.OnQuit );
+			this.newAction = new UserAction( "New", this.OnNew );
+			this.loadAction = new UserAction( "Open", this.OnOpen );
+			this.saveAction = new UserAction( "Save", this.OnSave );
 
-			this.newAction = new UserAction( this.OnNew );
-			this.newAction.AddComponent( new ToolStripItemAdapter( this.opNew ) );
-			this.newAction.AddComponent( new ToolStripItemAdapter( this.tbbNew ) );
-
-			this.loadAction = new UserAction( this.OnOpen );
-			this.loadAction.AddComponent( new ToolStripItemAdapter( this.opLoad ) );
-			this.loadAction.AddComponent( new ToolStripItemAdapter( this.tbbOpen ) );
-
-			this.saveAction = new UserAction( this.OnSave );
-			this.saveAction.AddComponent( new ToolStripItemAdapter( this.opSave ) );
-			this.loadAction.AddComponent( new ToolStripItemAdapter( this.tbbSave ) );
-
-			this.addMenuAction = new UserAction( this.OnAddMenuEntry );
-			this.addMenuAction.AddComponent( new ControlAdapter( this.btAddMenuEntry ) );
-
-			this.addGraphicMenuAction = new UserAction( this.OnAddGraphicMenu );
-			this.addGraphicMenuAction.AddComponent( new ControlAdapter( this.btAddGraphicMenu ) );
-
-			this.addFunctionAction = new UserAction( this.OnAddFunction );
-			this.addFunctionAction.AddComponent( new ControlAdapter( this.btAddFunction ) );
-
-			this.addPdfAction = new UserAction( this.OnAddPdf );
-			this.addPdfAction.AddComponent( new ControlAdapter( this.btAddPdf ) );
-
-			this.addSeparatorAction = new UserAction( this.OnAddSeparator );
-			this.addSeparatorAction.AddComponent( new ControlAdapter( this.btAddSeparator ) );
-
-			this.removeEntryAction = new UserAction( this.OnRemoveTreeNode );
-			this.removeEntryAction.AddComponent( new ControlAdapter( this.btRemove ) );
-
-			this.moveEntryUpAction = new UserAction( this.OnUpTreeNode );
-			this.moveEntryUpAction.AddComponent( new ControlAdapter( this.btUp ) );
-
-			this.moveEntryDownAction = new UserAction( this.OnDownTreeNode );
-			this.moveEntryDownAction.AddComponent( new ControlAdapter( this.btDown ) );
+            this.addMenuAction = new UserAction( "Add menu", this.OnAddMenuEntry );
+			this.addGraphicMenuAction = new UserAction( "Add graphic menu", this.OnAddGraphicMenu );
+			this.addFunctionAction = new UserAction( "Add function", this.OnAddFunction );
+			this.addPdfAction = new UserAction( "Add pdf file path", this.OnAddPdf );
+			this.addSeparatorAction = new UserAction( "Add separator", this.OnAddSeparator );
+			this.removeEntryAction = new UserAction( "Remove entry", this.OnRemoveTreeNode );
+			this.moveEntryUpAction = new UserAction( "Move entry up", this.OnUpTreeNode );
+			this.moveEntryDownAction = new UserAction( "Move entry down", this.OnDownTreeNode );
 		}
 
 		private void Build()
 		{
+            this.BuildUserActions();
 			this.BuildIcons();
 			this.BuildMenu();
 			this.BuildSplitPanels();
@@ -628,7 +627,6 @@ namespace RAppMenu.Ui {
 			this.BuildPropertiesPanel();
 			this.BuildStatus();
 			this.BuildToolBar();
-			this.BuildUserActions();
 
 			this.Controls.Add( this.splPanels );
 			this.Controls.Add( this.tbBar );

@@ -24,7 +24,7 @@ namespace RAppMenu.Core {
 		/// </param>
 		public void SaveToFile(string fileNameDest)
 		{
-			string fileNameOrg = System.IO.Path.GetTempFileName();
+			string fileNameOrg = Path.GetTempFileName();
 			var xmlDocWriter = new XmlTextWriter( fileNameOrg, Encoding.UTF8 );
 
 
