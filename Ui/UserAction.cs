@@ -1,7 +1,9 @@
 using System;
+using System.Drawing;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace RAppMenu.Ui {
 	/// <summary>
@@ -9,6 +11,20 @@ namespace RAppMenu.Ui {
 	/// which can trigger an execution.
 	/// </summary>
 	public class UserAction {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RAppMenu.Ui.UserAction"/> class.
+        /// This class represents a user action, such as Load, Save.
+        /// It can be composed by varios controls.
+        /// </summary>
+        /// <param name="txt">Text.</param>
+        /// <param name="imgIndex">Image index.</param>
+        /// <param name="f">F.</param>
+        public UserAction(string txt, int imgIndex, Action f)
+            :this( txt, f )
+        {
+            this.ImageIndex = imgIndex;
+        }
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RAppMenu.Ui.UserAction"/> class.
 		/// This class represents a user action, such as Load, Save.
@@ -188,6 +204,25 @@ namespace RAppMenu.Ui {
         public string Text {
             get; set;
         }
+
+        /// <summary>
+        /// Gets or sets the index of the image in the image list.
+        /// </summary>
+        /// <value>The index of the image, as an int.</value>
+        public int ImageIndex {
+            get; set;
+        }
+
+        /// <summary>
+        /// Gets or sets the bitmap.
+        /// Some controls only accept a bitmap, so...
+        /// </summary>
+        /// <value>The bitmap.</value>
+        public Bitmap Bitmap {
+            get; set;
+        }
+
+        public static ImageList ImageList = new ImageList();
 
 		private List<Component> controls;
 	}

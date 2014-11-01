@@ -52,18 +52,104 @@ namespace RAppMenu.Core.MenuComponents {
 			this.menuComponents.Add( mc );
 		}
 
+        /// <summary>
+        /// Removes the component at index.
+        /// </summary>
+        /// <param name="index">The index, as an int.</param>
+        public void RemoveAt(int index)
+        {
+            this.menuComponents.RemoveAt( index );
+        }
+
+        /// <summary>
+        /// Removes the specified <see cref="MenuComponent"/> from this menu.
+        /// </summary>
+        /// <param name="mc">A menu component, as a <see cref="MenuComponent"/> object</param>
+        public void Remove(MenuComponent mc)
+        {
+            this.menuComponents.Remove( mc );
+        }
+
 		/// <summary>
 		/// Gets the menu entries.
 		/// </summary>
 		/// <value>
 		/// The menu entries, as a <see cref="MenuEntry"/> collection.
 		/// </value>
-		public ReadOnlyCollection<MenuComponent> MenuEntries {
+		public ReadOnlyCollection<MenuComponent> MenuComponents {
 			get {
 				return new ReadOnlyCollection<MenuComponent>(
 							this.menuComponents );
 			}
 		}
+
+        /// <summary>
+        /// Swap the specified <see cref="MenuComponent"/> objects,
+        /// with indexes org and dest.
+        /// </summary>
+        /// <param name="org">Index denoting a sub menu component.</param>
+        /// <param name="dest">Index denoting a sub menu component.</param>
+        public void Swap(int org, int dest)
+        {
+            int biggest = Math.Max( org, dest );
+
+            if ( this.menuComponents.Count > biggest ) {
+                var mcDest = this.menuComponents[ dest ];
+
+                this.menuComponents[ dest ] = this.menuComponents[ org ];
+                this.menuComponents[ org ] = mcDest;
+            }
+
+            return;
+        }
+
+        /// <summary>
+        /// Swaps the given <see cref="MenuComponent"/> with the next one.
+        /// </summary>
+        /// <param name="mc">The menu component, as an object.</param>
+        public void SwapNext(MenuComponent mc)
+        {
+            int index = this.menuComponents.IndexOf( mc );
+
+            if ( index >= 0 ) {
+                this.SwapNext( index );
+            }
+
+            return;
+        }
+
+        /// <summary>
+        /// Swaps the <see cref="MenuComponent"/> at index with the next one.
+        /// </summary>
+        /// <param name="index">The index of the menu component to swap.</param>
+        public void SwapNext(int index)
+        {
+            this.Swap( index, index + 1 );
+        }
+
+        /// <summary>
+        /// Swaps the <see cref="MenuComponent"/> at index with the previous one.
+        /// </summary>
+        /// <param name="index">The index of the menu component to swap.</param>
+        public void SwapPrevious(int index)
+        {
+            this.Swap( index, index - 1 );
+        }
+
+        /// <summary>
+        /// Swaps the given <see cref="MenuComponent"/> with the previous one.
+        /// </summary>
+        /// <param name="mc">The menu component, as an object.</param>
+        public void SwapPrevious(MenuComponent mc)
+        {
+            int index = this.menuComponents.IndexOf( mc );
+
+            if ( index >= 0 ) {
+                this.SwapPrevious( index );
+            }
+
+            return;
+        }
 
         /// <summary>
         /// Gets or sets the path to the image of the menu.
@@ -151,7 +237,7 @@ namespace RAppMenu.Core.MenuComponents {
 			doc.WriteString( this.Name );
 			doc.WriteEndAttribute();
 
-            if ( this.ImagePath.Length > 0 ) {
+            if ( !string.IsNullOrWhiteSpace( this.ImagePath ) ) {
                 // Image = "/path/to/image1.png"
                 doc.WriteStartAttribute( EtqImagePath );
                 doc.WriteString( this.Name );
@@ -178,7 +264,7 @@ namespace RAppMenu.Core.MenuComponents {
                     doc.WriteEndAttribute();
                 }
 
-                if ( this.ImageToolTip.Length > 0 ) {
+                if ( !string.IsNullOrWhiteSpace( this.ImageToolTip ) ) {
                     // ImageToolTip = "help"
                     doc.WriteStartAttribute( EtqImageToolTip );
                     doc.WriteString( this.ImageToolTip );

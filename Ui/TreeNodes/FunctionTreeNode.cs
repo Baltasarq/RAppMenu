@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-using RAppMenu.Core.MenuComponents;
+﻿using RAppMenu.Core.MenuComponents;
 
 namespace RAppMenu.Ui.TreeNodes {
     /// <summary>
@@ -10,8 +8,7 @@ namespace RAppMenu.Ui.TreeNodes {
         public FunctionTreeNode(string text, MenuEntry parent)
             :base( text, new Function( text, parent) )
         {
-            this.ImageIndex = 1;
-            this.SelectedImageIndex = 1;
+            this.ImageIndex = this.SelectedImageIndex = 6;
         }
     }
 }

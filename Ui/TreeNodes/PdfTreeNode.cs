@@ -10,8 +10,7 @@ namespace RAppMenu.Ui.TreeNodes {
         public PdfTreeNode(string text, MenuEntry parent)
             :base( text, new PdfFile( text, parent ) )
         {
-            this.ImageIndex = 2;
-            this.SelectedImageIndex = 2;
+            this.ImageIndex = this.SelectedImageIndex = 7;
         }
     }
 }

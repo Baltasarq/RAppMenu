@@ -10,8 +10,7 @@ namespace RAppMenu.Ui.TreeNodes {
         public GraphicMenuTreeNode(string text, MenuEntry parent)
             :base( text, new ImagesMenu( text, parent ) )
         {
-            this.ImageIndex = 3;
-            this.SelectedImageIndex = 3;
+            this.ImageIndex = this.SelectedImageIndex = 5;
         }
     }
 }

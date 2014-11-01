@@ -10,6 +10,13 @@ namespace RAppMenu.Core.MenuComponents {
 			:base( "Root" )
 		{
 		}
+
+        public override void ToXml(System.Xml.XmlTextWriter doc)
+        {
+            foreach (MenuComponent mc in this.MenuComponents) {
+                mc.ToXml( doc );
+            }
+        }
 	}
 }
 

@@ -55,7 +55,7 @@ namespace RAppMenu.Core.MenuComponents {
             }
 
             // DefaultData = "Carnivores"
-            if ( this.DefaultData.Length > 0 ) {
+            if ( !string.IsNullOrWhiteSpace( this.DefaultData ) ) {
                 doc.WriteStartAttribute( EtqDefaultData );
                 doc.WriteString( this.DefaultData );
                 doc.WriteEndAttribute();

@@ -15,13 +15,18 @@ namespace RAppMenu.Ui.TreeNodes {
         public MenuEntryTreeNode(string text, MenuEntry parent)
             :base( text, new MenuEntry( text, parent ) )
         {
-            this.ImageIndex = 0;
-            this.SelectedImageIndex = 0;
+            this.Init();
         }
 
 		protected MenuEntryTreeNode(RootMenuEntry rme)
 			:base( rme.Name, rme )
 		{
+            this.Init();
 		}
+
+        private void Init()
+        {
+            this.ImageIndex = this.SelectedImageIndex = 4;
+        }
     }
 }

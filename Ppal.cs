@@ -17,13 +17,12 @@ namespace RAppMenu {
 				Application.Run( mainForm );
 			}
 			catch(Exception exc) {
-				if ( mainForm != null ) {
-					mainForm.Close();
-				}
+                if ( mainForm != null ) {
+                    mainForm.Close();
+                }
 
-				MessageBox.Show( mainForm, exc.Message, AppInfo.Name );
+                MessageBox.Show( null, exc.Message, AppInfo.Name );
 			}
 		}
 	}
 }
-

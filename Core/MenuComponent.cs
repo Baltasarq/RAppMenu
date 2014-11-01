@@ -36,11 +36,38 @@ namespace RAppMenu.Core {
 		/// Gets the parent of this menu component.
 		/// </summary>
 		/// <value>The parent.</value>
-		public MenuComponent Parent {
+        public MenuEntry Parent {
 			get {
-				return this.Parent;
+				return this.parent;
 			}
 		}
+
+        /// <summary>
+        /// Removes this instance, by calling itself to its parent.Remove().
+        /// Its parent is a <see cref="MenuEntry"/> 
+        /// </summary>
+        public void Remove()
+        {
+            this.Parent.Remove( this );
+        }
+
+        /// <summary>
+        /// Swaps this instance, by calling itself to its parent.SwapPrevious().
+        /// Its parent is a <see cref="MenuEntry"/> 
+        /// </summary>
+        public void SwapPrevious()
+        {
+            this.Parent.SwapPrevious( this );
+        }
+
+        /// <summary>
+        /// Swaps this instance, by calling itself to its parent.SwapNext().
+        /// Its parent is a <see cref="MenuEntry"/> 
+        /// </summary>
+        public void SwapNext()
+        {
+            this.Parent.SwapNext( this );
+        }
 
 		/// <summary>
 		/// Converts this menu component to XML.

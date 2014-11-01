@@ -11,7 +11,7 @@ namespace RAppMenu.Ui.TreeNodes {
         public SeparatorTreeNode(string text, MenuEntry parent)
             :base( text, new Separator( parent ) )
         {
-            this.ImageIndex = 4;
+            this.ImageIndex = this.SelectedImageIndex = 8;
             this.SelectedImageIndex = 4;
         }
     }
