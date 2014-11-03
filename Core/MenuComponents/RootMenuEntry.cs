@@ -6,7 +6,7 @@ namespace RAppMenu.Core.MenuComponents {
 	/// In the XML, it is represented as "Menue"
 	/// </summary>
 	public class RootMenuEntry: MenuEntry {
-		public const string TagName = "Menue";
+		public new const string TagName = "Menue";
 
 		public RootMenuEntry()
 			:base( "Root" )
