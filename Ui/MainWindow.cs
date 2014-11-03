@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Drawing;
 using System.Diagnostics;
@@ -248,12 +249,27 @@ namespace RAppMenu.Ui {
             return;
 		}
 
+		private void OnPreview()
+		{
+			var previewForm = new Form();
+
+			previewForm.FormBorderStyle = FormBorderStyle.FixedSingle;
+			previewForm.Icon = this.Icon;
+			previewForm.Text = AppInfo.Name + " preview";
+			previewForm.MinimumSize = new Size( 320, 240 );
+			previewForm.Show();
+		}
+
 		private void BuildIcons()
 		{
-			this.appIconBmp = new Bitmap(
-				System.Reflection.Assembly.GetEntryAssembly().
-				GetManifestResourceStream( "RAppMenu.Res.r-editor.png" )
-			);
+			try {
+				this.appIconBmp = new Bitmap(
+					System.Reflection.Assembly.GetEntryAssembly().
+					GetManifestResourceStream( "RAppMenu.Res.r-editor.png" )
+				);
+			} catch(Exception) {
+				throw new ArgumentException( "Unable to load embedded icons" );
+			}
 
 			this.helpIconBmp = new Bitmap(
 				System.Reflection.Assembly.GetEntryAssembly().
@@ -349,6 +365,11 @@ namespace RAppMenu.Ui {
                 System.Reflection.Assembly.GetEntryAssembly().
                 GetManifestResourceStream( "RAppMenu.Res.down.png" )
             );
+
+			this.playIconBmp = new Bitmap(
+				System.Reflection.Assembly.GetEntryAssembly().
+				GetManifestResourceStream( "RAppMenu.Res.play.png" )
+			);
 		}
 
 		private void BuildMenu()
@@ -405,12 +426,17 @@ namespace RAppMenu.Ui {
 			this.opRemove.Click += (sender, e) => this.removeEntryAction.CallBack();
 			this.opRemove.Image = UserAction.ImageList.Images[ this.removeEntryAction.ImageIndex ];
 
+			this.opPreview = new ToolStripMenuItem( previewAction.Text );
+			this.opPreview.Click += (sender, e) => this.previewAction.CallBack();
+			this.opPreview.Image = UserAction.ImageList.Images[ this.previewAction.ImageIndex ];
+
 			var opWeb = new ToolStripMenuItem( "&Web" );
 			opWeb.Click += (sender, e) => this.OnShowWeb();
 			opWeb.Image = this.infoIconBmp;
 
 			this.mFile = new ToolStripMenuItem( "&File" );
 			this.mEdit = new ToolStripMenuItem( "&Edit" );
+			this.mTools = new ToolStripMenuItem( "&Tools" );
 			this.mHelp = new ToolStripMenuItem( "&Help" );
 
 			this.mFile.DropDownItems.AddRange( new ToolStripItem[] {
@@ -423,6 +449,10 @@ namespace RAppMenu.Ui {
 				this.opAddPdf, this.opAddSeparator,
 				this.opAddGraphicMenu, this.opMoveEntryUp,
 				this.opMoveEntryDown, this.opRemove
+			});
+
+			this.mTools.DropDownItems.AddRange( new ToolStripItem[]{
+				opPreview
 			});
 
 			this.mHelp.DropDownItems.AddRange( new ToolStripItem[]{
@@ -442,12 +472,13 @@ namespace RAppMenu.Ui {
 			this.moveEntryDownAction.AddComponent( this.opMoveEntryDown );
 			this.moveEntryUpAction.AddComponent( this.opMoveEntryUp );
 			this.removeEntryAction.AddComponent( this.opRemove );
+			this.previewAction.AddComponent( this.opPreview );
 
             // Insert in form
 			this.mMain = new MenuStrip();
             this.mMain.ImageList = UserAction.ImageList;
 			this.mMain.Items.AddRange( new ToolStripItem[] {
-				this.mFile, this.mEdit, this.mHelp }
+				this.mFile, this.mEdit, this.mTools, this.mHelp }
 			);
 
 			this.MainMenuStrip = this.mMain;
@@ -457,7 +488,6 @@ namespace RAppMenu.Ui {
 
 		private void BuildTreePanel()
 		{
-			var imageList = new ImageList();
 			var pnlActions = new FlowLayoutPanel();
 			var toolTipActions = new ToolTip();
             var pnlMovement = new FlowLayoutPanel();
@@ -633,13 +663,17 @@ namespace RAppMenu.Ui {
             this.tbbQuit.ImageIndex = this.quitAction.ImageIndex;
             this.tbbQuit.ToolTipText = this.quitAction.Text;
             this.tbbQuit.Click += (sender, e) => this.quitAction.CallBack();
+			this.tbbPreview = new ToolStripButton();
+			this.tbbPreview.ImageIndex = this.previewAction.ImageIndex;
+			this.tbbPreview.ToolTipText = this.previewAction.Text;
+			this.tbbPreview.Click += (sender, e) => this.previewAction.CallBack();
 
 			// Polishing
 			this.tbBar.Dock = DockStyle.Top;
 			this.tbBar.BackColor = Color.DarkGray;
 			this.tbBar.Items.AddRange( new ToolStripButton[] {
 				this.tbbNew, this.tbbOpen, this.tbbSave,
-				this.tbbQuit
+				this.tbbPreview, this.tbbQuit
 			});
 
             // User actions
@@ -647,6 +681,7 @@ namespace RAppMenu.Ui {
             this.loadAction.AddComponent( this.tbbOpen );
             this.saveAction.AddComponent( this.tbbSave );
             this.quitAction.AddComponent( this.tbbQuit );
+			this.previewAction.AddComponent( this.tbbPreview );
 		}
 
 		private void BuildSplitPanels()
@@ -668,7 +703,8 @@ namespace RAppMenu.Ui {
                 this.quitIconBmp,
                 this.menuIconBmp, this.graphicIconBmp, this.functionIconBmp,
                 this.pdfIconBmp, this.separatorIconBmp,
-                this.deleteIconBmp, this.upIconBmp, this.downIconBmp
+                this.deleteIconBmp, this.upIconBmp, this.downIconBmp,
+				this.playIconBmp
             });
 
             this.newAction = new UserAction( "New", 0, this.OnNew );
@@ -685,6 +721,7 @@ namespace RAppMenu.Ui {
 			this.removeEntryAction = new UserAction( "Remove entry", 9, this.OnRemoveTreeNode );
 			this.moveEntryUpAction = new UserAction( "Move entry up", 10, this.OnUpTreeNode );
 			this.moveEntryDownAction = new UserAction( "Move entry down", 11, this.OnDownTreeNode );
+			this.previewAction = new UserAction( "Preview", 12, this.OnPreview );
 		}
 
 		private void Build()
@@ -723,6 +760,7 @@ namespace RAppMenu.Ui {
 			this.moveEntryDownAction.Enabled = view;
 			this.moveEntryUpAction.Enabled = view;
 			this.removeEntryAction.Enabled = view;
+			this.previewAction.Enabled = view;
 
 			// Polish
 			if ( view ) {
@@ -759,6 +797,7 @@ namespace RAppMenu.Ui {
 		private MenuStrip mMain;
 		private ToolStripMenuItem mFile;
 		private ToolStripMenuItem mEdit;
+		private ToolStripMenuItem mTools;
 		private ToolStripMenuItem mHelp;
 		private ToolStripMenuItem opQuit;
 		private ToolStripMenuItem opLoad;
@@ -772,6 +811,7 @@ namespace RAppMenu.Ui {
 		private ToolStripMenuItem opRemove;
 		private ToolStripMenuItem opMoveEntryUp;
 		private ToolStripMenuItem opMoveEntryDown;
+		private ToolStripMenuItem opPreview;
 
 		private Button btAddMenuEntry;
 		private Button btAddFunction;
@@ -794,6 +834,7 @@ namespace RAppMenu.Ui {
 		private ToolStripButton tbbOpen;
 		private ToolStripButton tbbSave;
 		private ToolStripButton tbbQuit;
+		private ToolStripButton tbbPreview;
 
 		private Bitmap appIconBmp;
 		private Bitmap helpIconBmp;
@@ -805,6 +846,7 @@ namespace RAppMenu.Ui {
 		private Bitmap folderIconBmp;
 		private Bitmap functionIconBmp;
 		private Bitmap pdfIconBmp;
+		private Bitmap playIconBmp;
 		private Bitmap graphicIconBmp;
 		private Bitmap menuIconBmp;
 		private Bitmap openIconBmp;
@@ -829,6 +871,8 @@ namespace RAppMenu.Ui {
 		private UserAction moveEntryUpAction;
 		private UserAction moveEntryDownAction;
 		private UserAction addGraphicMenuAction;
+
+		private UserAction previewAction;
 
 		private Document doc;
 	}

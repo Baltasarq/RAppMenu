@@ -91,5 +91,6 @@
     <EmbeddedResource Include="Res\separator.png" />
     <EmbeddedResource Include="Res\down.png" />
     <EmbeddedResource Include="Res\up.png" />
+    <EmbeddedResource Include="Res\play.png" />
   </ItemGroup>
 </Project>
