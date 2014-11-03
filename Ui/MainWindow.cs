@@ -373,16 +373,56 @@ namespace RAppMenu.Ui {
             this.opQuit.Click += (sender, e) => this.quitAction.CallBack();
             this.opQuit.Image = UserAction.ImageList.Images[ this.quitAction.ImageIndex ];
 
+			this.opAddMenu = new ToolStripMenuItem( addMenuAction.Text );
+			this.opAddMenu.Click += (sender, e) => this.addMenuAction.CallBack();
+			this.opAddMenu.Image = UserAction.ImageList.Images[ this.addMenuAction.ImageIndex ];
+
+			this.opAddGraphicMenu = new ToolStripMenuItem( addGraphicMenuAction.Text );
+			this.opAddGraphicMenu.Click += (sender, e) => this.addGraphicMenuAction.CallBack();
+			this.opAddGraphicMenu.Image = UserAction.ImageList.Images[ this.addGraphicMenuAction.ImageIndex ];
+
+			this.opAddFunction = new ToolStripMenuItem( addFunctionAction.Text );
+			this.opAddFunction.Click += (sender, e) => this.addFunctionAction.CallBack();
+			this.opAddFunction.Image = UserAction.ImageList.Images[ this.addFunctionAction.ImageIndex ];
+
+			this.opAddPdf = new ToolStripMenuItem( addPdfAction.Text );
+			this.opAddPdf.Click += (sender, e) => this.addPdfAction.CallBack();
+			this.opAddPdf.Image = UserAction.ImageList.Images[ this.addPdfAction.ImageIndex ];
+
+			this.opAddSeparator = new ToolStripMenuItem( addSeparatorAction.Text );
+			this.opAddSeparator.Click += (sender, e) => this.addSeparatorAction.CallBack();
+			this.opAddSeparator.Image = UserAction.ImageList.Images[ this.addSeparatorAction.ImageIndex ];
+
+			this.opMoveEntryUp = new ToolStripMenuItem( moveEntryUpAction.Text );
+			this.opMoveEntryUp.Click += (sender, e) => this.moveEntryUpAction.CallBack();
+			this.opMoveEntryUp.Image = UserAction.ImageList.Images[ this.moveEntryUpAction.ImageIndex ];
+
+			this.opMoveEntryDown = new ToolStripMenuItem( moveEntryDownAction.Text );
+			this.opMoveEntryDown.Click += (sender, e) => this.moveEntryDownAction.CallBack();
+			this.opMoveEntryDown.Image = UserAction.ImageList.Images[ this.moveEntryDownAction.ImageIndex ];
+
+			this.opRemove = new ToolStripMenuItem( removeEntryAction.Text );
+			this.opRemove.Click += (sender, e) => this.removeEntryAction.CallBack();
+			this.opRemove.Image = UserAction.ImageList.Images[ this.removeEntryAction.ImageIndex ];
+
 			var opWeb = new ToolStripMenuItem( "&Web" );
 			opWeb.Click += (sender, e) => this.OnShowWeb();
 			opWeb.Image = this.infoIconBmp;
 
 			this.mFile = new ToolStripMenuItem( "&File" );
+			this.mEdit = new ToolStripMenuItem( "&Edit" );
 			this.mHelp = new ToolStripMenuItem( "&Help" );
 
 			this.mFile.DropDownItems.AddRange( new ToolStripItem[] {
                 this.opNew, this.opLoad,
                 this.opSave, this.opQuit
+			});
+
+			this.mEdit.DropDownItems.AddRange( new ToolStripItem[] {
+				this.opAddMenu, this.opAddFunction,
+				this.opAddPdf, this.opAddSeparator,
+				this.opAddGraphicMenu, this.opMoveEntryUp,
+				this.opMoveEntryDown, this.opRemove
 			});
 
 			this.mHelp.DropDownItems.AddRange( new ToolStripItem[]{
@@ -394,12 +434,20 @@ namespace RAppMenu.Ui {
             this.quitAction.AddComponent( this.opQuit );
             this.loadAction.AddComponent( this.opLoad );
             this.saveAction.AddComponent( this.opSave );
+			this.addMenuAction.AddComponent( this.opAddMenu );
+			this.addGraphicMenuAction.AddComponent( this.opAddGraphicMenu );
+			this.addFunctionAction.AddComponent( this.opAddFunction );
+			this.addPdfAction.AddComponent( this.opAddPdf );
+			this.addSeparatorAction.AddComponent( this.opAddSeparator );
+			this.moveEntryDownAction.AddComponent( this.opMoveEntryDown );
+			this.moveEntryUpAction.AddComponent( this.opMoveEntryUp );
+			this.removeEntryAction.AddComponent( this.opRemove );
 
             // Insert in form
 			this.mMain = new MenuStrip();
             this.mMain.ImageList = UserAction.ImageList;
 			this.mMain.Items.AddRange( new ToolStripItem[] {
-				this.mFile, this.mHelp }
+				this.mFile, this.mEdit, this.mHelp }
 			);
 
 			this.MainMenuStrip = this.mMain;
@@ -662,10 +710,21 @@ namespace RAppMenu.Ui {
 
 		private void PrepareView(bool view)
 		{
+			// Widgets
             this.splPanels.Visible = view;
 
+			// Actions
 			this.saveAction.Enabled = view;
+			this.addMenuAction.Enabled = view;
+			this.addGraphicMenuAction.Enabled = view;
+			this.addSeparatorAction.Enabled = view;
+			this.addPdfAction.Enabled = view;
+			this.addFunctionAction.Enabled = view;
+			this.moveEntryDownAction.Enabled = view;
+			this.moveEntryUpAction.Enabled = view;
+			this.removeEntryAction.Enabled = view;
 
+			// Polish
 			if ( view ) {
 				this.SetActionStatus( this.tvMenu.Nodes[ 0 ] );
 			}
@@ -699,11 +758,21 @@ namespace RAppMenu.Ui {
         private GroupBox pnlTree;
 		private MenuStrip mMain;
 		private ToolStripMenuItem mFile;
+		private ToolStripMenuItem mEdit;
 		private ToolStripMenuItem mHelp;
 		private ToolStripMenuItem opQuit;
 		private ToolStripMenuItem opLoad;
 		private ToolStripMenuItem opSave;
 		private ToolStripMenuItem opNew;
+		private ToolStripMenuItem opAddMenu;
+		private ToolStripMenuItem opAddFunction;
+		private ToolStripMenuItem opAddGraphicMenu;
+		private ToolStripMenuItem opAddSeparator;
+		private ToolStripMenuItem opAddPdf;
+		private ToolStripMenuItem opRemove;
+		private ToolStripMenuItem opMoveEntryUp;
+		private ToolStripMenuItem opMoveEntryDown;
+
 		private Button btAddMenuEntry;
 		private Button btAddFunction;
 		private Button btAddPdf;

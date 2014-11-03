@@ -12,7 +12,6 @@ namespace RAppMenu.Ui.TreeNodes {
             :base( text, new Separator( parent ) )
         {
             this.ImageIndex = this.SelectedImageIndex = 8;
-            this.SelectedImageIndex = 4;
         }
     }
 }

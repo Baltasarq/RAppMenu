@@ -9,8 +9,6 @@ using RAppMenu.Core.MenuComponents;
 
 namespace RAppMenu.Core {
 	public class Document {
-		public const string TagName = "Menue";
-
 		public Document()
 		{
 			this.root = new RootMenuEntry();
@@ -27,15 +25,11 @@ namespace RAppMenu.Core {
 			string fileNameOrg = Path.GetTempFileName();
 			var xmlDocWriter = new XmlTextWriter( fileNameOrg, Encoding.UTF8 );
 
-
-			// Create main node
 			xmlDocWriter.WriteStartDocument();
-			xmlDocWriter.WriteStartElement( TagName );
 
 			this.Root.ToXml( xmlDocWriter );
 
 			// Produce the file
-			xmlDocWriter.WriteEndElement();
 			xmlDocWriter.WriteEndDocument();
 			xmlDocWriter.Close();
 
