@@ -257,7 +257,7 @@ namespace RAppMenu.Ui {
 			previewForm.Icon = this.Icon;
 			previewForm.Text = AppInfo.Name + " preview";
 			previewForm.MinimumSize = new Size( 320, 240 );
-			previewForm.Show();
+			previewForm.ShowDialog();
 		}
 
 		private void BuildIcons()
