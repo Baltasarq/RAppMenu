@@ -26,7 +26,8 @@ namespace RAppMenu.Ui.TreeNodes {
 
         private void Init()
         {
-            this.ImageIndex = this.SelectedImageIndex = 4;
+            this.ImageIndex = this.SelectedImageIndex =
+                UserAction.LookUp( "addmenu" ).ImageIndex;
         }
     }
 }

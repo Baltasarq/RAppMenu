@@ -31,12 +31,18 @@ namespace RAppMenu.Ui {
 		/// It includes controls such as a menu, a button, and the objective
 		/// is to control them all at the same time.
 		/// </summary>
-		/// <param name="f">F.</param>
+		/// <param name="f">The callback.</param>
 		public UserAction(string txt, Action f)
 		{
+            if ( string.IsNullOrWhiteSpace( txt ) ) {
+                throw new ArgumentNullException( "invalid id for user action" );
+            }
+
+            this.id = txt.Trim().Replace( " ", "" ).ToLower();
             this.Text = txt;
 			this.CallBack = f;
 			this.controls = new List<Component>();
+            actions[ id ]= this;
 		}
 
 		/// <summary>
@@ -202,7 +208,16 @@ namespace RAppMenu.Ui {
         /// </summary>
         /// <value>The text, as a string.</value>
         public string Text {
-            get; set;
+            get {
+                return this.text;
+            }
+            set {
+                if ( string.IsNullOrWhiteSpace( value ) ) {
+                    throw new ArgumentNullException( "invalid text for user action" );
+                }
+
+                this.text = value.Trim();
+            }
         }
 
         /// <summary>
@@ -222,8 +237,34 @@ namespace RAppMenu.Ui {
             get; set;
         }
 
-        public static ImageList ImageList = new ImageList();
+        /// <summary>
+        /// Gets the identifier of this action.
+        /// </summary>
+        /// <value>The identifier, as a string.</value>
+        public string Id {
+            get {
+                return this.id;
+            }
+        }
 
-		private List<Component> controls;
+        private string id;
+        private string text;
+        private List<Component> controls;
+
+        public static ImageList ImageList = new ImageList();
+        private static Dictionary<string, UserAction> actions = new Dictionary<string, UserAction>();
+
+        /// <summary>
+        /// Look up an action, using its id.
+        /// </summary>
+        /// <returns>The corresponding <see cref="UserAction"/> object.</returns>
+        /// <param name="id">The identifier, as a string.</param>
+        /// <exception cref="KeyNotFoundException">If the action is not found.</exception>
+        public static UserAction LookUp(string id)
+        {
+            return actions[ id.Trim().ToLower() ];
+        }
+
+		
 	}
 }

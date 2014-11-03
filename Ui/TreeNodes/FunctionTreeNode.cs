@@ -8,7 +8,8 @@ namespace RAppMenu.Ui.TreeNodes {
         public FunctionTreeNode(string text, MenuEntry parent)
             :base( text, new Function( text, parent) )
         {
-            this.ImageIndex = this.SelectedImageIndex = 6;
+            this.ImageIndex = this.SelectedImageIndex =
+                UserAction.LookUp( "addfunction" ).ImageIndex;
         }
     }
 }
