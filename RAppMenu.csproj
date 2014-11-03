@@ -61,6 +61,7 @@
     <Compile Include="Core\MenuComponents\RootMenuEntry.cs" />
     <Compile Include="Ui\TreeNodes\RootMenuEntryTreeNode.cs" />
     <Compile Include="Ui\UserAction.cs" />
+    <Compile Include="Ui\PreviewWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />

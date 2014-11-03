@@ -240,6 +240,8 @@ namespace RAppMenu.Ui {
             dlg.DefaultExt = AppInfo.FileExtension;
             dlg.CheckPathExists = true;
             dlg.InitialDirectory = this.ApplicationsFolder;
+            dlg.Filter = AppInfo.FileExtension + "|*." + AppInfo.FileExtension
+                + "|All files|*";
 
             if ( dlg.ShowDialog() == DialogResult.OK ) {
                 this.ApplicationsFolder = Path.GetDirectoryName( dlg.FileName );
@@ -251,13 +253,9 @@ namespace RAppMenu.Ui {
 
 		private void OnPreview()
 		{
-			var previewForm = new Form();
+            var previewForm = new PreviewWindow( this.Document, this.Icon );
 
-			previewForm.FormBorderStyle = FormBorderStyle.FixedSingle;
-			previewForm.Icon = this.Icon;
-			previewForm.Text = AppInfo.Name + " preview";
-			previewForm.MinimumSize = new Size( 320, 240 );
-			previewForm.ShowDialog();
+            previewForm.ShowDialog();
 		}
 
 		private void BuildIcons()

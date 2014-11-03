@@ -30,6 +30,13 @@ namespace RAppMenu.Core {
             get {
                 return this.name;
             }
+            set {
+                if ( string.IsNullOrWhiteSpace( value ) ) {
+                    throw new ArgumentNullException( "invalid name for menu component" );
+                }
+
+                this.name = value.Trim().Replace( " ", "" ).ToLower();
+            }
         }
 
 		/// <summary>

@@ -45,6 +45,7 @@ namespace RAppMenu.Core {
 				File.Copy( fileNameOrg, fileNameDest, true );
 			}
 
+            this.Root.Name = Path.GetFileNameWithoutExtension( fileNameDest );
 			return;
 		}
 
