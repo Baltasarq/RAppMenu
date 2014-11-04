@@ -71,20 +71,14 @@
     <Folder Include="Ui\TreeNodes\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Res\add.png" />
-    <EmbeddedResource Include="Res\check.png" />
     <EmbeddedResource Include="Res\delete.png" />
-    <EmbeddedResource Include="Res\edit.png" />
-    <EmbeddedResource Include="Res\folder.png" />
     <EmbeddedResource Include="Res\info.png" />
     <EmbeddedResource Include="Res\new.png" />
     <EmbeddedResource Include="Res\save.png" />
-    <EmbeddedResource Include="Res\settings.png" />
     <EmbeddedResource Include="Res\r-editor.png" />
     <EmbeddedResource Include="Res\quit.png" />
     <EmbeddedResource Include="Res\r-editor.ico" />
     <EmbeddedResource Include="Res\graphic.png" />
-    <EmbeddedResource Include="Res\help.png" />
     <EmbeddedResource Include="Res\menu.png" />
     <EmbeddedResource Include="Res\open.png" />
     <EmbeddedResource Include="Res\pdf.png" />

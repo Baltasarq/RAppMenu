@@ -14,17 +14,29 @@ namespace RAppMenu.Ui {
 
         private void BuildUserMenu(ToolStripMenuItem mUser)
         {
-            foreach(MenuComponent mc in this.Document.Root.MenuComponents) {
-                var menuOption = new ToolStripMenuItem( mc.Name );
-
-                if ( mc is Separator ) {
-                    mUser.DropDownItems.Add( new ToolStripSeparator() );
-                }
-                else {
-                    mUser.DropDownItems.Add( menuOption );
-                }
-            }
+			this.BuildUserSubMenu( mUser, this.Document.Root );
         }
+
+		private void BuildUserSubMenu(ToolStripMenuItem mUser, MenuEntry menuComponent)
+		{
+			foreach(MenuComponent mc in menuComponent.MenuComponents) {
+				var menuEntry = mc as MenuEntry;
+
+				if ( menuEntry != null ) {
+					var subMenu = (ToolStripMenuItem) mUser.DropDownItems.Add( mc.Name );
+					this.BuildUserSubMenu( subMenu, menuEntry );
+				}
+				else
+				if ( mc is Separator ) {
+					mUser.DropDownItems.Add( new ToolStripSeparator() );
+				}
+				else {
+					mUser.DropDownItems.Add( new ToolStripMenuItem( mc.Name ) );
+				}
+			}
+
+			return;
+		}
 
         private void BuildMenu()
         {

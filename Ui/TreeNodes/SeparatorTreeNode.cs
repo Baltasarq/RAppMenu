@@ -8,8 +8,8 @@ namespace RAppMenu.Ui.TreeNodes {
     /// Tree node for separators.
     /// </summary>
     public class SeparatorTreeNode: MenuComponentTreeNode {
-        public SeparatorTreeNode(string text, MenuEntry parent)
-            :base( text, new Separator( parent ) )
+        public SeparatorTreeNode(MenuEntry parent)
+            :base( Separator.TagName, new Separator( parent ) )
         {
             this.ImageIndex = this.SelectedImageIndex =
                 UserAction.LookUp( "addseparator" ).ImageIndex;
