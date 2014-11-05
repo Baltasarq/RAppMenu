@@ -589,8 +589,8 @@ namespace RAppMenu.Ui {
 			this.pnlProperties.Dock = DockStyle.Fill;
 			this.pnlProperties.Padding = new Padding( 5 );
 
-			var pnlName = new Panel();
-			pnlName.Dock = DockStyle.Top;
+			this.pnlEdName = new Panel();
+			this.pnlEdName.Dock = DockStyle.Top;
 			this.lblName = new Label();
 			this.lblName.Dock = DockStyle.Left;
 			this.lblName.Text = "Name:";
@@ -605,10 +605,10 @@ namespace RAppMenu.Ui {
 					this.GetSelectedTreeNode().Text = name;
 				}
 			};
-			pnlName.Controls.Add( this.edName );
-			pnlName.Controls.Add( this.lblName );
-			pnlName.MaximumSize = new Size( int.MaxValue, this.edName.Height );
-			pnlInnerProperties.Controls.Add( pnlName );
+			this.pnlEdName.Controls.Add( this.edName );
+			this.pnlEdName.Controls.Add( this.lblName );
+			this.pnlEdName.MaximumSize = new Size( int.MaxValue, this.edName.Height );
+			pnlInnerProperties.Controls.Add( this.pnlEdName );
 
 			this.splPanels.Panel2.Controls.Add( this.pnlProperties );
 		}
@@ -780,10 +780,19 @@ namespace RAppMenu.Ui {
 
 		private void UpdateProperties(TreeNode tr)
 		{
-			MenuComponent mctr = ( (MenuComponentTreeNode) tr ).MenuComponent;
+			var mctr = ( ( MenuComponentTreeNode ) tr ).MenuComponent;
 
-			// Update name
-			this.edName.Text = mctr.Name;
+			// Is this a separator?
+			if ( !( mctr is Separator ) ) {
+				this.pnlEdName.Show();
+
+				// Update name
+				this.edName.Text = mctr.Name;
+			} else {
+				this.pnlEdName.Hide();
+			}
+
+			return;
 		}
 
 		private void SetStatus()
@@ -810,6 +819,7 @@ namespace RAppMenu.Ui {
 		private SplitContainer splPanels;
 		private GroupBox pnlProperties;
         private GroupBox pnlTree;
+		private Panel pnlEdName;
 		private MenuStrip mMain;
 		private ToolStripMenuItem mFile;
 		private ToolStripMenuItem mEdit;
