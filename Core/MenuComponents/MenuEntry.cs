@@ -10,11 +10,6 @@ namespace RAppMenu.Core.MenuComponents {
 	public class MenuEntry: MenuComponent {
 		public const string TagName = "MenueEntry";
         public const string EtqName = "Name";
-        public const string EtqImagePath = "Image";
-        public const string EtqImageWidth = "ImageWidth";
-        public const string EtqImageHeight = "ImageHeight";
-        public const string EtqImageToolTip = "ImageTooltip";
-        public const string EtqMinimumNumberOfColumns = "MinNumberColumns";
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RAppMenu.MenuEntry"/> class.
@@ -36,10 +31,6 @@ namespace RAppMenu.Core.MenuComponents {
 
 		private void Init()
 		{
-            this.ImagePath = "";
-            this.ImageToolTip = "";
-            this.ImageWidth = this.ImageHeight = 0;
-            this.MinimumNumberOfColumns = 0;
 			this.menuComponents = new List<MenuComponent>();
 		}
 
@@ -50,6 +41,33 @@ namespace RAppMenu.Core.MenuComponents {
 		public virtual void Add(MenuComponent mc)
 		{
 			this.menuComponents.Add( mc );
+		}
+
+		/// <summary>
+		/// Looks up a sub entry by its id.
+		/// </summary>
+		/// <returns>
+		/// The sub entry, as a <see cref="MenuComponent"/>.
+		/// </returns>
+		/// <param name='id'>
+		/// The identifier, as a string.
+		/// </param>
+		public MenuComponent LookUp(string id)
+		{
+			MenuComponent toret = null;
+
+			foreach (MenuComponent mc in this.menuComponents) {
+				if ( mc.Name == id ) {
+					toret = mc;
+					break;
+				}
+			}
+
+			if ( toret == null ) {
+				throw new ArgumentException( "id was not found as menu component" );
+			}
+
+			return toret;
 		}
 
         /// <summary>
@@ -78,8 +96,7 @@ namespace RAppMenu.Core.MenuComponents {
 		/// </value>
 		public ReadOnlyCollection<MenuComponent> MenuComponents {
 			get {
-				return new ReadOnlyCollection<MenuComponent>(
-							this.menuComponents );
+				return this.menuComponents.AsReadOnly();
 			}
 		}
 
@@ -151,83 +168,6 @@ namespace RAppMenu.Core.MenuComponents {
             return;
         }
 
-        /// <summary>
-        /// Gets or sets the path to the image of the menu.
-        /// </summary>
-        /// <value>The image path, as a string.</value>
-        public string ImagePath {
-            get {
-                return this.imagePath;
-            }
-            set {
-                this.imagePath = value.Trim();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the width of the image.
-        /// </summary>
-        /// <value>The width of the image, as a positive int.</value>
-        public int ImageWidth {
-            get {
-                return this.imageWidth;
-            }
-            set {
-                if ( value < 0 ) {
-                    throw new ArgumentOutOfRangeException( "MenuEntry.ImageWidth should be >= 0" );
-                }
-
-                this.imageWidth = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the height of the image.
-        /// </summary>
-        /// <value>The height of the image, as a positive int.</value>
-        public int ImageHeight {
-            get {
-                return this.imageHeight;
-            }
-            set {
-                if ( value < 0 ) {
-                    throw new ArgumentOutOfRangeException( "MenuEntry.ImageHight should be >= 0" );
-                }
-
-                this.imageHeight = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the minimum number of columns for this menu.
-        /// </summary>
-        /// <value>The minimum number of columns, as a positive int.</value>
-        public int MinimumNumberOfColumns {
-            get {
-                return this.minimumNumberOfColumns;
-            }
-            set {
-                if ( value < 0 ) {
-                    throw new ArgumentOutOfRangeException( "MenuEntry.MinimumNumberOfColumns should be >= 0" );
-                }
-
-                this.minimumNumberOfColumns = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the image tool tip.
-        /// </summary>
-        /// <value>The image tool tip.</value>
-        public string ImageToolTip {
-            get {
-                return this.imageToolTip;
-            }
-            set {
-                this.imageToolTip = value.Trim();
-            }
-        }
-
 		public override void ToXml(XmlTextWriter doc)
 		{
 			doc.WriteStartElement( TagName );
@@ -237,41 +177,7 @@ namespace RAppMenu.Core.MenuComponents {
 			doc.WriteString( this.Name );
 			doc.WriteEndAttribute();
 
-            if ( !string.IsNullOrWhiteSpace( this.ImagePath ) ) {
-                // Image = "/path/to/image1.png"
-                doc.WriteStartAttribute( EtqImagePath );
-                doc.WriteString( this.Name );
-                doc.WriteEndAttribute();
-
-                if ( this.ImageWidth > 0 ) {
-                    // ImageWidth = "10"
-                    doc.WriteStartAttribute( EtqImageWidth );
-                    doc.WriteString( this.ImageWidth.ToString() );
-                    doc.WriteEndAttribute();
-                }
-
-                if ( this.ImageHeight > 0 ) {
-                    // ImageHeight = "10"
-                    doc.WriteStartAttribute( EtqImageHeight );
-                    doc.WriteString( this.ImageWidth.ToString() );
-                    doc.WriteEndAttribute();
-                }
-
-                if ( this.MinimumNumberOfColumns > 0 ) {
-                    // MinNumberColumns = "2"
-                    doc.WriteStartAttribute( EtqMinimumNumberOfColumns );
-                    doc.WriteString( this.MinimumNumberOfColumns.ToString() );
-                    doc.WriteEndAttribute();
-                }
-
-                if ( !string.IsNullOrWhiteSpace( this.ImageToolTip ) ) {
-                    // ImageToolTip = "help"
-                    doc.WriteStartAttribute( EtqImageToolTip );
-                    doc.WriteString( this.ImageToolTip );
-                    doc.WriteEndAttribute();
-                }
-            }
-
+			// Sub entries
 			foreach (MenuComponent mc in this.menuComponents) {
 				mc.ToXml( doc );
 			}
@@ -280,11 +186,6 @@ namespace RAppMenu.Core.MenuComponents {
 		}
 
 		private List<MenuComponent> menuComponents;
-        private string imagePath;
-        private string imageToolTip;
-        private int imageWidth;
-        private int imageHeight;
-        private int minimumNumberOfColumns;
 	}
 }
 
