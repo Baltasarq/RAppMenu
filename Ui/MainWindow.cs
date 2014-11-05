@@ -111,11 +111,26 @@ namespace RAppMenu.Ui {
 			return (MenuComponentTreeNode) toret;
 		}
 
+		/// <summary>
+		/// Gets the menu component of tree current node.
+		/// </summary>
+		/// <returns>
+		/// The menu component of tree node, as a <see cref="MenuComponent"/> object.
+		/// </returns>
         private MenuComponent GetMenuComponentOfTreeNode()
         {
             return this.GetMenuComponentOfTreeNode( this.GetSelectedTreeNode() );
         }
 
+		/// <summary>
+		/// Gets the menu component of tree current node.
+		/// </summary>
+		/// <param name="tr">
+		/// The tree node to get the menu component from.
+		/// </param>
+		/// <returns>
+		/// The menu component of tree node, as a <see cref="MenuComponent"/> object.
+		/// </returns>
         private MenuComponent GetMenuComponentOfTreeNode(TreeNode tr)
 		{
             if ( tr == null ) {
@@ -746,6 +761,7 @@ namespace RAppMenu.Ui {
 		private void SetActionStatus(TreeNode tr)
 		{
 			bool isTerminal = !( tr is MenuEntryTreeNode );
+			bool isGraphicMenu = tr is GraphicMenuTreeNode;
 			bool isRoot = ( tr == this.tvMenu.Nodes[ 0 ] );
 			bool hasNext = ( tr.NextNode != null );
 			bool hasPrev = ( tr.PrevNode != null );
@@ -753,7 +769,7 @@ namespace RAppMenu.Ui {
 			this.addPdfAction.Enabled = !isTerminal;
 			this.addSeparatorAction.Enabled = !isTerminal;
 			this.addMenuAction.Enabled = !isTerminal;
-			this.addFunctionAction.Enabled = !isTerminal;
+			this.addFunctionAction.Enabled = !isTerminal || isGraphicMenu;
 			this.addGraphicMenuAction.Enabled = !isTerminal;
 			this.moveEntryUpAction.Enabled = ( !isRoot && hasPrev );
 			this.moveEntryDownAction.Enabled = ( !isRoot && hasNext );

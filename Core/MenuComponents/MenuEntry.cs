@@ -47,7 +47,7 @@ namespace RAppMenu.Core.MenuComponents {
 		/// Adds a given mc, which will become a subentry
 		/// </summary>
 		/// <param name="mc">Mc.</param>
-		public void Add(MenuComponent mc)
+		public virtual void Add(MenuComponent mc)
 		{
 			this.menuComponents.Add( mc );
 		}
