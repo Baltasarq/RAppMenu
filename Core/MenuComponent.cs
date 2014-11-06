@@ -9,7 +9,7 @@ namespace RAppMenu.Core {
 	/// menu entries, functions, separators...
 	/// </summary>
 	public abstract class MenuComponent {
-        public MenuComponent(string name, MenuEntry parent)
+        public MenuComponent(string name, Menu parent)
 		{
             this.name = name;
 			this.parent = parent;
@@ -43,7 +43,7 @@ namespace RAppMenu.Core {
 		/// Gets the parent of this menu component.
 		/// </summary>
 		/// <value>The parent.</value>
-        public MenuEntry Parent {
+        public Menu Parent {
 			get {
 				return this.parent;
 			}
@@ -82,7 +82,7 @@ namespace RAppMenu.Core {
 		public abstract void ToXml(XmlTextWriter doc);
 
         private string name;
-		private MenuEntry parent;
+		private Menu parent;
 	}
 }
 

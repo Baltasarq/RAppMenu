@@ -5,8 +5,8 @@ using System.Diagnostics;
 using System.Windows.Forms;
 
 using RAppMenu.Core;
-using RAppMenu.Core.MenuComponents;
-using RAppMenu.Ui.TreeNodes;
+using CoreComponents = RAppMenu.Core.MenuComponents;
+using UiComponents = RAppMenu.Ui.TreeNodes;
 
 namespace RAppMenu.Ui {
 	public class MainWindow: Form {
@@ -36,44 +36,53 @@ namespace RAppMenu.Ui {
 			this.doc = new Document();
 
             this.tvMenu.Nodes.Clear();
-			this.tvMenu.Nodes.Add( new RootMenuEntryTreeNode( this.doc.Root ) );
+			this.tvMenu.Nodes.Add( new UiComponents.RootMenuTreeNode( this.doc.Root ) );
 			this.PrepareView( true );
 		}
 
-		private void OnAddMenuEntry()
+		private void OnAddMenu()
 		{
             MenuComponent parentMc = this.GetMenuComponentOfTreeNode();
             string id = "newMenuEntry";
 
 			this.SetStatus( "Creating menu..." );
             id += this.tvMenu.GetNodeCount( true ).ToString();
-            this.AddTreeNode( new MenuEntryTreeNode( id, (MenuEntry) parentMc ) );
+            this.AddTreeNode( new UiComponents.MenuTreeNode( id, (CoreComponents.Menu) parentMc ) );
 		}
 
         private void OnAddFunction()
         {
-            MenuComponent parentMc = this.GetMenuComponentOfTreeNode();
-            string id = "newFunction";
+			MenuComponentTreeNode tn;
+            MenuComponent parentMenuComponent = this.GetMenuComponentOfTreeNode();
+			var parentImagesMenu = parentMenuComponent as CoreComponents.ImagesMenu;
+			string id = this.tvMenu.GetNodeCount( true ).ToString();
 
 			this.SetStatus( "Creating function..." );
-            id += this.tvMenu.GetNodeCount( true ).ToString();
-            this.AddTreeNode( new FunctionTreeNode( id, (MenuEntry) parentMc ) );
+			if ( parentImagesMenu != null ) {
+				id = "newGraphIdFunction" + id;
+				tn = new UiComponents.ImageMenuEntryTreeNode( id, parentImagesMenu );
+			} else {
+				id = "newFunction" + id;
+				tn = new UiComponents.FunctionTreeNode( id, (CoreComponents.Menu) parentMenuComponent );
+			}
+
+            this.AddTreeNode( tn );
         }
 
         private void OnAddPdf()
         {
             MenuComponent parentMc = this.GetMenuComponentOfTreeNode();
-            string id = "path/to/pdf";
+            string id = "file.pdf";
 
 			this.SetStatus( "Creating pdf..." );
             id += this.tvMenu.GetNodeCount( true ).ToString();
-            this.AddTreeNode( new PdfTreeNode( id, (MenuEntry) parentMc ) );
+			this.AddTreeNode( new UiComponents.PdfTreeNode( id, (CoreComponents.Menu) parentMc ) );
         }
 
         private void OnAddSeparator()
         {
             MenuComponent parentMc = this.GetMenuComponentOfTreeNode();
-			this.AddTreeNode( new SeparatorTreeNode( (MenuEntry) parentMc ) );
+			this.AddTreeNode( new UiComponents.SeparatorTreeNode( (CoreComponents.Menu) parentMc ) );
         }
 
         private void OnAddGraphicMenu()
@@ -83,7 +92,7 @@ namespace RAppMenu.Ui {
 
 			this.SetStatus( "Creating graphic menu..." );
             id += this.tvMenu.GetNodeCount( true ).ToString();
-            this.AddTreeNode( new GraphicMenuTreeNode( id, (MenuEntry) parentMc ) );
+			this.AddTreeNode( new UiComponents.GraphicMenuTreeNode( id, (CoreComponents.Menu) parentMc ) );
         }
 
         /// <summary>
@@ -104,7 +113,7 @@ namespace RAppMenu.Ui {
 			TreeNode toret = this.tvMenu.SelectedNode;
 
             if ( toret == null ) {
-                toret = this.tvMenu.Nodes[ 0 ];
+                toret = this.TreeMenuRoot;
 				this.tvMenu.SelectedNode = toret;
 			}
 
@@ -148,7 +157,7 @@ namespace RAppMenu.Ui {
             TreeNode tr = this.GetSelectedTreeNode();
 
             if ( tr != null
-              && tr != this.tvMenu.Nodes[ 0 ] )
+              && tr != this.TreeMenuRoot )
             {
                 // Remove in the document structure
                 ( (MenuComponentTreeNode) tr).MenuComponent.Remove();
@@ -165,13 +174,13 @@ namespace RAppMenu.Ui {
         {
             TreeNode tr = this.GetSelectedTreeNode();
 
-            if ( tr != this.tvMenu.Nodes[ 0 ] ) {
+            if ( tr != this.TreeMenuRoot) {
 				TreeNode trPrev = tr.PrevNode;
 				TreeNode parent = tr.Parent;
 
 				if ( parent != null
 				  && trPrev != null
-	              && tr != this.tvMenu.Nodes[ 0 ] )
+	              && tr != this.TreeMenuRoot )
 	            {
 					int trPrevIndex = parent.Nodes.IndexOf( trPrev );
 
@@ -201,7 +210,7 @@ namespace RAppMenu.Ui {
 	            if ( tr != null
 				  && parent != null
 				  && trNext != null
-	              && tr != this.tvMenu.Nodes[ 0 ] )
+	              && tr != this.TreeMenuRoot )
 	            {
 					int trIndex = parent.Nodes.IndexOf( tr );
 
@@ -245,12 +254,14 @@ namespace RAppMenu.Ui {
             dlg.InitialDirectory = this.ApplicationsFolder;
             dlg.Filter = AppInfo.FileExtension + "|*." + AppInfo.FileExtension
                 + "|All files|*";
+			dlg.FileName = this.Document.Root.Name;
 
 			this.SetStatus( "Saving menu..." );
 
             if ( dlg.ShowDialog() == DialogResult.OK ) {
                 this.ApplicationsFolder = Path.GetDirectoryName( dlg.FileName );
                 this.Document.SaveToFile( dlg.FileName );
+				this.TreeMenuRoot.Text = this.Document.Root.Name;
             }
 
 			this.SetStatus();
@@ -699,7 +710,7 @@ namespace RAppMenu.Ui {
 			this.saveAction = new UserAction( "Save", 2, this.OnSave );
             this.quitAction = new UserAction( "Quit", 3, this.OnQuit );
 
-            this.addMenuAction = new UserAction( "Add menu", 4, this.OnAddMenuEntry );
+            this.addMenuAction = new UserAction( "Add menu", 4, this.OnAddMenu );
 			this.addGraphicMenuAction = new UserAction( "Add graphic menu", 5, this.OnAddGraphicMenu );
 			this.addFunctionAction = new UserAction( "Add function", 6, this.OnAddFunction );
 			this.addPdfAction = new UserAction( "Add pdf file path", 7, this.OnAddPdf );
@@ -752,7 +763,7 @@ namespace RAppMenu.Ui {
 
 			// Polish
 			if ( view ) {
-				this.SetActionStatus( this.tvMenu.Nodes[ 0 ] );
+				this.SetActionStatus( this.TreeMenuRoot );
 			}
 
 			this.SetStatus();
@@ -760,9 +771,9 @@ namespace RAppMenu.Ui {
 
 		private void SetActionStatus(TreeNode tr)
 		{
-			bool isTerminal = !( tr is MenuEntryTreeNode );
-			bool isGraphicMenu = tr is GraphicMenuTreeNode;
-			bool isRoot = ( tr == this.tvMenu.Nodes[ 0 ] );
+			bool isTerminal = !( tr is UiComponents.MenuTreeNode );
+			bool isGraphicMenu = tr is UiComponents.GraphicMenuTreeNode;
+			bool isRoot = ( tr == this.TreeMenuRoot );
 			bool hasNext = ( tr.NextNode != null );
 			bool hasPrev = ( tr.PrevNode != null );
 
@@ -783,7 +794,7 @@ namespace RAppMenu.Ui {
 			var mctr = ( ( MenuComponentTreeNode ) tr ).MenuComponent;
 
 			// Is this a separator?
-			if ( !( mctr is Separator ) ) {
+			if ( !( mctr is CoreComponents.Separator ) ) {
 				this.pnlEdName.Show();
 
 				// Update name
@@ -803,6 +814,12 @@ namespace RAppMenu.Ui {
 		private void SetStatus(string msg)
 		{
 			this.lblStatus.Text = msg;
+		}
+
+		public MenuComponentTreeNode TreeMenuRoot {
+			get {
+				return (MenuComponentTreeNode) this.tvMenu.Nodes[ 0 ];
+			}
 		}
 
 		public Document Document {

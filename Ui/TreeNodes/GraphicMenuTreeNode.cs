@@ -7,7 +7,7 @@ namespace RAppMenu.Ui.TreeNodes {
     /// Tree node for graphical menuterminals.
     /// </summary>
     public class GraphicMenuTreeNode: MenuComponentTreeNode {
-        public GraphicMenuTreeNode(string text, MenuEntry parent)
+		public GraphicMenuTreeNode(string text, Core.MenuComponents.Menu parent)
             :base( text, new ImagesMenu( text, parent ) )
         {
             this.ImageIndex = this.SelectedImageIndex =

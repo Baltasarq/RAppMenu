@@ -11,7 +11,7 @@ namespace RAppMenu.Core {
 	public class Document {
 		public Document()
 		{
-			this.root = new RootMenuEntry();
+			this.root = new RootMenu();
 		}
 
 		/// <summary>
@@ -55,12 +55,12 @@ namespace RAppMenu.Core {
 		/// <value>
 		/// The menu entries, as a <see cref="MenuEntry"/> collection.
 		/// </value>
-		public RootMenuEntry Root {
+		public RootMenu Root {
 			get {
 				return this.root;
 			}
 		}
 
-		private RootMenuEntry root;
+		private RootMenu root;
 	}
 }

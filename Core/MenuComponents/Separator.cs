@@ -9,7 +9,7 @@ namespace RAppMenu.Core.MenuComponents {
 	public class Separator: MenuComponent {
 		public const string TagName = "Separator";
 
-		public Separator(MenuEntry parent)
+		public Separator(Menu parent)
             : base( TagName, parent )
 		{
 		}

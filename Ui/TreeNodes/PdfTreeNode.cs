@@ -7,7 +7,7 @@ namespace RAppMenu.Ui.TreeNodes {
     /// Tree node for PDF path terminals.
     /// </summary>
     public class PdfTreeNode: MenuComponentTreeNode {
-        public PdfTreeNode(string text, MenuEntry parent)
+		public PdfTreeNode(string text, Core.MenuComponents.Menu parent)
             :base( text, new PdfFile( text, parent ) )
         {
             this.ImageIndex = this.SelectedImageIndex =

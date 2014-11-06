@@ -17,10 +17,10 @@ namespace RAppMenu.Ui {
 			this.BuildUserSubMenu( mUser, this.Document.Root );
         }
 
-		private void BuildUserSubMenu(ToolStripMenuItem mUser, MenuEntry menuComponent)
+		private void BuildUserSubMenu(ToolStripMenuItem mUser, Core.MenuComponents.Menu menuComponent)
 		{
 			foreach(MenuComponent mc in menuComponent.MenuComponents) {
-				var menuEntry = mc as MenuEntry;
+				var menuEntry = mc as Core.MenuComponents.Menu;
 
 				if ( menuEntry != null ) {
 					var subMenu = (ToolStripMenuItem) mUser.DropDownItems.Add( mc.Name );

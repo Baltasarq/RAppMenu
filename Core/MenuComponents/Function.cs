@@ -15,7 +15,7 @@ namespace RAppMenu.Core.MenuComponents {
         public const string EtqStartColumn = "StartColumn";
         public const string EtqEndColumn = "EndColumn";
 
-        public Function(string name, MenuEntry parent)
+        public Function(string name, Menu parent)
             :base( name, parent )
 		{
             this.startColumn = 0;

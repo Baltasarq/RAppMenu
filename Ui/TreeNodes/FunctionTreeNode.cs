@@ -5,7 +5,7 @@ namespace RAppMenu.Ui.TreeNodes {
     /// Tree node for a function.
     /// </summary>
     public class FunctionTreeNode: MenuComponentTreeNode {
-        public FunctionTreeNode(string text, MenuEntry parent)
+        public FunctionTreeNode(string text, Menu parent)
             :base( text, new Function( text, parent) )
         {
             this.ImageIndex = this.SelectedImageIndex =

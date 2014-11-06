@@ -7,7 +7,7 @@ namespace RAppMenu.Core.MenuComponents {
 	/// <summary>
 	/// Represents menu entries.
 	/// </summary>
-	public class MenuEntry: MenuComponent {
+	public class Menu: MenuComponent {
 		public const string TagName = "MenueEntry";
         public const string EtqName = "Name";
 
@@ -17,13 +17,13 @@ namespace RAppMenu.Core.MenuComponents {
 		/// <param name='name'>
 		/// The name of the menu entry.
 		/// </param>
-		public MenuEntry(string name, MenuEntry parent)
+		public Menu(string name, Menu parent)
             :base( name, parent )
 		{
 			this.Init();
 		}
 
-		protected MenuEntry(string name)
+		protected Menu(string name)
 			:base( name )
 		{
 			this.Init();

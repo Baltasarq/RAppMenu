@@ -5,8 +5,8 @@ namespace RAppMenu.Core.MenuComponents {
         public const string TagName = "PDF";
         public const string EtqName = "Name";
 
-        public PdfFile(string filePath, MenuEntry parent)
-            : base( filePath, parent )
+        public PdfFile(string fileName, Menu parent)
+            : base( fileName, parent )
         {
         }
 
@@ -15,7 +15,7 @@ namespace RAppMenu.Core.MenuComponents {
         /// </summary>
         /// <value>The file path, as a string.</value>
         /// <seealso cref="RAppMenu.Core.MenuComponent.Name"/>
-        public string FilePath {
+        public string FileName {
             get {
                 return this.Name;
             }
@@ -25,7 +25,7 @@ namespace RAppMenu.Core.MenuComponents {
         {
             doc.WriteStartElement( TagName );
             doc.WriteStartAttribute( EtqName );
-            doc.WriteString( this.FilePath );
+            doc.WriteString( this.FileName );
             doc.WriteEndAttribute();
             doc.WriteEndElement();
         }

@@ -2,7 +2,7 @@ using System;
 using System.Xml;
 
 namespace RAppMenu.Core.MenuComponents {
-	public class ImageMenuEntry: MenuComponent {
+	public class ImageMenuEntry: Menu {
 		public const string EtqImagePath = "Image";
         public const string EtqImageWidth = "ImageWidth";
         public const string EtqImageHeight = "ImageHeight";
@@ -12,6 +12,7 @@ namespace RAppMenu.Core.MenuComponents {
 		public ImageMenuEntry(string id, ImagesMenu parent)
 			:base( id, parent )
 		{
+			this.Function = new Function( "fn", this );
 			this.ImagePath = "";
             this.ImageToolTip = "";
             this.ImageWidth = this.ImageHeight = 0;
@@ -95,12 +96,20 @@ namespace RAppMenu.Core.MenuComponents {
             }
         }
 
+		/// <summary>
+		/// Gets or sets the function associated with this entry.
+		/// </summary>
+		/// <value>The <see cref="Function"/>.</value>
+		public Function Function {
+			get; set;
+		}
+
 		public override void ToXml(XmlTextWriter doc)
 		{
-			doc.WriteStartElement( MenuEntry.TagName );
+			doc.WriteStartElement( Menu.TagName );
 
             // Name = "m1"
-			doc.WriteStartAttribute( MenuEntry.EtqName );
+			doc.WriteStartAttribute( Menu.EtqName );
 			doc.WriteString( this.Name );
 			doc.WriteEndAttribute();
 
@@ -139,6 +148,7 @@ namespace RAppMenu.Core.MenuComponents {
                 }
             }
 
+			this.Function.ToXml( doc );
 			doc.WriteEndElement();
 		}
 

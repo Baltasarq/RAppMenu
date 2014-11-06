@@ -5,10 +5,10 @@ namespace RAppMenu.Core.MenuComponents {
 	/// This is the root menu emtry.
 	/// In the XML, it is represented as "Menue"
 	/// </summary>
-	public class RootMenuEntry: MenuEntry {
+	public class RootMenu: Menu {
 		public new const string TagName = "Menue";
 
-		public RootMenuEntry()
+		public RootMenu()
 			:base( "Root" )
 		{
 		}
