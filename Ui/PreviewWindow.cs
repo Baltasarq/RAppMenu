@@ -6,8 +6,17 @@ using RAppMenu.Core;
 using RAppMenu.Core.MenuComponents;
 
 namespace RAppMenu.Ui {
+    /// <summary>
+    /// This is the preview window.
+    /// This small window just shows the menu the user is building.
+    /// </summary>
     public class PreviewWindow: Form {
-        public PreviewWindow(Document doc, Icon icon)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RAppMenu.Ui.PreviewWindow"/> class.
+        /// </summary>
+        /// <param name="doc">The <see cref="Document"/>object, containing the menu.</param>
+        /// <param name="icon">The icon for the window.</param>
+        public PreviewWindow(DesignOfUserMenu doc, Icon icon)
         {
             this.document = doc;
             this.Build( icon );
@@ -25,20 +34,8 @@ namespace RAppMenu.Ui {
                 var menu = mc as Core.MenuComponents.Menu;
 
                 if ( graphicMenu != null ) {
-                    IList<MenuComponent> menuComponents = graphicMenu.MenuComponents;
-                    var items = new List<GraphMenuUtils.GraphicsMenuTable.GraphMenuItemData>();
-                    var subMenu = (ToolStripMenuItem) mUser.DropDownItems.Add( mc.Name );
-
-                    foreach(ImageMenuEntry submc in menuComponents) {
-                        items.Add(
-                            new GraphMenuUtils.GraphicsMenuTable.GraphMenuItemData(
-                                submc.ImagePath,
-                                submc.ImageToolTip,
-                                submc.Function )
-                        );
-                    }
-
-                    GraphMenuUtils.GraphicsMenuTable.AddGraphMenuTable( subMenu, items );
+                    var subMenu = (ToolStripMenuItem) mUser.DropDownItems.Add( graphicMenu.Name );
+                    this.BuildUserGraphicSubMenu( subMenu, graphicMenu );
                 }
                 else
 				if ( menu != null ) {
@@ -57,6 +54,26 @@ namespace RAppMenu.Ui {
 			return;
 		}
 
+        private void BuildUserGraphicSubMenu(ToolStripMenuItem subMenu, ImagesMenu graphicMenu)
+        {
+            IList<MenuComponent> menuComponents = graphicMenu.MenuComponents;
+            var items = new List<GraphMenuUtils.GraphicsMenuTable.GraphMenuItemData>();
+
+            // Build the list of images
+            foreach (ImageMenuEntry submc in menuComponents)
+            {
+                items.Add(
+                    new GraphMenuUtils.GraphicsMenuTable.GraphMenuItemData(
+                        submc.ImagePath,
+                        submc.ImageToolTip,
+                        submc.Function )
+                );
+            }
+
+            // Build the menu
+            GraphMenuUtils.GraphicsMenuTable.AddGraphMenuTable( subMenu, items );
+        }
+
         private void BuildMenu()
         {
             // File menu
@@ -69,7 +86,7 @@ namespace RAppMenu.Ui {
             var mFile = new ToolStripMenuItem( "&File" );
             mFile.DropDownItems.Add( opQuit );
 
-            // Built menu
+            // Build user's menu
             var mUser = new ToolStripMenuItem( this.Document.Root.Name );
             this.BuildUserMenu( mUser );
 
@@ -98,13 +115,13 @@ namespace RAppMenu.Ui {
         /// Gets the document this preview window is showing.
         /// </summary>
         /// <value>The <see cref="Document"/> object.</value>
-        public Document Document {
+        public DesignOfUserMenu Document {
             get {
                 return this.document;
             }
         }
 
-        private Document document;
+        private DesignOfUserMenu document;
     }
 }
 

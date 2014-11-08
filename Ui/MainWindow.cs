@@ -35,7 +35,7 @@ namespace RAppMenu.Ui {
 		private void OnNew()
 		{
 			this.SetStatus( "Preparing new document..." );
-			this.doc = new Document();
+			this.doc = new DesignOfUserMenu();
 
             this.tvMenu.Nodes.Clear();
 			this.tvMenu.Nodes.Add( new UiComponents.RootMenuTreeNode( this.doc.Root ) );
@@ -826,7 +826,7 @@ namespace RAppMenu.Ui {
 			}
 		}
 
-		public Document Document {
+		public DesignOfUserMenu Document {
 			get {
 				return this.doc;
 			}
@@ -929,7 +929,7 @@ namespace RAppMenu.Ui {
 
 		private UserAction previewAction;
 
-		private Document doc;
+		private DesignOfUserMenu doc;
 	}
 }
 

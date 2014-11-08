@@ -8,8 +8,8 @@ using System.Collections.ObjectModel;
 using RAppMenu.Core.MenuComponents;
 
 namespace RAppMenu.Core {
-	public class Document {
-		public Document()
+	public class DesignOfUserMenu {
+		public DesignOfUserMenu()
 		{
 			this.root = new RootMenu();
 		}
@@ -17,7 +17,7 @@ namespace RAppMenu.Core {
 		/// <summary>
 		/// Saves the info in the document to a given file.
 		/// </summary>
-		/// <param name='fileName'>
+        /// <param name='fileNameDest'>
 		/// The file name, as a string.
 		/// </param>
 		public void SaveToFile(string fileNameDest)
