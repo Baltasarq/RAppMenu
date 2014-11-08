@@ -64,6 +64,7 @@
     <Compile Include="Core\MenuComponents\RootMenu.cs" />
     <Compile Include="Ui\TreeNodes\RootMenuTreeNode.cs" />
     <Compile Include="Ui\TreeNodes\MenuTreeNode.cs" />
+    <Compile Include="Ui\GraphMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />
