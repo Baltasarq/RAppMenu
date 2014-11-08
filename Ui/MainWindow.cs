@@ -13,6 +13,8 @@ namespace RAppMenu.Ui {
 		public MainWindow()
 		{
 			this.doc = null;
+            this.ApplicationsFolder = "applications";
+            this.PdfFolder = "PDF";
 
 			this.Build();
 			this.PrepareView( false );
@@ -607,6 +609,8 @@ namespace RAppMenu.Ui {
 			this.lblName.Text = "Name:";
 			this.edName = new TextBox();
 			this.edName.Dock = DockStyle.Fill;
+            this.edName.GotFocus += (sender, e) => this.edName.SelectAll();
+            this.edName.Click += (sender, e) => this.edName.SelectAll();
 			this.edName.KeyUp += (sender, e) => {
 				MenuComponent mc = this.GetMenuComponentOfTreeNode();
 				string name = this.edName.Text;
@@ -828,7 +832,21 @@ namespace RAppMenu.Ui {
 			}
 		}
 
+        /// <summary>
+        /// Gets or sets the applications folder.
+        /// By default, it is "applications".
+        /// </summary>
+        /// <value>The applications folder, as a string.</value>
         public string ApplicationsFolder {
+            get; set;
+        }
+
+        /// <summary>
+        /// Gets or sets the pdf folder.
+        /// By default, it is "PDF".
+        /// </summary>
+        /// <value>The pdf folder, as a string.</value>
+        public string PdfFolder {
             get; set;
         }
 

@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 using RAppMenu.Core;
 using RAppMenu.Core.MenuComponents;
@@ -20,11 +21,29 @@ namespace RAppMenu.Ui {
 		private void BuildUserSubMenu(ToolStripMenuItem mUser, Core.MenuComponents.Menu menuComponent)
 		{
 			foreach(MenuComponent mc in menuComponent.MenuComponents) {
-				var menuEntry = mc as Core.MenuComponents.Menu;
+                var graphicMenu = mc as ImagesMenu;
+                var menu = mc as Core.MenuComponents.Menu;
 
-				if ( menuEntry != null ) {
+                if ( graphicMenu != null ) {
+                    IList<MenuComponent> menuComponents = graphicMenu.MenuComponents;
+                    var items = new List<GraphMenuUtils.GraphicsMenuTable.GraphMenuItemData>();
+                    var subMenu = (ToolStripMenuItem) mUser.DropDownItems.Add( mc.Name );
+
+                    foreach(ImageMenuEntry submc in menuComponents) {
+                        items.Add(
+                            new GraphMenuUtils.GraphicsMenuTable.GraphMenuItemData(
+                                submc.ImagePath,
+                                submc.ImageToolTip,
+                                submc.Function )
+                        );
+                    }
+
+                    GraphMenuUtils.GraphicsMenuTable.AddGraphMenuTable( subMenu, items );
+                }
+                else
+				if ( menu != null ) {
 					var subMenu = (ToolStripMenuItem) mUser.DropDownItems.Add( mc.Name );
-					this.BuildUserSubMenu( subMenu, menuEntry );
+					this.BuildUserSubMenu( subMenu, menu );
 				}
 				else
 				if ( mc is Separator ) {
