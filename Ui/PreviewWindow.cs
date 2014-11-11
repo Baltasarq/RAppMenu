@@ -71,7 +71,23 @@ namespace RAppMenu.Ui {
             }
 
             // Build the menu
-            GraphMenuUtils.GraphicsMenuTable.AddGraphMenuTable( subMenu, items );
+            var grphMenu = GraphMenuUtils.GraphicsMenuTable.AddGraphMenuTable( subMenu, items );
+
+            // Set properties, if needed
+            if ( graphicMenu.ImageHeight > 0 ) {
+                grphMenu.ItemHeight = graphicMenu.ImageHeight;
+            }
+
+            if ( graphicMenu.ImageWidth > 0 ) {
+                grphMenu.ItemWidth = graphicMenu.ImageWidth;
+            }
+
+            if ( graphicMenu.MinimumNumberOfColumns > 0 ) {
+                grphMenu.NumColumns = graphicMenu.MinimumNumberOfColumns;
+            }
+
+            grphMenu.SizeMode = GraphMenuUtils.GraphicsMenuTable.SizeModeStyle.StrechImage;
+            return;
         }
 
         private void BuildMenu()

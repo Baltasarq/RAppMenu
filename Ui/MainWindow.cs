@@ -74,10 +74,9 @@ namespace RAppMenu.Ui {
         private void OnAddPdf()
         {
             MenuComponent parentMc = this.GetMenuComponentOfTreeNode();
-            string id = "file.pdf";
+            string id = "file" + this.tvMenu.GetNodeCount( true ) + ".pdf";
 
 			this.SetStatus( "Creating pdf..." );
-            id += this.tvMenu.GetNodeCount( true ).ToString();
 			this.AddTreeNode( new UiComponents.PdfTreeNode( id, (CoreComponents.Menu) parentMc ) );
         }
 
@@ -236,7 +235,26 @@ namespace RAppMenu.Ui {
             TreeNode tr = this.GetSelectedTreeNode();
 
             if ( tr != null ) {
-                this.SetActionStatus( tr );
+                this.SetActionStatusForTreeNode( tr );
+            }
+
+            return;
+        }
+
+        private void OnFileNameButtonClicked()
+        {
+            var pmc = (Core.MenuComponents.PdfFile) this.GetMenuComponentOfTreeNode();
+            var dlg = new OpenFileDialog();
+            dlg.InitialDirectory = this.PdfFolder;
+            dlg.CheckFileExists = true;
+            dlg.DefaultExt = "pdf";
+            dlg.Filter = "PDF|*.pdf|All files|*";
+
+            if ( dlg.ShowDialog() == DialogResult.OK ) {
+                string fileName = Path.GetFileName( dlg.FileName );
+
+                this.edFileName.Text = fileName;
+                pmc.Name = fileName;
             }
 
             return;
@@ -588,6 +606,67 @@ namespace RAppMenu.Ui {
             this.addSeparatorAction.AddComponent( this.btAddSeparator );
 		}
 
+        private void BuildNamePanel()
+        {
+            this.pnlEdName = new Panel();
+            this.pnlEdName.Dock = DockStyle.Top;
+
+            this.lblName = new Label();
+            this.lblName.AutoSize = false;
+            this.lblName.TextAlign = ContentAlignment.MiddleLeft;
+            this.lblName.Dock = DockStyle.Left;
+            this.lblName.Text = "Name:";
+
+            this.edName = new TextBox();
+            this.edName.Dock = DockStyle.Fill;
+            this.edName.GotFocus += (sender, e) => this.edName.SelectAll();
+            this.edName.Click += (sender, e) => this.edName.SelectAll();
+            this.edName.KeyUp += (sender, e) => {
+                MenuComponent mc = this.GetMenuComponentOfTreeNode();
+                string name = this.edName.Text;
+
+                if ( !string.IsNullOrWhiteSpace( name ) ) {
+                    mc.Name = name;
+                    this.GetSelectedTreeNode().Text = name;
+                }
+            };
+
+            this.pnlEdName.Controls.Add( this.edName );
+            this.pnlEdName.Controls.Add( this.lblName );
+            this.pnlEdName.MaximumSize = new Size( int.MaxValue, this.edName.Height );
+        }
+
+        private void BuildFileNamePanel()
+        {
+            this.pnlEdFileName = new Panel();
+            this.pnlEdFileName.Dock = DockStyle.Top;
+
+            this.lblFileName = new Label();
+            this.lblFileName.AutoSize = false;
+            this.lblFileName.TextAlign = ContentAlignment.MiddleLeft;
+            this.lblFileName.Dock = DockStyle.Left;
+            this.lblFileName.Text = "File name:";
+
+            this.edFileName = new Label();
+            this.edFileName.Dock = DockStyle.Fill;
+            this.edFileName.TextAlign = ContentAlignment.MiddleLeft;
+            this.edFileName.AutoSize = false;
+
+            this.btFileName = new Button();
+            this.btFileName.ImageList = UserAction.ImageList;
+            this.btFileName.ImageIndex = UserAction.LookUp( "open" ).ImageIndex;
+            this.btFileName.Dock = DockStyle.Right;
+            this.btFileName.MaximumSize = new Size( 32, 32 );
+            this.btFileName.Click += (sender, e) => this.OnFileNameButtonClicked();
+
+            this.pnlEdFileName.Controls.Add( this.edFileName );
+            this.pnlEdFileName.Controls.Add( this.lblFileName );
+            this.pnlEdFileName.Controls.Add( this.btFileName );
+
+            // Polish
+            this.pnlEdFileName.MaximumSize = new Size( int.MaxValue, this.btFileName.Height );
+        }
+
 		private void BuildPropertiesPanel()
 		{
 			this.pnlProperties = new GroupBox();
@@ -602,29 +681,11 @@ namespace RAppMenu.Ui {
 			this.pnlProperties.Dock = DockStyle.Fill;
 			this.pnlProperties.Padding = new Padding( 5 );
 
-			this.pnlEdName = new Panel();
-			this.pnlEdName.Dock = DockStyle.Top;
-			this.lblName = new Label();
-			this.lblName.Dock = DockStyle.Left;
-			this.lblName.Text = "Name:";
-			this.edName = new TextBox();
-			this.edName.Dock = DockStyle.Fill;
-            this.edName.GotFocus += (sender, e) => this.edName.SelectAll();
-            this.edName.Click += (sender, e) => this.edName.SelectAll();
-			this.edName.KeyUp += (sender, e) => {
-				MenuComponent mc = this.GetMenuComponentOfTreeNode();
-				string name = this.edName.Text;
-
-				if ( !string.IsNullOrWhiteSpace( name ) ) {
-					mc.Name = name;
-					this.GetSelectedTreeNode().Text = name;
-				}
-			};
-			this.pnlEdName.Controls.Add( this.edName );
-			this.pnlEdName.Controls.Add( this.lblName );
-			this.pnlEdName.MaximumSize = new Size( int.MaxValue, this.edName.Height );
+            this.BuildNamePanel();
+            this.BuildFileNamePanel();
+			
 			pnlInnerProperties.Controls.Add( this.pnlEdName );
-
+            pnlInnerProperties.Controls.Add( this.pnlEdFileName );
 			this.splPanels.Panel2.Controls.Add( this.pnlProperties );
 		}
 
@@ -767,13 +828,13 @@ namespace RAppMenu.Ui {
 
 			// Polish
 			if ( view ) {
-				this.SetActionStatus( this.TreeMenuRoot );
+				this.SetActionStatusForTreeNode( this.TreeMenuRoot );
 			}
 
 			this.SetStatus();
 		}
 
-		private void SetActionStatus(TreeNode tr)
+		private void SetActionStatusForTreeNode(TreeNode tr)
 		{
 			bool isTerminal = !( tr is UiComponents.MenuTreeNode );
 			bool isGraphicMenu = tr is UiComponents.GraphicMenuTreeNode;
@@ -790,21 +851,32 @@ namespace RAppMenu.Ui {
 			this.moveEntryDownAction.Enabled = ( !isRoot && hasNext );
 			this.removeEntryAction.Enabled = !isRoot;
 
-			this.UpdateProperties( tr );
+			this.UpdatePropertiesPanel( tr );
 		}
 
-		private void UpdateProperties(TreeNode tr)
+		private void UpdatePropertiesPanel(TreeNode tr)
 		{
 			var mctr = ( ( MenuComponentTreeNode ) tr ).MenuComponent;
 
-			// Is this a separator?
-			if ( !( mctr is CoreComponents.Separator ) ) {
-				this.pnlEdName.Show();
+            // Is this a PDF file?
+            if ( mctr is CoreComponents.PdfFile ) {
+                this.pnlEdName.Hide();
+                this.pnlEdFileName.Show();
 
-				// Update name
-				this.edName.Text = mctr.Name;
+                // Update name
+                this.edFileName.Text = mctr.Name;
+            }
+            else
+			// Is this a separator?
+			if ( mctr is CoreComponents.Separator ) {
+                this.pnlEdName.Hide();
+                this.pnlEdFileName.Hide();
 			} else {
-				this.pnlEdName.Hide();
+                this.pnlEdFileName.Hide();
+                this.pnlEdName.Show();
+
+                // Update name
+                this.edName.Text = mctr.Name;
 			}
 
 			return;
@@ -855,6 +927,7 @@ namespace RAppMenu.Ui {
 		private GroupBox pnlProperties;
         private GroupBox pnlTree;
 		private Panel pnlEdName;
+        private Panel pnlEdFileName;
 		private MenuStrip mMain;
 		private ToolStripMenuItem mFile;
 		private ToolStripMenuItem mEdit;
@@ -889,6 +962,10 @@ namespace RAppMenu.Ui {
 
 		private Label lblName;
 		private TextBox edName;
+
+        private Label lblFileName;
+        private Label edFileName;
+        private Button btFileName;
 
 		private ToolStrip tbBar;
 		private ToolStripButton tbbNew;
