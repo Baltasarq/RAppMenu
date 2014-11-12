@@ -74,7 +74,7 @@ namespace RAppMenu.Core.MenuComponents {
         /// Removes the component at index.
         /// </summary>
         /// <param name="index">The index, as an int.</param>
-        public void RemoveAt(int index)
+        public virtual void RemoveAt(int index)
         {
             this.menuComponents.RemoveAt( index );
         }
@@ -83,7 +83,7 @@ namespace RAppMenu.Core.MenuComponents {
         /// Removes the specified <see cref="MenuComponent"/> from this menu.
         /// </summary>
         /// <param name="mc">A menu component, as a <see cref="MenuComponent"/> object</param>
-        public void Remove(MenuComponent mc)
+        public virtual void Remove(MenuComponent mc)
         {
             this.menuComponents.Remove( mc );
         }

@@ -116,6 +116,10 @@ namespace RAppMenu.Core.MenuComponents {
                 doc.WriteEndAttribute();
             }
 
+			foreach(ImageMenuEntry imgmc in this.MenuComponents) {
+				imgmc.ToXml( doc );
+			}
+
             doc.WriteEndElement();
         }
 

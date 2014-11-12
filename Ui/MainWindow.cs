@@ -638,6 +638,7 @@ namespace RAppMenu.Ui {
 
         private void BuildFileNamePanel()
         {
+			var tooltipManager = new ToolTip();
             this.pnlEdFileName = new Panel();
             this.pnlEdFileName.Dock = DockStyle.Top;
 
@@ -654,9 +655,10 @@ namespace RAppMenu.Ui {
 
             this.btFileName = new Button();
             this.btFileName.ImageList = UserAction.ImageList;
+			tooltipManager.SetToolTip( this.btFileName, UserAction.LookUp( "open" ).Text );
             this.btFileName.ImageIndex = UserAction.LookUp( "open" ).ImageIndex;
             this.btFileName.Dock = DockStyle.Right;
-            this.btFileName.MaximumSize = new Size( 32, 32 );
+            this.btFileName.MaximumSize = this.btFileName.Size = new Size( 32, 32 );
             this.btFileName.Click += (sender, e) => this.OnFileNameButtonClicked();
 
             this.pnlEdFileName.Controls.Add( this.edFileName );

@@ -1,3 +1,4 @@
+using System;
 using System.Xml;
 
 namespace RAppMenu.Core.MenuComponents {
@@ -8,9 +9,52 @@ namespace RAppMenu.Core.MenuComponents {
 		public ImageMenuEntry(string id, ImagesMenu parent)
 			:base( id, parent )
 		{
-			this.Function = new Function( "fn", this );
 			this.ImagePath = "";
             this.ImageToolTip = "";
+
+			// Create a function that will be the only subcomponent here.
+			new Function( id, this );
+		}
+
+		/// <summary>
+		/// Gets the name of the image menu entry.
+		/// Note that the function inside will also be renamed.
+		/// </summary>
+		/// <value>
+		/// The name, as a string.
+		/// </value>
+		public override string Name {
+			get {
+				return base.Name;
+			}
+			set {
+				base.Name = "ime_" + value;
+
+				if ( this.MenuComponents.Count > 0 ) {
+					this.Function.Name = value;
+				}
+			}
+		}
+
+		public override void Add(MenuComponent mc)
+		{
+			if ( this.MenuComponents.Count > 0 ) {
+				throw new ArgumentException( "an image menu entry can only hold one function" );
+			} else {
+				base.Add( mc );
+			}
+
+			return;
+		}
+
+		public override void Remove(MenuComponent mc)
+		{
+			throw new ArgumentException( "cannot remove from an image menu entry" );
+		}
+
+		public override void RemoveAt(int index)
+		{
+			throw new ArgumentException( "cannot remove from an image menu entry" );
 		}
 
 		/// <summary>
@@ -44,7 +88,9 @@ namespace RAppMenu.Core.MenuComponents {
 		/// </summary>
 		/// <value>The <see cref="Function"/>.</value>
 		public Function Function {
-			get; set;
+			get {
+				return (Function) this.MenuComponents[ 0 ];
+			}
 		}
 
 		public override void ToXml(XmlTextWriter doc)
