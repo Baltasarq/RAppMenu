@@ -11,14 +11,14 @@ namespace RAppMenu.Core {
 	public abstract class MenuComponent {
         public MenuComponent(string name, Menu parent)
 		{
-            this.name = name;
+			this.SetName( name );
 			this.parent = parent;
 			this.parent.Add( this );
 		}
 
 		protected MenuComponent(string name)
 		{
-			this.name = name;
+			this.SetName( name );
 			this.parent = null;
 		}
 
@@ -26,18 +26,23 @@ namespace RAppMenu.Core {
         /// Gets the name of the component.
         /// </summary>
         /// <value>The name, as a string.</value>
-        public string Name {
+        public virtual string Name {
             get {
                 return this.name;
             }
             set {
-                if ( string.IsNullOrWhiteSpace( value ) ) {
-                    throw new ArgumentNullException( "invalid name for menu component" );
-                }
-
-                this.name = value.Trim().Replace( " ", "" ).ToLower();
+				this.SetName( value );
             }
         }
+
+		private void SetName(string value)
+		{
+			if ( string.IsNullOrWhiteSpace( value ) ) {
+                throw new ArgumentNullException( "invalid name for menu component" );
+            }
+
+            this.name = value.Trim().Replace( " ", "" ).ToLower();
+		}
 
 		/// <summary>
 		/// Gets the parent of this menu component.
