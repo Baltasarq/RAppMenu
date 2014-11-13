@@ -166,7 +166,7 @@ namespace GraphMenuUtils
 
         private Size CalcularFilasColumnasMenu(int numItems, Font menuItemsFont)
         {
-            Size r = new Size();
+            Size r = new Size( 60, 60 );
             int extramargen = 100;
             float totalHeight = ((itemHeight+margen) * numItems) + extramargen;
             Rectangle screenSize = Screen.PrimaryScreen.Bounds;

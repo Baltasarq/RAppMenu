@@ -72,6 +72,7 @@ namespace RAppMenu.Ui {
 
             // Build the menu
             var grphMenu = GraphMenuUtils.GraphicsMenuTable.AddGraphMenuTable( subMenu, items );
+			grphMenu.SizeMode = GraphMenuUtils.GraphicsMenuTable.SizeModeStyle.StrechImage;
 
             // Set properties, if needed
             if ( graphicMenu.ImageHeight > 0 ) {
@@ -86,7 +87,6 @@ namespace RAppMenu.Ui {
                 grphMenu.NumColumns = graphicMenu.MinimumNumberOfColumns;
             }
 
-            grphMenu.SizeMode = GraphMenuUtils.GraphicsMenuTable.SizeModeStyle.StrechImage;
             return;
         }
 

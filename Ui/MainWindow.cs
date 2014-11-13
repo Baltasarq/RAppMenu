@@ -13,8 +13,9 @@ namespace RAppMenu.Ui {
 		public MainWindow()
 		{
 			this.doc = null;
-            this.ApplicationsFolder = "applications";
-            this.PdfFolder = "PDF";
+            this.ApplicationsFolder = "Applications";
+            this.PdfFolder = "Pdf";
+			this.GraphsFolder = "Graphs";
 
 			this.Build();
 			this.PrepareView( false );
@@ -618,6 +619,7 @@ namespace RAppMenu.Ui {
             this.lblName.Text = "Name:";
 
             this.edName = new TextBox();
+			this.edName.Font = new Font( this.edName.Font, FontStyle.Bold );
             this.edName.Dock = DockStyle.Fill;
             this.edName.GotFocus += (sender, e) => this.edName.SelectAll();
             this.edName.Click += (sender, e) => this.edName.SelectAll();
@@ -649,6 +651,7 @@ namespace RAppMenu.Ui {
             this.lblFileName.Text = "File name:";
 
             this.edFileName = new Label();
+			this.edFileName.Font = new Font( this.edFileName.Font, FontStyle.Bold );
             this.edFileName.Dock = DockStyle.Fill;
             this.edFileName.TextAlign = ContentAlignment.MiddleLeft;
             this.edFileName.AutoSize = false;
@@ -673,7 +676,7 @@ namespace RAppMenu.Ui {
 		{
 			this.pnlProperties = new GroupBox();
 
-			var pnlInnerProperties = new TableLayoutPanel();
+            var pnlInnerProperties = new TableLayoutPanel();
 			pnlInnerProperties.Font = new Font( this.pnlProperties.Font, FontStyle.Regular );
 			pnlInnerProperties.Dock = DockStyle.Fill;
 			this.pnlProperties.Controls.Add( pnlInnerProperties );
@@ -917,12 +920,21 @@ namespace RAppMenu.Ui {
 
         /// <summary>
         /// Gets or sets the pdf folder.
-        /// By default, it is "PDF".
+        /// By default, it is "Pdf".
         /// </summary>
         /// <value>The pdf folder, as a string.</value>
         public string PdfFolder {
             get; set;
         }
+
+		/// <summary>
+		/// Gets or sets the graphs folder.
+		/// By default, it is "Graphs"
+		/// </summary>
+		/// <value>The graphs folder, as a string.</value>
+		public string GraphsFolder {
+			get; set;
+		}
 
 		private TreeView tvMenu;
 		private SplitContainer splPanels;
