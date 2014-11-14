@@ -243,8 +243,43 @@ namespace RAppMenu.Ui {
         }
 
         private void OnFileNameButtonClicked()
-        {
-            var pmc = (Core.MenuComponents.PdfFile) this.GetMenuComponentOfTreeNode();
+		{
+			MenuComponent node = this.GetMenuComponentOfTreeNode();
+			var pmc = node as Core.MenuComponents.PdfFile;
+			var imc = node as Core.MenuComponents.ImageMenuEntry;
+
+			if ( pmc != null ) {
+				this.OnPdfFileNameButtonClicked( pmc );
+			}
+			else
+			if ( imc != null ) {
+				this.OnImageFileNameButtonClicked( imc );
+			}
+
+			return;
+		}
+
+		private void OnImageFileNameButtonClicked(Core.MenuComponents.ImageMenuEntry imc)
+		{
+			var dlg = new OpenFileDialog();
+			dlg.InitialDirectory = this.GraphsFolder;
+			dlg.CheckFileExists = true;
+			dlg.DefaultExt = "png";
+			dlg.Filter = "PDF|*.pdf|All files|*";
+
+			if ( dlg.ShowDialog() == DialogResult.OK ) {
+				string fileName = Path.GetFileName( dlg.FileName );
+
+				this.edFileName.Text = fileName;
+				imc.ImagePath = fileName;
+				this.GraphsFolder = Path.GetDirectoryName( dlg.FileName );
+			}
+
+			return;
+		}
+
+		private void OnPdfFileNameButtonClicked(Core.MenuComponents.PdfFile pmc)
+		{
             var dlg = new OpenFileDialog();
             dlg.InitialDirectory = this.PdfFolder;
             dlg.CheckFileExists = true;
@@ -256,6 +291,7 @@ namespace RAppMenu.Ui {
 
                 this.edFileName.Text = fileName;
                 pmc.Name = fileName;
+				this.PdfFolder = Path.GetDirectoryName( dlg.FileName );
             }
 
             return;
@@ -310,6 +346,11 @@ namespace RAppMenu.Ui {
 			} catch(Exception) {
 				throw new ArgumentException( "Unable to load embedded icons" );
 			}
+
+			this.addIconBmp = new Bitmap(
+				System.Reflection.Assembly.GetEntryAssembly().
+				GetManifestResourceStream( "RAppMenu.Res.add.png" )
+				);
 
 			this.deleteIconBmp = new Bitmap(
 				System.Reflection.Assembly.GetEntryAssembly().
@@ -672,6 +713,189 @@ namespace RAppMenu.Ui {
             this.pnlEdFileName.MaximumSize = new Size( int.MaxValue, this.btFileName.Height );
         }
 
+		private void BuildFunctionPropertiesPanel()
+		{
+			this.pnlFunctionProperties = new TableLayoutPanel();
+			this.pnlFunctionProperties.AutoScroll = true;
+			this.pnlFunctionProperties.AutoSize = true;
+			this.pnlFunctionProperties.Dock = DockStyle.Fill;
+			this.pnlFunctionProperties.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
+
+			// Check boxes
+			var pnlChecks = new TableLayoutPanel();
+			pnlChecks.Dock = DockStyle.Top;
+			this.chkFunctionHasData = new CheckBox();
+			this.chkFunctionHasData.Text = "Has data";
+			this.chkFunctionHasData.Dock = DockStyle.Top;
+			pnlChecks.Controls.Add( chkFunctionHasData );
+
+			this.chkFunctionDataHeader = new CheckBox();
+			this.chkFunctionDataHeader.Text = "Has data header";
+			this.chkFunctionDataHeader.Dock = DockStyle.Top;
+			pnlChecks.Controls.Add( chkFunctionDataHeader );
+
+			this.chkFunctionRemoveQuotes = new CheckBox();
+			this.chkFunctionRemoveQuotes.Text = "Remove quotation marks";
+			this.chkFunctionRemoveQuotes.Dock = DockStyle.Top;
+			pnlChecks.Controls.Add( chkFunctionRemoveQuotes );
+			this.pnlFunctionProperties.Controls.Add( pnlChecks );
+
+			// Default data
+			var pnlDefaultData = new Panel();
+			pnlDefaultData.Dock = DockStyle.Top;
+			var lblDefaultData = new Label();
+			lblDefaultData.Text = "Default data:";
+			lblDefaultData.AutoSize = false;
+			lblDefaultData.TextAlign = ContentAlignment.MiddleLeft;
+			lblDefaultData.Dock = DockStyle.Left;
+			this.edFunctionDefaultData = new TextBox();
+			this.edFunctionDefaultData.Font = new Font( this.edFunctionDefaultData.Font, FontStyle.Bold );
+			this.edFunctionDefaultData.Dock = DockStyle.Fill;
+			pnlDefaultData.Controls.Add( this.edFunctionDefaultData );
+			pnlDefaultData.Controls.Add( lblDefaultData );
+			pnlDefaultData.MaximumSize = new Size( int.MaxValue, this.edFunctionDefaultData.Height );
+			this.pnlFunctionProperties.Controls.Add( pnlDefaultData );
+
+			// Pre-command
+			var pnlPreCommand = new Panel();
+			pnlPreCommand.Dock = DockStyle.Top;
+			var lblPreCommand = new Label();
+			lblPreCommand.Text = "Pre-Command:";
+			lblPreCommand.AutoSize = false;
+			lblPreCommand.TextAlign = ContentAlignment.MiddleLeft;
+			lblPreCommand.Dock = DockStyle.Left;
+			this.edFunctionPreCommand = new TextBox();
+			this.edFunctionPreCommand.Dock = DockStyle.Fill;
+			this.edFunctionPreCommand.Font = new Font( this.edFunctionPreCommand.Font, FontStyle.Bold );
+			pnlPreCommand.Controls.Add( this.edFunctionPreCommand );
+			pnlPreCommand.Controls.Add( lblPreCommand );
+			pnlPreCommand.MaximumSize = new Size( int.MaxValue, this.edFunctionPreCommand.Height );
+			this.pnlFunctionProperties.Controls.Add( pnlPreCommand );
+
+			// Execute once
+			var pnlExecuteOnce = new Panel();
+			pnlExecuteOnce.Dock = DockStyle.Top;
+			var lblExecuteOnce = new Label();
+			lblExecuteOnce.Text = "Execute once:";
+			lblExecuteOnce.AutoSize = false;
+			lblExecuteOnce.TextAlign = ContentAlignment.MiddleLeft;
+			lblExecuteOnce.Dock = DockStyle.Left;
+			this.edFunctionExecuteOnce = new TextBox();
+			this.edFunctionExecuteOnce.Dock = DockStyle.Fill;
+			this.edFunctionExecuteOnce.Font = new Font( this.edFunctionExecuteOnce.Font, FontStyle.Bold );
+			this.edFunctionExecuteOnce.Multiline = true;
+			pnlExecuteOnce.Controls.Add( this.edFunctionExecuteOnce );
+			pnlExecuteOnce.Controls.Add( lblExecuteOnce );
+			pnlExecuteOnce.MaximumSize = new Size( int.MaxValue, this.edFunctionExecuteOnce.Height );
+			this.pnlFunctionProperties.Controls.Add( pnlExecuteOnce );
+
+			// Start column
+			var pnlStartColumn = new Panel();
+			pnlStartColumn.Dock = DockStyle.Top;
+			var lblStartColumn = new Label();
+			lblStartColumn.Text = "Start column:";
+			lblStartColumn.AutoSize = false;
+			lblStartColumn.TextAlign = ContentAlignment.MiddleLeft;
+			lblStartColumn.Dock = DockStyle.Left;
+			this.udFunctionStartColumn = new NumericUpDown();
+			this.udFunctionStartColumn.Dock = DockStyle.Fill;
+			this.udFunctionStartColumn.Font = new Font( this.udFunctionStartColumn.Font, FontStyle.Bold );
+			pnlStartColumn.Controls.Add( this.udFunctionStartColumn );
+			pnlStartColumn.Controls.Add( lblStartColumn );
+			pnlStartColumn.MaximumSize = new Size( int.MaxValue, this.udFunctionStartColumn.Height );
+			this.pnlFunctionProperties.Controls.Add( pnlStartColumn );
+
+			// End column
+			var pnlEndColumn = new Panel();
+			pnlEndColumn.Dock = DockStyle.Top;
+			var lblEndColumn = new Label();
+			lblEndColumn.Text = "End column:";
+			lblEndColumn.AutoSize = false;
+			lblEndColumn.TextAlign = ContentAlignment.MiddleLeft;
+			lblEndColumn.Dock = DockStyle.Left;
+			this.udFunctionEndColumn = new NumericUpDown();
+			this.udFunctionEndColumn.Dock = DockStyle.Fill;
+			this.udFunctionEndColumn.Font = new Font( this.udFunctionEndColumn.Font, FontStyle.Bold );
+			pnlEndColumn.Controls.Add( this.udFunctionEndColumn );
+			pnlEndColumn.Controls.Add( lblEndColumn );
+			pnlEndColumn.MaximumSize = new Size( int.MaxValue, this.udFunctionStartColumn.Height );
+			this.pnlFunctionProperties.Controls.Add( pnlEndColumn );
+
+			// Arguments
+			this.BuildArgumentsListTable();
+			this.pnlFunctionProperties.Controls.Add( this.grdArgsList );
+
+			// Buttons panel
+			var pnlButtons = new FlowLayoutPanel();
+			this.pnlFunctionProperties.Controls.Add( this.grdArgsList );
+
+			return;
+		}
+
+		private void BuildArgumentsListTable()
+		{
+			this.grdArgsList = new DataGridView();
+			this.grdArgsList.AllowUserToResizeRows = false;
+			this.grdArgsList.RowHeadersVisible = false;
+			this.grdArgsList.AutoGenerateColumns = false;
+			this.grdArgsList.AllowUserToAddRows = false;
+			this.grdArgsList.MultiSelect = false;
+			this.grdArgsList.Dock = DockStyle.Fill;
+			this.grdArgsList.AllowUserToOrderColumns = false;
+
+			var textCellTemplate = new DataGridViewTextBoxCell();
+			textCellTemplate.Style.BackColor = Color.Wheat;
+			var comboBoxCellTemplate = new DataGridViewComboBoxCell();
+			comboBoxCellTemplate.Style.BackColor = Color.AntiqueWhite;
+			var checkBoxCellTemplate = new DataGridViewCheckBoxCell();
+			checkBoxCellTemplate.Style.BackColor = Color.AntiqueWhite;
+
+			var column0 = new DataGridViewTextBoxColumn();
+			var column1 = new DataGridViewTextBoxColumn();
+			var column2 = new DataGridViewTextBoxColumn();
+			var column3 = new DataGridViewCheckBoxColumn();
+			var column4 = new DataGridViewCheckBoxColumn();
+			var column5 = new DataGridViewComboBoxColumn();
+
+			column0.CellTemplate = textCellTemplate;
+			column1.CellTemplate = textCellTemplate;
+			column2.CellTemplate = textCellTemplate;
+			column3.CellTemplate = checkBoxCellTemplate;
+			column4.CellTemplate = checkBoxCellTemplate;
+			column5.CellTemplate = comboBoxCellTemplate;
+
+			column0.HeaderText = "Name";
+			column0.Width = 80;
+			column0.SortMode = DataGridViewColumnSortMode.NotSortable;
+			column1.HeaderText = "Tag";
+			column1.Width = 80;
+			column1.SortMode = DataGridViewColumnSortMode.NotSortable;
+			column2.HeaderText = "Depends";
+			column2.Width = 80;
+			column2.SortMode = DataGridViewColumnSortMode.NotSortable;
+			column3.HeaderText = "Required";
+			column3.Width = 60;
+			column3.SortMode = DataGridViewColumnSortMode.NotSortable;
+			column4.HeaderText = "Multiselect";
+			column4.Width = 60;
+			column4.SortMode = DataGridViewColumnSortMode.NotSortable;
+			column5.HeaderText = "Viewer";
+			column5.Width = 48;
+			column5.SortMode = DataGridViewColumnSortMode.NotSortable;
+
+			this.grdArgsList.Columns.AddRange( new DataGridViewColumn[] {
+				column0,
+				column1,
+				column2,
+				column3,
+				column4,
+				column5,
+			} );
+
+			//this.grdArgsList.CellContentClick += this.OnCellClicked;
+			//this.grdArgsList.UserAddedRow += this.OnRowAdded;
+		}
+
 		private void BuildPropertiesPanel()
 		{
 			this.pnlProperties = new GroupBox();
@@ -688,9 +912,11 @@ namespace RAppMenu.Ui {
 
             this.BuildNamePanel();
             this.BuildFileNamePanel();
+			this.BuildFunctionPropertiesPanel();
 			
 			pnlInnerProperties.Controls.Add( this.pnlEdName );
             pnlInnerProperties.Controls.Add( this.pnlEdFileName );
+			pnlInnerProperties.Controls.Add( this.pnlFunctionProperties );
 			this.splPanels.Panel2.Controls.Add( this.pnlProperties );
 		}
 
@@ -760,6 +986,8 @@ namespace RAppMenu.Ui {
 			this.splPanels.Resize += (sender, e) => {
 				this.splPanels.SplitterDistance = this.ClientRectangle.Width / 2;
 			};
+
+			this.splPanels.IsSplitterFixed = true;
 		}
 
 		private void BuildUserActions()
@@ -811,7 +1039,7 @@ namespace RAppMenu.Ui {
 
 			this.Text = AppInfo.Name;
 			this.Icon = Icon.FromHandle( appIconBmp.GetHicon() );
-			this.MinimumSize = new Size( 620, 460 );
+			this.MinimumSize = new Size( 630, 470 );
 		}
 
 		private void PrepareView(bool view)
@@ -861,30 +1089,73 @@ namespace RAppMenu.Ui {
 
 		private void UpdatePropertiesPanel(TreeNode tr)
 		{
-			var mctr = ( ( MenuComponentTreeNode ) tr ).MenuComponent;
+			var mctr = this.GetMenuComponentOfTreeNode( tr );
+			var fctr = mctr as CoreComponents.Function;
+			var pctr = mctr as CoreComponents.PdfFile;
+			var ictr = mctr as CoreComponents.ImageMenuEntry;
 
+			// Is this an ImageMenuEntry?
+			if ( ictr != null ) {
+				this.pnlEdName.Show();
+				this.pnlEdFileName.Show();
+				this.pnlFunctionProperties.Show();
+
+				// Update image file name
+				this.edFileName.Text = ictr.ImagePath;
+
+				// Update name
+				this.edName.Text = ictr.Function.Name;
+
+				// Update function properties panel
+				this.UpdateFunctionProperties( ictr.Function );
+			}
+			else
+			// Is this a function?
+			if ( fctr != null ) {
+				this.pnlEdFileName.Hide();
+				this.pnlEdName.Show();
+				this.pnlFunctionProperties.Show();
+
+				// Update name
+				this.edName.Text = mctr.Name;
+
+				// Update function properties panel
+				this.UpdateFunctionProperties( fctr );
+			}
+			else
             // Is this a PDF file?
-            if ( mctr is CoreComponents.PdfFile ) {
+            if ( pctr != null ) {
                 this.pnlEdName.Hide();
+				this.pnlFunctionProperties.Hide();
                 this.pnlEdFileName.Show();
 
-                // Update name
-                this.edFileName.Text = mctr.Name;
+				// Update pdf file name
+				this.edFileName.Text = pctr.FileName;
             }
             else
 			// Is this a separator?
 			if ( mctr is CoreComponents.Separator ) {
                 this.pnlEdName.Hide();
+				this.pnlFunctionProperties.Hide();
                 this.pnlEdFileName.Hide();
-			} else {
+			}
+			else
+			// Is this a menu?
+			if ( mctr is CoreComponents.Menu ) {
                 this.pnlEdFileName.Hide();
+				this.pnlFunctionProperties.Hide();
                 this.pnlEdName.Show();
 
-                // Update name
-                this.edName.Text = mctr.Name;
+				// Update name
+				this.edName.Text = mctr.Name;
 			}
 
 			return;
+		}
+
+		private void UpdateFunctionProperties(CoreComponents.Function f)
+		{
+
 		}
 
 		private void SetStatus()
@@ -942,6 +1213,7 @@ namespace RAppMenu.Ui {
         private GroupBox pnlTree;
 		private Panel pnlEdName;
         private Panel pnlEdFileName;
+		private TableLayoutPanel pnlFunctionProperties;
 		private MenuStrip mMain;
 		private ToolStripMenuItem mFile;
 		private ToolStripMenuItem mEdit;
@@ -981,6 +1253,19 @@ namespace RAppMenu.Ui {
         private Label edFileName;
         private Button btFileName;
 
+		private CheckBox chkFunctionHasData;
+		private CheckBox chkFunctionRemoveQuotes;
+		private CheckBox chkFunctionDataHeader;
+		private DataGridView grdArgsList;
+		private Button btFunctionAddArgument;
+		private Button btFunctionRemoveArgument;
+
+		private TextBox edFunctionDefaultData;
+		private TextBox edFunctionPreCommand;
+		private TextBox edFunctionExecuteOnce;
+		private NumericUpDown udFunctionStartColumn;
+		private NumericUpDown udFunctionEndColumn;
+
 		private ToolStrip tbBar;
 		private ToolStripButton tbbNew;
 		private ToolStripButton tbbOpen;
@@ -989,6 +1274,7 @@ namespace RAppMenu.Ui {
 		private ToolStripButton tbbPreview;
 
 		private Bitmap appIconBmp;
+		private Bitmap addIconBmp;
 		private Bitmap deleteIconBmp;
         private Bitmap downIconBmp;
 		private Bitmap functionIconBmp;

@@ -23,6 +23,7 @@ namespace RAppMenu.Core.MenuComponents {
 		/// </summary>
 		public class FunctionArgument: MenuComponent {
 			public const string TagName = "Argument";
+			public enum ViewerType { DataColumnsViewer, DataValuesViewer, Map, TaxTree };
 
 			/// <summary>
 			/// Initializes a new instance of the <see cref="RAppMenu.Core.MenuComponents.Function+FunctionArgument"/> class.
@@ -41,7 +42,7 @@ namespace RAppMenu.Core.MenuComponents {
 				get; set;
 			}
 
-			public string Viewer {
+			public ViewerType Viewer {
 				get; set;
 			}
 

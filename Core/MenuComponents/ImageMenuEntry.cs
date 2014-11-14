@@ -9,7 +9,7 @@ namespace RAppMenu.Core.MenuComponents {
 		public ImageMenuEntry(string id, ImagesMenu parent)
 			:base( id, parent )
 		{
-			this.ImagePath = "";
+			this.ImagePath = "image.png";
             this.ImageToolTip = "";
 
 			// Create a function that will be the only subcomponent here.

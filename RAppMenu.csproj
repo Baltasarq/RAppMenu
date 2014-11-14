@@ -90,5 +90,6 @@
     <EmbeddedResource Include="Res\down.png" />
     <EmbeddedResource Include="Res\up.png" />
     <EmbeddedResource Include="Res\play.png" />
+    <EmbeddedResource Include="Res\add.png" />
   </ItemGroup>
 </Project>
