@@ -297,6 +297,14 @@ namespace RAppMenu.Ui {
             return;
         }
 
+		private void OnAddFunctionArgument()
+		{
+		}
+
+		private void OnRemoveFunctionArgument()
+		{
+		}
+
 		private void OnOpen()
 		{
 		}
@@ -827,7 +835,24 @@ namespace RAppMenu.Ui {
 
 			// Buttons panel
 			var pnlButtons = new FlowLayoutPanel();
-			this.pnlFunctionProperties.Controls.Add( this.grdArgsList );
+			pnlButtons.Dock = DockStyle.Top;
+			this.btFunctionAddArgument = new Button();
+			this.btFunctionAddArgument.Size = this.btFunctionAddArgument.MinimumSize = 
+			this.btFunctionAddArgument.MaximumSize = new Size( 32, 32 );
+			this.btFunctionAddArgument.ImageList = UserAction.ImageList;
+			this.btFunctionAddArgument.ImageIndex = this.addFunctionArgumentAction.ImageIndex;
+
+			this.btFunctionRemoveArgument = new Button();
+			this.btFunctionRemoveArgument.Size = this.btFunctionRemoveArgument.MinimumSize = 
+			this.btFunctionRemoveArgument.MaximumSize = new Size( 32, 32 );
+			this.btFunctionRemoveArgument.ImageList = UserAction.ImageList;
+			this.btFunctionRemoveArgument.ImageIndex = this.removeFunctionArgumentAction.ImageIndex;
+
+			this.addFunctionAction.AddComponent( this.btFunctionAddArgument );
+			this.removeFunctionArgumentAction.AddComponent( this.btFunctionRemoveArgument );
+			pnlButtons.Controls.Add( this.btFunctionAddArgument );
+			pnlButtons.Controls.Add( this.btFunctionRemoveArgument );
+			this.pnlFunctionProperties.Controls.Add( pnlButtons );
 
 			return;
 		}
@@ -840,7 +865,7 @@ namespace RAppMenu.Ui {
 			this.grdArgsList.AutoGenerateColumns = false;
 			this.grdArgsList.AllowUserToAddRows = false;
 			this.grdArgsList.MultiSelect = false;
-			this.grdArgsList.Dock = DockStyle.Fill;
+			this.grdArgsList.Dock = DockStyle.Top;
 			this.grdArgsList.AllowUserToOrderColumns = false;
 
 			var textCellTemplate = new DataGridViewTextBoxCell();
@@ -865,22 +890,22 @@ namespace RAppMenu.Ui {
 			column5.CellTemplate = comboBoxCellTemplate;
 
 			column0.HeaderText = "Name";
-			column0.Width = 80;
+			column0.Width = 120;
 			column0.SortMode = DataGridViewColumnSortMode.NotSortable;
 			column1.HeaderText = "Tag";
-			column1.Width = 80;
+			column1.Width = 120;
 			column1.SortMode = DataGridViewColumnSortMode.NotSortable;
 			column2.HeaderText = "Depends";
 			column2.Width = 80;
 			column2.SortMode = DataGridViewColumnSortMode.NotSortable;
 			column3.HeaderText = "Required";
-			column3.Width = 60;
+			column3.Width = 80;
 			column3.SortMode = DataGridViewColumnSortMode.NotSortable;
 			column4.HeaderText = "Multiselect";
-			column4.Width = 60;
+			column4.Width = 80;
 			column4.SortMode = DataGridViewColumnSortMode.NotSortable;
 			column5.HeaderText = "Viewer";
-			column5.Width = 48;
+			column5.Width = 80;
 			column5.SortMode = DataGridViewColumnSortMode.NotSortable;
 
 			this.grdArgsList.Columns.AddRange( new DataGridViewColumn[] {
@@ -1000,7 +1025,7 @@ namespace RAppMenu.Ui {
                 this.menuIconBmp, this.graphicIconBmp, this.functionIconBmp,
                 this.pdfIconBmp, this.separatorIconBmp,
                 this.deleteIconBmp, this.upIconBmp, this.downIconBmp,
-				this.playIconBmp
+				this.playIconBmp, this.addIconBmp
             });
 
             this.newAction = new UserAction( "New", 0, this.OnNew );
@@ -1018,6 +1043,9 @@ namespace RAppMenu.Ui {
 			this.moveEntryUpAction = new UserAction( "Move entry up", 10, this.OnUpTreeNode );
 			this.moveEntryDownAction = new UserAction( "Move entry down", 11, this.OnDownTreeNode );
 			this.previewAction = new UserAction( "Preview", 12, this.OnPreview );
+
+			this.addFunctionArgumentAction = new UserAction( "Add function argument", 13, this.OnAddFunctionArgument );
+			this.removeFunctionArgumentAction = new UserAction( "Remove function argument", 9, this.OnRemoveFunctionArgument );
 		}
 
 		private void Build()
@@ -1305,6 +1333,8 @@ namespace RAppMenu.Ui {
 		private UserAction addGraphicMenuAction;
 
 		private UserAction previewAction;
+		private UserAction addFunctionArgumentAction;
+		private UserAction removeFunctionArgumentAction;
 
 		private DesignOfUserMenu doc;
 	}
