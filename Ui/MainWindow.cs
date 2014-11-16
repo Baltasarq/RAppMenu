@@ -725,12 +725,13 @@ namespace RAppMenu.Ui {
 		{
 			this.pnlFunctionProperties = new TableLayoutPanel();
 			this.pnlFunctionProperties.AutoScroll = true;
-			this.pnlFunctionProperties.AutoSize = true;
+			this.pnlFunctionProperties.AutoSize = false;
 			this.pnlFunctionProperties.Dock = DockStyle.Fill;
 			this.pnlFunctionProperties.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
 
 			// Check boxes
-			var pnlChecks = new TableLayoutPanel();
+			var pnlChecks = new FlowLayoutPanel();
+            pnlChecks.AutoSize = true;
 			pnlChecks.Dock = DockStyle.Top;
 			this.chkFunctionHasData = new CheckBox();
 			this.chkFunctionHasData.Text = "Has data";
@@ -1009,7 +1010,15 @@ namespace RAppMenu.Ui {
 			this.splPanels.Dock = DockStyle.Fill;
 
 			this.splPanels.Resize += (sender, e) => {
-				this.splPanels.SplitterDistance = this.ClientRectangle.Width / 2;
+                int distance = this.ClientRectangle.Width;
+
+                if ( distance >= 800 ) {
+                    distance /= 3;
+                } else {
+                    distance /= 2;
+                }
+
+				this.splPanels.SplitterDistance = distance;
 			};
 
 			this.splPanels.IsSplitterFixed = true;
@@ -1068,6 +1077,7 @@ namespace RAppMenu.Ui {
 			this.Text = AppInfo.Name;
 			this.Icon = Icon.FromHandle( appIconBmp.GetHicon() );
 			this.MinimumSize = new Size( 630, 470 );
+            this.Size = new Size( 800, 600 );
 		}
 
 		private void PrepareView(bool view)
