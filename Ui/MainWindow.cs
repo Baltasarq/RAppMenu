@@ -830,12 +830,13 @@ namespace RAppMenu.Ui {
 			pnlEndColumn.MaximumSize = new Size( int.MaxValue, this.udFunctionStartColumn.Height );
 			this.pnlFunctionProperties.Controls.Add( pnlEndColumn );
 
-			// Arguments
+			// Arguments gridview
 			this.BuildArgumentsListTable();
 			this.pnlFunctionProperties.Controls.Add( this.grdArgsList );
 
 			// Buttons panel
 			var pnlButtons = new FlowLayoutPanel();
+            pnlButtons.AutoSize = true;
 			pnlButtons.Dock = DockStyle.Top;
 			this.btFunctionAddArgument = new Button();
 			this.btFunctionAddArgument.Size = this.btFunctionAddArgument.MinimumSize = 
@@ -849,7 +850,7 @@ namespace RAppMenu.Ui {
 			this.btFunctionRemoveArgument.ImageList = UserAction.ImageList;
 			this.btFunctionRemoveArgument.ImageIndex = this.removeFunctionArgumentAction.ImageIndex;
 
-			this.addFunctionAction.AddComponent( this.btFunctionAddArgument );
+			this.addFunctionArgumentAction.AddComponent( this.btFunctionAddArgument );
 			this.removeFunctionArgumentAction.AddComponent( this.btFunctionRemoveArgument );
 			pnlButtons.Controls.Add( this.btFunctionAddArgument );
 			pnlButtons.Controls.Add( this.btFunctionRemoveArgument );
