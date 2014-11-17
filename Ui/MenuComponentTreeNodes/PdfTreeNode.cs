@@ -1,8 +1,9 @@
 ﻿using System.Windows.Forms;
 
+using RAppMenu.Core;
 using RAppMenu.Core.MenuComponents;
 
-namespace RAppMenu.Ui.TreeNodes {
+namespace RAppMenu.Ui.MenuComponentTreeNodes {
     /// <summary>
     /// Tree node for PDF path terminals.
     /// </summary>
@@ -13,6 +14,11 @@ namespace RAppMenu.Ui.TreeNodes {
             this.ImageIndex = this.SelectedImageIndex =
                 UserAction.LookUp( "addpdffilepath" ).ImageIndex;
         }
+
+		protected override MenuComponentGuiEditor CreateEditor(Panel pnl, RAppMenu.Core.MenuComponent mc)
+		{
+			return new Ui.MenuComponentGuiEditors.PdfFileGuiEditor( pnl, this, mc );
+		}
     }
 }
 

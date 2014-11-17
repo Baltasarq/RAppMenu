@@ -5,7 +5,7 @@ using RAppMenu.Core.MenuComponents;
 
 namespace RAppMenu.Ui
 {
-	public class MenuComponentTreeNode: TreeNode {
+	public abstract class MenuComponentTreeNode: TreeNode {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RAppMenu.Ui.MenuComponentTreeNode"/> class.
 		/// Each treenode has a corresponding core component.
@@ -15,6 +15,7 @@ namespace RAppMenu.Ui
 		public MenuComponentTreeNode(string text, MenuComponent mc)
 			:base( text )
 		{
+			this.editor = null;
 			this.menuComponent = mc;
 		}
 
@@ -30,6 +31,39 @@ namespace RAppMenu.Ui
 			}
 		}
 
+		/// <summary>
+		/// Gets the editor related to this menu component.
+		/// </summary>
+		/// <value>The editor.</value>
+		public MenuComponentGuiEditor Editor {
+			get {
+				if ( this.editor == null ) {
+					this.editor = this.CreateEditor( null, this.MenuComponent );
+				}
+
+				return this.editor;
+			}
+		}
+
+		public void RemoveEditor()
+		{
+			// Remove the editor, for all childs
+			foreach(MenuComponentTreeNode mctr in this.Nodes) {
+				mctr.RemoveEditor();
+			}
+
+			this.editor = null;
+		}
+
+		/// <summary>
+		/// Creates the corresponding editor for this tree node.
+		/// </summary>
+		/// <returns>The editor, as a <see cref="MenuComponentGuiEditor"/>.</returns>
+		/// <param name="pnl">The <see cref="Panel"/> in which the editor will be created.</param>
+		/// <param name="mc">The <see cref="MenuComponent"/> object to edit.</param>
+		protected abstract MenuComponentGuiEditor CreateEditor(Panel pnl, MenuComponent mc);
+
+		private MenuComponentGuiEditor editor;
 		private MenuComponent menuComponent;
 	}
 }

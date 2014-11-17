@@ -1,8 +1,10 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
+using RAppMenu.Core;
 using RAppMenu.Core.MenuComponents;
 
-namespace RAppMenu.Ui.TreeNodes {
+namespace RAppMenu.Ui.MenuComponentTreeNodes {
     /// <summary>
     /// Tree node for graphical menuterminals.
     /// </summary>
@@ -13,6 +15,11 @@ namespace RAppMenu.Ui.TreeNodes {
             this.ImageIndex = this.SelectedImageIndex =
                 UserAction.LookUp( "addgraphicmenu" ).ImageIndex;
         }
+
+		protected override MenuComponentGuiEditor CreateEditor(Panel pnl, MenuComponent mc)
+		{
+			throw new NotImplementedException();
+		}
     }
 }
 

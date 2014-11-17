@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Xml;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
@@ -150,6 +151,17 @@ namespace RAppMenu.Core.MenuComponents {
 
 				return;
 			}
+
+            public override string ToString()
+            {
+                var txt = new StringBuilder();
+
+                foreach(string sentence in this) {
+                    txt.AppendLine( sentence );
+                }
+
+                return txt.ToString();
+            }
 		}
 
 		/// <summary>

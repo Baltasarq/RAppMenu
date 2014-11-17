@@ -2,11 +2,12 @@ using System;
 using System.IO;
 using System.Drawing;
 using System.Diagnostics;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 using RAppMenu.Core;
 using CoreComponents = RAppMenu.Core.MenuComponents;
-using UiComponents = RAppMenu.Ui.TreeNodes;
+using UiComponents = RAppMenu.Ui.MenuComponentTreeNodes;
 
 namespace RAppMenu.Ui {
 	public class MainWindow: Form {
@@ -156,17 +157,18 @@ namespace RAppMenu.Ui {
         /// </summary>
         private void OnRemoveTreeNode()
         {
-            TreeNode tr = this.GetSelectedTreeNode();
+            MenuComponentTreeNode mctr = this.GetSelectedTreeNode();
 
-            if ( tr != null
-              && tr != this.TreeMenuRoot )
+            if ( mctr != null
+              && mctr != this.TreeMenuRoot )
             {
                 // Remove in the document structure
-                ( (MenuComponentTreeNode) tr).MenuComponent.Remove();
+                mctr.MenuComponent.Remove();
 
                 // Remove in UI
-                this.tvMenu.SelectedNode = ( tr.NextNode ?? tr.PrevNode ) ?? tr.Parent;
-                tr.Remove();
+                this.tvMenu.SelectedNode = ( mctr.NextNode ?? mctr.PrevNode ) ?? mctr.Parent;
+				mctr.RemoveEditor();
+                mctr.Remove();
             }
 
             return;
@@ -233,65 +235,10 @@ namespace RAppMenu.Ui {
 
         private void OnTreeNodeSelected()
         {
-            TreeNode tr = this.GetSelectedTreeNode();
+            MenuComponentTreeNode tr = this.GetSelectedTreeNode();
 
             if ( tr != null ) {
                 this.SetActionStatusForTreeNode( tr );
-            }
-
-            return;
-        }
-
-        private void OnFileNameButtonClicked()
-		{
-			MenuComponent node = this.GetMenuComponentOfTreeNode();
-			var pmc = node as Core.MenuComponents.PdfFile;
-			var imc = node as Core.MenuComponents.ImageMenuEntry;
-
-			if ( pmc != null ) {
-				this.OnPdfFileNameButtonClicked( pmc );
-			}
-			else
-			if ( imc != null ) {
-				this.OnImageFileNameButtonClicked( imc );
-			}
-
-			return;
-		}
-
-		private void OnImageFileNameButtonClicked(Core.MenuComponents.ImageMenuEntry imc)
-		{
-			var dlg = new OpenFileDialog();
-			dlg.InitialDirectory = this.GraphsFolder;
-			dlg.CheckFileExists = true;
-			dlg.DefaultExt = "png";
-			dlg.Filter = "PDF|*.pdf|All files|*";
-
-			if ( dlg.ShowDialog() == DialogResult.OK ) {
-				string fileName = Path.GetFileName( dlg.FileName );
-
-				this.edFileName.Text = fileName;
-				imc.ImagePath = fileName;
-				this.GraphsFolder = Path.GetDirectoryName( dlg.FileName );
-			}
-
-			return;
-		}
-
-		private void OnPdfFileNameButtonClicked(Core.MenuComponents.PdfFile pmc)
-		{
-            var dlg = new OpenFileDialog();
-            dlg.InitialDirectory = this.PdfFolder;
-            dlg.CheckFileExists = true;
-            dlg.DefaultExt = "pdf";
-            dlg.Filter = "PDF|*.pdf|All files|*";
-
-            if ( dlg.ShowDialog() == DialogResult.OK ) {
-                string fileName = Path.GetFileName( dlg.FileName );
-
-                this.edFileName.Text = fileName;
-                pmc.Name = fileName;
-				this.PdfFolder = Path.GetDirectoryName( dlg.FileName );
             }
 
             return;
@@ -656,71 +603,6 @@ namespace RAppMenu.Ui {
             this.addSeparatorAction.AddComponent( this.btAddSeparator );
 		}
 
-        private void BuildNamePanel()
-        {
-            this.pnlEdName = new Panel();
-            this.pnlEdName.Dock = DockStyle.Top;
-
-            this.lblName = new Label();
-            this.lblName.AutoSize = false;
-            this.lblName.TextAlign = ContentAlignment.MiddleLeft;
-            this.lblName.Dock = DockStyle.Left;
-            this.lblName.Text = "Name:";
-
-            this.edName = new TextBox();
-			this.edName.Font = new Font( this.edName.Font, FontStyle.Bold );
-            this.edName.Dock = DockStyle.Fill;
-            this.edName.GotFocus += (sender, e) => this.edName.SelectAll();
-            this.edName.Click += (sender, e) => this.edName.SelectAll();
-            this.edName.KeyUp += (sender, e) => {
-                MenuComponent mc = this.GetMenuComponentOfTreeNode();
-                string name = this.edName.Text;
-
-                if ( !string.IsNullOrWhiteSpace( name ) ) {
-                    mc.Name = name;
-                    this.GetSelectedTreeNode().Text = name;
-                }
-            };
-
-            this.pnlEdName.Controls.Add( this.edName );
-            this.pnlEdName.Controls.Add( this.lblName );
-            this.pnlEdName.MaximumSize = new Size( int.MaxValue, this.edName.Height );
-        }
-
-        private void BuildFileNamePanel()
-        {
-			var tooltipManager = new ToolTip();
-            this.pnlEdFileName = new Panel();
-            this.pnlEdFileName.Dock = DockStyle.Top;
-
-            this.lblFileName = new Label();
-            this.lblFileName.AutoSize = false;
-            this.lblFileName.TextAlign = ContentAlignment.MiddleLeft;
-            this.lblFileName.Dock = DockStyle.Left;
-            this.lblFileName.Text = "File name:";
-
-            this.edFileName = new Label();
-			this.edFileName.Font = new Font( this.edFileName.Font, FontStyle.Bold );
-            this.edFileName.Dock = DockStyle.Fill;
-            this.edFileName.TextAlign = ContentAlignment.MiddleLeft;
-            this.edFileName.AutoSize = false;
-
-            this.btFileName = new Button();
-            this.btFileName.ImageList = UserAction.ImageList;
-			tooltipManager.SetToolTip( this.btFileName, UserAction.LookUp( "open" ).Text );
-            this.btFileName.ImageIndex = UserAction.LookUp( "open" ).ImageIndex;
-            this.btFileName.Dock = DockStyle.Right;
-            this.btFileName.MaximumSize = this.btFileName.Size = new Size( 32, 32 );
-            this.btFileName.Click += (sender, e) => this.OnFileNameButtonClicked();
-
-            this.pnlEdFileName.Controls.Add( this.edFileName );
-            this.pnlEdFileName.Controls.Add( this.lblFileName );
-            this.pnlEdFileName.Controls.Add( this.btFileName );
-
-            // Polish
-            this.pnlEdFileName.MaximumSize = new Size( int.MaxValue, this.btFileName.Height );
-        }
-
 		private void BuildFunctionPropertiesPanel()
 		{
 			this.pnlFunctionProperties = new TableLayoutPanel();
@@ -925,26 +807,18 @@ namespace RAppMenu.Ui {
 
 		private void BuildPropertiesPanel()
 		{
-			this.pnlProperties = new GroupBox();
+			this.pnlGroupProperties = new GroupBox();
 
-            var pnlInnerProperties = new TableLayoutPanel();
-			pnlInnerProperties.Font = new Font( this.pnlProperties.Font, FontStyle.Regular );
-			pnlInnerProperties.Dock = DockStyle.Fill;
-			this.pnlProperties.Controls.Add( pnlInnerProperties );
-
-			this.pnlProperties.Text = "Item properties";
-			this.pnlProperties.Font = new Font( this.pnlProperties.Font, FontStyle.Bold );
+            this.pnlProperties = new TableLayoutPanel();
+			this.pnlProperties.Font = new Font( this.pnlProperties.Font, FontStyle.Regular );
 			this.pnlProperties.Dock = DockStyle.Fill;
-			this.pnlProperties.Padding = new Padding( 5 );
+			this.pnlGroupProperties.Controls.Add( this.pnlProperties );
 
-            this.BuildNamePanel();
-            this.BuildFileNamePanel();
-			this.BuildFunctionPropertiesPanel();
-			
-			pnlInnerProperties.Controls.Add( this.pnlEdName );
-            pnlInnerProperties.Controls.Add( this.pnlEdFileName );
-			pnlInnerProperties.Controls.Add( this.pnlFunctionProperties );
-			this.splPanels.Panel2.Controls.Add( this.pnlProperties );
+			this.pnlGroupProperties.Text = "Item properties";
+			this.pnlGroupProperties.Font = new Font( this.pnlProperties.Font, FontStyle.Bold );
+			this.pnlGroupProperties.Dock = DockStyle.Fill;
+			this.pnlGroupProperties.Padding = new Padding( 5 );
+			this.splPanels.Panel2.Controls.Add( this.pnlGroupProperties );
 		}
 
 		private void BuildStatus()
@@ -1106,7 +980,7 @@ namespace RAppMenu.Ui {
 			this.SetStatus();
 		}
 
-		private void SetActionStatusForTreeNode(TreeNode tr)
+		private void SetActionStatusForTreeNode(MenuComponentTreeNode tr)
 		{
 			bool isTerminal = !( tr is UiComponents.MenuTreeNode );
 			bool isGraphicMenu = tr is UiComponents.GraphicMenuTreeNode;
@@ -1126,9 +1000,14 @@ namespace RAppMenu.Ui {
 			this.UpdatePropertiesPanel( tr );
 		}
 
-		private void UpdatePropertiesPanel(TreeNode tr)
+		private void UpdatePropertiesPanel(MenuComponentTreeNode mctr)
 		{
-			var mctr = this.GetMenuComponentOfTreeNode( tr );
+			MenuComponent mc = this.GetMenuComponentOfTreeNode( mctr );
+			MenuComponentGuiEditor editor = mctr.Editor;
+			editor.Show();
+
+
+			/*
 			var fctr = mctr as CoreComponents.Function;
 			var pctr = mctr as CoreComponents.PdfFile;
 			var ictr = mctr as CoreComponents.ImageMenuEntry;
@@ -1188,13 +1067,19 @@ namespace RAppMenu.Ui {
 				// Update name
 				this.edName.Text = mctr.Name;
 			}
+			*/
 
 			return;
 		}
 
 		private void UpdateFunctionProperties(CoreComponents.Function f)
 		{
+            this.chkFunctionHasData.Checked = f.HasData;
+            this.chkFunctionDataHeader.Checked = f.DataHeader;
+            this.chkFunctionRemoveQuotes.Checked = f.RemoveQuotationMarks;
 
+            this.edFunctionPreCommand.Text = f.PreProgram.ToString();
+            this.edFunctionDefaultData.Text = f.DefaultData;
 		}
 
 		private void SetStatus()
@@ -1248,10 +1133,9 @@ namespace RAppMenu.Ui {
 
 		private TreeView tvMenu;
 		private SplitContainer splPanels;
-		private GroupBox pnlProperties;
+		private GroupBox pnlGroupProperties;
+		private TableLayoutPanel pnlProperties;
         private GroupBox pnlTree;
-		private Panel pnlEdName;
-        private Panel pnlEdFileName;
 		private TableLayoutPanel pnlFunctionProperties;
 		private MenuStrip mMain;
 		private ToolStripMenuItem mFile;
@@ -1284,13 +1168,6 @@ namespace RAppMenu.Ui {
 		private StatusStrip stStatus;
 		private ToolStripStatusLabel lblStatus;
 		private ToolStripProgressBar pbProgress;
-
-		private Label lblName;
-		private TextBox edName;
-
-        private Label lblFileName;
-        private Label edFileName;
-        private Button btFileName;
 
 		private CheckBox chkFunctionHasData;
 		private CheckBox chkFunctionRemoveQuotes;

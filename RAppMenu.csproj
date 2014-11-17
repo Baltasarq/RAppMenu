@@ -50,28 +50,34 @@
     <Compile Include="Core\MenuComponents\Function.cs" />
     <Compile Include="Core\MenuComponents\PdfFile.cs" />
     <Compile Include="Core\MenuComponents\ImagesMenu.cs" />
-    <Compile Include="Ui\TreeNodes\FunctionTreeNode.cs" />
-    <Compile Include="Ui\TreeNodes\PdfTreeNode.cs" />
-    <Compile Include="Ui\TreeNodes\SeparatorTreeNode.cs" />
-    <Compile Include="Ui\TreeNodes\GraphicMenuTreeNode.cs" />
     <Compile Include="Ui\MenuComponentTreeNode.cs" />
     <Compile Include="Ui\UserAction.cs" />
     <Compile Include="Ui\PreviewWindow.cs" />
     <Compile Include="Core\MenuComponents\ImageMenuEntry.cs" />
     <Compile Include="Core\MenuComponents\Menu.cs" />
-    <Compile Include="Ui\TreeNodes\ImageMenuEntryTreeNode.cs" />
     <Compile Include="Core\MenuComponents\RootMenu.cs" />
-    <Compile Include="Ui\TreeNodes\RootMenuTreeNode.cs" />
-    <Compile Include="Ui\TreeNodes\MenuTreeNode.cs" />
     <Compile Include="Ui\GraphMenu.cs" />
     <Compile Include="Core\DesignOfUserMenu.cs" />
+    <Compile Include="Ui\MenuComponentGuiEditors\NamedComponentGuiEditor.cs" />
+    <Compile Include="Ui\MenuComponentGuiEditors\SeparatorGuiEditor.cs" />
+    <Compile Include="Ui\MenuComponentGuiEditors\PdfFileGuiEditor.cs" />
+    <Compile Include="Ui\MenuComponentGuiEditor.cs" />
+    <Compile Include="Ui\MenuComponentGuiEditors\MenuGuiEditor.cs" />
+    <Compile Include="Ui\MenuComponentTreeNodes\FunctionTreeNode.cs" />
+    <Compile Include="Ui\MenuComponentTreeNodes\PdfTreeNode.cs" />
+    <Compile Include="Ui\MenuComponentTreeNodes\SeparatorTreeNode.cs" />
+    <Compile Include="Ui\MenuComponentTreeNodes\GraphicMenuTreeNode.cs" />
+    <Compile Include="Ui\MenuComponentTreeNodes\ImageMenuEntryTreeNode.cs" />
+    <Compile Include="Ui\MenuComponentTreeNodes\RootMenuTreeNode.cs" />
+    <Compile Include="Ui\MenuComponentTreeNodes\MenuTreeNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />
     <Folder Include="Ui\" />
     <Folder Include="Res\" />
     <Folder Include="Core\MenuComponents\" />
-    <Folder Include="Ui\TreeNodes\" />
+    <Folder Include="Ui\MenuComponentGuiEditors\" />
+    <Folder Include="Ui\MenuComponentTreeNodes\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Res\delete.png" />
