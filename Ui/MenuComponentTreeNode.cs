@@ -35,24 +35,13 @@ namespace RAppMenu.Ui
 		/// Gets the editor related to this menu component.
 		/// </summary>
 		/// <value>The editor.</value>
-		public MenuComponentGuiEditor Editor {
-			get {
-				if ( this.editor == null ) {
-					this.editor = this.CreateEditor( null, this.MenuComponent );
-				}
-
-				return this.editor;
-			}
-		}
-
-		public void RemoveEditor()
+		public MenuComponentGuiEditor GetEditor(Panel panel)
 		{
-			// Remove the editor, for all childs
-			foreach(MenuComponentTreeNode mctr in this.Nodes) {
-				mctr.RemoveEditor();
+			if ( this.editor == null ) {
+				this.editor = this.CreateEditor( panel );
 			}
 
-			this.editor = null;
+			return this.editor;
 		}
 
 		/// <summary>
@@ -61,7 +50,7 @@ namespace RAppMenu.Ui
 		/// <returns>The editor, as a <see cref="MenuComponentGuiEditor"/>.</returns>
 		/// <param name="pnl">The <see cref="Panel"/> in which the editor will be created.</param>
 		/// <param name="mc">The <see cref="MenuComponent"/> object to edit.</param>
-		protected abstract MenuComponentGuiEditor CreateEditor(Panel pnl, MenuComponent mc);
+		protected abstract MenuComponentGuiEditor CreateEditor(Panel pnl);
 
 		private MenuComponentGuiEditor editor;
 		private MenuComponent menuComponent;

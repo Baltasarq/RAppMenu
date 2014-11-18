@@ -105,7 +105,7 @@ namespace RAppMenu.Core.MenuComponents {
             if ( !string.IsNullOrWhiteSpace( this.ImagePath ) ) {
                 // Image = "/path/to/image1.png"
                 doc.WriteStartAttribute( EtqImagePath );
-                doc.WriteString( this.Name );
+                doc.WriteString( this.ImagePath );
                 doc.WriteEndAttribute();
 
                 if ( !string.IsNullOrWhiteSpace( this.ImageToolTip ) ) {

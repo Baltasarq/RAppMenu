@@ -15,9 +15,9 @@ namespace RAppMenu.Ui.MenuComponentTreeNodes {
                 UserAction.LookUp( "addpdffilepath" ).ImageIndex;
         }
 
-		protected override MenuComponentGuiEditor CreateEditor(Panel pnl, RAppMenu.Core.MenuComponent mc)
+		protected override MenuComponentGuiEditor CreateEditor(Panel pnl)
 		{
-			return new Ui.MenuComponentGuiEditors.PdfFileGuiEditor( pnl, this, mc );
+			return new Ui.MenuComponentGuiEditors.PdfFileGuiEditor( pnl, this, this.MenuComponent );
 		}
     }
 }

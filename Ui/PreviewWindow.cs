@@ -100,16 +100,20 @@ namespace RAppMenu.Ui {
                 UserAction.ImageList.Images[ UserAction.LookUp( "quit" ).ImageIndex ];
 
             var mFile = new ToolStripMenuItem( "&File" );
-            mFile.DropDownItems.Add( opQuit );
+			mFile.DropDownItems.Add( opQuit );
+
+			// Build user's menu root
+			var mRoot = new ToolStripMenuItem( "Applications" );
 
             // Build user's menu
             var mUser = new ToolStripMenuItem( this.Document.Root.Name );
+			mRoot.DropDownItems.Add( mUser );
             this.BuildUserMenu( mUser );
 
             // Main menu
             var mMain = new MenuStrip();
             mMain.Items.AddRange( new ToolStripItem[] {
-                mFile, mUser
+                mFile, mRoot
             });
             mMain.Dock = DockStyle.Top;
             this.Controls.Add( mMain );

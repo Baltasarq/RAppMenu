@@ -34,9 +34,7 @@ namespace RAppMenu.Ui {
 
 		protected void Hide()
 		{
-			var panel = (Panel) this.Panel.Parent;
-
-			foreach(Control ctrl in panel.Controls) {
+			foreach(Control ctrl in this.Panel.Controls) {
 				ctrl.Hide();
 			}
 

@@ -23,9 +23,9 @@ namespace RAppMenu.Ui.MenuComponentTreeNodes {
 		/// <returns>The editor, as a <see cref="MenuComponentGuiEditor"/>.</returns>
 		/// <param name="pnl">The <see cref="Panel"/> in which the editor will be created.</param>
 		/// <param name="mc">The <see cref="MenuComponent"/> object to edit.</param>
-		protected override MenuComponentGuiEditor CreateEditor(Panel pnl, MenuComponent mc)
+		protected override MenuComponentGuiEditor CreateEditor(Panel pnl)
 		{
-			return new SeparatorGuiEditor( pnl, this, mc );
+			return new SeparatorGuiEditor( pnl, this, this.MenuComponent );
 		}
     }
 }

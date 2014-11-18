@@ -167,7 +167,6 @@ namespace RAppMenu.Ui {
 
                 // Remove in UI
                 this.tvMenu.SelectedNode = ( mctr.NextNode ?? mctr.PrevNode ) ?? mctr.Parent;
-				mctr.RemoveEditor();
                 mctr.Remove();
             }
 
@@ -243,14 +242,6 @@ namespace RAppMenu.Ui {
 
             return;
         }
-
-		private void OnAddFunctionArgument()
-		{
-		}
-
-		private void OnRemoveFunctionArgument()
-		{
-		}
 
 		private void OnOpen()
 		{
@@ -603,213 +594,13 @@ namespace RAppMenu.Ui {
             this.addSeparatorAction.AddComponent( this.btAddSeparator );
 		}
 
-		private void BuildFunctionPropertiesPanel()
-		{
-			this.pnlFunctionProperties = new TableLayoutPanel();
-			this.pnlFunctionProperties.AutoScroll = true;
-			this.pnlFunctionProperties.AutoSize = false;
-			this.pnlFunctionProperties.Dock = DockStyle.Fill;
-			this.pnlFunctionProperties.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-
-			// Check boxes
-			var pnlChecks = new FlowLayoutPanel();
-            pnlChecks.AutoSize = true;
-			pnlChecks.Dock = DockStyle.Top;
-			this.chkFunctionHasData = new CheckBox();
-			this.chkFunctionHasData.Text = "Has data";
-			this.chkFunctionHasData.Dock = DockStyle.Top;
-			pnlChecks.Controls.Add( chkFunctionHasData );
-
-			this.chkFunctionDataHeader = new CheckBox();
-			this.chkFunctionDataHeader.Text = "Has data header";
-			this.chkFunctionDataHeader.Dock = DockStyle.Top;
-			pnlChecks.Controls.Add( chkFunctionDataHeader );
-
-			this.chkFunctionRemoveQuotes = new CheckBox();
-			this.chkFunctionRemoveQuotes.Text = "Remove quotation marks";
-			this.chkFunctionRemoveQuotes.Dock = DockStyle.Top;
-			pnlChecks.Controls.Add( chkFunctionRemoveQuotes );
-			this.pnlFunctionProperties.Controls.Add( pnlChecks );
-
-			// Default data
-			var pnlDefaultData = new Panel();
-			pnlDefaultData.Dock = DockStyle.Top;
-			var lblDefaultData = new Label();
-			lblDefaultData.Text = "Default data:";
-			lblDefaultData.AutoSize = false;
-			lblDefaultData.TextAlign = ContentAlignment.MiddleLeft;
-			lblDefaultData.Dock = DockStyle.Left;
-			this.edFunctionDefaultData = new TextBox();
-			this.edFunctionDefaultData.Font = new Font( this.edFunctionDefaultData.Font, FontStyle.Bold );
-			this.edFunctionDefaultData.Dock = DockStyle.Fill;
-			pnlDefaultData.Controls.Add( this.edFunctionDefaultData );
-			pnlDefaultData.Controls.Add( lblDefaultData );
-			pnlDefaultData.MaximumSize = new Size( int.MaxValue, this.edFunctionDefaultData.Height );
-			this.pnlFunctionProperties.Controls.Add( pnlDefaultData );
-
-			// Pre-command
-			var pnlPreCommand = new Panel();
-			pnlPreCommand.Dock = DockStyle.Top;
-			var lblPreCommand = new Label();
-			lblPreCommand.Text = "Pre-Command:";
-			lblPreCommand.AutoSize = false;
-			lblPreCommand.TextAlign = ContentAlignment.MiddleLeft;
-			lblPreCommand.Dock = DockStyle.Left;
-			this.edFunctionPreCommand = new TextBox();
-			this.edFunctionPreCommand.Dock = DockStyle.Fill;
-			this.edFunctionPreCommand.Font = new Font( this.edFunctionPreCommand.Font, FontStyle.Bold );
-			pnlPreCommand.Controls.Add( this.edFunctionPreCommand );
-			pnlPreCommand.Controls.Add( lblPreCommand );
-			pnlPreCommand.MaximumSize = new Size( int.MaxValue, this.edFunctionPreCommand.Height );
-			this.pnlFunctionProperties.Controls.Add( pnlPreCommand );
-
-			// Execute once
-			var pnlExecuteOnce = new Panel();
-			pnlExecuteOnce.Dock = DockStyle.Top;
-			var lblExecuteOnce = new Label();
-			lblExecuteOnce.Text = "Execute once:";
-			lblExecuteOnce.AutoSize = false;
-			lblExecuteOnce.TextAlign = ContentAlignment.MiddleLeft;
-			lblExecuteOnce.Dock = DockStyle.Left;
-			this.edFunctionExecuteOnce = new TextBox();
-			this.edFunctionExecuteOnce.Dock = DockStyle.Fill;
-			this.edFunctionExecuteOnce.Font = new Font( this.edFunctionExecuteOnce.Font, FontStyle.Bold );
-			this.edFunctionExecuteOnce.Multiline = true;
-			pnlExecuteOnce.Controls.Add( this.edFunctionExecuteOnce );
-			pnlExecuteOnce.Controls.Add( lblExecuteOnce );
-			pnlExecuteOnce.MaximumSize = new Size( int.MaxValue, this.edFunctionExecuteOnce.Height );
-			this.pnlFunctionProperties.Controls.Add( pnlExecuteOnce );
-
-			// Start column
-			var pnlStartColumn = new Panel();
-			pnlStartColumn.Dock = DockStyle.Top;
-			var lblStartColumn = new Label();
-			lblStartColumn.Text = "Start column:";
-			lblStartColumn.AutoSize = false;
-			lblStartColumn.TextAlign = ContentAlignment.MiddleLeft;
-			lblStartColumn.Dock = DockStyle.Left;
-			this.udFunctionStartColumn = new NumericUpDown();
-			this.udFunctionStartColumn.Dock = DockStyle.Fill;
-			this.udFunctionStartColumn.Font = new Font( this.udFunctionStartColumn.Font, FontStyle.Bold );
-			pnlStartColumn.Controls.Add( this.udFunctionStartColumn );
-			pnlStartColumn.Controls.Add( lblStartColumn );
-			pnlStartColumn.MaximumSize = new Size( int.MaxValue, this.udFunctionStartColumn.Height );
-			this.pnlFunctionProperties.Controls.Add( pnlStartColumn );
-
-			// End column
-			var pnlEndColumn = new Panel();
-			pnlEndColumn.Dock = DockStyle.Top;
-			var lblEndColumn = new Label();
-			lblEndColumn.Text = "End column:";
-			lblEndColumn.AutoSize = false;
-			lblEndColumn.TextAlign = ContentAlignment.MiddleLeft;
-			lblEndColumn.Dock = DockStyle.Left;
-			this.udFunctionEndColumn = new NumericUpDown();
-			this.udFunctionEndColumn.Dock = DockStyle.Fill;
-			this.udFunctionEndColumn.Font = new Font( this.udFunctionEndColumn.Font, FontStyle.Bold );
-			pnlEndColumn.Controls.Add( this.udFunctionEndColumn );
-			pnlEndColumn.Controls.Add( lblEndColumn );
-			pnlEndColumn.MaximumSize = new Size( int.MaxValue, this.udFunctionStartColumn.Height );
-			this.pnlFunctionProperties.Controls.Add( pnlEndColumn );
-
-			// Arguments gridview
-			this.BuildArgumentsListTable();
-			this.pnlFunctionProperties.Controls.Add( this.grdArgsList );
-
-			// Buttons panel
-			var pnlButtons = new FlowLayoutPanel();
-            pnlButtons.AutoSize = true;
-			pnlButtons.Dock = DockStyle.Top;
-			this.btFunctionAddArgument = new Button();
-			this.btFunctionAddArgument.Size = this.btFunctionAddArgument.MinimumSize = 
-			this.btFunctionAddArgument.MaximumSize = new Size( 32, 32 );
-			this.btFunctionAddArgument.ImageList = UserAction.ImageList;
-			this.btFunctionAddArgument.ImageIndex = this.addFunctionArgumentAction.ImageIndex;
-
-			this.btFunctionRemoveArgument = new Button();
-			this.btFunctionRemoveArgument.Size = this.btFunctionRemoveArgument.MinimumSize = 
-			this.btFunctionRemoveArgument.MaximumSize = new Size( 32, 32 );
-			this.btFunctionRemoveArgument.ImageList = UserAction.ImageList;
-			this.btFunctionRemoveArgument.ImageIndex = this.removeFunctionArgumentAction.ImageIndex;
-
-			this.addFunctionArgumentAction.AddComponent( this.btFunctionAddArgument );
-			this.removeFunctionArgumentAction.AddComponent( this.btFunctionRemoveArgument );
-			pnlButtons.Controls.Add( this.btFunctionAddArgument );
-			pnlButtons.Controls.Add( this.btFunctionRemoveArgument );
-			this.pnlFunctionProperties.Controls.Add( pnlButtons );
-
-			return;
-		}
-
-		private void BuildArgumentsListTable()
-		{
-			this.grdArgsList = new DataGridView();
-			this.grdArgsList.AllowUserToResizeRows = false;
-			this.grdArgsList.RowHeadersVisible = false;
-			this.grdArgsList.AutoGenerateColumns = false;
-			this.grdArgsList.AllowUserToAddRows = false;
-			this.grdArgsList.MultiSelect = false;
-			this.grdArgsList.Dock = DockStyle.Top;
-			this.grdArgsList.AllowUserToOrderColumns = false;
-
-			var textCellTemplate = new DataGridViewTextBoxCell();
-			textCellTemplate.Style.BackColor = Color.Wheat;
-			var comboBoxCellTemplate = new DataGridViewComboBoxCell();
-			comboBoxCellTemplate.Style.BackColor = Color.AntiqueWhite;
-			var checkBoxCellTemplate = new DataGridViewCheckBoxCell();
-			checkBoxCellTemplate.Style.BackColor = Color.AntiqueWhite;
-
-			var column0 = new DataGridViewTextBoxColumn();
-			var column1 = new DataGridViewTextBoxColumn();
-			var column2 = new DataGridViewTextBoxColumn();
-			var column3 = new DataGridViewCheckBoxColumn();
-			var column4 = new DataGridViewCheckBoxColumn();
-			var column5 = new DataGridViewComboBoxColumn();
-
-			column0.CellTemplate = textCellTemplate;
-			column1.CellTemplate = textCellTemplate;
-			column2.CellTemplate = textCellTemplate;
-			column3.CellTemplate = checkBoxCellTemplate;
-			column4.CellTemplate = checkBoxCellTemplate;
-			column5.CellTemplate = comboBoxCellTemplate;
-
-			column0.HeaderText = "Name";
-			column0.Width = 120;
-			column0.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column1.HeaderText = "Tag";
-			column1.Width = 120;
-			column1.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column2.HeaderText = "Depends";
-			column2.Width = 80;
-			column2.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column3.HeaderText = "Required";
-			column3.Width = 80;
-			column3.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column4.HeaderText = "Multiselect";
-			column4.Width = 80;
-			column4.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column5.HeaderText = "Viewer";
-			column5.Width = 80;
-			column5.SortMode = DataGridViewColumnSortMode.NotSortable;
-
-			this.grdArgsList.Columns.AddRange( new DataGridViewColumn[] {
-				column0,
-				column1,
-				column2,
-				column3,
-				column4,
-				column5,
-			} );
-
-			//this.grdArgsList.CellContentClick += this.OnCellClicked;
-			//this.grdArgsList.UserAddedRow += this.OnRowAdded;
-		}
-
 		private void BuildPropertiesPanel()
 		{
 			this.pnlGroupProperties = new GroupBox();
 
             this.pnlProperties = new TableLayoutPanel();
+			this.pnlProperties.AutoSize = false;
+			this.pnlProperties.AutoScroll = true;
 			this.pnlProperties.Font = new Font( this.pnlProperties.Font, FontStyle.Regular );
 			this.pnlProperties.Dock = DockStyle.Fill;
 			this.pnlGroupProperties.Controls.Add( this.pnlProperties );
@@ -928,8 +719,9 @@ namespace RAppMenu.Ui {
 			this.moveEntryDownAction = new UserAction( "Move entry down", 11, this.OnDownTreeNode );
 			this.previewAction = new UserAction( "Preview", 12, this.OnPreview );
 
-			this.addFunctionArgumentAction = new UserAction( "Add function argument", 13, this.OnAddFunctionArgument );
-			this.removeFunctionArgumentAction = new UserAction( "Remove function argument", 9, this.OnRemoveFunctionArgument );
+			// For the function GUI editor
+			new UserAction( "Add function argument", 13, null );
+			new UserAction( "Remove function argument", 9, null );
 		}
 
 		private void Build()
@@ -980,13 +772,13 @@ namespace RAppMenu.Ui {
 			this.SetStatus();
 		}
 
-		private void SetActionStatusForTreeNode(MenuComponentTreeNode tr)
+		private void SetActionStatusForTreeNode(MenuComponentTreeNode mctr)
 		{
-			bool isTerminal = !( tr is UiComponents.MenuTreeNode );
-			bool isGraphicMenu = tr is UiComponents.GraphicMenuTreeNode;
-			bool isRoot = ( tr == this.TreeMenuRoot );
-			bool hasNext = ( tr.NextNode != null );
-			bool hasPrev = ( tr.PrevNode != null );
+			bool isTerminal = !( mctr is UiComponents.MenuTreeNode );
+			bool isGraphicMenu = mctr is UiComponents.GraphicMenuTreeNode;
+			bool isRoot = ( mctr == this.TreeMenuRoot );
+			bool hasNext = ( mctr.NextNode != null );
+			bool hasPrev = ( mctr.PrevNode != null );
 
 			this.addPdfAction.Enabled = !isTerminal;
 			this.addSeparatorAction.Enabled = !isTerminal;
@@ -997,89 +789,7 @@ namespace RAppMenu.Ui {
 			this.moveEntryDownAction.Enabled = ( !isRoot && hasNext );
 			this.removeEntryAction.Enabled = !isRoot;
 
-			this.UpdatePropertiesPanel( tr );
-		}
-
-		private void UpdatePropertiesPanel(MenuComponentTreeNode mctr)
-		{
-			MenuComponent mc = this.GetMenuComponentOfTreeNode( mctr );
-			MenuComponentGuiEditor editor = mctr.Editor;
-			editor.Show();
-
-
-			/*
-			var fctr = mctr as CoreComponents.Function;
-			var pctr = mctr as CoreComponents.PdfFile;
-			var ictr = mctr as CoreComponents.ImageMenuEntry;
-
-			// Is this an ImageMenuEntry?
-			if ( ictr != null ) {
-				this.pnlEdName.Show();
-				this.pnlEdFileName.Show();
-				this.pnlFunctionProperties.Show();
-
-				// Update image file name
-				this.edFileName.Text = ictr.ImagePath;
-
-				// Update name
-				this.edName.Text = ictr.Function.Name;
-
-				// Update function properties panel
-				this.UpdateFunctionProperties( ictr.Function );
-			}
-			else
-			// Is this a function?
-			if ( fctr != null ) {
-				this.pnlEdFileName.Hide();
-				this.pnlEdName.Show();
-				this.pnlFunctionProperties.Show();
-
-				// Update name
-				this.edName.Text = mctr.Name;
-
-				// Update function properties panel
-				this.UpdateFunctionProperties( fctr );
-			}
-			else
-            // Is this a PDF file?
-            if ( pctr != null ) {
-                this.pnlEdName.Hide();
-				this.pnlFunctionProperties.Hide();
-                this.pnlEdFileName.Show();
-
-				// Update pdf file name
-				this.edFileName.Text = pctr.FileName;
-            }
-            else
-			// Is this a separator?
-			if ( mctr is CoreComponents.Separator ) {
-                this.pnlEdName.Hide();
-				this.pnlFunctionProperties.Hide();
-                this.pnlEdFileName.Hide();
-			}
-			else
-			// Is this a menu?
-			if ( mctr is CoreComponents.Menu ) {
-                this.pnlEdFileName.Hide();
-				this.pnlFunctionProperties.Hide();
-                this.pnlEdName.Show();
-
-				// Update name
-				this.edName.Text = mctr.Name;
-			}
-			*/
-
-			return;
-		}
-
-		private void UpdateFunctionProperties(CoreComponents.Function f)
-		{
-            this.chkFunctionHasData.Checked = f.HasData;
-            this.chkFunctionDataHeader.Checked = f.DataHeader;
-            this.chkFunctionRemoveQuotes.Checked = f.RemoveQuotationMarks;
-
-            this.edFunctionPreCommand.Text = f.PreProgram.ToString();
-            this.edFunctionDefaultData.Text = f.DefaultData;
+			mctr.GetEditor( this.pnlProperties ).Show();
 		}
 
 		private void SetStatus()
@@ -1110,7 +820,12 @@ namespace RAppMenu.Ui {
         /// </summary>
         /// <value>The applications folder, as a string.</value>
         public string ApplicationsFolder {
-            get; set;
+			get {
+				return AppInfo.ApplicationsFolder;
+			}
+			set {
+				AppInfo.ApplicationsFolder = value;
+			}
         }
 
         /// <summary>
@@ -1119,7 +834,12 @@ namespace RAppMenu.Ui {
         /// </summary>
         /// <value>The pdf folder, as a string.</value>
         public string PdfFolder {
-            get; set;
+            get {
+				return AppInfo.PdfFolder;
+			}
+			set {
+				AppInfo.PdfFolder = value;
+			}
         }
 
 		/// <summary>
@@ -1128,7 +848,12 @@ namespace RAppMenu.Ui {
 		/// </summary>
 		/// <value>The graphs folder, as a string.</value>
 		public string GraphsFolder {
-			get; set;
+			get {
+				return AppInfo.GraphsFolder;
+			}
+			set {
+				AppInfo.GraphsFolder = value;
+			}
 		}
 
 		private TreeView tvMenu;
@@ -1136,7 +861,6 @@ namespace RAppMenu.Ui {
 		private GroupBox pnlGroupProperties;
 		private TableLayoutPanel pnlProperties;
         private GroupBox pnlTree;
-		private TableLayoutPanel pnlFunctionProperties;
 		private MenuStrip mMain;
 		private ToolStripMenuItem mFile;
 		private ToolStripMenuItem mEdit;
@@ -1168,19 +892,6 @@ namespace RAppMenu.Ui {
 		private StatusStrip stStatus;
 		private ToolStripStatusLabel lblStatus;
 		private ToolStripProgressBar pbProgress;
-
-		private CheckBox chkFunctionHasData;
-		private CheckBox chkFunctionRemoveQuotes;
-		private CheckBox chkFunctionDataHeader;
-		private DataGridView grdArgsList;
-		private Button btFunctionAddArgument;
-		private Button btFunctionRemoveArgument;
-
-		private TextBox edFunctionDefaultData;
-		private TextBox edFunctionPreCommand;
-		private TextBox edFunctionExecuteOnce;
-		private NumericUpDown udFunctionStartColumn;
-		private NumericUpDown udFunctionEndColumn;
 
 		private ToolStrip tbBar;
 		private ToolStripButton tbbNew;
@@ -1219,10 +930,7 @@ namespace RAppMenu.Ui {
 		private UserAction moveEntryUpAction;
 		private UserAction moveEntryDownAction;
 		private UserAction addGraphicMenuAction;
-
 		private UserAction previewAction;
-		private UserAction addFunctionArgumentAction;
-		private UserAction removeFunctionArgumentAction;
 
 		private DesignOfUserMenu doc;
 	}

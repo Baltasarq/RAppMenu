@@ -4,28 +4,27 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using RAppMenu.Core;
+using RAppMenu.Ui;
 using RAppMenu.Core.MenuComponents;
 
 namespace RAppMenu.Ui.MenuComponentGuiEditors {
-	public class PdfFileGuiEditor: MenuComponentGuiEditor {
-		/// <summary>
-		/// Initializes a new instance of the <see cref="RAppMenu.Ui.ComponentGuiEditors.PdfFileGuiEditor"/> class.
-		/// </summary>
-		/// <param name="panel">A <see cref="Panel"/> object.</param>
-		/// <param name="mctn">A <see cref="MenuComponentTreeNode"/> object.</param>
-		/// <param name="mc">A <see cref="MenuComponent"/> object.</param>
-		/// <param name="pdfFolder">The folder for storing pdf's, as a string.</param>
-		/// <param name="graphsFolder">The folder for storing graphs, as a string.</param>
-		public PdfFileGuiEditor(Panel panel, MenuComponentTreeNode mctn, MenuComponent mc)
+	public class ImageMenuEntryGuiEditor: MenuComponentGuiEditor {
+		public ImageMenuEntryGuiEditor(Panel panel, MenuComponentTreeNode mctn, MenuComponent mc)
 			: base( panel, mctn, mc )
 		{
+			var ime = (ImageMenuEntry) mc;
+
 			this.Build();
-			this.edFileName.Text = mc.Name;
+			this.functionEditor =
+				new FunctionGuiEditor( this.Panel, mctn, ( (ImageMenuEntry) mc ).Function );
+
+			this.edFileName.Text = ime.ImagePath;
 		}
 
 		public override void Show()
 		{
 			base.Show();
+			this.functionEditor.Show();
 			this.pnlEdFileName.Show();
 		}
 
@@ -65,20 +64,19 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
 		private void OnFileNameButtonClicked()
 		{
-			var pmc = (PdfFile) this.MenuComponent;
+			var imc = (ImageMenuEntry) this.MenuComponent;
 			var dlg = new OpenFileDialog();
-			dlg.InitialDirectory = AppInfo.PdfFolder;
+			dlg.InitialDirectory = AppInfo.GraphsFolder;
 			dlg.CheckFileExists = true;
-			dlg.DefaultExt = "pdf";
-			dlg.Filter = "PDF|*.pdf|All files|*";
+			dlg.DefaultExt = "png";
+			dlg.Filter = "JPG|*.jpg|PNG|*.png|All files|*";
 
 			if ( dlg.ShowDialog() == DialogResult.OK ) {
 				string fileName = Path.GetFileName( dlg.FileName );
 
 				this.edFileName.Text = fileName;
-				pmc.Name = fileName;
-				this.MenuComponentTreeNode.Text = fileName;
-				AppInfo.PdfFolder = Path.GetDirectoryName( dlg.FileName );
+				imc.ImagePath = fileName;
+				AppInfo.GraphsFolder = Path.GetDirectoryName( dlg.FileName );
 			}
 
 			return;
@@ -88,6 +86,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		private Label lblFileName;
 		private Label edFileName;
 		private Button btFileName;
+
+		private FunctionGuiEditor functionEditor;
 	}
 }
 

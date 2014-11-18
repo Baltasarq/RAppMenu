@@ -34,9 +34,9 @@ namespace RAppMenu.Ui.MenuComponentTreeNodes {
                 UserAction.LookUp( "addmenu" ).ImageIndex;
         }
 
-		protected override MenuComponentGuiEditor CreateEditor(Panel pnl, MenuComponent mc)
+		protected override MenuComponentGuiEditor CreateEditor(Panel pnl)
 		{
-			return new MenuGuiEditor( pnl, this, mc );
+			return new MenuGuiEditor( pnl, this, this.MenuComponent );
 		}
     }
 }

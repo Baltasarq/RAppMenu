@@ -16,10 +16,9 @@ namespace RAppMenu.Ui.MenuComponentTreeNodes {
                 UserAction.LookUp( "addfunction" ).ImageIndex;
         }
 
-		protected override MenuComponentGuiEditor CreateEditor(Panel pnl, MenuComponent mc)
+		protected override MenuComponentGuiEditor CreateEditor(Panel pnl)
 		{
-			throw new System.NotImplementedException();
-			// return new FunctionGuiEditor( pnl, this, mc );
+			return new Ui.MenuComponentGuiEditors.FunctionGuiEditor( pnl, this, this.MenuComponent );
 		}
     }
 }

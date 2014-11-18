@@ -70,6 +70,9 @@
     <Compile Include="Ui\MenuComponentTreeNodes\ImageMenuEntryTreeNode.cs" />
     <Compile Include="Ui\MenuComponentTreeNodes\RootMenuTreeNode.cs" />
     <Compile Include="Ui\MenuComponentTreeNodes\MenuTreeNode.cs" />
+    <Compile Include="Ui\MenuComponentGuiEditors\ImageMenuEntryGuiEditor.cs" />
+    <Compile Include="Ui\MenuComponentGuiEditors\FunctionGuiEditor.cs" />
+    <Compile Include="Ui\MenuComponentGuiEditors\GraphicMenuGuiEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />
