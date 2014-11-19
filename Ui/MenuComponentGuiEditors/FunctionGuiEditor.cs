@@ -46,7 +46,14 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			var textCellTemplate = new DataGridViewTextBoxCell();
 			textCellTemplate.Style.BackColor = Color.Wheat;
 			var comboBoxCellTemplate = new DataGridViewComboBoxCell();
+			//comboBoxCellTemplate.ComboBoxStyle = ComboBoxStyle.DropDown;
 			comboBoxCellTemplate.Style.BackColor = Color.AntiqueWhite;
+			comboBoxCellTemplate.Items.AddRange( new string[] {
+				"DataColumnsViewer",
+				"DataValuesViewer",
+				"Map",
+				"TaxTree"
+			});
 			var checkBoxCellTemplate = new DataGridViewCheckBoxCell();
 			checkBoxCellTemplate.Style.BackColor = Color.AntiqueWhite;
 
@@ -209,7 +216,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.pnlEndColumn.MaximumSize = new Size( int.MaxValue, this.udFunctionStartColumn.Height );
 			this.Panel.Controls.Add( this.pnlEndColumn );
 
-			Font f = this.udFunctionEndColumn.Font;
+			//Font f = this.udFunctionEndColumn.Font;
 			// CALCULATE HERE THE SIZE OF EACH DIGIT and SET WIDTH x 10
 
 			// Arguments gridview
@@ -230,6 +237,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.btFunctionAddArgument.MaximumSize = new Size( 32, 32 );
 			this.btFunctionAddArgument.ImageList = UserAction.ImageList;
 			this.btFunctionAddArgument.ImageIndex = this.addFunctionArgumentAction.ImageIndex;
+			this.btFunctionAddArgument.Click += (sender, e) => this.addFunctionArgumentAction.CallBack();
 			toolTips.SetToolTip( this.btFunctionAddArgument, this.addFunctionArgumentAction.Text );
 
 			this.btFunctionRemoveArgument = new Button();
@@ -237,6 +245,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.btFunctionRemoveArgument.MaximumSize = new Size( 32, 32 );
 			this.btFunctionRemoveArgument.ImageList = UserAction.ImageList;
 			this.btFunctionRemoveArgument.ImageIndex = this.removeFunctionArgumentAction.ImageIndex;
+			this.btFunctionRemoveArgument.Click += (sender, e) => this.removeFunctionArgumentAction.CallBack();
 			toolTips.SetToolTip( this.btFunctionRemoveArgument, this.removeFunctionArgumentAction.Text );
 
 			this.addFunctionArgumentAction.AddComponent( this.btFunctionAddArgument );
@@ -262,6 +271,20 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
 		private void OnAddFunctionArgument()
 		{
+			int colCount = this.grdArgsList.Rows.Count;
+			string rowCount = this.grdArgsList.Rows.Count.ToString();
+
+			this.grdArgsList.Rows.Add( new object[] {
+				"arg" + rowCount,
+				"argTag" + rowCount,
+				"argDepends" + rowCount,
+				false,
+				false,
+				null
+			});
+
+			var cmbCol = (DataGridViewComboBoxCell) this.grdArgsList.Columns[ colCount -1 ];
+			cmbCol.item
 		}
 
 		private void OnRemoveFunctionArgument()
