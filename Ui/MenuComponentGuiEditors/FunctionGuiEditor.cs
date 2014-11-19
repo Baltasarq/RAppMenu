@@ -226,6 +226,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.BuildArgumentsListTable();
 			this.pnlArgsList.Controls.Add( this.grdArgsList );
 			this.Panel.Controls.Add( this.pnlArgsList );
+			this.pnlArgsList.Font = new Font( this.pnlArgsList.Font, FontStyle.Bold );
 
 			// Buttons panel
 			this.pnlButtons = new FlowLayoutPanel();
@@ -269,11 +270,20 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.edFunctionDefaultData.Text = f.DefaultData;
 		}
 
+		private Point GetPositionInArgsList()
+		{
+			Point toret = new Point();
+			//toret.Y = this.grdArgsList.selected;
+
+			return toret;
+		}
+
 		private void OnAddFunctionArgument()
 		{
-			int colCount = this.grdArgsList.Rows.Count;
-			string rowCount = this.grdArgsList.Rows.Count.ToString();
+			int colCount = this.grdArgsList.Columns.Count;
+			int rowCount = this.grdArgsList.Rows.Count;
 
+			// Add a new row
 			this.grdArgsList.Rows.Add( new object[] {
 				"arg" + rowCount,
 				"argTag" + rowCount,
@@ -283,12 +293,15 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 				null
 			});
 
-			var cmbCol = (DataGridViewComboBoxCell) this.grdArgsList.Columns[ colCount -1 ];
-			cmbCol.item
+			// Select the first value of the drop-down list
+			DataGridViewRow cmbRow = this.grdArgsList.Rows[ rowCount ];
+			var cmbCell = (DataGridViewComboBoxCell) cmbRow.Cells[ colCount -1 ];
+			cmbCell.Value = cmbCell.Items[ 0 ];
 		}
 
 		private void OnRemoveFunctionArgument()
 		{
+			//this.grdArgsList
 		}
 
 		private void OnCellClicked()
