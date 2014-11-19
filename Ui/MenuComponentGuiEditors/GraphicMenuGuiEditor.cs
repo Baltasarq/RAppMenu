@@ -31,6 +31,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			lblImageWidth.Dock = DockStyle.Left;
 			this.udImageWidth = new NumericUpDown();
 			this.udImageWidth.Dock = DockStyle.Fill;
+			this.udImageWidth.TextAlign = HorizontalAlignment.Right;
 			this.udImageWidth.Font = new Font( this.udImageWidth.Font, FontStyle.Bold );
 			this.udImageWidth.ValueChanged += (sender, e) => this.OnValuesChanged();
 			this.pnlImageWidth.Controls.Add( this.udImageWidth );
@@ -48,6 +49,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			lblImageHeight.Dock = DockStyle.Left;
 			this.udImageHeight = new NumericUpDown();
 			this.udImageHeight.Dock = DockStyle.Fill;
+			this.udImageHeight.TextAlign = HorizontalAlignment.Right;
 			this.udImageHeight.Font = new Font( this.udImageHeight.Font, FontStyle.Bold );
 			this.udImageHeight.ValueChanged += (sender, e) => this.OnValuesChanged();
 			this.pnlImageHeight.Controls.Add( this.udImageHeight );

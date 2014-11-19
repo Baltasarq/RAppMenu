@@ -26,8 +26,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.pnlExecuteOnce.Show();
 			this.pnlStartColumn.Show();
 			this.pnlEndColumn.Show();
-			this.grdArgsList.Show();
-			this.pnlButtons.Show();
+			this.pnlArgsList.Show();
 
 			this.addFunctionArgumentAction.CallBack = this.OnAddFunctionArgument;
 			this.removeFunctionArgumentAction.CallBack = this.OnRemoveFunctionArgument;
@@ -41,7 +40,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.grdArgsList.AutoGenerateColumns = false;
 			this.grdArgsList.AllowUserToAddRows = false;
 			this.grdArgsList.MultiSelect = false;
-			this.grdArgsList.Dock = DockStyle.Top;
+			this.grdArgsList.Dock = DockStyle.Fill;
 			this.grdArgsList.AllowUserToOrderColumns = false;
 
 			var textCellTemplate = new DataGridViewTextBoxCell();
@@ -98,23 +97,33 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
 		private void Build()
 		{
+			var toolTips = new ToolTip();
+
 			// Check boxes
-			this.pnlChecks = new FlowLayoutPanel();
+			this.pnlChecks = new TableLayoutPanel();
+			this.pnlChecks.GrowStyle = TableLayoutPanelGrowStyle.AddColumns;
 			this.pnlChecks.AutoSize = true;
 			this.pnlChecks.Dock = DockStyle.Top;
+
 			this.chkFunctionHasData = new CheckBox();
 			this.chkFunctionHasData.Text = "Has data";
-			this.chkFunctionHasData.Dock = DockStyle.Top;
+			this.chkFunctionHasData.Dock = DockStyle.Fill;
+			this.chkFunctionHasData.MinimumSize =
+				new Size( this.chkFunctionHasData.Width, this.chkFunctionHasData.Height * 2 );
 			pnlChecks.Controls.Add( this.chkFunctionHasData );
 
 			this.chkFunctionDataHeader = new CheckBox();
 			this.chkFunctionDataHeader.Text = "Has data header";
-			this.chkFunctionDataHeader.Dock = DockStyle.Top;
+			this.chkFunctionDataHeader.Dock = DockStyle.Fill;
+			this.chkFunctionDataHeader.MinimumSize =
+				new Size( this.chkFunctionDataHeader.Width, this.chkFunctionDataHeader.Height * 2 );
 			pnlChecks.Controls.Add( chkFunctionDataHeader );
 
 			this.chkFunctionRemoveQuotes = new CheckBox();
 			this.chkFunctionRemoveQuotes.Text = "Remove quotation marks";
-			this.chkFunctionRemoveQuotes.Dock = DockStyle.Top;
+			this.chkFunctionRemoveQuotes.Dock = DockStyle.Fill;
+			this.chkFunctionRemoveQuotes.MinimumSize =
+				new Size( this.chkFunctionRemoveQuotes.Width, this.chkFunctionRemoveQuotes.Height * 2 );
 			pnlChecks.Controls.Add( chkFunctionRemoveQuotes );
 			this.Panel.Controls.Add( this.pnlChecks );
 
@@ -168,7 +177,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.Panel.Controls.Add( this.pnlExecuteOnce );
 
 			// Start column
-			this.pnlStartColumn = new Panel();
+			this.pnlStartColumn = new FlowLayoutPanel();
 			this.pnlStartColumn.Dock = DockStyle.Top;
 			var lblStartColumn = new Label();
 			lblStartColumn.Text = "Start column:";
@@ -177,53 +186,64 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			lblStartColumn.Dock = DockStyle.Left;
 			this.udFunctionStartColumn = new NumericUpDown();
 			this.udFunctionStartColumn.Dock = DockStyle.Fill;
+			this.udFunctionStartColumn.TextAlign = HorizontalAlignment.Right;
 			this.udFunctionStartColumn.Font = new Font( this.udFunctionStartColumn.Font, FontStyle.Bold );
-			this.pnlStartColumn.Controls.Add( this.udFunctionStartColumn );
 			this.pnlStartColumn.Controls.Add( lblStartColumn );
+			this.pnlStartColumn.Controls.Add( this.udFunctionStartColumn );
 			this.pnlStartColumn.MaximumSize = new Size( int.MaxValue, this.udFunctionStartColumn.Height );
 			this.Panel.Controls.Add( this.pnlStartColumn );
 
 			// End column
-			this.pnlEndColumn = new Panel();
+			this.pnlEndColumn = new FlowLayoutPanel();
 			this.pnlEndColumn.Dock = DockStyle.Top;
 			var lblEndColumn = new Label();
 			lblEndColumn.Text = "End column:";
 			lblEndColumn.AutoSize = false;
 			lblEndColumn.TextAlign = ContentAlignment.MiddleLeft;
-			lblEndColumn.Dock = DockStyle.Left;
 			this.udFunctionEndColumn = new NumericUpDown();
-			this.udFunctionEndColumn.Dock = DockStyle.Fill;
+
 			this.udFunctionEndColumn.Font = new Font( this.udFunctionEndColumn.Font, FontStyle.Bold );
-			this.pnlEndColumn.Controls.Add( this.udFunctionEndColumn );
+			this.udFunctionEndColumn.TextAlign = HorizontalAlignment.Right;
 			this.pnlEndColumn.Controls.Add( lblEndColumn );
+			this.pnlEndColumn.Controls.Add( this.udFunctionEndColumn );
 			this.pnlEndColumn.MaximumSize = new Size( int.MaxValue, this.udFunctionStartColumn.Height );
 			this.Panel.Controls.Add( this.pnlEndColumn );
 
+			Font f = this.udFunctionEndColumn.Font;
+			// CALCULATE HERE THE SIZE OF EACH DIGIT and SET WIDTH x 10
+
 			// Arguments gridview
+			this.pnlArgsList = new GroupBox();
+			this.pnlArgsList.Dock = DockStyle.Fill;
+			this.pnlArgsList.Text = "Arguments";
 			this.BuildArgumentsListTable();
-			this.Panel.Controls.Add( this.grdArgsList );
+			this.pnlArgsList.Controls.Add( this.grdArgsList );
+			this.Panel.Controls.Add( this.pnlArgsList );
 
 			// Buttons panel
 			this.pnlButtons = new FlowLayoutPanel();
 			this.pnlButtons.AutoSize = true;
-			this.pnlButtons.Dock = DockStyle.Top;
+			this.pnlButtons.Dock = DockStyle.Bottom;
 			this.btFunctionAddArgument = new Button();
+
 			this.btFunctionAddArgument.Size = this.btFunctionAddArgument.MinimumSize = 
-				this.btFunctionAddArgument.MaximumSize = new Size( 32, 32 );
+			this.btFunctionAddArgument.MaximumSize = new Size( 32, 32 );
 			this.btFunctionAddArgument.ImageList = UserAction.ImageList;
 			this.btFunctionAddArgument.ImageIndex = this.addFunctionArgumentAction.ImageIndex;
+			toolTips.SetToolTip( this.btFunctionAddArgument, this.addFunctionArgumentAction.Text );
 
 			this.btFunctionRemoveArgument = new Button();
 			this.btFunctionRemoveArgument.Size = this.btFunctionRemoveArgument.MinimumSize = 
-				this.btFunctionRemoveArgument.MaximumSize = new Size( 32, 32 );
+			this.btFunctionRemoveArgument.MaximumSize = new Size( 32, 32 );
 			this.btFunctionRemoveArgument.ImageList = UserAction.ImageList;
 			this.btFunctionRemoveArgument.ImageIndex = this.removeFunctionArgumentAction.ImageIndex;
+			toolTips.SetToolTip( this.btFunctionRemoveArgument, this.removeFunctionArgumentAction.Text );
 
 			this.addFunctionArgumentAction.AddComponent( this.btFunctionAddArgument );
 			this.removeFunctionArgumentAction.AddComponent( this.btFunctionRemoveArgument );
 			this.pnlButtons.Controls.Add( this.btFunctionAddArgument );
 			this.pnlButtons.Controls.Add( this.btFunctionRemoveArgument );
-			this.Panel.Controls.Add( this.pnlButtons );
+			this.pnlArgsList.Controls.Add( this.pnlButtons );
 
 			return;
 		}
@@ -252,13 +272,14 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		{
 		}
 
-		private FlowLayoutPanel pnlChecks;
+		private TableLayoutPanel pnlChecks;
 		private Panel pnlDefaultData;
 		private Panel pnlPreCommand;
 		private Panel pnlExecuteOnce;
 		private Panel pnlStartColumn;
 		private Panel pnlEndColumn;
 		private Panel pnlButtons;
+		private GroupBox pnlArgsList;
 
 		private CheckBox chkFunctionHasData;
 		private CheckBox chkFunctionRemoveQuotes;
