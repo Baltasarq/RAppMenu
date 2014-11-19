@@ -20,13 +20,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		public override void Show()
 		{
 			base.Show();
-			this.pnlChecks.Show();
-			this.pnlPreCommand.Show();
-			this.pnlDefaultData.Show();
-			this.pnlExecuteOnce.Show();
-			this.pnlStartColumn.Show();
-			this.pnlEndColumn.Show();
-			this.pnlArgsList.Show();
+            this.pnlContainer.Show();
 
 			this.addFunctionArgumentAction.CallBack = this.OnAddFunctionArgument;
 			this.removeFunctionArgumentAction.CallBack = this.OnRemoveFunctionArgument;
@@ -45,8 +39,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
 			var textCellTemplate = new DataGridViewTextBoxCell();
 			textCellTemplate.Style.BackColor = Color.Wheat;
+
 			var comboBoxCellTemplate = new DataGridViewComboBoxCell();
-			//comboBoxCellTemplate.ComboBoxStyle = ComboBoxStyle.DropDown;
 			comboBoxCellTemplate.Style.BackColor = Color.AntiqueWhite;
 			comboBoxCellTemplate.Items.AddRange( new string[] {
 				"DataColumnsViewer",
@@ -54,6 +48,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 				"Map",
 				"TaxTree"
 			});
+
 			var checkBoxCellTemplate = new DataGridViewCheckBoxCell();
 			checkBoxCellTemplate.Style.BackColor = Color.AntiqueWhite;
 
@@ -100,15 +95,21 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			} );
 
 			this.grdArgsList.CellContentClick += (sender, e) => this.OnCellClicked();
+            this.OnResizeArgsList();
 		}
 
 		private void Build()
 		{
 			var toolTips = new ToolTip();
+           
+            // Main panel
+            this.pnlContainer = new TableLayoutPanel();
+            this.pnlContainer.Dock = DockStyle.Fill;
+            this.pnlContainer.AutoSize = true;
+            this.Panel.Controls.Add( this.pnlContainer );
 
 			// Check boxes
-			this.pnlChecks = new TableLayoutPanel();
-			this.pnlChecks.GrowStyle = TableLayoutPanelGrowStyle.AddColumns;
+            this.pnlChecks = new FlowLayoutPanel();
 			this.pnlChecks.AutoSize = true;
 			this.pnlChecks.Dock = DockStyle.Top;
 
@@ -132,7 +133,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.chkFunctionRemoveQuotes.MinimumSize =
 				new Size( this.chkFunctionRemoveQuotes.Width, this.chkFunctionRemoveQuotes.Height * 2 );
 			pnlChecks.Controls.Add( chkFunctionRemoveQuotes );
-			this.Panel.Controls.Add( this.pnlChecks );
+            this.pnlContainer.Controls.Add( this.pnlChecks );
 
 			// Default data
 			this.pnlDefaultData = new Panel();
@@ -148,7 +149,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			pnlDefaultData.Controls.Add( this.edFunctionDefaultData );
 			pnlDefaultData.Controls.Add( lblDefaultData );
 			pnlDefaultData.MaximumSize = new Size( int.MaxValue, this.edFunctionDefaultData.Height );
-			this.Panel.Controls.Add( this.pnlDefaultData );
+            this.pnlContainer.Controls.Add( this.pnlDefaultData );
 
 			// Pre-command
 			this.pnlPreCommand = new Panel();
@@ -164,7 +165,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.pnlPreCommand.Controls.Add( this.edFunctionPreCommand );
 			this.pnlPreCommand.Controls.Add( lblPreCommand );
 			this.pnlPreCommand.MaximumSize = new Size( int.MaxValue, this.edFunctionPreCommand.Height );
-			this.Panel.Controls.Add( this.pnlPreCommand );
+            this.pnlContainer.Controls.Add( this.pnlPreCommand );
 
 			// Execute once
 			this.pnlExecuteOnce = new Panel();
@@ -181,7 +182,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.pnlExecuteOnce.Controls.Add( this.edFunctionExecuteOnce );
 			this.pnlExecuteOnce.Controls.Add( lblExecuteOnce );
 			this.pnlExecuteOnce.MaximumSize = new Size( int.MaxValue, this.edFunctionExecuteOnce.Height );
-			this.Panel.Controls.Add( this.pnlExecuteOnce );
+            this.pnlContainer.Controls.Add( this.pnlExecuteOnce );
 
 			// Start column
 			this.pnlStartColumn = new FlowLayoutPanel();
@@ -197,8 +198,9 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.udFunctionStartColumn.Font = new Font( this.udFunctionStartColumn.Font, FontStyle.Bold );
 			this.pnlStartColumn.Controls.Add( lblStartColumn );
 			this.pnlStartColumn.Controls.Add( this.udFunctionStartColumn );
-			this.pnlStartColumn.MaximumSize = new Size( int.MaxValue, this.udFunctionStartColumn.Height );
-			this.Panel.Controls.Add( this.pnlStartColumn );
+			this.pnlStartColumn.MaximumSize = new Size( int.MaxValue, this.udFunctionStartColumn.Height * 2 );
+            this.pnlStartColumn.MinimumSize = new Size( this.pnlStartColumn.Width, this.udFunctionStartColumn.Height * 2 );
+            this.pnlContainer.Controls.Add( this.pnlStartColumn );
 
 			// End column
 			this.pnlEndColumn = new FlowLayoutPanel();
@@ -208,24 +210,26 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			lblEndColumn.AutoSize = false;
 			lblEndColumn.TextAlign = ContentAlignment.MiddleLeft;
 			this.udFunctionEndColumn = new NumericUpDown();
-
 			this.udFunctionEndColumn.Font = new Font( this.udFunctionEndColumn.Font, FontStyle.Bold );
 			this.udFunctionEndColumn.TextAlign = HorizontalAlignment.Right;
 			this.pnlEndColumn.Controls.Add( lblEndColumn );
 			this.pnlEndColumn.Controls.Add( this.udFunctionEndColumn );
-			this.pnlEndColumn.MaximumSize = new Size( int.MaxValue, this.udFunctionStartColumn.Height );
-			this.Panel.Controls.Add( this.pnlEndColumn );
+            this.pnlEndColumn.MaximumSize = new Size( int.MaxValue, this.udFunctionStartColumn.Height * 2 );
+            this.pnlEndColumn.MinimumSize = new Size( this.pnlStartColumn.Width, this.udFunctionStartColumn.Height * 2 );
+            this.pnlContainer.Controls.Add( this.pnlEndColumn );
 
 			//Font f = this.udFunctionEndColumn.Font;
 			// CALCULATE HERE THE SIZE OF EACH DIGIT and SET WIDTH x 10
 
 			// Arguments gridview
 			this.pnlArgsList = new GroupBox();
+            this.pnlArgsList.Resize += (sender, e) => this.OnResizeArgsList();
 			this.pnlArgsList.Dock = DockStyle.Fill;
 			this.pnlArgsList.Text = "Arguments";
 			this.BuildArgumentsListTable();
 			this.pnlArgsList.Controls.Add( this.grdArgsList );
-			this.Panel.Controls.Add( this.pnlArgsList );
+            this.pnlContainer.Controls.Add( this.pnlArgsList );
+            this.grdArgsList.Font = new Font( this.grdArgsList.Font, FontStyle.Regular );
 			this.pnlArgsList.Font = new Font( this.pnlArgsList.Font, FontStyle.Bold );
 
 			// Buttons panel
@@ -308,7 +312,31 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		{
 		}
 
-		private TableLayoutPanel pnlChecks;
+        private void OnResizeArgsList()
+        {
+            int width = this.pnlContainer.Width;
+
+            // Name
+            this.grdArgsList.Columns[ 0 ].Width = (int) ( width * 0.20 );
+
+            // Tag
+            this.grdArgsList.Columns[ 1 ].Width = (int) ( width * 0.19 );
+
+            // Depends
+            this.grdArgsList.Columns[ 2 ].Width = (int) ( width * 0.19 );
+
+            // Required
+            this.grdArgsList.Columns[ 3 ].Width = (int) ( width * 0.10 );
+
+            // Multiselect
+            this.grdArgsList.Columns[ 4 ].Width = (int) ( width * 0.10 );
+
+            // Viewer
+            this.grdArgsList.Columns[ 5 ].Width = (int) ( width * 0.20 );
+        }
+
+        private TableLayoutPanel pnlContainer;
+		private FlowLayoutPanel pnlChecks;
 		private Panel pnlDefaultData;
 		private Panel pnlPreCommand;
 		private Panel pnlExecuteOnce;
