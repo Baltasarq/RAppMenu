@@ -743,7 +743,7 @@ namespace RAppMenu.Ui {
 
 			this.Text = AppInfo.Name;
 			this.Icon = Icon.FromHandle( appIconBmp.GetHicon() );
-			this.MinimumSize = new Size( 1000, 700 );
+			this.MinimumSize = new Size( 1000, 740 );
             this.Size = this.MinimumSize;
 		}
 

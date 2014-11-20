@@ -22,15 +22,21 @@ namespace RAppMenu.Core.MenuComponents {
 		/// <summary>
 		/// Represents arguments in functions.
 		/// </summary>
-		public class FunctionArgument: MenuComponent {
-			public const string TagName = "Argument";
+		public class Argument: MenuComponent {
+			public const string ArgumentTagName = "Argument";
+			public const string RequiredArgumentTagName = "RequiredArgument";
+			public const string EtqTag = "Tag";
+			public const string EtqViewer = "Viewer";
+			public const string EtqDepends = "DependsFrom";
+			public const string EtqAllowMultiSelect = "AllowMultiSelect";
+
 			public enum ViewerType { DataColumnsViewer, DataValuesViewer, Map, TaxTree };
 
 			/// <summary>
 			/// Initializes a new instance of the <see cref="RAppMenu.Core.MenuComponents.Function+FunctionArgument"/> class.
 			/// </summary>
 			/// <param name="name">Name.</param>
-			public FunctionArgument(string name)
+			public Argument(string name)
 				: base( name )
 			{
 			}
@@ -43,6 +49,10 @@ namespace RAppMenu.Core.MenuComponents {
 				get; set;
 			}
 
+			/// <summary>
+			/// Gets or sets the viewer.
+			/// </summary>
+			/// <value>The viewer, as a <see cref="ViewerType"/>.</value>
 			public ViewerType Viewer {
 				get; set;
 			}
@@ -51,6 +61,14 @@ namespace RAppMenu.Core.MenuComponents {
 				get; set;
 			}
 
+			public string Tag {
+				get; set;
+			}
+
+			/// <summary>
+			/// Gets or sets a value indicating whether this <see cref="RAppMenu.Core.MenuComponents.Function+Argument"/> allow multiselect.
+			/// </summary>
+			/// <value><c>true</c> if allow multiselect; otherwise, <c>false</c>.</value>
 			public bool AllowMultiselect {
 				get; set;
 			}
@@ -61,24 +79,61 @@ namespace RAppMenu.Core.MenuComponents {
 			/// <param name="doc">The document, as a XmlTextWriter.</param>
 			public override void ToXml(XmlTextWriter doc)
 			{
-				doc.WriteStartElement( TagName );
+				string tagName = ArgumentTagName;
+
+				// Choose the tag to use
+				if ( this.IsRequired ) {
+					tagName = RequiredArgumentTagName;
+				}
+
+				doc.WriteStartElement( tagName );
+
+				// Name = "arg1"
 				doc.WriteStartAttribute( EtqName );
 				doc.WriteString( this.Name );
 				doc.WriteEndAttribute();
+
+				// DependsFrom = "?"
+				if ( !string.IsNullOrWhiteSpace( this.DependsFrom ) ) {
+					doc.WriteStartAttribute( EtqDepends );
+					doc.WriteString( this.DependsFrom );
+					doc.WriteEndAttribute();
+				}
+
+				// Tag = "?"
+				if ( !string.IsNullOrWhiteSpace( this.Tag ) ) {
+					doc.WriteStartAttribute( EtqTag );
+					doc.WriteString( this.Tag );
+					doc.WriteEndAttribute();
+				}
+
+				// AllowMultiSelect = "TRUE"
+				if ( this.AllowMultiselect ) {
+					doc.WriteStartAttribute( EtqAllowMultiSelect );
+					doc.WriteString( true.ToString().ToUpper() );
+					doc.WriteEndAttribute();
+				}
+
+				// Viewer = "Map"
+				doc.WriteStartAttribute( EtqViewer );
+				doc.WriteString( this.Viewer.ToString() );
+				doc.WriteEndAttribute();
+
 				doc.WriteEndElement();
+				return;
 			}
 		}
 
 		/// <summary>
 		/// Represents the collection of arguments in this function.
 		/// </summary>
-		public class ArgumentList: Collection<FunctionArgument> {
+		public class ArgumentList: Collection<Argument> {
 			/// <summary>
 			/// Insert a new function argument in the collection.
 			/// </summary>
 			/// <param name="index">The index, as an int.</param>
 			/// <param name="item">The <see cref="FunctionArgument"/> to insert.</param>
-			protected override void InsertItem(int index, FunctionArgument item)
+			protected override void InsertItem(int index, Argument item)
 			{
 				this.Chk( item );
 				base.InsertItem( index, item );
@@ -89,7 +144,7 @@ namespace RAppMenu.Core.MenuComponents {
 			/// </summary>
 			/// <param name="index">The index, as an int.</param>
 			/// <param name="item">The <see cref="FunctionArgument"/> to modify.</param>
-			protected override void SetItem(int index, FunctionArgument item)
+			protected override void SetItem(int index, Argument item)
 			{
 				this.Chk( item );
 				base.SetItem( index, item );
@@ -99,7 +154,7 @@ namespace RAppMenu.Core.MenuComponents {
 			/// Cheks that the specified value is not null.
 			/// </summary>
 			/// <param name="value">The <see cref="FunctionArgument"/> to check.</param>
-			private void Chk(FunctionArgument value)
+			private void Chk(Argument value)
 			{
 				if ( value == null ) {
 					throw new ArgumentException( "function argument cannot be null" ); 
@@ -246,7 +301,7 @@ namespace RAppMenu.Core.MenuComponents {
 			}
 
 			// Arguments
-			foreach(FunctionArgument arg in this.ArgList) {
+			foreach(Argument arg in this.ArgList) {
 				arg.ToXml( doc );
 			}
 
