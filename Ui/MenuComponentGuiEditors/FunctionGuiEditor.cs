@@ -115,12 +115,9 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 				column5,
 			} );
 
-			this.grdArgsList.CellEndEdit += (object sender, DataGridViewCellEventArgs evt) => {
+			this.grdArgsList.CellEndEdit += (object sender, DataGridViewCellEventArgs evt) =>
 				this.OnCellEdited( evt.RowIndex, evt.ColumnIndex );
-			};
 
-			this.pnlArgsList.Controls.Add( this.grdArgsList );
-			this.pnlContainer.Controls.Add( this.pnlArgsList );
 			this.grdArgsList.Font = new Font( this.grdArgsList.Font, FontStyle.Regular );
 			this.pnlArgsList.Font = new Font( this.pnlArgsList.Font, FontStyle.Bold );
 
@@ -145,22 +142,27 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.btFunctionRemoveArgument.Click += (sender, e) => this.removeFunctionArgumentAction.CallBack();
 			toolTips.SetToolTip( this.btFunctionRemoveArgument, this.removeFunctionArgumentAction.Text );
 
+            // Prepare
 			this.addFunctionArgumentAction.AddComponent( this.btFunctionAddArgument );
 			this.removeFunctionArgumentAction.AddComponent( this.btFunctionRemoveArgument );
 			this.pnlButtons.Controls.Add( this.btFunctionAddArgument );
 			this.pnlButtons.Controls.Add( this.btFunctionRemoveArgument );
 			this.pnlArgsList.Controls.Add( this.pnlButtons );
+            this.pnlArgsList.Controls.Add( this.grdArgsList );
+            this.pnlContainer.Controls.Add( this.pnlArgsList );
 			this.OnResizeArgsList();
 		}
 
 		private void BuildCheckBoxes()
 		{
 			this.pnlGroupChecks = new GroupBox();
+            this.pnlGroupChecks.AutoSize = true;
 			this.pnlGroupChecks.Text = "Options";
 			this.pnlGroupChecks.Font = new Font( this.pnlGroupChecks.Font, FontStyle.Bold );
 			this.pnlGroupChecks.Dock = DockStyle.Top;
 
 			this.pnlChecks = new FlowLayoutPanel();
+            this.pnlChecks.AutoSize = true;
 			this.pnlChecks.AutoSize = true;
 			this.pnlChecks.Font = new Font( this.pnlChecks.Font, FontStyle.Regular );
 			this.pnlChecks.Dock = DockStyle.Fill;
@@ -192,6 +194,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		private void BuildDefaultData()
 		{
 			this.pnlGroupDefaultData = new GroupBox();
+            this.pnlGroupDefaultData.AutoSize = true;
 			this.pnlGroupDefaultData.Dock = DockStyle.Top;
 			this.pnlGroupDefaultData.Text = "Default data";
 			this.pnlGroupDefaultData.Font = new Font( this.pnlGroupDefaultData.Font, FontStyle.Bold );
@@ -199,68 +202,65 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			var pnlInnerGroupDefaultData = new FlowLayoutPanel();
 			pnlInnerGroupDefaultData.Font = new Font( pnlInnerGroupDefaultData.Font, FontStyle.Regular );
 			pnlInnerGroupDefaultData.Dock = DockStyle.Fill;
+            pnlInnerGroupDefaultData.AutoSize = true;
 			this.pnlGroupDefaultData.Controls.Add( pnlInnerGroupDefaultData );
 			this.pnlContainer.Controls.Add( this.pnlGroupDefaultData );
-
-/*			this.pnlDefaultData = new Panel();
-			this.pnlDefaultData.Dock = DockStyle.Top;*/
-			pnlInnerGroupDefaultData.Controls.Add( this.pnlDefaultData );
 
 			// Default data
 			var lblDefaultData = new Label();
 			lblDefaultData.Text = "Default data:";
 			lblDefaultData.AutoSize = false;
 			lblDefaultData.TextAlign = ContentAlignment.MiddleLeft;
-			lblDefaultData.Dock = DockStyle.Left;
 			this.edFunctionDefaultData = new TextBox();
 			this.edFunctionDefaultData.Font = new Font( this.edFunctionDefaultData.Font, FontStyle.Bold );
-			this.edFunctionDefaultData.Dock = DockStyle.Fill;
-			pnlInnerGroupDefaultData.Controls.Add( this.edFunctionDefaultData );
 			pnlInnerGroupDefaultData.Controls.Add( lblDefaultData );
+            pnlInnerGroupDefaultData.Controls.Add( this.edFunctionDefaultData );
 
 			// Start column
 			var lblStartColumn = new Label();
 			lblStartColumn.Text = "Start column:";
-			lblStartColumn.AutoSize = false;
+			lblStartColumn.AutoSize = true;
 			lblStartColumn.TextAlign = ContentAlignment.MiddleLeft;
 			this.udFunctionStartColumn = new NumericUpDown();
 			this.udFunctionStartColumn.TextAlign = HorizontalAlignment.Right;
 			this.udFunctionStartColumn.Font = new Font( this.udFunctionStartColumn.Font, FontStyle.Bold );
+            this.udFunctionStartColumn.Maximum = 99;
+            this.udFunctionStartColumn.Minimum = 1;
 			pnlInnerGroupDefaultData.Controls.Add( lblStartColumn );
 			pnlInnerGroupDefaultData.Controls.Add( this.udFunctionStartColumn );
 
 			// End column
 			var lblEndColumn = new Label();
 			lblEndColumn.Text = "End column:";
-			lblEndColumn.AutoSize = false;
+			lblEndColumn.AutoSize = true;
 			lblEndColumn.TextAlign = ContentAlignment.MiddleLeft;
 			this.udFunctionEndColumn = new NumericUpDown();
 			this.udFunctionEndColumn.Font = new Font( this.udFunctionEndColumn.Font, FontStyle.Bold );
 			this.udFunctionEndColumn.TextAlign = HorizontalAlignment.Right;
+            this.udFunctionEndColumn.Maximum = 99;
+            this.udFunctionEndColumn.Minimum = 1;
 			pnlInnerGroupDefaultData.Controls.Add( lblEndColumn );
 			pnlInnerGroupDefaultData.Controls.Add( this.udFunctionEndColumn );
-			/*
-			// Size for the whole control
-			pnlDefaultData.MaximumSize = new Size( int.MaxValue, this.edFunctionDefaultData.Height );
-			pnlInnerGroupDefaultData.MaximumSize = new Size( int.MaxValue, pnlDefaultData.MaximumSize.Height );
 
-			// Sizes for numeric updowns
-			Graphics grf = new Form().CreateGraphics();
-			SizeF fontSize = grf.MeasureString( "W", this.udFunctionEndColumn.Font );
-			int charWidth = (int) fontSize.Width + 5;
-			this.udFunctionEndColumn.MaximumSize = new Size( charWidth * 5, pnlDefaultData.MaximumSize.Height );
-			this.udFunctionStartColumn.MaximumSize = new Size( charWidth * 5, pnlDefaultData.MaximumSize.Height );
-			*/
+            // Sizes for controls
+            Graphics grf = new Form().CreateGraphics();
+            SizeF fontSize = grf.MeasureString( "W", this.udFunctionEndColumn.Font );
+            int charWidth = (int) fontSize.Width + 5;
+            this.udFunctionEndColumn.MaximumSize = new Size( charWidth * 2, this.udFunctionEndColumn.Height );
+            this.udFunctionStartColumn.MaximumSize = new Size( charWidth * 2, this.udFunctionStartColumn.Height );
+            this.edFunctionDefaultData.MinimumSize = new Size( charWidth * 12, this.edFunctionDefaultData.Height );
 		}
 
 		private void BuildCommands()
 		{
 			this.pnlGroupCommands = new GroupBox();
+            this.pnlGroupCommands.AutoSize = true;
 			this.pnlGroupCommands.Text = "Commands";
 			this.pnlGroupCommands.Font = new Font( this.pnlGroupCommands.Font, FontStyle.Bold );
 			this.pnlGroupCommands.Dock = DockStyle.Top;
 
 			var pnlInnerGroupCommands = new TableLayoutPanel();
+            pnlInnerGroupCommands.AutoSize = true;
 			pnlInnerGroupCommands.Dock = DockStyle.Fill;
 			pnlInnerGroupCommands.AutoSize = true;
 			pnlInnerGroupCommands.Font = new Font( pnlInnerGroupCommands.Font, FontStyle.Regular );
@@ -294,15 +294,11 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.edFunctionExecuteOnce.Dock = DockStyle.Fill;
 			this.edFunctionExecuteOnce.Font = new Font( this.edFunctionExecuteOnce.Font, FontStyle.Bold );
 			this.edFunctionExecuteOnce.Multiline = true;
+            this.edFunctionExecuteOnce.WordWrap = false;
+            this.edFunctionExecuteOnce.ScrollBars = ScrollBars.Both;
 			this.pnlExecuteOnce.Controls.Add( this.edFunctionExecuteOnce );
 			this.pnlExecuteOnce.Controls.Add( lblExecuteOnce );
-			this.pnlExecuteOnce.MaximumSize = new Size( int.MaxValue, this.edFunctionExecuteOnce.Height );
 			pnlInnerGroupCommands.Controls.Add( this.pnlExecuteOnce );
-
-			pnlInnerGroupCommands.MinimumSize =
-				new Size( pnlInnerGroupCommands.Width, ( this.edFunctionPreCommand.Height
-													 + this.edFunctionExecuteOnce.Height ) * 2
-				);
 		}
 
 		private void Build()
@@ -449,10 +445,10 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
             this.grdArgsList.Columns[ 0 ].Width = (int) ( width * 0.20 );
 
             // Tag
-            this.grdArgsList.Columns[ 1 ].Width = (int) ( width * 0.19 );
+            this.grdArgsList.Columns[ 1 ].Width = (int) ( width * 0.18 );
 
             // Depends
-            this.grdArgsList.Columns[ 2 ].Width = (int) ( width * 0.19 );
+            this.grdArgsList.Columns[ 2 ].Width = (int) ( width * 0.20 );
 
             // Required
             this.grdArgsList.Columns[ 3 ].Width = (int) ( width * 0.10 );
@@ -469,7 +465,6 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		private GroupBox pnlGroupChecks;
 		private GroupBox pnlGroupDefaultData;
 		private GroupBox pnlGroupCommands;
-		private Panel pnlDefaultData;
 		private Panel pnlPreCommand;
 		private Panel pnlExecuteOnce;
 		private Panel pnlButtons;
