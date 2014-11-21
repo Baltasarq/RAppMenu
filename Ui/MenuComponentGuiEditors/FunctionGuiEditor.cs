@@ -147,8 +147,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.removeFunctionArgumentAction.AddComponent( this.btFunctionRemoveArgument );
 			this.pnlButtons.Controls.Add( this.btFunctionAddArgument );
 			this.pnlButtons.Controls.Add( this.btFunctionRemoveArgument );
+			this.pnlArgsList.Controls.Add( this.grdArgsList );
 			this.pnlArgsList.Controls.Add( this.pnlButtons );
-            this.pnlArgsList.Controls.Add( this.grdArgsList );
             this.pnlContainer.Controls.Add( this.pnlArgsList );
 			this.OnResizeArgsList();
 		}
@@ -448,20 +448,12 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			else
 			// The tag
 			if ( colIndex == 1 ) {
-				string contents = (string) row.Cells[ colIndex ].Value;
-
-				if ( !string.IsNullOrWhiteSpace( contents ) ) {
-					arg.Tag = contents;
-				}
+				arg.Tag = (string) row.Cells[ colIndex ].Value;
 			}
 			else
 			// The depends info
 			if ( colIndex == 2 ) {
-				string contents = (string) row.Cells[ colIndex ].Value;
-
-				if ( !string.IsNullOrWhiteSpace( contents ) ) {
-					arg.DependsFrom = contents;
-				}
+				arg.DependsFrom = (string) row.Cells[ colIndex ].Value;
 			}
 			else
 			// The requires info
