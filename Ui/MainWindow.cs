@@ -58,7 +58,7 @@ namespace RAppMenu.Ui {
         {
 			MenuComponentTreeNode tn;
             MenuComponent parentMenuComponent = this.GetMenuComponentOfTreeNode();
-			var parentImagesMenu = parentMenuComponent as CoreComponents.ImagesMenu;
+			var parentImagesMenu = parentMenuComponent as CoreComponents.GraphicMenu;
 			string id = this.tvMenu.GetNodeCount( true ).ToString();
 
 			this.SetStatus( "Creating function..." );
@@ -676,15 +676,17 @@ namespace RAppMenu.Ui {
 			this.splPanels.Dock = DockStyle.Fill;
 
 			this.splPanels.Resize += (sender, e) => {
-                int distance = this.ClientRectangle.Width;
+				if ( this.WindowState != FormWindowState.Minimized ) {
+	                int distance = this.ClientRectangle.Width;
 
-                if ( distance >= 800 ) {
-                    distance /= 3;
-                } else {
-                    distance /= 2;
-                }
+	                if ( distance >= 800 ) {
+	                    distance /= 3;
+	                } else {
+	                    distance /= 2;
+	                }
 
-				this.splPanels.SplitterDistance = distance;
+					this.splPanels.SplitterDistance = distance;
+				}
 			};
 
 			this.splPanels.IsSplitterFixed = true;
@@ -794,11 +796,19 @@ namespace RAppMenu.Ui {
 
 		private void SetStatus()
 		{
-			this.SetStatus( "Ready" );
+			this.lblStatus.ForeColor = Color.Black;
+			this.lblStatus.Text = "Ready";
 		}
 
 		private void SetStatus(string msg)
 		{
+			this.lblStatus.ForeColor = Color.Blue;
+			this.lblStatus.Text = msg;
+		}
+
+		private void SetErrorStatus(string msg)
+		{
+			this.lblStatus.ForeColor = Color.DarkRed;
 			this.lblStatus.Text = msg;
 		}
 

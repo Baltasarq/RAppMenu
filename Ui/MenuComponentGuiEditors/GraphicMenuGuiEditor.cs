@@ -15,47 +15,48 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		public override void Show()
 		{
 			base.Show();
-			this.pnlImageWidth.Show();
-			this.pnlImageHeight.Show();
+			this.pnlMeasures.Show();
 		}
 
 		private void Build()
 		{
+			// Panel
+			this.pnlMeasures = new FlowLayoutPanel();
+			this.pnlMeasures.Dock = DockStyle.Top;
+			this.Panel.Controls.Add( this.pnlMeasures );
+
 			// Image width
-			this.pnlImageWidth = new Panel();
-			this.pnlImageWidth.Dock = DockStyle.Top;
 			var lblImageWidth = new Label();
 			lblImageWidth.Text = "Image width:";
 			lblImageWidth.AutoSize = false;
 			lblImageWidth.TextAlign = ContentAlignment.MiddleLeft;
-			lblImageWidth.Dock = DockStyle.Left;
 			this.udImageWidth = new NumericUpDown();
-			this.udImageWidth.Dock = DockStyle.Fill;
 			this.udImageWidth.TextAlign = HorizontalAlignment.Right;
 			this.udImageWidth.Font = new Font( this.udImageWidth.Font, FontStyle.Bold );
 			this.udImageWidth.ValueChanged += (sender, e) => this.OnValuesChanged();
-			this.pnlImageWidth.Controls.Add( this.udImageWidth );
-			this.pnlImageWidth.Controls.Add( lblImageWidth );
-			this.pnlImageWidth.MaximumSize = new Size( int.MaxValue, this.udImageWidth.Height );
-			this.Panel.Controls.Add( this.pnlImageWidth );
+			this.pnlMeasures.Controls.Add( lblImageWidth );
+			this.pnlMeasures.Controls.Add( this.udImageWidth );
+			this.pnlMeasures.MaximumSize = new Size( int.MaxValue, this.udImageWidth.Height );
 
 			// Image height
-			this.pnlImageHeight = new Panel();
-			this.pnlImageHeight.Dock = DockStyle.Top;
 			var lblImageHeight = new Label();
 			lblImageHeight.Text = "Image height:";
 			lblImageHeight.AutoSize = false;
 			lblImageHeight.TextAlign = ContentAlignment.MiddleLeft;
-			lblImageHeight.Dock = DockStyle.Left;
 			this.udImageHeight = new NumericUpDown();
-			this.udImageHeight.Dock = DockStyle.Fill;
 			this.udImageHeight.TextAlign = HorizontalAlignment.Right;
 			this.udImageHeight.Font = new Font( this.udImageHeight.Font, FontStyle.Bold );
 			this.udImageHeight.ValueChanged += (sender, e) => this.OnValuesChanged();
-			this.pnlImageHeight.Controls.Add( this.udImageHeight );
-			this.pnlImageHeight.Controls.Add( lblImageHeight );
-			this.pnlImageHeight.MaximumSize = new Size( int.MaxValue, this.udImageWidth.Height );
-			this.Panel.Controls.Add( this.pnlImageHeight );
+			this.pnlMeasures.Controls.Add( lblImageHeight );
+			this.pnlMeasures.Controls.Add( this.udImageHeight );
+			this.pnlMeasures.MaximumSize = new Size( int.MaxValue, this.udImageWidth.Height );
+
+			// Sizes for controls
+			Graphics grf = new Form().CreateGraphics();
+			SizeF fontSize = grf.MeasureString( "W", this.udImageHeight.Font );
+			int charWidth = (int) fontSize.Width + 5;
+			this.udImageWidth.MaximumSize = new Size( charWidth * 3, this.udImageWidth.Height );
+			this.udImageHeight.MaximumSize = new Size( charWidth * 3, this.udImageHeight.Height );
 
 			// Limits
 			this.udImageWidth.Minimum = 16;
@@ -66,14 +67,13 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
 		private void OnValuesChanged()
 		{
-			var graphicMenu = (Core.MenuComponents.ImagesMenu) this.MenuComponent;
+			var graphicMenu = (Core.MenuComponents.GraphicMenu) this.MenuComponent;
 
 			graphicMenu.ImageHeight = (int) this.udImageHeight.Value;
 			graphicMenu.ImageWidth = (int) this.udImageWidth.Value;
 		}
 
-		private Panel pnlImageWidth;
-		private Panel pnlImageHeight;
+		private Panel pnlMeasures;
 		private NumericUpDown udImageWidth;
 		private NumericUpDown udImageHeight;
 	}

@@ -2,11 +2,11 @@ using System;
 using System.Xml;
 
 namespace RAppMenu.Core.MenuComponents {
-	public class ImageMenuEntry: Menu {
+	public class GraphicMenuEntry: Menu {
 		public const string EtqImagePath = "Image";
         public const string EtqImageToolTip = "ImageTooltip";
 
-		public ImageMenuEntry(string id, ImagesMenu parent)
+		public GraphicMenuEntry(string id, GraphicMenu parent)
 			:base( id, parent )
 		{
 			this.ImagePath = "image.png";

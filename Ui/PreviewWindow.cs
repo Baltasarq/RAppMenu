@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System.IO;
+using System.Text;
+using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -19,6 +21,7 @@ namespace RAppMenu.Ui {
         public PreviewWindow(DesignOfUserMenu doc, Icon icon)
         {
             this.document = doc;
+			this.errors = new StringBuilder();
             this.Build( icon );
         }
 
@@ -30,7 +33,7 @@ namespace RAppMenu.Ui {
 		private void BuildUserSubMenu(ToolStripMenuItem mUser, Core.MenuComponents.Menu menuComponent)
 		{
 			foreach(MenuComponent mc in menuComponent.MenuComponents) {
-                var graphicMenu = mc as ImagesMenu;
+                var graphicMenu = mc as GraphicMenu;
                 var menu = mc as Core.MenuComponents.Menu;
 
                 if ( graphicMenu != null ) {
@@ -47,6 +50,18 @@ namespace RAppMenu.Ui {
 					mUser.DropDownItems.Add( new ToolStripSeparator() );
 				}
 				else {
+					var pmc = mc as PdfFile;
+					string fileName = Path.Combine( AppInfo.PdfFolder, mc.Name );
+
+					// Pdf
+					if ( pmc != null
+					  && !File.Exists( fileName ) )
+					{
+						errors.AppendFormat( "Missing PDF file: '{0}'", fileName );
+						errors.AppendLine();
+					}
+
+					// Function
 					mUser.DropDownItems.Add( new ToolStripMenuItem( mc.Name ) );
 				}
 			}
@@ -54,20 +69,25 @@ namespace RAppMenu.Ui {
 			return;
 		}
 
-        private void BuildUserGraphicSubMenu(ToolStripMenuItem subMenu, ImagesMenu graphicMenu)
+        private void BuildUserGraphicSubMenu(ToolStripMenuItem subMenu, GraphicMenu graphicMenu)
         {
             IList<MenuComponent> menuComponents = graphicMenu.MenuComponents;
             var items = new List<GraphMenuUtils.GraphicsMenuTable.GraphMenuItemData>();
 
             // Build the list of images
-            foreach (ImageMenuEntry submc in menuComponents)
+            foreach (GraphicMenuEntry submc in menuComponents)
             {
-                items.Add(
-                    new GraphMenuUtils.GraphicsMenuTable.GraphMenuItemData(
-                        submc.ImagePath,
-                        submc.ImageToolTip,
-                        submc.Function )
-                );
+				if ( !File.Exists( submc.ImagePath ) ) {
+					errors.AppendFormat( "Missing graphic file: '{0}'", submc.ImagePath );
+					errors.AppendLine();
+				} else {
+	                items.Add(
+	                    new GraphMenuUtils.GraphicsMenuTable.GraphMenuItemData(
+	                        submc.ImagePath,
+	                        submc.ImageToolTip,
+	                        submc.Function )
+	                );
+				}
             }
 
             // Build the menu
@@ -90,7 +110,7 @@ namespace RAppMenu.Ui {
             return;
         }
 
-        private void BuildMenu()
+        private void BuildMainMenu()
         {
             // File menu
             var opQuit = new ToolStripMenuItem( "&Quit" );
@@ -120,15 +140,37 @@ namespace RAppMenu.Ui {
             this.MainMenuStrip = mMain;
         }
 
+		private void BuildErrorsPanel()
+		{
+			this.pnlErrors = new GroupBox();
+			this.pnlErrors.Hide();
+			this.Controls.Add( this.pnlErrors );
+			this.pnlErrors.Dock = DockStyle.Fill;
+			this.pnlErrors.Text = "Errors";
+			this.pnlErrors.Font = new Font( this.pnlErrors.Font, FontStyle.Bold );
+
+			this.lbErrors = new ListBox();
+			this.lbErrors.Font = new Font( this.lbErrors.Font, FontStyle.Regular );
+			this.lbErrors.ForeColor = Color.DarkRed;
+			this.lbErrors.Dock = DockStyle.Fill;
+			this.pnlErrors.Controls.Add( this.lbErrors );
+		}
+
         private void Build(Icon icon)
         {
-            this.BuildMenu();
+			this.BuildErrorsPanel();
+			this.BuildMainMenu();
 
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+			if ( errors.Length > 0 ) {
+				string[] errorList = this.errors.ToString().Split( '\n' );
+				this.lbErrors.Items.AddRange( errorList );
+				this.pnlErrors.Show();
+			}
+
             this.MinimizeBox = this.MaximizeBox = false;
             this.Icon = icon;
             this.Text = AppInfo.Name + " preview";
-            this.MinimumSize = new Size( 320, 240 );
+            this.MinimumSize = new Size( 600, 400 );
         }
 
         /// <summary>
@@ -142,6 +184,9 @@ namespace RAppMenu.Ui {
         }
 
         private DesignOfUserMenu document;
+		private GroupBox pnlErrors;
+		private ListBox lbErrors;
+		private StringBuilder errors;
     }
 }
 

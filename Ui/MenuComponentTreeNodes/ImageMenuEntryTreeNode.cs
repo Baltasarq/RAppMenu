@@ -9,8 +9,8 @@ namespace RAppMenu.Ui.MenuComponentTreeNodes {
 	/// Image menu entry in the UI side.
 	/// </summary>
 	public class ImageMenuEntryTreeNode: MenuComponentTreeNode {
-		public ImageMenuEntryTreeNode(string text, ImagesMenu parent)
-			:base( text, new ImageMenuEntry( text, parent) )
+		public ImageMenuEntryTreeNode(string text, GraphicMenu parent)
+			:base( text, new GraphicMenuEntry( text, parent) )
 		{
 			this.ImageIndex = this.SelectedImageIndex =
 				UserAction.LookUp( "addfunction" ).ImageIndex;
@@ -18,7 +18,7 @@ namespace RAppMenu.Ui.MenuComponentTreeNodes {
 
 		protected override MenuComponentGuiEditor CreateEditor(Panel pnl)
 		{
-			return new Ui.MenuComponentGuiEditors.ImageMenuEntryGuiEditor( pnl, this, this.MenuComponent );
+			return new Ui.MenuComponentGuiEditors.GraphicMenuEntryGuiEditor( pnl, this, this.MenuComponent );
 		}
 	}
 }

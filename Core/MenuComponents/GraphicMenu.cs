@@ -8,12 +8,12 @@ namespace RAppMenu.Core.MenuComponents {
 	/// <summary>
 	/// Represents a menu composed by images, which launch functions.
 	/// </summary>
-	public class ImagesMenu: Menu {
+	public class GraphicMenu: Menu {
         public const string EtqMinimumNumberOfColumns = "MinNumberColumns";
         public const string EtqImageWidth = "ImageWidth";
         public const string EtqImageHeight = "ImageHeight";
 
-		public ImagesMenu(string name, Menu parent)
+		public GraphicMenu(string name, Menu parent)
 			:base( name, parent )
 		{
             this.ImageWidth = this.ImageHeight = 0;
@@ -27,7 +27,7 @@ namespace RAppMenu.Core.MenuComponents {
 		/// <param name="f">The function to add, as a <see cref="Function"/> object.</param>
 		public override void Add(MenuComponent ime)
 		{
-			if ( !( ime is ImageMenuEntry) ) {
+			if ( !( ime is GraphicMenuEntry) ) {
 				throw new ArgumentException(
 					"argument should be a ImageMenuEntry for ImagesMenu.Add()" );
 			}
@@ -116,7 +116,7 @@ namespace RAppMenu.Core.MenuComponents {
                 doc.WriteEndAttribute();
             }
 
-			foreach(ImageMenuEntry imgmc in this.MenuComponents) {
+			foreach(GraphicMenuEntry imgmc in this.MenuComponents) {
 				imgmc.ToXml( doc );
 			}
 

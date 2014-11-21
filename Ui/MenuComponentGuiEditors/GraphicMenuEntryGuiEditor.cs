@@ -8,15 +8,15 @@ using RAppMenu.Ui;
 using RAppMenu.Core.MenuComponents;
 
 namespace RAppMenu.Ui.MenuComponentGuiEditors {
-	public class ImageMenuEntryGuiEditor: MenuComponentGuiEditor {
-		public ImageMenuEntryGuiEditor(Panel panel, MenuComponentTreeNode mctn, MenuComponent mc)
+	public class GraphicMenuEntryGuiEditor: MenuComponentGuiEditor {
+		public GraphicMenuEntryGuiEditor(Panel panel, MenuComponentTreeNode mctn, MenuComponent mc)
 			: base( panel, mctn, mc )
 		{
-			var ime = (ImageMenuEntry) mc;
+			var ime = (GraphicMenuEntry) mc;
 
 			this.Build();
 			this.functionEditor =
-				new FunctionGuiEditor( this.Panel, mctn, ( (ImageMenuEntry) mc ).Function );
+				new FunctionGuiEditor( this.Panel, mctn, ( (GraphicMenuEntry) mc ).Function );
 
 			this.edFileName.Text = ime.ImagePath;
 		}
@@ -64,7 +64,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
 		private void OnFileNameButtonClicked()
 		{
-			var imc = (ImageMenuEntry) this.MenuComponent;
+			var imc = (GraphicMenuEntry) this.MenuComponent;
 			var dlg = new OpenFileDialog();
 			dlg.InitialDirectory = AppInfo.GraphsFolder;
 			dlg.CheckFileExists = true;

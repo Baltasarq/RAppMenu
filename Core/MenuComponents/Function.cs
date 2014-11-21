@@ -10,7 +10,8 @@ namespace RAppMenu.Core.MenuComponents {
 	/// </summary>
 	public class Function: MenuComponent {
 		public const string TagName = "Function";
-		public const string TagSentence = "ExecuteOnce";
+		public const string TagSentences = "ExecuteOnce";
+		public const string EtqPreCommand = "PreCommand";
 		public const string EtqName = "Name";
 		public const string EtqDataHeader = "DataHeader";
 		public const string EtqRemoveQuotationMarks = "RemoveQuotationMarks";
@@ -93,31 +94,33 @@ namespace RAppMenu.Core.MenuComponents {
 				doc.WriteString( this.Name );
 				doc.WriteEndAttribute();
 
-				// DependsFrom = "?"
-				if ( !string.IsNullOrWhiteSpace( this.DependsFrom ) ) {
-					doc.WriteStartAttribute( EtqDepends );
-					doc.WriteString( this.DependsFrom );
+				if ( !this.IsRequired ) {
+					// DependsFrom = "?"
+					if ( !string.IsNullOrWhiteSpace( this.DependsFrom ) ) {
+						doc.WriteStartAttribute( EtqDepends );
+						doc.WriteString( this.DependsFrom );
+						doc.WriteEndAttribute();
+					}
+
+					// Tag = "?"
+					if ( !string.IsNullOrWhiteSpace( this.Tag ) ) {
+						doc.WriteStartAttribute( EtqTag );
+						doc.WriteString( this.Tag );
+						doc.WriteEndAttribute();
+					}
+
+					// AllowMultiSelect = "TRUE"
+					if ( this.AllowMultiselect ) {
+						doc.WriteStartAttribute( EtqAllowMultiSelect );
+						doc.WriteString( true.ToString().ToUpper() );
+						doc.WriteEndAttribute();
+					}
+
+					// Viewer = "Map"
+					doc.WriteStartAttribute( EtqViewer );
+					doc.WriteString( this.Viewer.ToString() );
 					doc.WriteEndAttribute();
 				}
-
-				// Tag = "?"
-				if ( !string.IsNullOrWhiteSpace( this.Tag ) ) {
-					doc.WriteStartAttribute( EtqTag );
-					doc.WriteString( this.Tag );
-					doc.WriteEndAttribute();
-				}
-
-				// AllowMultiSelect = "TRUE"
-				if ( this.AllowMultiselect ) {
-					doc.WriteStartAttribute( EtqAllowMultiSelect );
-					doc.WriteString( true.ToString().ToUpper() );
-					doc.WriteEndAttribute();
-				}
-
-				// Viewer = "Map"
-				doc.WriteStartAttribute( EtqViewer );
-				doc.WriteString( this.Viewer.ToString() );
-				doc.WriteEndAttribute();
 
 				doc.WriteEndElement();
 				return;
@@ -207,6 +210,19 @@ namespace RAppMenu.Core.MenuComponents {
 				return;
 			}
 
+			/// <summary>
+			/// Adds a vector of sentences.
+			/// </summary>
+			/// <param name="sentences">The sentences to add, as a vector of string.</param>
+			public void AddRange(string[] sentences)
+			{
+				foreach(string sentence in sentences) {
+					this.Add( sentence );
+				}
+
+				return;
+			}
+
             public override string ToString()
             {
                 var txt = new StringBuilder();
@@ -228,7 +244,7 @@ namespace RAppMenu.Core.MenuComponents {
             :base( name, parent )
 		{
 			this.argumentList = new ArgumentList();
-			this.preProgram = new ExecuteOnceProgram();
+			this.preOnceProgram = new ExecuteOnceProgram();
             this.startColumn = 0;
             this.HasData = false;
             this.DataHeader = false;
@@ -242,6 +258,13 @@ namespace RAppMenu.Core.MenuComponents {
 		/// <param name="doc">The document, as a XmlTextWriter.</param>
 		public override void ToXml(XmlTextWriter doc)
 		{
+			// Functions must be surrounded by dedicated menus
+			doc.WriteStartElement( Menu.TagName );
+			doc.WriteStartAttribute( EtqName );
+			doc.WriteString( this.Name );
+			doc.WriteEndAttribute();
+
+			// The function itself
             doc.WriteStartElement( TagName );
 
             // Name = "f1"
@@ -291,9 +314,16 @@ namespace RAppMenu.Core.MenuComponents {
                 doc.WriteEndAttribute();
             }
 
+			// PreCommand = "quit()"
+			if ( !string.IsNullOrWhiteSpace( this.PreCommand ) ) {
+				doc.WriteStartAttribute( EtqPreCommand );
+				doc.WriteString( this.PreCommand );
+				doc.WriteEndAttribute();
+			}
+
 			// ExecuteOnce sentences
-			foreach(string sentence in this.PreProgram) {
-				doc.WriteStartElement( TagSentence );
+			foreach(string sentence in this.PreProgramOnce) {
+				doc.WriteStartElement( TagSentences );
 				doc.WriteStartAttribute( EtqName );
 				doc.WriteString( sentence );
 				doc.WriteEndAttribute();
@@ -306,6 +336,7 @@ namespace RAppMenu.Core.MenuComponents {
 			}
 
             doc.WriteEndElement();
+			doc.WriteEndElement();
 		}
 
         /// <summary>
@@ -324,6 +355,14 @@ namespace RAppMenu.Core.MenuComponents {
         public bool DataHeader {
             get; set;
         }
+
+		/// <summary>
+		/// Gets or sets the command to execute prior this function.
+		/// </summary>
+		/// <value>The command, as a string.</value>
+		public string PreCommand {
+			get; set;
+		}
 
         /// <summary>
         /// Gets or sets the default data.
@@ -387,9 +426,9 @@ namespace RAppMenu.Core.MenuComponents {
 		/// <seealso cref="ExecuteOnce"/>
 		/// </summary>
 		/// <value>The execute once program.</value>
-		public ExecuteOnceProgram PreProgram {
+		public ExecuteOnceProgram PreProgramOnce {
 			get {
-				return this.preProgram;
+				return this.preOnceProgram;
 			}
 		}
 
@@ -406,7 +445,7 @@ namespace RAppMenu.Core.MenuComponents {
         private int startColumn;
         private int endColumn;
         private string defaultData;
-		private ExecuteOnceProgram preProgram;
+		private ExecuteOnceProgram preOnceProgram;
 		private ArgumentList argumentList;
 	}
 }

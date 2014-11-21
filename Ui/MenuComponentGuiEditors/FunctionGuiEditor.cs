@@ -174,6 +174,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.chkFunctionHasData.Dock = DockStyle.Fill;
 			this.chkFunctionHasData.MinimumSize =
 				new Size( this.chkFunctionHasData.Width, this.chkFunctionHasData.Height * 2 );
+			this.chkFunctionHasData.CheckedChanged += (object sender, EventArgs e) =>
+				this.Function.HasData = this.chkFunctionHasData.Checked;
 			this.pnlChecks.Controls.Add( this.chkFunctionHasData );
 
 			this.chkFunctionDataHeader = new CheckBox();
@@ -181,6 +183,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.chkFunctionDataHeader.Dock = DockStyle.Fill;
 			this.chkFunctionDataHeader.MinimumSize =
 				new Size( this.chkFunctionDataHeader.Width, this.chkFunctionDataHeader.Height * 2 );
+			this.chkFunctionDataHeader.CheckedChanged += (object sender, EventArgs e) =>
+				this.Function.DataHeader = this.chkFunctionDataHeader.Checked;
 			this.pnlChecks.Controls.Add( chkFunctionDataHeader );
 
 			this.chkFunctionRemoveQuotes = new CheckBox();
@@ -188,13 +192,15 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.chkFunctionRemoveQuotes.Dock = DockStyle.Fill;
 			this.chkFunctionRemoveQuotes.MinimumSize =
 				new Size( this.chkFunctionRemoveQuotes.Width, this.chkFunctionRemoveQuotes.Height * 2 );
+			this.chkFunctionRemoveQuotes.CheckedChanged += (object sender, EventArgs e) => 
+				this.Function.RemoveQuotationMarks = this.chkFunctionRemoveQuotes.Checked;
 			this.pnlChecks.Controls.Add( chkFunctionRemoveQuotes );
 		}
 
 		private void BuildDefaultData()
 		{
 			this.pnlGroupDefaultData = new GroupBox();
-            this.pnlGroupDefaultData.AutoSize = true;
+			this.pnlGroupDefaultData.AutoSize = true;
 			this.pnlGroupDefaultData.Dock = DockStyle.Top;
 			this.pnlGroupDefaultData.Text = "Default data";
 			this.pnlGroupDefaultData.Font = new Font( this.pnlGroupDefaultData.Font, FontStyle.Bold );
@@ -202,7 +208,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			var pnlInnerGroupDefaultData = new FlowLayoutPanel();
 			pnlInnerGroupDefaultData.Font = new Font( pnlInnerGroupDefaultData.Font, FontStyle.Regular );
 			pnlInnerGroupDefaultData.Dock = DockStyle.Fill;
-            pnlInnerGroupDefaultData.AutoSize = true;
+			pnlInnerGroupDefaultData.AutoSize = true;
 			this.pnlGroupDefaultData.Controls.Add( pnlInnerGroupDefaultData );
 			this.pnlContainer.Controls.Add( this.pnlGroupDefaultData );
 
@@ -213,8 +219,17 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			lblDefaultData.TextAlign = ContentAlignment.MiddleLeft;
 			this.edFunctionDefaultData = new TextBox();
 			this.edFunctionDefaultData.Font = new Font( this.edFunctionDefaultData.Font, FontStyle.Bold );
+			this.edFunctionDefaultData.KeyUp += (sender, e) => {
+				string contents = this.edFunctionDefaultData.Text.Trim();
+
+				if ( string.IsNullOrEmpty( contents ) ) {
+					this.Function.DefaultData = contents;
+				}
+
+				return;
+			};
 			pnlInnerGroupDefaultData.Controls.Add( lblDefaultData );
-            pnlInnerGroupDefaultData.Controls.Add( this.edFunctionDefaultData );
+			pnlInnerGroupDefaultData.Controls.Add( this.edFunctionDefaultData );
 
 			// Start column
 			var lblStartColumn = new Label();
@@ -224,8 +239,10 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.udFunctionStartColumn = new NumericUpDown();
 			this.udFunctionStartColumn.TextAlign = HorizontalAlignment.Right;
 			this.udFunctionStartColumn.Font = new Font( this.udFunctionStartColumn.Font, FontStyle.Bold );
-            this.udFunctionStartColumn.Maximum = 99;
-            this.udFunctionStartColumn.Minimum = 1;
+			this.udFunctionStartColumn.Maximum = 99;
+			this.udFunctionStartColumn.Minimum = 1;
+			this.udFunctionStartColumn.ValueChanged += (sender, e) =>
+				this.Function.StartColumn = (int) this.udFunctionStartColumn.Value;
 			pnlInnerGroupDefaultData.Controls.Add( lblStartColumn );
 			pnlInnerGroupDefaultData.Controls.Add( this.udFunctionStartColumn );
 
@@ -239,6 +256,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.udFunctionEndColumn.TextAlign = HorizontalAlignment.Right;
             this.udFunctionEndColumn.Maximum = 99;
             this.udFunctionEndColumn.Minimum = 1;
+			this.udFunctionEndColumn.ValueChanged += (sender, e) =>
+				this.Function.EndColumn = (int) this.udFunctionEndColumn.Value;
 			pnlInnerGroupDefaultData.Controls.Add( lblEndColumn );
 			pnlInnerGroupDefaultData.Controls.Add( this.udFunctionEndColumn );
 
@@ -278,6 +297,15 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.edFunctionPreCommand = new TextBox();
 			this.edFunctionPreCommand.Dock = DockStyle.Fill;
 			this.edFunctionPreCommand.Font = new Font( this.edFunctionPreCommand.Font, FontStyle.Bold );
+			this.edFunctionPreCommand.KeyUp += (sender, e) => {
+				string contents = this.edFunctionPreCommand.Text.Trim();
+
+				if ( string.IsNullOrEmpty( contents ) ) {
+					this.Function.PreCommand = contents;
+				}
+
+				return;
+			};
 			this.pnlPreCommand.Controls.Add( this.edFunctionPreCommand );
 			this.pnlPreCommand.Controls.Add( lblPreCommand );
 			this.pnlPreCommand.MaximumSize = new Size( int.MaxValue, this.edFunctionPreCommand.Height );
@@ -296,6 +324,15 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.edFunctionExecuteOnce.Multiline = true;
             this.edFunctionExecuteOnce.WordWrap = false;
             this.edFunctionExecuteOnce.ScrollBars = ScrollBars.Both;
+			this.edFunctionExecuteOnce.KeyUp += (sender, e) => {
+				string contents = this.edFunctionExecuteOnce.Text.Trim();
+
+				if ( string.IsNullOrEmpty( contents ) ) {
+					this.Function.PreProgramOnce.AddRange( contents.Split( '\n' ) );
+				}
+
+				return;
+			};
 			this.pnlExecuteOnce.Controls.Add( this.edFunctionExecuteOnce );
 			this.pnlExecuteOnce.Controls.Add( lblExecuteOnce );
 			pnlInnerGroupCommands.Controls.Add( this.pnlExecuteOnce );
@@ -326,7 +363,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.chkFunctionDataHeader.Checked = this.Function.DataHeader;
 			this.chkFunctionRemoveQuotes.Checked = this.Function.RemoveQuotationMarks;
 
-			this.edFunctionPreCommand.Text = this.Function.PreProgram.ToString();
+			this.edFunctionPreCommand.Text = this.Function.PreProgramOnce.ToString();
 			this.edFunctionDefaultData.Text = this.Function.DefaultData;
 		}
 
@@ -402,33 +439,52 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
 			// The name
 			if ( colIndex == 0 ) {
-				arg.Name = (string) row.Cells[ colIndex ].Value;
+				string contents = (string) row.Cells[ colIndex ].Value;
+
+				if ( !string.IsNullOrWhiteSpace( contents ) ) {
+					arg.Name = contents;
+				}
 			}
 			else
 			// The tag
 			if ( colIndex == 1 ) {
-				arg.Tag = (string) row.Cells[ colIndex ].Value;
+				string contents = (string) row.Cells[ colIndex ].Value;
+
+				if ( !string.IsNullOrWhiteSpace( contents ) ) {
+					arg.Tag = contents;
+				}
 			}
 			else
 			// The depends info
 			if ( colIndex == 2 ) {
-				arg.DependsFrom = (string) row.Cells[ colIndex ].Value;
+				string contents = (string) row.Cells[ colIndex ].Value;
+
+				if ( !string.IsNullOrWhiteSpace( contents ) ) {
+					arg.DependsFrom = contents;
+				}
 			}
 			else
 			// The requires info
 			if ( colIndex == 3 ) {
-				arg.IsRequired = ( (CheckBox) row.Cells[ colIndex ].Value ).Checked;
+				arg.IsRequired = (bool) row.Cells[ colIndex ].Value;
 			}
 			else
 			// The multiselect info
 			if ( colIndex == 4 ) {
-				arg.AllowMultiselect = ( (CheckBox) row.Cells[ colIndex ].Value ).Checked;
+				arg.AllowMultiselect = (bool) row.Cells[ colIndex ].Value;
 			}
 			else
 			// The viewer info
 			if ( colIndex == 5 ) {
-				arg.Viewer = (Function.Argument.ViewerType)
-					( (ComboBox) row.Cells[ colIndex ].Value ).SelectedIndex;
+				Function.Argument.ViewerType viewer;
+
+				bool parsedOk = Function.Argument.ViewerType.TryParse( 
+					(string) row.Cells[ colIndex ].Value,
+					out viewer );
+
+				if ( parsedOk ) {
+					arg.Viewer = viewer;
+				}
 			}
 
 			return;

@@ -10,7 +10,7 @@ namespace RAppMenu.Ui.MenuComponentTreeNodes {
     /// </summary>
     public class GraphicMenuTreeNode: MenuComponentTreeNode {
 		public GraphicMenuTreeNode(string text, Core.MenuComponents.Menu parent)
-            :base( text, new ImagesMenu( text, parent ) )
+            :base( text, new GraphicMenu( text, parent ) )
         {
             this.ImageIndex = this.SelectedImageIndex =
                 UserAction.LookUp( "addgraphicmenu" ).ImageIndex;
