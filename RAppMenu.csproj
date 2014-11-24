@@ -49,11 +49,9 @@
     <Compile Include="Core\MenuComponents\Separator.cs" />
     <Compile Include="Core\MenuComponents\Function.cs" />
     <Compile Include="Core\MenuComponents\PdfFile.cs" />
-    <Compile Include="Core\MenuComponents\ImagesMenu.cs" />
     <Compile Include="Ui\MenuComponentTreeNode.cs" />
     <Compile Include="Ui\UserAction.cs" />
     <Compile Include="Ui\PreviewWindow.cs" />
-    <Compile Include="Core\MenuComponents\ImageMenuEntry.cs" />
     <Compile Include="Core\MenuComponents\Menu.cs" />
     <Compile Include="Core\MenuComponents\RootMenu.cs" />
     <Compile Include="Ui\GraphMenu.cs" />
@@ -70,9 +68,11 @@
     <Compile Include="Ui\MenuComponentTreeNodes\ImageMenuEntryTreeNode.cs" />
     <Compile Include="Ui\MenuComponentTreeNodes\RootMenuTreeNode.cs" />
     <Compile Include="Ui\MenuComponentTreeNodes\MenuTreeNode.cs" />
-    <Compile Include="Ui\MenuComponentGuiEditors\ImageMenuEntryGuiEditor.cs" />
     <Compile Include="Ui\MenuComponentGuiEditors\FunctionGuiEditor.cs" />
     <Compile Include="Ui\MenuComponentGuiEditors\GraphicMenuGuiEditor.cs" />
+    <Compile Include="Core\MenuComponents\GraphicMenu.cs" />
+    <Compile Include="Core\MenuComponents\GraphicMenuEntry.cs" />
+    <Compile Include="Ui\MenuComponentGuiEditors\GraphicMenuEntryGuiEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />
