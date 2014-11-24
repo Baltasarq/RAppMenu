@@ -38,10 +38,9 @@ namespace RAppMenu.Ui {
 		{
 			this.SetStatus( "Preparing new document..." );
 			this.doc = new DesignOfUserMenu();
+            this.fileNameSet = false;
 
-            this.tvMenu.Nodes.Clear();
-			this.tvMenu.Nodes.Add( new UiComponents.RootMenuTreeNode( this.doc.Root ) );
-			this.PrepareView( true );
+            this.PrepareViewForNewMenu();
 		}
 
 		private void OnAddMenu()
@@ -245,30 +244,55 @@ namespace RAppMenu.Ui {
 
 		private void OnOpen()
 		{
-		}
+            this.SetStatus( "Loading menu..." );
 
-		private void OnSave()
-		{
-            var dlg = new SaveFileDialog();
+            var dlg = new OpenFileDialog();
 
-            dlg.Title = "Save menu";
+            dlg.Title = "Load menu";
             dlg.DefaultExt = AppInfo.FileExtension;
             dlg.CheckPathExists = true;
             dlg.InitialDirectory = this.ApplicationsFolder;
             dlg.Filter = AppInfo.FileExtension + "|*." + AppInfo.FileExtension
                 + "|All files|*";
-			dlg.FileName = this.Document.Root.Name;
-
-			this.SetStatus( "Saving menu..." );
 
             if ( dlg.ShowDialog() == DialogResult.OK ) {
                 this.ApplicationsFolder = Path.GetDirectoryName( dlg.FileName );
-                this.Document.SaveToFile( dlg.FileName );
-				this.TreeMenuRoot.Text = this.Document.Root.Name;
+                this.doc = DesignOfUserMenu.LoadFromFile( dlg.FileName );
+                this.PrepareViewForNewMenu();
+                this.TreeMenuRoot.Text = this.Document.Root.Name;
+                this.fileNameSet = true;
+            }
+
+            this.SetStatus();
+		}
+
+		private void OnSave()
+		{
+            this.SetStatus( "Saving menu..." );
+
+            if ( !fileNameSet ) {
+                var dlg = new SaveFileDialog();
+
+                dlg.Title = "Save menu";
+                dlg.DefaultExt = AppInfo.FileExtension;
+                dlg.CheckPathExists = true;
+                dlg.InitialDirectory = this.ApplicationsFolder;
+                dlg.Filter = AppInfo.FileExtension + "|*." + AppInfo.FileExtension
+                    + "|All files|*";
+    			dlg.FileName = this.Document.Root.Name;
+
+                if ( dlg.ShowDialog() == DialogResult.OK ) {
+                    this.ApplicationsFolder = Path.GetDirectoryName( dlg.FileName );
+                    this.Document.SaveToFile( dlg.FileName );
+    				this.TreeMenuRoot.Text = this.Document.Root.Name;
+                    this.fileNameSet = true;
+                }
+            } else {
+                string fileName = this.Document.Root.Name + '.' + AppInfo.FileExtension;
+                this.Document.SaveToFile( Path.Combine( this.ApplicationsFolder, fileName ) );
             }
 
 			this.SetStatus();
-            return;
 		}
 
 		private void OnPreview()
@@ -749,6 +773,13 @@ namespace RAppMenu.Ui {
             this.Size = this.MinimumSize;
 		}
 
+        private void PrepareViewForNewMenu()
+        {
+            this.tvMenu.Nodes.Clear();
+            this.tvMenu.Nodes.Add( new UiComponents.RootMenuTreeNode( this.doc.Root ) );
+            this.PrepareView( true );
+        }
+
 		private void PrepareView(bool view)
 		{
 			// Widgets
@@ -943,6 +974,7 @@ namespace RAppMenu.Ui {
 		private UserAction previewAction;
 
 		private DesignOfUserMenu doc;
+        private bool fileNameSet;
 	}
 }
 

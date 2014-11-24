@@ -73,6 +73,7 @@
     <Compile Include="Core\MenuComponents\GraphicMenu.cs" />
     <Compile Include="Core\MenuComponents\GraphicMenuEntry.cs" />
     <Compile Include="Ui\MenuComponentGuiEditors\GraphicMenuEntryGuiEditor.cs" />
+    <Compile Include="Core\XmlReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />

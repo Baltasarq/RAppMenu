@@ -22,6 +22,17 @@ namespace RAppMenu.Core.MenuComponents {
 			doc.WriteStartElement( TagName );
 			doc.WriteEndElement();
 		}
+
+        /// <summary>
+        /// Loads a separator from XML.
+        /// </summary>
+        /// <returns>A new <see cref="Separator"/>.</returns>
+        /// <param name="node">The <see cref="System.Xml.XmlNode"/> describing the separator.</param>
+        /// <param name="parent">The parent <see cref="Menu"/>.</param>
+        public static Separator FromXml(XmlNode node, Menu parent)
+        {
+            return new Separator( parent );
+        }
 	}
 }
 

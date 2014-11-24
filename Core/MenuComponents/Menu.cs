@@ -185,6 +185,23 @@ namespace RAppMenu.Core.MenuComponents {
 			doc.WriteEndElement();
 		}
 
+        /// <summary>
+        /// Loads a menu from XML.
+        /// </summary>
+        /// <returns>A new <see cref="Menu"/>.</returns>
+        /// <param name="node">The <see cref="System.Xml.XmlNode"/> describing the menu.</param>
+        /// <param name="parent">The parent <see cref="Menu"/>.</param>
+        public static Menu FromXml(XmlNode node, Menu parent)
+        {
+            var toret = new Menu( "tempMenu", parent );
+
+            // Name = "m1"
+            var nameAttr = (XmlAttribute) node.Attributes.GetNamedItem( EtqName );
+            toret.Name = nameAttr.InnerText;
+
+            return toret;
+        }
+
 		private List<MenuComponent> menuComponents;
 	}
 }

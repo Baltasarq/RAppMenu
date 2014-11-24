@@ -2,13 +2,15 @@ using System;
 using System.IO;
 using System.Xml;
 using System.Text;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 using RAppMenu.Core.MenuComponents;
 
 namespace RAppMenu.Core {
 	public class DesignOfUserMenu {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RAppMenu.Core.DesignOfUserMenu"/> class.
+        /// Creates an empty menu, with a Root node.
+        /// </summary>
 		public DesignOfUserMenu()
 		{
 			this.root = new RootMenu();
@@ -50,16 +52,29 @@ namespace RAppMenu.Core {
 		}
 
 		/// <summary>
-		/// Gets the menu components.
+		/// Gets the root menu component.
 		/// </summary>
 		/// <value>
-		/// The menu entries, as a <see cref="MenuEntry"/> collection.
+		/// The menu root component, as a <see cref="RootMenu"/> object.
 		/// </value>
 		public RootMenu Root {
 			get {
 				return this.root;
 			}
 		}
+
+        /// <summary>
+        /// Loads the document from a file.
+        /// </summary>
+        /// <returns>The <see cref="DesignOfUserMenu"/> loaded from file.</returns>
+        /// <param name="fileName">File name.</param>
+        public static DesignOfUserMenu LoadFromFile(string fileName)
+        {
+            var reader = new XmlReader( fileName );
+
+            reader.Read();
+            return reader.DesignOfUserMenu;
+        }
 
 		private RootMenu root;
 	}
