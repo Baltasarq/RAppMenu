@@ -34,9 +34,6 @@ namespace RAppMenu.Core {
 
             // Read the immediate upper level nodes
             this.ReadNodeInto( docXml.DocumentElement, this.document.Root );
-
-			this.SimplifyMenus();
-            return;
         }
 
         private void ReadNodeInto(XmlNode node, Menu menu)
@@ -63,15 +60,6 @@ namespace RAppMenu.Core {
 
             return;
         }
-
-		/// <summary>
-		/// Simplifies the menus pertaining to sole functions.
-		/// Runs over the document in depth.
-		/// </summary>
-		private void SimplifyMenus()
-		{
-
-		}
 
         /// <summary>
         /// Gets or sets the name of the file.

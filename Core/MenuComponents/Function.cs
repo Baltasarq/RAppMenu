@@ -516,7 +516,10 @@ namespace RAppMenu.Core.MenuComponents {
 
 		public static Function FromXml(XmlNode node, Menu menu)
 		{
-			var toret = new Function( "tempFn", menu );
+            // Create and eliminate the parent (superfluous) menu.
+            Menu trueParent = menu.Parent;
+            var toret = new Function( "tempFn", trueParent );
+            menu.Remove();
 
 			// Attribute info
 			foreach (XmlAttribute attr in node.Attributes) {
