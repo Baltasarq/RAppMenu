@@ -470,7 +470,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			if ( colIndex == 5 ) {
 				Function.Argument.ViewerType viewer;
 
-				bool parsedOk = Function.Argument.ViewerType.TryParse( 
+				bool parsedOk = Enum.TryParse( 
 					(string) row.Cells[ colIndex ].Value,
 					out viewer );
 
@@ -506,6 +506,38 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
             // Viewer
             this.grdArgsList.Columns[ 5 ].Width = (int) ( width * 0.20 );
+        }
+
+        public override void ReadDataFromComponent()
+        {
+            base.ReadDataFromComponent();
+
+            // Checkboxes
+            this.chkFunctionHasData.Checked = this.Function.HasData;
+            this.chkFunctionRemoveQuotes.Checked = this.Function.RemoveQuotationMarks;
+            this.chkFunctionDataHeader.Checked = this.Function.DataHeader;
+
+            // Data
+            this.edFunctionDefaultData.Text = this.Function.DefaultData;
+            this.edFunctionPreCommand.Text = this.Function.PreCommand;
+            this.edFunctionExecuteOnce.Text = this.Function.PreProgramOnce.ToString();
+            this.udFunctionStartColumn.Value = Math.Max( 1, this.Function.StartColumn );
+            this.udFunctionEndColumn.Value = Math.Max( 1, this.Function.EndColumn );
+
+            // Arguments
+            foreach(Function.Argument arg in this.Function.ArgList) {
+                this.grdArgsList.Rows.Add();
+                DataGridViewRow row = this.grdArgsList.Rows[ this.grdArgsList.Rows.Count - 1 ];
+
+                row.Cells[ 0 ].Value = arg.Name;
+                row.Cells[ 1 ].Value = arg.Tag;
+                row.Cells[ 2 ].Value = arg.DependsFrom;
+                row.Cells[ 3 ].Value = arg.IsRequired;
+                row.Cells[ 4 ].Value = arg.AllowMultiselect;
+                row.Cells[ 5 ].Value = arg.Viewer.ToString();
+            }
+
+            return;
         }
 
         private TableLayoutPanel pnlContainer;
