@@ -19,5 +19,13 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		{
 			base.Show();
 		}
+
+		/// <summary>
+		/// Reads the data from the component.
+		/// The separator needs no data, nothing to do here.
+		/// </summary>
+		public override void ReadDataFromComponent()
+		{
+		}
     }
 }

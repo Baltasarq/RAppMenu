@@ -20,6 +20,18 @@ namespace RAppMenu.Ui
 		}
 
 		/// <summary>
+		/// Initializes a new instance of the <see cref="RAppMenu.Ui.MenuComponentTreeNode"/> class.
+		/// Nothing is created, everything already available (useful when loading).
+		/// </summary>
+		/// <param name="mc">The <see cref="MenuComponent"/>.</param>
+		public MenuComponentTreeNode(MenuComponent mc)
+			:base( mc.Name )
+		{
+			this.editor = null;
+			this.menuComponent = mc;
+		}
+
+		/// <summary>
 		/// Gets the menu component associated to this tree node.
 		/// </summary>
 		/// <value>

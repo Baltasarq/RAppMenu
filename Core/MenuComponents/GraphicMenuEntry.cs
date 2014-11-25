@@ -93,6 +93,13 @@ namespace RAppMenu.Core.MenuComponents {
 			}
 		}
 
+		public override string ToString()
+		{
+			return string.Format( "[GraphicMenuEntry: Name={0}, ImagePath={1}, "
+				+ "ImageToolTip={2}, Function={3}]",
+			    Name, ImagePath, ImageToolTip, Function.ToString() );
+		}
+
 		public override void ToXml(XmlTextWriter doc)
 		{
 			doc.WriteStartElement( Menu.TagName );
@@ -118,6 +125,11 @@ namespace RAppMenu.Core.MenuComponents {
 
 			this.Function.ToXml( doc );
 			doc.WriteEndElement();
+		}
+
+		public static GraphicMenuEntry FromXml(XmlNode node, GraphicMenu menu)
+		{
+			throw new NotImplementedException();
 		}
 
 		private string imagePath;

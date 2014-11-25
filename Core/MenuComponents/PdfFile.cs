@@ -21,6 +21,11 @@ namespace RAppMenu.Core.MenuComponents {
             }
         }
 
+		public override string ToString()
+		{
+			return string.Format( "[PdfFile: FileName={0}]", FileName );
+		}
+
         public override void ToXml(XmlTextWriter doc)
         {
             doc.WriteStartElement( TagName );
@@ -29,6 +34,17 @@ namespace RAppMenu.Core.MenuComponents {
             doc.WriteEndAttribute();
             doc.WriteEndElement();
         }
+
+		public static PdfFile FromXml(XmlNode node, Menu parent)
+		{
+			var toret = new PdfFile( "tempFileName.test", parent );
+
+			// Name = "m1"
+			var nameAttr = (XmlAttribute) node.Attributes.GetNamedItem( EtqName );
+			toret.Name = nameAttr.InnerText;
+
+			return toret;
+		}
     }
 }
 

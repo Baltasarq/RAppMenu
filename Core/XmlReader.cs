@@ -35,6 +35,7 @@ namespace RAppMenu.Core {
             // Read the immediate upper level nodes
             this.ReadNodeInto( docXml.DocumentElement, this.document.Root );
 
+			this.SimplifyMenus();
             return;
         }
 
@@ -43,15 +44,34 @@ namespace RAppMenu.Core {
             // Subnodes of node
             foreach(XmlNode subNode in node.ChildNodes) {
                 if ( subNode.Name.Equals( Menu.TagName, StringComparison.OrdinalIgnoreCase ) ) {
-                    Menu subMenu = Menu.FromXml( subNode, menu );
-
-                    menu.Add( subMenu );
+                    var subMenu = Menu.FromXml( subNode, menu );
                     this.ReadNodeInto( subNode, subMenu );
                 }
+				else
+				if ( subNode.Name.Equals( PdfFile.TagName, StringComparison.OrdinalIgnoreCase ) ) {
+					PdfFile.FromXml( subNode, menu );
+				}
+				else
+				if ( subNode.Name.Equals( Separator.TagName, StringComparison.OrdinalIgnoreCase ) ) {
+					Separator.FromXml( subNode, menu );
+				}
+				else
+				if ( subNode.Name.Equals( Function.TagName, StringComparison.OrdinalIgnoreCase ) ) {
+					Function.FromXml( subNode, menu );
+				}
             }
 
             return;
         }
+
+		/// <summary>
+		/// Simplifies the menus pertaining to sole functions.
+		/// Runs over the document in depth.
+		/// </summary>
+		private void SimplifyMenus()
+		{
+
+		}
 
         /// <summary>
         /// Gets or sets the name of the file.

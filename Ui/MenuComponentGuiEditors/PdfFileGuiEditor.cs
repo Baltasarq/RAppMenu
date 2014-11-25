@@ -84,6 +84,18 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			return;
 		}
 
+		/// <summary>
+		/// Reads the data from component.
+		/// Stores the filename info in the edFileName control.
+		/// </summary>
+		public override void ReadDataFromComponent()
+		{
+			string fileName = Path.GetFileName( this.MenuComponent.Name );
+
+			this.edFileName.Text = fileName;
+			this.MenuComponentTreeNode.Text = fileName;
+		}
+
 		private Panel pnlEdFileName;
 		private Label lblFileName;
 		private Label edFileName;

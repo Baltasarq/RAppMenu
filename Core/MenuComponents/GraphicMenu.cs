@@ -86,6 +86,16 @@ namespace RAppMenu.Core.MenuComponents {
             }
         }
 
+		public override string ToString()
+		{
+			string toret = base.ToString();
+
+			toret = "[GraphicMenu" + toret.Substring( 5, toret.Length -1 );
+
+			return toret
+				+ string.Format( "ImageWidth={0}, ImageHeight={1}, MinimumNumberOfColumns={2}]", ImageWidth, ImageHeight, MinimumNumberOfColumns );
+		}
+
         public override void ToXml(XmlTextWriter doc)
         {
             doc.WriteStartElement( Menu.TagName );
@@ -122,6 +132,11 @@ namespace RAppMenu.Core.MenuComponents {
 
             doc.WriteEndElement();
         }
+
+		public new static GraphicMenu FromXml(XmlNode node, Menu menu)
+		{
+			throw new NotImplementedException();
+		}
 
         private int imageWidth;
         private int imageHeight;

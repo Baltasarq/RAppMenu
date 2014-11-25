@@ -66,6 +66,11 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			}
 		}
 
+		public override void ReadDataFromComponent()
+		{
+			this.edName.Text = this.MenuComponent.Name;
+		}
+
 		private Panel pnlEdName;
 		private Label lblName;
 		private TextBox edName;

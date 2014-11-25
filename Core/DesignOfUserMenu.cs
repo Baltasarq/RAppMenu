@@ -76,6 +76,11 @@ namespace RAppMenu.Core {
             return reader.DesignOfUserMenu;
         }
 
+		public override string ToString()
+		{
+			return string.Format( "[DesignOfUserMenu: Root={0}]", Root.ToString() );
+		}
+
 		private RootMenu root;
 	}
 }

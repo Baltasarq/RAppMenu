@@ -1,5 +1,6 @@
 using System;
 using System.Xml;
+using System.Text;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 
@@ -167,6 +168,19 @@ namespace RAppMenu.Core.MenuComponents {
 
             return;
         }
+
+		public override string ToString()
+		{
+			var toret = new StringBuilder();
+
+			toret.AppendFormat( "[Menu: name={0} sub-components=[", this.Name );
+
+			foreach(MenuComponent mc in this.MenuComponents) {
+				toret.Append( mc.ToString() );
+			}
+
+			return toret.Append( "]]" ).ToString();
+		}
 
 		public override void ToXml(XmlTextWriter doc)
 		{

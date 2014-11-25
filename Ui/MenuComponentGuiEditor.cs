@@ -71,6 +71,12 @@ namespace RAppMenu.Ui {
 			}
 		}
 
+		/// <summary>
+		/// Reads the data from the component.
+		/// The editor reflects the info in the <see cref="MenuComponent"/>
+		/// </summary>
+		public abstract void ReadDataFromComponent();
+
         private Panel panel;
 		private MenuComponentTreeNode mctn;
 

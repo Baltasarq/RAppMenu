@@ -86,6 +86,11 @@ namespace RAppMenu.Core {
 		/// </summary>
 		public abstract void ToXml(XmlTextWriter doc);
 
+		public override string ToString()
+		{
+			return string.Format( "[MenuComponent: Name={0}]", Name );
+		}
+
         private string name;
 		private Menu parent;
 	}

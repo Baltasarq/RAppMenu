@@ -74,6 +74,13 @@ namespace RAppMenu.Core.MenuComponents {
 				get; set;
 			}
 
+			public override string ToString()
+			{
+				return string.Format( "[Argument: IsRequired={0}, Viewer={1}, "
+							+ "DependsFrom={2}, Tag={3}, AllowMultiselect={4}]",
+				            IsRequired, Viewer, DependsFrom, Tag, AllowMultiselect );
+			}
+
 			/// <summary>
 			/// Converts this menu component to XML.
 			/// </summary>
@@ -125,6 +132,48 @@ namespace RAppMenu.Core.MenuComponents {
 				doc.WriteEndElement();
 				return;
 			}
+
+			public static Argument FromXml(XmlNode node, Function fn)
+			{
+				var toret = new Argument( "tempArg" );
+
+				// RequiredArgument or Argument ?
+				toret.IsRequired = ( node.Name.Equals( RequiredArgumentTagName, StringComparison.OrdinalIgnoreCase ) );
+
+				foreach(XmlAttribute attr in node.Attributes) {
+					// Name = "arg"
+					if ( attr.Name.Equals( EtqName, StringComparison.OrdinalIgnoreCase ) ) {
+						toret.Name = attr.InnerText.Trim();
+
+						if ( toret.IsRequired ) {
+							break;
+						}
+					}
+					else
+					// DependsFrom = "?"
+					if ( attr.Name.Equals( EtqDepends, StringComparison.OrdinalIgnoreCase ) ) {
+						toret.DependsFrom = attr.InnerText.Trim();
+					}
+					else
+					// Tag = "?"
+					if ( attr.Name.Equals( EtqTag, StringComparison.OrdinalIgnoreCase ) ) {
+						toret.Tag = attr.InnerText.Trim();
+					}
+					else
+					// AllowMultiSelect = "TRUE"
+					if ( attr.Name.Equals( EtqAllowMultiSelect, StringComparison.OrdinalIgnoreCase ) ) {
+						toret.AllowMultiselect = bool.Parse( attr.InnerText.Trim() );
+					}
+					else
+					// Viewer = "Map"
+					if ( attr.Name.Equals( EtqViewer, StringComparison.OrdinalIgnoreCase ) ) {
+						toret.Viewer = (ViewerType) Enum.Parse( typeof( ViewerType ), attr.InnerText.Trim(), true );
+					}
+				}
+
+				fn.ArgList.Add( toret );
+				return toret;
+			}
 		}
 
 		/// <summary>
@@ -168,6 +217,19 @@ namespace RAppMenu.Core.MenuComponents {
 				}
 
 				return;
+			}
+
+			public override string ToString()
+			{
+				var toret = new StringBuilder();
+
+				toret.Append( "[ArgumentList arguments=[" );
+
+				foreach(Argument arg in this) {
+					toret.Append( arg.ToString() );
+				}
+
+				return toret.Append( "]]" ).ToString();
 			}
 		}
 
@@ -250,6 +312,119 @@ namespace RAppMenu.Core.MenuComponents {
             this.DataHeader = false;
             this.RemoveQuotationMarks = false;
             this.DefaultData = "";
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this function has data.
+		/// </summary>
+		/// <value><c>true</c> if this instance has data; otherwise, <c>false</c>.</value>
+		public bool HasData {
+			get; set;
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this
+		/// <see cref="RAppMenu.Core.MenuComponents.Function"/> has a data header.
+		/// </summary>
+		/// <value><c>true</c> if data header; otherwise, <c>false</c>.</value>
+		public bool DataHeader {
+			get; set;
+		}
+
+		/// <summary>
+		/// Gets or sets the command to execute prior this function.
+		/// </summary>
+		/// <value>The command, as a string.</value>
+		public string PreCommand {
+			get; set;
+		}
+
+		/// <summary>
+		/// Gets or sets the default data.
+		/// </summary>
+		/// <value>The default data, as a string.</value>
+		public string DefaultData {
+			get {
+				return this.defaultData;
+			}
+			set {
+				this.defaultData = value.Trim();
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the start column.
+		/// </summary>
+		/// <value>The start column, as an int.</value>
+		public int StartColumn {
+			get {
+				return this.startColumn;
+			}
+			set {
+				if ( value < 0 ) {
+					throw new ArgumentOutOfRangeException( "Function.StartColumn should be >= 0" );
+				}
+
+				this.startColumn = value;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the ending column.
+		/// </summary>
+		/// <value>The ending column, as an int.</value>
+		public int EndColumn {
+			get {
+				return this.endColumn;
+			}
+			set {
+				if ( value < 0 ) {
+					throw new ArgumentOutOfRangeException( "Function.EndColumn should be >= 0" );
+				}
+
+				this.endColumn = value;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this
+		/// <see cref="RAppMenu.Core.MenuComponents.Function"/> should remove
+		/// the quotation marks.
+		/// </summary>
+		/// <value><c>true</c> if remove quotation marks; otherwise, <c>false</c>.</value>
+		public bool RemoveQuotationMarks {
+			get; set;
+		}
+
+		/// <summary>
+		/// Gets the execute once program.
+		/// <seealso cref="ExecuteOnce"/>
+		/// </summary>
+		/// <value>The execute once program.</value>
+		public ExecuteOnceProgram PreProgramOnce {
+			get {
+				return this.preOnceProgram;
+			}
+		}
+
+		/// <summary>
+		/// Gets the argument list.
+		/// </summary>
+		/// <value>The argument list, as a <see cref="ArgumentList"/>.</value>
+		public ArgumentList ArgList {
+			get {
+				return this.argumentList;
+			}
+		}
+
+		public override string ToString()
+		{
+			return string.Format( "[Function: Name={0} HasData={1}, DataHeader={2}, "
+					+ "PreCommand={3}, DefaultData={4}, StartColumn={5}, EndColumn={6}, "
+					+ "RemoveQuotationMarks={7}, PreProgramOnce={8}, ArgList={9}]",
+			        Name,
+				    HasData, DataHeader, PreCommand, DefaultData, StartColumn,
+			        EndColumn, RemoveQuotationMarks, PreProgramOnce, ArgList.ToString() );
 		}
 
 		/// <summary>
@@ -339,107 +514,67 @@ namespace RAppMenu.Core.MenuComponents {
 			doc.WriteEndElement();
 		}
 
-        /// <summary>
-        /// Gets or sets a value indicating whether this function has data.
-        /// </summary>
-        /// <value><c>true</c> if this instance has data; otherwise, <c>false</c>.</value>
-        public bool HasData {
-            get; set;
-        }
+		public static Function FromXml(XmlNode node, Menu menu)
+		{
+			var toret = new Function( "tempFn", menu );
 
-        /// <summary>
-        /// Gets or sets a value indicating whether this
-        /// <see cref="RAppMenu.Core.MenuComponents.Function"/> has a data header.
-        /// </summary>
-        /// <value><c>true</c> if data header; otherwise, <c>false</c>.</value>
-        public bool DataHeader {
-            get; set;
-        }
-
-		/// <summary>
-		/// Gets or sets the command to execute prior this function.
-		/// </summary>
-		/// <value>The command, as a string.</value>
-		public string PreCommand {
-			get; set;
-		}
-
-        /// <summary>
-        /// Gets or sets the default data.
-        /// </summary>
-        /// <value>The default data, as a string.</value>
-        public string DefaultData {
-            get {
-                return this.defaultData;
-            }
-            set {
-                this.defaultData = value.Trim();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the start column.
-        /// </summary>
-        /// <value>The start column, as an int.</value>
-        public int StartColumn {
-            get {
-                return this.startColumn;
-            }
-            set {
-                if ( value < 0 ) {
-                    throw new ArgumentOutOfRangeException( "Function.StartColumn should be >= 0" );
-                }
-
-                this.startColumn = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the ending column.
-        /// </summary>
-        /// <value>The ending column, as an int.</value>
-        public int EndColumn {
-            get {
-                return this.endColumn;
-            }
-            set {
-                if ( value < 0 ) {
-                    throw new ArgumentOutOfRangeException( "Function.EndColumn should be >= 0" );
-                }
-
-                this.endColumn = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this
-        /// <see cref="RAppMenu.Core.MenuComponents.Function"/> should remove
-        /// the quotation marks.
-        /// </summary>
-        /// <value><c>true</c> if remove quotation marks; otherwise, <c>false</c>.</value>
-        public bool RemoveQuotationMarks {
-            get; set;
-        }
-
-		/// <summary>
-		/// Gets the execute once program.
-		/// <seealso cref="ExecuteOnce"/>
-		/// </summary>
-		/// <value>The execute once program.</value>
-		public ExecuteOnceProgram PreProgramOnce {
-			get {
-				return this.preOnceProgram;
+			// Attribute info
+			foreach (XmlAttribute attr in node.Attributes) {
+				// Name = "m1"
+				if ( attr.Name.Equals( EtqName, StringComparison.OrdinalIgnoreCase ) ) {
+					toret.Name = attr.InnerText;
+				}
+				else
+				// HasData = "true"
+				if ( attr.Name.Equals( EtqHasData, StringComparison.OrdinalIgnoreCase ) ) {
+					toret.HasData = bool.Parse( attr.InnerText );
+				}
+				else
+				// RemoveQuotationMarks = "TRUE"
+				if ( attr.Name.Equals( EtqRemoveQuotationMarks, StringComparison.OrdinalIgnoreCase ) ) {
+					toret.HasData = bool.Parse( attr.InnerText );
+				}
+				else
+				// DataHeader = "TRUE"
+				if ( attr.Name.Equals( EtqDataHeader, StringComparison.OrdinalIgnoreCase ) ) {
+					toret.DataHeader = bool.Parse( attr.InnerText );
+				}
+				else
+				// DefaultData = "Carnivores"
+				if ( attr.Name.Equals( EtqDefaultData, StringComparison.OrdinalIgnoreCase ) ) {
+					toret.DefaultData = attr.InnerText.Trim();
+				}
+				else
+				// StartColumn = "1"
+				if ( attr.Name.Equals( EtqStartColumn, StringComparison.OrdinalIgnoreCase ) ) {
+					toret.StartColumn = int.Parse( attr.InnerText.Trim() );
+				}
+				else
+				// EndColumn = "1"
+				if ( attr.Name.Equals( EtqEndColumn, StringComparison.OrdinalIgnoreCase ) ) {
+					toret.EndColumn = int.Parse( attr.InnerText.Trim() );
+				}
+				else
+				// PreCommand = "quit()"
+				if ( attr.Name.Equals( EtqPreCommand, StringComparison.OrdinalIgnoreCase ) ) {
+					toret.PreCommand = attr.InnerText.Trim();
+				}
 			}
-		}
 
-		/// <summary>
-		/// Gets the argument list.
-		/// </summary>
-		/// <value>The argument list, as a <see cref="ArgumentList"/>.</value>
-		public ArgumentList ArgList {
-			get {
-				return this.argumentList;
+			// Function arguments & execute once sentences
+			foreach (XmlNode subNode in node.ChildNodes) {
+				if ( subNode.Name.Equals( TagSentences, StringComparison.OrdinalIgnoreCase ) ) {
+					toret.PreProgramOnce.Add( subNode.Attributes.GetNamedItem( EtqName ).InnerText );
+				}
+				else
+				if ( subNode.Name.Equals( Argument.ArgumentTagName, StringComparison.OrdinalIgnoreCase )
+				  || subNode.Name.Equals( Argument.RequiredArgumentTagName, StringComparison.OrdinalIgnoreCase ) )
+				{
+					Argument.FromXml( subNode, toret );
+				}
 			}
+
+			return toret;
 		}
 
         private int startColumn;

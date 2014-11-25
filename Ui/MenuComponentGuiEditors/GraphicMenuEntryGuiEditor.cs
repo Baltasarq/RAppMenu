@@ -112,6 +112,12 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			return;
 		}
 
+		public override void ReadDataFromComponent()
+		{
+			this.edFileName.Text = this.GraphicMenuEntry.ImagePath;
+			this.edTooltip.Text = this.GraphicMenuEntry.ImageToolTip;
+		}
+
 		public GraphicMenuEntry GraphicMenuEntry {
 			get {
 				return (GraphicMenuEntry) this.MenuComponent;

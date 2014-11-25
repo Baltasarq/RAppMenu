@@ -84,7 +84,7 @@ namespace RAppMenu.Ui {
         private void OnAddSeparator()
         {
             MenuComponent parentMc = this.GetMenuComponentOfTreeNode();
-			this.AddTreeNode( new UiComponents.SeparatorTreeNode( (CoreComponents.Menu) parentMc ) );
+			this.AddTreeNode( new UiComponents.SeparatorTreeNode( "sep", (CoreComponents.Menu) parentMc ) );
         }
 
         private void OnAddGraphicMenu()
@@ -261,9 +261,64 @@ namespace RAppMenu.Ui {
                 this.PrepareViewForNewMenu();
                 this.TreeMenuRoot.Text = this.Document.Root.Name;
                 this.fileNameSet = true;
+				this.PrepareEditorsForDocument();
+				Console.WriteLine( this.Document.ToString() );
             }
 
             this.SetStatus();
+		}
+
+		/// <summary>
+		/// Prepares the editors for document.
+		/// Makes the view reflect the document structure.
+		/// Useful when loading.
+		/// </summary>
+		private void PrepareEditorsForDocument()
+		{
+			this.PrepareEditorsFor( this.TreeMenuRoot, this.Document.Root );
+			this.TreeMenuRoot.GetEditor( null ).Show();
+			this.TreeMenuRoot.ExpandAll();
+		}
+
+		private void PrepareEditorsFor(MenuComponentTreeNode mctn, CoreComponents.Menu menu)
+		{
+			foreach(MenuComponent submc in menu.MenuComponents) {
+				var subMenu = submc as CoreComponents.Menu;
+				var separator = submc as CoreComponents.Separator;
+				var pdfFile = submc as CoreComponents.PdfFile;
+				var function = submc as CoreComponents.Function;
+
+				if ( subMenu != null ) {
+					var mtn = new MenuComponentTreeNodes.MenuTreeNode( subMenu );
+
+					mctn.Nodes.Add( mtn );
+					mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
+					this.PrepareEditorsFor( mtn, subMenu );
+				}
+				else
+				if ( separator != null ) {
+					var mtn = new MenuComponentTreeNodes.SeparatorTreeNode( separator );
+
+					mctn.Nodes.Add( mtn );
+					mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
+				}
+				else
+				if ( pdfFile != null ) {
+					var mtn = new MenuComponentTreeNodes.PdfTreeNode( pdfFile );
+
+					mctn.Nodes.Add( mtn );
+					mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
+				}
+				else
+				if ( function != null ) {
+					var mtn = new MenuComponentTreeNodes.FunctionTreeNode( function );
+
+					mctn.Nodes.Add( mtn );
+					mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
+				}
+			}
+
+			return;
 		}
 
 		private void OnSave()

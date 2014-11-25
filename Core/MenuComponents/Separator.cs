@@ -33,6 +33,11 @@ namespace RAppMenu.Core.MenuComponents {
         {
             return new Separator( parent );
         }
+
+		public override string ToString()
+		{
+			return "[Separator]";
+		}
 	}
 }
 
