@@ -8,22 +8,8 @@ namespace RAppMenu.Ui
 	public abstract class MenuComponentTreeNode: TreeNode {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RAppMenu.Ui.MenuComponentTreeNode"/> class.
-		/// Each treenode has a corresponding core component.
 		/// </summary>
-		/// <param name="text">The text for the menu (and the corresponding core component's name)</param>
-		/// <param name="mc">The core component for this entry.</param>
-		public MenuComponentTreeNode(string text, MenuComponent mc)
-			:base( text )
-		{
-			this.editor = null;
-			this.menuComponent = mc;
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="RAppMenu.Ui.MenuComponentTreeNode"/> class.
-		/// Nothing is created, everything already available (useful when loading).
-		/// </summary>
-		/// <param name="mc">The <see cref="MenuComponent"/>.</param>
+		/// <param name="mc">The <see cref="MenuComponent"/> being represented.</param>
 		public MenuComponentTreeNode(MenuComponent mc)
 			:base( mc.Name )
 		{

@@ -13,16 +13,8 @@ namespace RAppMenu.Ui.MenuComponentTreeNodes {
     public class MenuTreeNode: MenuComponentTreeNode {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RAppMenu.Ui.TreeNodes.MenuEntryTreeNode"/> class.
-		/// The corresponding <see cref="MenuComponent"/> is created.
 		/// </summary>
-		/// <param name="text">The entry's text.</param>
-		/// <param name="parent">The menu component parent.</param>
-        public MenuTreeNode(string text, Core.MenuComponents.Menu parent)
-			:base( text, new Core.MenuComponents.Menu( text, parent ) )
-        {
-            this.Init();
-        }
-
+		/// <param name="menu">The menu component being represented.</param>
 		public MenuTreeNode(Core.MenuComponents.Menu menu)
 			:base( menu )
 		{
@@ -31,11 +23,11 @@ namespace RAppMenu.Ui.MenuComponentTreeNodes {
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RAppMenu.Ui.MenuComponentTreeNodes.MenuTreeNode"/> class.
-		/// This is used in order to created the top root menu.
+		/// This is internally used in order to created the top root menu.
 		/// </summary>
 		/// <param name="rme">Rme.</param>
 		protected MenuTreeNode(RootMenu rme)
-			:base( rme.Name, rme )
+			:base( rme )
 		{
             this.Init();
 		}

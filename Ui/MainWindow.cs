@@ -50,23 +50,26 @@ namespace RAppMenu.Ui {
 
 			this.SetStatus( "Creating menu..." );
             id += this.tvMenu.GetNodeCount( true ).ToString();
-            this.AddTreeNode( new UiComponents.MenuTreeNode( id, (CoreComponents.Menu) parentMc ) );
+            var menu = new CoreComponents.Menu( id, (CoreComponents.Menu) parentMc );
+            this.AddTreeNode( new UiComponents.MenuTreeNode( menu ) );
 		}
 
         private void OnAddFunction()
         {
 			MenuComponentTreeNode tn;
-            MenuComponent parentMenuComponent = this.GetMenuComponentOfTreeNode();
-			var parentImagesMenu = parentMenuComponent as CoreComponents.GraphicMenu;
+            MenuComponent parentMc = this.GetMenuComponentOfTreeNode();
+			var parentImagesMenu = parentMc as CoreComponents.GraphicMenu;
 			string id = this.tvMenu.GetNodeCount( true ).ToString();
 
 			this.SetStatus( "Creating function..." );
 			if ( parentImagesMenu != null ) {
 				id = "newGraphIdFunction" + id;
-				tn = new UiComponents.ImageMenuEntryTreeNode( id, parentImagesMenu );
+                var ime = new CoreComponents.GraphicMenuEntry( id, parentImagesMenu );
+				tn = new UiComponents.ImageMenuEntryTreeNode( ime );
 			} else {
 				id = "newFunction" + id;
-				tn = new UiComponents.FunctionTreeNode( id, (CoreComponents.Menu) parentMenuComponent );
+                var f = new CoreComponents.Function( id, (CoreComponents.Menu) parentMc );
+				tn = new UiComponents.FunctionTreeNode( f );
 			}
 
             this.AddTreeNode( tn );
@@ -78,13 +81,16 @@ namespace RAppMenu.Ui {
             string id = "file" + this.tvMenu.GetNodeCount( true ) + ".pdf";
 
 			this.SetStatus( "Creating pdf..." );
-			this.AddTreeNode( new UiComponents.PdfTreeNode( id, (CoreComponents.Menu) parentMc ) );
+            var pf = new CoreComponents.PdfFile( id, (CoreComponents.Menu) parentMc );
+			this.AddTreeNode( new UiComponents.PdfFileTreeNode( pf ) );
         }
 
         private void OnAddSeparator()
         {
             MenuComponent parentMc = this.GetMenuComponentOfTreeNode();
-			this.AddTreeNode( new UiComponents.SeparatorTreeNode( "sep", (CoreComponents.Menu) parentMc ) );
+
+            var sep = new CoreComponents.Separator( (CoreComponents.Menu) parentMc );
+            this.AddTreeNode( new UiComponents.SeparatorTreeNode( sep ) );
         }
 
         private void OnAddGraphicMenu()
@@ -94,7 +100,8 @@ namespace RAppMenu.Ui {
 
 			this.SetStatus( "Creating graphic menu..." );
             id += this.tvMenu.GetNodeCount( true ).ToString();
-			this.AddTreeNode( new UiComponents.GraphicMenuTreeNode( id, (CoreComponents.Menu) parentMc ) );
+            var gm = new CoreComponents.GraphicMenu( id, (CoreComponents.Menu) parentMc );
+            this.AddTreeNode( new UiComponents.GraphicMenuTreeNode( gm ) );
         }
 
         /// <summary>
@@ -304,7 +311,7 @@ namespace RAppMenu.Ui {
 				}
 				else
 				if ( pdfFile != null ) {
-					var mtn = new MenuComponentTreeNodes.PdfTreeNode( pdfFile );
+					var mtn = new MenuComponentTreeNodes.PdfFileTreeNode( pdfFile );
 
 					mctn.Nodes.Add( mtn );
 					mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();

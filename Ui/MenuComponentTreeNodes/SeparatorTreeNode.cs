@@ -10,28 +10,15 @@ namespace RAppMenu.Ui.MenuComponentTreeNodes {
     /// Tree node for separators.
     /// </summary>
     public class SeparatorTreeNode: MenuComponentTreeNode {
-		/// <summary>
-		/// Initializes a new instance of the <see cref="RAppMenu.Ui.MenuComponentTreeNodes.SeparatorTreeNode"/> class.
-		/// Creates the associated MenuComponent.
-		/// </summary>
-		/// <param name="text">This string parameter is ignored.</param>
-		/// <param name="parent">The <see cref="Menu"/> which is parent of this component.</param>
-		public SeparatorTreeNode(string text, Core.MenuComponents.Menu parent)
-            :base( Separator.TagName, new Separator( parent ) )
-        {
-			this.Init();
-        }
-
-		public SeparatorTreeNode(Separator separator)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RAppMenu.Ui.MenuComponentTreeNodes.SeparatorTreeNode"/> class.
+        /// </summary>
+        /// <param name="separator">The <see cref="Separator"/> to represent.</param>
+        public SeparatorTreeNode(Separator separator)
 			:base( separator )
 		{
-			this.Init();
-		}
-
-		private void Init()
-		{
-			this.ImageIndex = this.SelectedImageIndex =
-				UserAction.LookUp( "addseparator" ).ImageIndex;
+            this.ImageIndex = this.SelectedImageIndex =
+                UserAction.LookUp( "addseparator" ).ImageIndex;
 		}
 
 		/// <summary>

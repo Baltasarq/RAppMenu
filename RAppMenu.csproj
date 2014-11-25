@@ -62,7 +62,6 @@
     <Compile Include="Ui\MenuComponentGuiEditor.cs" />
     <Compile Include="Ui\MenuComponentGuiEditors\MenuGuiEditor.cs" />
     <Compile Include="Ui\MenuComponentTreeNodes\FunctionTreeNode.cs" />
-    <Compile Include="Ui\MenuComponentTreeNodes\PdfTreeNode.cs" />
     <Compile Include="Ui\MenuComponentTreeNodes\SeparatorTreeNode.cs" />
     <Compile Include="Ui\MenuComponentTreeNodes\GraphicMenuTreeNode.cs" />
     <Compile Include="Ui\MenuComponentTreeNodes\ImageMenuEntryTreeNode.cs" />
@@ -74,6 +73,7 @@
     <Compile Include="Core\MenuComponents\GraphicMenuEntry.cs" />
     <Compile Include="Ui\MenuComponentGuiEditors\GraphicMenuEntryGuiEditor.cs" />
     <Compile Include="Core\XmlReader.cs" />
+    <Compile Include="Ui\MenuComponentTreeNodes\PdfFileTreeNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />

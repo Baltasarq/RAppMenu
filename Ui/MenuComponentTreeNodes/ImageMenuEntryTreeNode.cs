@@ -9,8 +9,8 @@ namespace RAppMenu.Ui.MenuComponentTreeNodes {
 	/// Image menu entry in the UI side.
 	/// </summary>
 	public class ImageMenuEntryTreeNode: MenuComponentTreeNode {
-		public ImageMenuEntryTreeNode(string text, GraphicMenu parent)
-			:base( text, new GraphicMenuEntry( text, parent) )
+        public ImageMenuEntryTreeNode(GraphicMenuEntry gme)
+			:base( gme )
 		{
 			this.ImageIndex = this.SelectedImageIndex =
 				UserAction.LookUp( "addfunction" ).ImageIndex;
