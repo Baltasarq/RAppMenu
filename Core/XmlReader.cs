@@ -2,6 +2,7 @@
 using System.Text;
 using System.Xml;
 using System.IO;
+using System.Collections.Generic;
 
 using RAppMenu.Core.MenuComponents;
 
@@ -61,6 +62,56 @@ namespace RAppMenu.Core {
             return;
         }
 
+		/// <summary>
+		/// Determines if the given node has graphic attributes.
+		/// </summary>
+		/// <returns><c>true</c> if has graphic attributes the specified node; otherwise, <c>false</c>.</returns>
+		/// <param name="node">The <see cref="System.Xml.XmlNode"/>.</param>
+		/// <param name="setAttributes">A <see cref="SortedSet"/> of strings.</param>
+		private static bool HasAttributes(XmlNode node, SortedSet<string> setAttributes)
+		{
+			bool toret = false;
+
+			foreach ( XmlAttribute attr in node.Attributes ) {
+				if ( setAttributes.Contains( attr.Name.ToLowerInvariant() ) ) {
+					toret = true;
+					break;
+				}
+			}
+			return toret;
+		}
+
+		/// <summary>
+		/// Determines whether the specified node represents a graphic menu.
+		/// Note that there is no special tag for graphic menus.
+		/// Only the attributes ImageWidth, ImageHeight, MinNumOfColumns, ImagePath, or ImageTooltip
+		/// will reveal the presence of a graphic menu in a regular menu... and they can be anywhere!
+		/// </summary>
+		/// <returns><c>true</c> if this instance is graphic menu the specified node; otherwise, <c>false</c>.</returns>
+		/// <param name="node">A <see cref="XmlNode"/> which can hold a menu or not.</param>
+		private bool IsGraphicMenu(XmlNode node)
+		{
+			bool toret = false;
+
+			// Is it a menu?
+			if ( node.Name.Equals( Menu.TagName, StringComparison.OrdinalIgnoreCase ) )
+			{
+				if ( !HasAttributes( node, FirstLevelGraphicAttributes ) )
+				{
+					// Explore its subnodes
+					foreach ( XmlNode subNode in node.ChildNodes ) {
+						if ( HasAttributes( subNode, SecondLevelGraphicAttributes ) )
+						{
+							toret = true;
+							break;
+						}
+					}
+				}
+			}
+
+			return toret;
+		}
+
         /// <summary>
         /// Gets or sets the name of the file.
         /// </summary>
@@ -80,6 +131,19 @@ namespace RAppMenu.Core {
         }
 
         private DesignOfUserMenu document;
+
+		private static readonly SortedSet<string> FirstLevelGraphicAttributes =
+			new SortedSet<string>( new string[] {
+				GraphicMenu.EtqImageWidth.ToLowerInvariant(),
+				GraphicMenu.EtqImageHeight.ToLowerInvariant(),
+				GraphicMenu.EtqMinimumNumberOfColumns.ToLowerInvariant()
+		});
+
+		private static readonly SortedSet<string> SecondLevelGraphicAttributes =
+			new SortedSet<string>( new string[] {
+				GraphicMenuEntry.EtqImagePath.ToLowerInvariant(),
+				GraphicMenuEntry.EtqImageToolTip.ToLowerInvariant()
+		});
     }
 }
 

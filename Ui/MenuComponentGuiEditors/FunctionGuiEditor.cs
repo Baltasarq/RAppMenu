@@ -459,6 +459,11 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			// The requires info
 			if ( colIndex == 3 ) {
 				arg.IsRequired = (bool) row.Cells[ colIndex ].Value;
+
+				// Disable next cells
+				for (int i = colIndex + 1; i < row.Cells.Count; ++i) {
+					row.Cells[ i ].ReadOnly = arg.IsRequired;
+				}
 			}
 			else
 			// The multiselect info
