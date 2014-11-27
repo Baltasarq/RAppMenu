@@ -518,6 +518,11 @@ namespace RAppMenu.Core.MenuComponents {
 		{
             // Create and eliminate the parent (superfluous) menu.
             Menu trueParent = menu.Parent;
+
+			if ( trueParent == null ) {
+				throw new XmlException( "functions should be enclosed in dedicated menu entries" );
+			}
+
             var toret = new Function( "tempFn", trueParent );
             menu.Remove();
 

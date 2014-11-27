@@ -13,11 +13,16 @@ namespace RAppMenu.Core.MenuComponents {
         public const string EtqImageWidth = "ImageWidth";
         public const string EtqImageHeight = "ImageHeight";
 
+		public const int MinimumGraphicSize = 16;
+		public const int MaximumGraphicSize = 250;
+		public const int MinimumColumns = 1;
+		public const int MaximumColumns = 10;
+
 		public GraphicMenu(string name, Menu parent)
 			:base( name, parent )
 		{
-            this.ImageWidth = this.ImageHeight = 0;
-            this.MinimumNumberOfColumns = 0;
+			this.ImageWidth = this.ImageHeight = MinimumGraphicSize;
+			this.MinimumNumberOfColumns = MinimumNumberOfColumns;
 		}
 
 		/// <summary>
@@ -44,11 +49,8 @@ namespace RAppMenu.Core.MenuComponents {
                 return this.imageWidth;
             }
             set {
-                if ( value < 0 ) {
-                    throw new ArgumentOutOfRangeException( "MenuEntry.ImageWidth should be >= 0" );
-                }
-
-                this.imageWidth = value;
+                this.imageWidth = Math.Max( MinimumGraphicSize, value );
+				this.imageWidth = Math.Min( MaximumGraphicSize, value );
             }
         }
 
@@ -61,11 +63,8 @@ namespace RAppMenu.Core.MenuComponents {
                 return this.imageHeight;
             }
             set {
-                if ( value < 0 ) {
-                    throw new ArgumentOutOfRangeException( "MenuEntry.ImageHeight should be >= 0" );
-                }
-
-                this.imageHeight = value;
+				this.imageHeight = Math.Max( MinimumGraphicSize, value );
+				this.imageHeight = Math.Min( MaximumGraphicSize, value );
             }
         }
 
@@ -78,11 +77,8 @@ namespace RAppMenu.Core.MenuComponents {
                 return this.minimumNumberOfColumns;
             }
             set {
-                if ( value < 0 ) {
-                    throw new ArgumentOutOfRangeException( "MenuEntry.MinimumNumberOfColumns should be >= 0" );
-                }
-
-                this.minimumNumberOfColumns = value;
+				this.minimumNumberOfColumns = Math.Max( MinimumColumns, value );
+				this.minimumNumberOfColumns = Math.Min( MaximumColumns, value );
             }
         }
 
@@ -106,21 +102,21 @@ namespace RAppMenu.Core.MenuComponents {
             doc.WriteEndAttribute();
 
             if ( this.ImageWidth > 0 ) {
-                // ImageWidth = "10"
+                // ImageWidth = "16"
                 doc.WriteStartAttribute( EtqImageWidth );
                 doc.WriteString( this.ImageWidth.ToString() );
                 doc.WriteEndAttribute();
             }
 
             if ( this.ImageHeight > 0 ) {
-                // ImageHeight = "10"
+                // ImageHeight = "16"
                 doc.WriteStartAttribute( EtqImageHeight );
                 doc.WriteString( this.ImageWidth.ToString() );
                 doc.WriteEndAttribute();
             }
 
             if ( this.MinimumNumberOfColumns > 0 ) {
-                // MinNumberColumns = "2"
+                // MinNumberColumns = "1"
                 doc.WriteStartAttribute( EtqMinimumNumberOfColumns );
                 doc.WriteString( this.MinimumNumberOfColumns.ToString() );
                 doc.WriteEndAttribute();

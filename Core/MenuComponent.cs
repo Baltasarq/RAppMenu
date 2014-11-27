@@ -1,5 +1,7 @@
 using System;
 using System.Xml;
+using System.Text;
+using System.Collections.Generic;
 
 using RAppMenu.Core.MenuComponents;
 
@@ -85,6 +87,44 @@ namespace RAppMenu.Core {
 		/// Converts this menu component to XML.
 		/// </summary>
 		public abstract void ToXml(XmlTextWriter doc);
+
+		/// <summary>
+		/// Gets the path.
+		/// </summary>
+		/// <returns>Returns a MenuComponent[] vector, with the ancestors of this node.</returns>
+		public MenuComponent[] GetPath()
+		{
+			MenuComponent mc = this.Parent;
+			var path = new List<MenuComponent>();
+
+			while ( mc != null ) {
+				path.Insert( 0, mc );
+				mc = mc.Parent;
+			}
+
+			return path.ToArray();
+		}
+
+		/// <summary>
+		/// Gets the path to this <see cref="MenuComponent"/> as string.
+		/// </summary>
+		/// <returns>The path, as a string.</returns>
+		/// <seealso cref="GetPath"/>
+		public string GetPathAsString()
+		{
+			var toret = new StringBuilder();
+			MenuComponent[] path = this.GetPath();
+
+			// Build the string representing this path
+			foreach(MenuComponent mc in path) {
+				toret.Append( mc.name );
+				toret.Append( '.' );
+			}
+			// Remove last dot
+			toret.Remove( toret.Length - 1, 1 );
+
+			return toret.ToString();
+		}
 
 		public override string ToString()
 		{

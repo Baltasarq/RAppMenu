@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace GraphMenuUtils
-{
-  class GraphicsMenuTable
-    {
+namespace GraphMenuUtils {
+  class GraphicsMenuTable {
         public enum SizeModeStyle { StrechImage, ZoomImage };
 
         ToolStripMenuItem StartmenuItem;

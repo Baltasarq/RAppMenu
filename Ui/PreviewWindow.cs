@@ -57,7 +57,8 @@ namespace RAppMenu.Ui {
 					if ( pmc != null
 					  && !File.Exists( fileName ) )
 					{
-						errors.AppendFormat( "Missing PDF file: '{0}'", fileName );
+						errors.AppendFormat( "Missing PDF file: '{0}' in '{1}' at '{2}'",
+						                    fileName, pmc.Name, pmc.GetPathAsString() );
 						errors.AppendLine();
 					}
 
@@ -78,7 +79,8 @@ namespace RAppMenu.Ui {
             foreach (GraphicMenuEntry submc in menuComponents)
             {
 				if ( !File.Exists( submc.ImagePath ) ) {
-					errors.AppendFormat( "Missing graphic file: '{0}'", submc.ImagePath );
+					errors.AppendFormat( "Missing graphic file: '{0}' in '{1}' at '{2}'",
+					                    submc.ImagePath, submc.Name, submc.GetPathAsString() );
 					errors.AppendLine();
 				} else {
 	                items.Add(
@@ -92,20 +94,12 @@ namespace RAppMenu.Ui {
 
             // Build the menu
             var grphMenu = GraphMenuUtils.GraphicsMenuTable.AddGraphMenuTable( subMenu, items );
-			grphMenu.SizeMode = GraphMenuUtils.GraphicsMenuTable.SizeModeStyle.StrechImage;
+			grphMenu.SizeMode = GraphMenuUtils.GraphicsMenuTable.SizeModeStyle.ZoomImage;
 
             // Set properties, if needed
-            if ( graphicMenu.ImageHeight > 0 ) {
-                grphMenu.ItemHeight = graphicMenu.ImageHeight;
-            }
-
-            if ( graphicMenu.ImageWidth > 0 ) {
-                grphMenu.ItemWidth = graphicMenu.ImageWidth;
-            }
-
-            if ( graphicMenu.MinimumNumberOfColumns > 0 ) {
-                grphMenu.NumColumns = graphicMenu.MinimumNumberOfColumns;
-            }
+            grphMenu.ItemHeight = graphicMenu.ImageHeight;
+            grphMenu.ItemWidth = graphicMenu.ImageWidth;
+            grphMenu.NumColumns = graphicMenu.MinimumNumberOfColumns;
 
             return;
         }
