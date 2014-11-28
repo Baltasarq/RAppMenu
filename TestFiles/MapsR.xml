@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <Menue>
-    <MenueEntry Name="Maps of administrative areas">
-     <Function Name="adarea" HasData="FALSE" PreCommand = "@_Build_AdWorld_">
+    <MenueEntry NAME="Maps of administrative areas">
+     <Function name="adarea" HasData="FALSE" PreCommand = "@_Build_AdWorld_">
        <ExecuteCommandOnce Name="require(MapsR)"/>
        <ExecuteCommandOnce Name="data(adworld)"/>
        <Argument Name="Area" Viewer="Map" Tag="adworld1"/>

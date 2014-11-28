@@ -14,7 +14,14 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.removeFunctionArgumentAction = UserAction.LookUp( "removefunctionargument" );
 
 			this.Build();
-			this.UpdateFunctionProperties();
+			
+            // Put in some data
+            this.chkFunctionHasData.Checked = this.Function.HasData;
+            this.chkFunctionDataHeader.Checked = this.Function.DataHeader;
+            this.chkFunctionRemoveQuotes.Checked = this.Function.RemoveQuotationMarks;
+
+            this.edFunctionPreCommand.Text = this.Function.PreProgramOnce.ToString();
+            this.edFunctionDefaultData.Text = this.Function.DefaultData;
 		}
 
 		/// <summary>
@@ -310,7 +317,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			lblPreCommand.Dock = DockStyle.Left;
 			this.edFunctionPreCommand = new TextBox();
 			this.edFunctionPreCommand.Dock = DockStyle.Fill;
-			this.edFunctionPreCommand.Font = new Font( this.edFunctionPreCommand.Font, FontStyle.Bold );
+            this.edFunctionPreCommand.Font = new Font( FontFamily.GenericMonospace, 10, FontStyle.Bold );
 			this.edFunctionPreCommand.KeyUp += (sender, e) => {
 				string contents = this.edFunctionPreCommand.Text.Trim();
 
@@ -335,7 +342,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			lblExecuteOnce.Dock = DockStyle.Left;
 			this.edFunctionExecuteOnce = new TextBox();
 			this.edFunctionExecuteOnce.Dock = DockStyle.Fill;
-			this.edFunctionExecuteOnce.Font = new Font( this.edFunctionExecuteOnce.Font, FontStyle.Bold );
+            this.edFunctionExecuteOnce.Font = new Font( FontFamily.GenericMonospace, 10, FontStyle.Bold );
 			this.edFunctionExecuteOnce.Multiline = true;
             this.edFunctionExecuteOnce.WordWrap = false;
             this.edFunctionExecuteOnce.ScrollBars = ScrollBars.Both;
@@ -374,20 +381,6 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.BuildArgumentsListTable();
 
 			this.pnlContainer.ResumeLayout( false );
-		}
-
-		/// <summary>
-		/// Updates the function properties.
-		/// It passes the info from the function to the UI.
-		/// </summary>
-		private void UpdateFunctionProperties()
-		{
-			this.chkFunctionHasData.Checked = this.Function.HasData;
-			this.chkFunctionDataHeader.Checked = this.Function.DataHeader;
-			this.chkFunctionRemoveQuotes.Checked = this.Function.RemoveQuotationMarks;
-
-			this.edFunctionPreCommand.Text = this.Function.PreProgramOnce.ToString();
-			this.edFunctionDefaultData.Text = this.Function.DefaultData;
 		}
 
 		/// <summary>
@@ -484,9 +477,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 				arg.IsRequired = (bool) row.Cells[ colIndex ].Value;
 
 				// Disable next cells
-				for (int i = colIndex + 1; i < row.Cells.Count; ++i) {
-					row.Cells[ i ].ReadOnly = arg.IsRequired;
-				}
+                this.EnableCellsHonoringRequired( row.Index );
 			}
 			else
 			// The multiselect info
@@ -509,6 +500,24 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
 			return;
 		}
+
+        /// <summary>
+        /// Enables or disables the cells following required,
+        /// depending on its value.
+        /// </summary>
+        /// <param name="rowIndex">The row index, as int.</param>
+        private void EnableCellsHonoringRequired(int rowIndex)
+        {
+            DataGridViewRow row = this.grdArgsList.Rows[ rowIndex ];
+            bool isRequired = this.Function.ArgList[ rowIndex ].IsRequired;
+
+            for (int i = 4; i < row.Cells.Count; ++i)
+            {
+                row.Cells[ i ].ReadOnly = isRequired;
+            }
+
+            return;
+        }
 
 		/// <summary>
 		/// Makes the arguments list occupy the whole width of the container panel.
@@ -536,6 +545,9 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
             this.grdArgsList.Columns[ 5 ].Width = (int) ( width * 0.20 );
         }
 
+        /// <summary>
+        /// Reads the data from component, and reflects it on the editor.
+        /// </summary>
         public override void ReadDataFromComponent()
         {
             base.ReadDataFromComponent();
@@ -563,6 +575,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
                 row.Cells[ 3 ].Value = arg.IsRequired;
                 row.Cells[ 4 ].Value = arg.AllowMultiselect;
                 row.Cells[ 5 ].Value = arg.Viewer.ToString();
+
+                this.EnableCellsHonoringRequired( row.Index );
             }
 
             return;

@@ -10,7 +10,7 @@ namespace RAppMenu.Core.MenuComponents {
 	/// </summary>
 	public class Function: MenuComponent {
 		public const string TagName = "Function";
-		public const string TagSentences = "ExecuteOnce";
+		public const string TagSentences = "ExecuteCommandOnce";
 		public const string EtqPreCommand = "PreCommand";
 		public const string EtqName = "Name";
 		public const string EtqDataHeader = "DataHeader";
@@ -135,19 +135,27 @@ namespace RAppMenu.Core.MenuComponents {
 
 			public static Argument FromXml(XmlNode node, Function fn)
 			{
-				var toret = new Argument( "tempArg" );
+                bool isNewArgument = false;
+                string name = node.Attributes.GetNamedItemIgnoreCase( EtqName ).InnerText;
+                Argument toret = fn.ArgList.LookUp( name );
+
+                // Is it a new argument?
+                if ( toret == null ) {
+                    toret = new Argument( "tempArg" );
+                    isNewArgument = true;
+                }
 
 				// RequiredArgument or Argument ?
-				toret.IsRequired = ( node.Name.Equals( RequiredArgumentTagName, StringComparison.OrdinalIgnoreCase ) );
+                if ( !toret.IsRequired ) {
+                    toret.IsRequired =
+                        ( node.Name.Equals( RequiredArgumentTagName,
+                                            StringComparison.OrdinalIgnoreCase ) );
+                }
 
 				foreach(XmlAttribute attr in node.Attributes) {
 					// Name = "arg"
 					if ( attr.Name.Equals( EtqName, StringComparison.OrdinalIgnoreCase ) ) {
 						toret.Name = attr.InnerText.Trim();
-
-						if ( toret.IsRequired ) {
-							break;
-						}
 					}
 					else
 					// DependsFrom = "?"
@@ -171,7 +179,10 @@ namespace RAppMenu.Core.MenuComponents {
 					}
 				}
 
-				fn.ArgList.Add( toret );
+                if ( isNewArgument ) {
+                    fn.ArgList.Add( toret );
+                }
+
 				return toret;
 			}
 		}
@@ -212,12 +223,31 @@ namespace RAppMenu.Core.MenuComponents {
 					throw new ArgumentException( "function argument cannot be null" ); 
 				}
 
-				if ( this.Contains( value ) ) {
+                if ( this.LookUp( value.Name ) != null ) {
 					throw new ArgumentException( "function argument duplicated" ); 
 				}
 
 				return;
 			}
+
+            /// <summary>
+            /// Looks up a given argument by its id.
+            /// </summary>
+            /// <returns>The <see cref="Argument"/>.</returns>
+            /// <param name="id">An identifier, as string.</param>
+            public Argument LookUp(string id)
+            {
+                Argument toret = null;
+
+                foreach(Argument arg in this) {
+                    if ( arg.Name == id ) {
+                        toret = arg;
+                        break;
+                    }
+                }
+
+                return toret;
+            }
 
 			public override string ToString()
 			{

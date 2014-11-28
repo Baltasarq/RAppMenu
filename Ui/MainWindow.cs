@@ -264,8 +264,11 @@ namespace RAppMenu.Ui {
                 + "|All files|*";
 
             if ( dlg.ShowDialog() == DialogResult.OK ) {
+                this.SetToolbarForNumTasks( 2 );
                 this.ApplicationsFolder = Path.GetDirectoryName( dlg.FileName );
+                this.SetToolbarTaskFinished();
                 this.doc = DesignOfUserMenu.LoadFromFile( dlg.FileName );
+                this.SetToolbarTaskFinished();
                 this.PrepareViewStructuresForNewDocument();
                 this.TreeMenuRoot.Text = this.Document.Root.Name;
                 this.fileNameSet = true;
@@ -353,8 +356,11 @@ namespace RAppMenu.Ui {
     			dlg.FileName = this.Document.Root.Name;
 
                 if ( dlg.ShowDialog() == DialogResult.OK ) {
+                    this.SetToolbarForNumTasks( 2 );
                     this.ApplicationsFolder = Path.GetDirectoryName( dlg.FileName );
+                    this.SetToolbarTaskFinished();
                     this.Document.SaveToFile( dlg.FileName );
+                    this.SetToolbarTaskFinished();
     				this.TreeMenuRoot.Text = this.Document.Root.Name;
                     this.fileNameSet = true;
                 }
