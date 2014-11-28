@@ -137,6 +137,7 @@ namespace RAppMenu.Ui {
 		private void BuildErrorsPanel()
 		{
 			this.pnlErrors = new GroupBox();
+			this.pnlErrors.SuspendLayout();
 			this.pnlErrors.Hide();
 			this.Controls.Add( this.pnlErrors );
 			this.pnlErrors.Dock = DockStyle.Fill;
@@ -148,6 +149,7 @@ namespace RAppMenu.Ui {
 			this.lbErrors.ForeColor = Color.DarkRed;
 			this.lbErrors.Dock = DockStyle.Fill;
 			this.pnlErrors.Controls.Add( this.lbErrors );
+			this.pnlErrors.ResumeLayout( false );
 		}
 
         private void Build(Icon icon)

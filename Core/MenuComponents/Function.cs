@@ -433,11 +433,16 @@ namespace RAppMenu.Core.MenuComponents {
 		/// <param name="doc">The document, as a XmlTextWriter.</param>
 		public override void ToXml(XmlTextWriter doc)
 		{
-			// Functions must be surrounded by dedicated menus
-			doc.WriteStartElement( Menu.TagName );
-			doc.WriteStartAttribute( EtqName );
-			doc.WriteString( this.Name );
-			doc.WriteEndAttribute();
+			// Functions must be surrounded by dedicated menus,
+			// unless they are at top level
+			bool needsEnclosingMenu = !( this.Parent is RootMenu );
+
+			if (  needsEnclosingMenu ) {
+				doc.WriteStartElement( Menu.TagName );
+				doc.WriteStartAttribute( EtqName );
+				doc.WriteString( this.Name );
+				doc.WriteEndAttribute();
+			}
 
 			// The function itself
             doc.WriteStartElement( TagName );
@@ -510,21 +515,34 @@ namespace RAppMenu.Core.MenuComponents {
 				arg.ToXml( doc );
 			}
 
+			// Close the function
             doc.WriteEndElement();
-			doc.WriteEndElement();
+
+			// Close the enclosing menu, if needed
+			if ( needsEnclosingMenu ) {
+				doc.WriteEndElement();
+			}
+
+			return;
 		}
 
 		public static Function FromXml(XmlNode node, Menu menu)
 		{
-            // Create and eliminate the parent (superfluous) menu.
-            Menu trueParent = menu.Parent;
+			Menu trueParent = menu;
 
-			if ( trueParent == null ) {
-				throw new XmlException( "functions should be enclosed in dedicated menu entries" );
+			// Determine the parent
+			if ( !( menu is RootMenu ) ) {
+				trueParent = menu.Parent;
+
+				// Eliminate the uneeded enclosing menu
+				if ( trueParent == null ) {
+					throw new XmlException( "functions should be enclosed in dedicated menu entries" );
+				}
+
+				menu.Remove();
 			}
 
             var toret = new Function( "tempFn", trueParent );
-            menu.Remove();
 
 			// Attribute info
 			foreach (XmlAttribute attr in node.Attributes) {
@@ -572,7 +590,8 @@ namespace RAppMenu.Core.MenuComponents {
 			// Function arguments & execute once sentences
 			foreach (XmlNode subNode in node.ChildNodes) {
 				if ( subNode.Name.Equals( TagSentences, StringComparison.OrdinalIgnoreCase ) ) {
-					toret.PreProgramOnce.Add( subNode.Attributes.GetNamedItem( EtqName ).InnerText );
+					toret.PreProgramOnce.Add(
+						subNode.Attributes.GetNamedItemIgnoreCase( EtqName ).InnerText );
 				}
 				else
 				if ( subNode.Name.Equals( Argument.ArgumentTagName, StringComparison.OrdinalIgnoreCase )

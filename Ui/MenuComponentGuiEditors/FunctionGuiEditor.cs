@@ -45,6 +45,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			var toolTips = new ToolTip();
 
 			this.pnlArgsList = new GroupBox();
+			this.pnlArgsList.SuspendLayout();
 			this.pnlArgsList.Resize += (sender, e) => this.OnResizeArgsList();
 			this.pnlArgsList.Dock = DockStyle.Fill;
 			this.pnlArgsList.Text = "Arguments";
@@ -150,18 +151,21 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.pnlArgsList.Controls.Add( this.grdArgsList );
 			this.pnlArgsList.Controls.Add( this.pnlButtons );
             this.pnlContainer.Controls.Add( this.pnlArgsList );
+			this.pnlArgsList.ResumeLayout( false );
 			this.OnResizeArgsList();
 		}
 
 		private void BuildCheckBoxes()
 		{
 			this.pnlGroupChecks = new GroupBox();
+			this.pnlGroupChecks.SuspendLayout();
             this.pnlGroupChecks.AutoSize = true;
 			this.pnlGroupChecks.Text = "Options";
 			this.pnlGroupChecks.Font = new Font( this.pnlGroupChecks.Font, FontStyle.Bold );
 			this.pnlGroupChecks.Dock = DockStyle.Top;
 
 			this.pnlChecks = new FlowLayoutPanel();
+			this.pnlChecks.SuspendLayout();
             this.pnlChecks.AutoSize = true;
 			this.pnlChecks.AutoSize = true;
 			this.pnlChecks.Font = new Font( this.pnlChecks.Font, FontStyle.Regular );
@@ -195,17 +199,22 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.chkFunctionRemoveQuotes.CheckedChanged += (object sender, EventArgs e) => 
 				this.Function.RemoveQuotationMarks = this.chkFunctionRemoveQuotes.Checked;
 			this.pnlChecks.Controls.Add( chkFunctionRemoveQuotes );
+
+			this.pnlChecks.ResumeLayout( false );
+			this.pnlGroupChecks.ResumeLayout( false );
 		}
 
 		private void BuildDefaultData()
 		{
 			this.pnlGroupDefaultData = new GroupBox();
+			this.pnlGroupDefaultData.SuspendLayout();
 			this.pnlGroupDefaultData.AutoSize = true;
 			this.pnlGroupDefaultData.Dock = DockStyle.Top;
 			this.pnlGroupDefaultData.Text = "Default data";
 			this.pnlGroupDefaultData.Font = new Font( this.pnlGroupDefaultData.Font, FontStyle.Bold );
 
 			var pnlInnerGroupDefaultData = new FlowLayoutPanel();
+			pnlInnerGroupDefaultData.SuspendLayout();
 			pnlInnerGroupDefaultData.Font = new Font( pnlInnerGroupDefaultData.Font, FontStyle.Regular );
 			pnlInnerGroupDefaultData.Dock = DockStyle.Fill;
 			pnlInnerGroupDefaultData.AutoSize = true;
@@ -260,6 +269,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 				this.Function.EndColumn = (int) this.udFunctionEndColumn.Value;
 			pnlInnerGroupDefaultData.Controls.Add( lblEndColumn );
 			pnlInnerGroupDefaultData.Controls.Add( this.udFunctionEndColumn );
+			pnlInnerGroupDefaultData.ResumeLayout( false );
+			this.pnlGroupDefaultData.ResumeLayout( false );
 
             // Sizes for controls
             Graphics grf = new Form().CreateGraphics();
@@ -273,12 +284,14 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		private void BuildCommands()
 		{
 			this.pnlGroupCommands = new GroupBox();
+			this.pnlGroupCommands.SuspendLayout();
             this.pnlGroupCommands.AutoSize = true;
 			this.pnlGroupCommands.Text = "Commands";
 			this.pnlGroupCommands.Font = new Font( this.pnlGroupCommands.Font, FontStyle.Bold );
 			this.pnlGroupCommands.Dock = DockStyle.Top;
 
 			var pnlInnerGroupCommands = new TableLayoutPanel();
+			pnlInnerGroupCommands.SuspendLayout();
             pnlInnerGroupCommands.AutoSize = true;
 			pnlInnerGroupCommands.Dock = DockStyle.Fill;
 			pnlInnerGroupCommands.AutoSize = true;
@@ -288,6 +301,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.pnlGroupCommands.Controls.Add( pnlInnerGroupCommands );
 
 			this.pnlPreCommand = new Panel();
+			this.pnlPreCommand.SuspendLayout();
 			this.pnlPreCommand.Dock = DockStyle.Top;
 			var lblPreCommand = new Label();
 			lblPreCommand.Text = "Pre-Command:";
@@ -312,6 +326,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			pnlInnerGroupCommands.Controls.Add( this.pnlPreCommand );
 
 			this.pnlExecuteOnce = new Panel();
+			this.pnlExecuteOnce.SuspendLayout();
 			this.pnlExecuteOnce.Dock = DockStyle.Top;
 			var lblExecuteOnce = new Label();
 			lblExecuteOnce.Text = "Execute once:";
@@ -336,12 +351,18 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.pnlExecuteOnce.Controls.Add( this.edFunctionExecuteOnce );
 			this.pnlExecuteOnce.Controls.Add( lblExecuteOnce );
 			pnlInnerGroupCommands.Controls.Add( this.pnlExecuteOnce );
+
+			this.pnlPreCommand.ResumeLayout( false );
+			this.pnlExecuteOnce.ResumeLayout( false );
+			pnlInnerGroupCommands.ResumeLayout( false );
+			this.pnlGroupCommands.ResumeLayout( false );
 		}
 
 		private void Build()
 		{
             // Main panel
             this.pnlContainer = new TableLayoutPanel();
+			this.pnlContainer.SuspendLayout();
             this.pnlContainer.Dock = DockStyle.Fill;
             this.pnlContainer.AutoSize = true;
             this.Panel.Controls.Add( this.pnlContainer );
@@ -351,6 +372,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.BuildDefaultData();
 			this.BuildCommands();
 			this.BuildArgumentsListTable();
+
+			this.pnlContainer.ResumeLayout( false );
 		}
 
 		/// <summary>

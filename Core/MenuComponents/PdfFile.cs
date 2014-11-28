@@ -40,7 +40,7 @@ namespace RAppMenu.Core.MenuComponents {
 			var toret = new PdfFile( "tempFileName.test", parent );
 
 			// Name = "m1"
-			var nameAttr = (XmlAttribute) node.Attributes.GetNamedItem( EtqName );
+			var nameAttr = (XmlAttribute) node.Attributes.GetNamedItemIgnoreCase( EtqName );
 			toret.Name = nameAttr.InnerText;
 
 			return toret;

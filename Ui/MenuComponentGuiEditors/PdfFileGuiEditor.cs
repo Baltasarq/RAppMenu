@@ -33,6 +33,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		{
 			var tooltipManager = new ToolTip();
 			this.pnlEdFileName = new Panel();
+			this.pnlEdFileName.SuspendLayout();
 			this.pnlEdFileName.Dock = DockStyle.Top;
 
 			this.lblFileName = new Label();
@@ -59,6 +60,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.pnlEdFileName.Controls.Add( this.lblFileName );
 			this.pnlEdFileName.Controls.Add( this.btFileName );
 
+			this.pnlEdFileName.ResumeLayout( false );
 			this.pnlEdFileName.MaximumSize = new Size( int.MaxValue, this.btFileName.Height );
 			this.Panel.Controls.Add( this.pnlEdFileName );
 		}

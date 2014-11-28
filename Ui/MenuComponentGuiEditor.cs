@@ -29,13 +29,16 @@ namespace RAppMenu.Ui {
 		/// </summary>
 		public virtual void Show()
 		{
-			this.Hide();
+			this.HideAllEditors();
 		}
 
-		protected void Hide()
+		/// <summary>
+		/// Hides all editors from view.
+		/// </summary>
+		protected void HideAllEditors()
 		{
-			foreach(Control ctrl in this.Panel.Controls) {
-				ctrl.Hide();
+			foreach(Control pnlEditor in this.Panel.Controls) {
+				pnlEditor.Hide();
 			}
 
 			return;

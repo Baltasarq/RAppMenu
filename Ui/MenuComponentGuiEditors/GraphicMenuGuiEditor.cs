@@ -23,6 +23,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		{
 			// Panel
 			this.pnlMeasures = new FlowLayoutPanel();
+			this.pnlMeasures.SuspendLayout();
 			this.pnlMeasures.Dock = DockStyle.Top;
 			this.Panel.Controls.Add( this.pnlMeasures );
 
@@ -80,6 +81,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.udImageHeight.Maximum = CoreComponents.GraphicMenu.MaximumGraphicSize;
 			this.udMinimumColumns.Minimum = CoreComponents.GraphicMenu.MinimumColumns;
 			this.udMinimumColumns.Maximum = CoreComponents.GraphicMenu.MaximumColumns;
+
+			this.pnlMeasures.ResumeLayout( false );
 		}
 
 		private void OnValuesChanged()

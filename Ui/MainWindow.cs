@@ -40,7 +40,8 @@ namespace RAppMenu.Ui {
 			this.doc = new DesignOfUserMenu();
             this.fileNameSet = false;
 
-            this.PrepareViewForNewMenu();
+            this.PrepareViewStructuresForNewDocument();
+			this.PrepareView( true );
 		}
 
 		private void OnAddMenu()
@@ -265,11 +266,10 @@ namespace RAppMenu.Ui {
             if ( dlg.ShowDialog() == DialogResult.OK ) {
                 this.ApplicationsFolder = Path.GetDirectoryName( dlg.FileName );
                 this.doc = DesignOfUserMenu.LoadFromFile( dlg.FileName );
-                this.PrepareViewForNewMenu();
+                this.PrepareViewStructuresForNewDocument();
                 this.TreeMenuRoot.Text = this.Document.Root.Name;
                 this.fileNameSet = true;
 				this.PrepareEditorsForDocument();
-				Console.WriteLine( this.Document.ToString() );
             }
 
             this.SetStatus();
@@ -282,12 +282,16 @@ namespace RAppMenu.Ui {
 		/// </summary>
 		private void PrepareEditorsForDocument()
 		{
-			this.PrepareEditorsFor( this.TreeMenuRoot, this.Document.Root );
-			this.TreeMenuRoot.GetEditor( null ).Show();
+			this.PrepareView( false );
+			this.SetToolbarForNumTasks( this.Document.Root.MenuComponents.Count );
+			this.CreateEditorsFor( this.TreeMenuRoot, this.Document.Root );
+
+			this.TreeMenuRoot.GetEditor( this.pnlProperties ).Show();
 			this.TreeMenuRoot.ExpandAll();
+			this.PrepareView( true );
 		}
 
-		private void PrepareEditorsFor(MenuComponentTreeNode mctn, CoreComponents.Menu menu)
+		private void CreateEditorsFor(MenuComponentTreeNode mctn, CoreComponents.Menu menu)
 		{
 			foreach(MenuComponent submc in menu.MenuComponents) {
 				var subMenu = submc as CoreComponents.Menu;
@@ -300,7 +304,7 @@ namespace RAppMenu.Ui {
 
 					mctn.Nodes.Add( mtn );
 					mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
-					this.PrepareEditorsFor( mtn, subMenu );
+					this.CreateEditorsFor( mtn, subMenu );
 				}
 				else
 				if ( separator != null ) {
@@ -322,6 +326,11 @@ namespace RAppMenu.Ui {
 
 					mctn.Nodes.Add( mtn );
 					mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
+				}
+
+				// One step more
+				if ( menu == this.Document.Root ) {
+					this.SetToolbarTaskFinished();
 				}
 			}
 
@@ -572,9 +581,10 @@ namespace RAppMenu.Ui {
 		private void BuildTreePanel()
 		{
 			var pnlActions = new FlowLayoutPanel();
-			var toolTipActions = new ToolTip();
+			pnlActions.SuspendLayout();
             var pnlMovement = new FlowLayoutPanel();
-			var toolTipMovement = new ToolTip();
+			pnlMovement.SuspendLayout();
+			var toolTips = new ToolTip();
 
             pnlActions.Dock = DockStyle.Bottom;
             pnlActions.Font = new Font( pnlActions.Font, FontStyle.Regular );
@@ -589,7 +599,7 @@ namespace RAppMenu.Ui {
             this.btAddMenuEntry.ImageList = UserAction.ImageList;
             this.btAddMenuEntry.ImageIndex = this.addMenuAction.ImageIndex;
             this.btAddMenuEntry.Click += (sender, e) => this.addMenuAction.CallBack();
-            toolTipActions.SetToolTip( this.btAddMenuEntry, this.addMenuAction.Text );
+            toolTips.SetToolTip( this.btAddMenuEntry, this.addMenuAction.Text );
 			pnlActions.Controls.Add( this.btAddMenuEntry );
 
 			this.btAddFunction = new Button();
@@ -597,7 +607,7 @@ namespace RAppMenu.Ui {
             this.btAddFunction.ImageList = UserAction.ImageList;
             this.btAddFunction.ImageIndex = this.addFunctionAction.ImageIndex;
             this.btAddFunction.Click += (sender, e) => this.addFunctionAction.CallBack();
-            toolTipActions.SetToolTip( this.btAddFunction, this.addFunctionAction.Text );
+			toolTips.SetToolTip( this.btAddFunction, this.addFunctionAction.Text );
 			pnlActions.Controls.Add( this.btAddFunction );
 
 			this.btAddPdf = new Button();
@@ -605,7 +615,7 @@ namespace RAppMenu.Ui {
             this.btAddPdf.ImageList = UserAction.ImageList;
             this.btAddPdf.ImageIndex = this.addPdfAction.ImageIndex;
             this.btAddPdf.Click += (sender, e) => this.addPdfAction.CallBack();
-            toolTipActions.SetToolTip( this.btAddPdf, this.addPdfAction.Text );
+			toolTips.SetToolTip( this.btAddPdf, this.addPdfAction.Text );
 			pnlActions.Controls.Add( this.btAddPdf );
 
             this.btAddGraphicMenu = new Button();
@@ -613,7 +623,7 @@ namespace RAppMenu.Ui {
             this.btAddGraphicMenu.ImageList = UserAction.ImageList;
             this.btAddGraphicMenu.ImageIndex = this.addGraphicMenuAction.ImageIndex;
             this.btAddGraphicMenu.Click += (sender, e) => this.addGraphicMenuAction.CallBack();
-            toolTipActions.SetToolTip( this.btAddGraphicMenu, this.addGraphicMenuAction.Text );
+			toolTips.SetToolTip( this.btAddGraphicMenu, this.addGraphicMenuAction.Text );
 			pnlActions.Controls.Add( this.btAddGraphicMenu );
 
             this.btAddSeparator = new Button();
@@ -621,7 +631,7 @@ namespace RAppMenu.Ui {
             this.btAddSeparator.ImageList = UserAction.ImageList;
             this.btAddSeparator.ImageIndex = this.addSeparatorAction.ImageIndex;
             this.btAddSeparator.Click += (sender, e) => this.addSeparatorAction.CallBack();
-            toolTipActions.SetToolTip( this.btAddSeparator, this.addSeparatorAction.Text );
+			toolTips.SetToolTip( this.btAddSeparator, this.addSeparatorAction.Text );
             pnlActions.Controls.Add( this.btAddSeparator );
 
             this.btUp = new Button();
@@ -629,7 +639,7 @@ namespace RAppMenu.Ui {
             this.btUp.Dock = DockStyle.Left;
             this.btUp.ImageList = UserAction.ImageList;
             this.btUp.ImageIndex = this.moveEntryUpAction.ImageIndex;
-            toolTipMovement.SetToolTip( this.btUp, this.moveEntryUpAction.Text );
+            toolTips.SetToolTip( this.btUp, this.moveEntryUpAction.Text );
             pnlMovement.Controls.Add( this.btUp );
             this.btUp.Click += (sender, e) => this.moveEntryUpAction.CallBack();
 
@@ -638,7 +648,7 @@ namespace RAppMenu.Ui {
             this.btDown.Dock = DockStyle.Left;
             this.btDown.ImageList = UserAction.ImageList;
             this.btDown.ImageIndex = this.moveEntryDownAction.ImageIndex;
-            toolTipMovement.SetToolTip( this.btDown, this.moveEntryDownAction.Text );
+            toolTips.SetToolTip( this.btDown, this.moveEntryDownAction.Text );
             pnlMovement.Controls.Add( this.btDown );
             this.btDown.Click += (sender, e) => this.moveEntryDownAction.CallBack();
 
@@ -647,7 +657,7 @@ namespace RAppMenu.Ui {
             this.btRemove.Dock = DockStyle.Left;
             this.btRemove.ImageList = UserAction.ImageList;
             this.btRemove.ImageIndex = this.removeEntryAction.ImageIndex;
-            toolTipMovement.SetToolTip( this.btRemove, this.removeEntryAction.Text );
+            toolTips.SetToolTip( this.btRemove, this.removeEntryAction.Text );
             pnlMovement.Controls.Add( this.btRemove );
             this.btRemove.Click += (sender, e) => this.removeEntryAction.CallBack();
 
@@ -659,6 +669,7 @@ namespace RAppMenu.Ui {
             this.tvMenu.ImageList = UserAction.ImageList;
 
             this.pnlTree = new GroupBox();
+			this.pnlTree.SuspendLayout();
             this.pnlTree.Font = new Font( this.pnlTree.Font, FontStyle.Bold );
             this.pnlTree.Text = "Menu structure";
 			this.pnlTree.Dock = DockStyle.Fill;
@@ -668,6 +679,9 @@ namespace RAppMenu.Ui {
             this.pnlTree.Controls.Add( pnlMovement );
 
             this.splPanels.Panel1.Controls.Add( this.pnlTree );
+			this.pnlTree.ResumeLayout( false );
+			pnlMovement.ResumeLayout( false );
+			pnlActions.ResumeLayout( false );
 
             // User actions
             this.addMenuAction.AddComponent( this.btAddMenuEntry );
@@ -685,6 +699,7 @@ namespace RAppMenu.Ui {
 			this.pnlGroupProperties = new GroupBox();
 
             this.pnlProperties = new TableLayoutPanel();
+			this.pnlProperties.SuspendLayout();
 			this.pnlProperties.AutoSize = false;
 			this.pnlProperties.AutoScroll = true;
 			this.pnlProperties.Font = new Font( this.pnlProperties.Font, FontStyle.Regular );
@@ -696,6 +711,7 @@ namespace RAppMenu.Ui {
 			this.pnlGroupProperties.Dock = DockStyle.Fill;
 			this.pnlGroupProperties.Padding = new Padding( 5 );
 			this.splPanels.Panel2.Controls.Add( this.pnlGroupProperties );
+			this.pnlProperties.ResumeLayout( false );
 		}
 
 		private void BuildStatus()
@@ -835,11 +851,10 @@ namespace RAppMenu.Ui {
             this.Size = this.MinimumSize;
 		}
 
-        private void PrepareViewForNewMenu()
+        private void PrepareViewStructuresForNewDocument()
         {
             this.tvMenu.Nodes.Clear();
             this.tvMenu.Nodes.Add( new UiComponents.RootMenuTreeNode( this.doc.Root ) );
-            this.PrepareView( true );
         }
 
 		private void PrepareView(bool view)
@@ -887,22 +902,49 @@ namespace RAppMenu.Ui {
 			mctr.GetEditor( this.pnlProperties ).Show();
 		}
 
+		private void SetToolbarForNumTasks(int numTasks)
+		{
+			this.pbProgress.Visible = true;
+			this.pbProgress.Minimum = 0;
+			this.pbProgress.Step = 1;
+			this.pbProgress.Maximum = numTasks;
+
+			Application.DoEvents();
+		}
+
+		private void SetToolbarTaskFinished()
+		{
+			this.pbProgress.PerformStep();
+
+			if ( this.pbProgress.Value == this.pbProgress.Maximum ) {
+				this.pbProgress.Visible = false;
+			}
+
+			Application.DoEvents();
+		}
+
 		private void SetStatus()
 		{
 			this.lblStatus.ForeColor = Color.Black;
 			this.lblStatus.Text = "Ready";
+
+			Application.DoEvents();
 		}
 
 		private void SetStatus(string msg)
 		{
 			this.lblStatus.ForeColor = Color.Blue;
 			this.lblStatus.Text = msg;
+
+			Application.DoEvents();
 		}
 
 		private void SetErrorStatus(string msg)
 		{
 			this.lblStatus.ForeColor = Color.DarkRed;
 			this.lblStatus.Text = msg;
+
+			Application.DoEvents();
 		}
 
 		public MenuComponentTreeNode TreeMenuRoot {

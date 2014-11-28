@@ -7,6 +7,23 @@ using System.Collections.Generic;
 using RAppMenu.Core.MenuComponents;
 
 namespace RAppMenu.Core {
+	static class XmlAttributeCollectionExtension {
+		public static XmlNode GetNamedItemIgnoreCase(this XmlAttributeCollection xmlc, string id)
+		{
+			XmlAttribute toret = null;
+			id = id.Trim();
+
+			foreach ( XmlAttribute attr in xmlc ) {
+				if ( attr.Name.Equals( id, StringComparison.OrdinalIgnoreCase ) ) {
+					toret = attr;
+					break;
+				}
+			}
+
+			return toret;
+		}
+	}
+
     public class XmlReader {
         /// <summary>
         /// Initializes a new instance of the <see cref="RAppMenu.Core.XmlReader"/> class.
@@ -42,8 +59,11 @@ namespace RAppMenu.Core {
             // Subnodes of node
             foreach(XmlNode subNode in node.ChildNodes) {
                 if ( subNode.Name.Equals( Menu.TagName, StringComparison.OrdinalIgnoreCase ) ) {
-                    var subMenu = Menu.FromXml( subNode, menu );
-                    this.ReadNodeInto( subNode, subMenu );
+					if ( this.IsGraphicMenu( subNode ) ) {
+						GraphicMenu.FromXml( subNode, menu );
+					} else {
+						this.ReadNodeInto( subNode, Menu.FromXml( subNode, menu ) );
+					}
                 }
 				else
 				if ( subNode.Name.Equals( PdfFile.TagName, StringComparison.OrdinalIgnoreCase ) ) {

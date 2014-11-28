@@ -131,7 +131,9 @@ namespace RAppMenu.Core.MenuComponents {
 
 		public new static GraphicMenu FromXml(XmlNode node, Menu menu)
 		{
-			throw new NotImplementedException();
+			var toret = new GraphicMenu( "grphMenu", menu );
+
+			return toret;
 		}
 
         private int imageWidth;
