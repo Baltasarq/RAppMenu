@@ -11,6 +11,8 @@ namespace RAppMenu.Core {
 	/// menu entries, functions, separators...
 	/// </summary>
 	public abstract class MenuComponent {
+		public const string PathDelimiter = ": ";
+
         public MenuComponent(string name, Menu parent)
 		{
 			this.SetName( name );
@@ -112,16 +114,17 @@ namespace RAppMenu.Core {
 		/// <seealso cref="GetPath"/>
 		public string GetPathAsString()
 		{
+			int delimiterLength = PathDelimiter.Length;
 			var toret = new StringBuilder();
 			MenuComponent[] path = this.GetPath();
 
 			// Build the string representing this path
 			foreach(MenuComponent mc in path) {
 				toret.Append( mc.name );
-				toret.Append( '.' );
+				toret.Append( ": " );
 			}
-			// Remove last dot
-			toret.Remove( toret.Length - 1, 1 );
+			// Remove last delimiter
+			toret.Remove( toret.Length - delimiterLength, delimiterLength );
 
 			return toret.ToString();
 		}
