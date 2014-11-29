@@ -22,7 +22,7 @@ namespace RAppMenu.Core.MenuComponents {
 			:base( name, parent )
 		{
 			this.ImageWidth = this.ImageHeight = MinimumGraphicSize;
-			this.MinimumNumberOfColumns = MinimumNumberOfColumns;
+            this.MinimumNumberOfColumns = MinimumColumns;
 		}
 
 		/// <summary>
