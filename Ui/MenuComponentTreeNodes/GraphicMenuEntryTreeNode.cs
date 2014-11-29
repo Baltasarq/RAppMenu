@@ -8,8 +8,8 @@ namespace RAppMenu.Ui.MenuComponentTreeNodes {
 	/// <summary>
 	/// Image menu entry in the UI side.
 	/// </summary>
-	public class ImageMenuEntryTreeNode: MenuComponentTreeNode {
-        public ImageMenuEntryTreeNode(GraphicMenuEntry gme)
+	public class GraphicMenuEntryTreeNode: MenuComponentTreeNode {
+        public GraphicMenuEntryTreeNode(GraphicMenuEntry gme)
 			:base( gme )
 		{
 			this.ImageIndex = this.SelectedImageIndex =

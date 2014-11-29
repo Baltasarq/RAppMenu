@@ -22,6 +22,18 @@ namespace RAppMenu.Core {
 
 			return toret;
 		}
+
+        public static XmlAttribute GetAttribute(this XmlNode node, string id)
+        {
+            id = id.Trim();
+            var toret = (XmlAttribute) node.Attributes.GetNamedItemIgnoreCase( id );
+
+            if ( toret == null ) {
+                throw new XmlException( "missing attribute: '" + id +"'" );
+            }
+
+            return toret;
+        }
 	}
 
     public class XmlReader {

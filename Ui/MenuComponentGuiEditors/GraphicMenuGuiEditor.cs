@@ -35,7 +35,6 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.udImageWidth = new NumericUpDown();
 			this.udImageWidth.TextAlign = HorizontalAlignment.Right;
 			this.udImageWidth.Font = new Font( this.udImageWidth.Font, FontStyle.Bold );
-			this.udImageWidth.Value = this.GraphicMenu.ImageWidth;
 			this.udImageWidth.ValueChanged += (sender, e) => this.OnValuesChanged();
 			this.pnlMeasures.Controls.Add( lblImageWidth );
 			this.pnlMeasures.Controls.Add( this.udImageWidth );
@@ -48,7 +47,6 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.udImageHeight = new NumericUpDown();
 			this.udImageHeight.TextAlign = HorizontalAlignment.Right;
 			this.udImageHeight.Font = new Font( this.udImageHeight.Font, FontStyle.Bold );
-			this.udImageHeight.Value = this.GraphicMenu.ImageHeight;
 			this.udImageHeight.ValueChanged += (sender, e) => this.OnValuesChanged();
 			this.pnlMeasures.Controls.Add( lblImageHeight );
 			this.pnlMeasures.Controls.Add( this.udImageHeight );
@@ -61,7 +59,6 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.udMinimumColumns = new NumericUpDown();
 			this.udMinimumColumns.TextAlign = HorizontalAlignment.Right;
 			this.udMinimumColumns.Font = new Font( this.udImageHeight.Font, FontStyle.Bold );
-			this.udMinimumColumns.Value = this.GraphicMenu.MinimumNumberOfColumns;
 			this.udMinimumColumns.ValueChanged += (sender, e) => this.OnValuesChanged();
 			this.pnlMeasures.Controls.Add( lblMinCols );
 			this.pnlMeasures.Controls.Add( this.udMinimumColumns );
@@ -81,6 +78,11 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.udImageHeight.Maximum = CoreComponents.GraphicMenu.MaximumGraphicSize;
 			this.udMinimumColumns.Minimum = CoreComponents.GraphicMenu.MinimumColumns;
 			this.udMinimumColumns.Maximum = CoreComponents.GraphicMenu.MaximumColumns;
+
+            // Values
+            this.udImageWidth.Value = this.GraphicMenu.ImageWidth;
+            this.udImageHeight.Value = this.GraphicMenu.ImageHeight;
+            this.udMinimumColumns.Value = this.GraphicMenu.MinimumNumberOfColumns;
 
 			this.pnlMeasures.ResumeLayout( false );
 		}

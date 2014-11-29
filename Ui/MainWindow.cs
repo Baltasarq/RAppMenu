@@ -66,7 +66,7 @@ namespace RAppMenu.Ui {
 			if ( parentImagesMenu != null ) {
 				id = "newGraphIdFunction" + id;
                 var ime = new CoreComponents.GraphicMenuEntry( id, parentImagesMenu );
-				tn = new UiComponents.ImageMenuEntryTreeNode( ime );
+				tn = new UiComponents.GraphicMenuEntryTreeNode( ime );
 			} else {
 				id = "newFunction" + id;
                 var f = new CoreComponents.Function( id, (CoreComponents.Menu) parentMc );
@@ -297,19 +297,13 @@ namespace RAppMenu.Ui {
 		private void CreateEditorsFor(MenuComponentTreeNode mctn, CoreComponents.Menu menu)
 		{
 			foreach(MenuComponent submc in menu.MenuComponents) {
-				var subMenu = submc as CoreComponents.Menu;
 				var separator = submc as CoreComponents.Separator;
 				var pdfFile = submc as CoreComponents.PdfFile;
 				var function = submc as CoreComponents.Function;
+                var grphMenuEntry = submc as CoreComponents.GraphicMenuEntry;
+                var grphMenu = submc as CoreComponents.GraphicMenu;
+                var subMenu = submc as CoreComponents.Menu;
 
-				if ( subMenu != null ) {
-					var mtn = new MenuComponentTreeNodes.MenuTreeNode( subMenu );
-
-					mctn.Nodes.Add( mtn );
-					mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
-					this.CreateEditorsFor( mtn, subMenu );
-				}
-				else
 				if ( separator != null ) {
 					var mtn = new MenuComponentTreeNodes.SeparatorTreeNode( separator );
 
@@ -330,6 +324,29 @@ namespace RAppMenu.Ui {
 					mctn.Nodes.Add( mtn );
 					mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
 				}
+                else
+                if ( grphMenu != null ) {
+                    var mtn = new MenuComponentTreeNodes.GraphicMenuTreeNode( grphMenu );
+
+                    mctn.Nodes.Add( mtn );
+                    mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
+                    this.CreateEditorsFor( mtn, grphMenu );
+                }
+                else
+                if ( grphMenuEntry != null ) {
+                    var mtn = new MenuComponentTreeNodes.GraphicMenuEntryTreeNode( grphMenuEntry );
+
+                    mctn.Nodes.Add( mtn );
+                    mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
+                }
+                else
+                if ( subMenu != null ) {
+                    var mtn = new MenuComponentTreeNodes.MenuTreeNode( subMenu );
+
+                    mctn.Nodes.Add( mtn );
+                    mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
+                    this.CreateEditorsFor( mtn, subMenu );
+                }
 
 				// One step more
 				if ( menu == this.Document.Root ) {

@@ -136,7 +136,7 @@ namespace RAppMenu.Core.MenuComponents {
 			public static Argument FromXml(XmlNode node, Function fn)
 			{
                 bool isNewArgument = false;
-                string name = node.Attributes.GetNamedItemIgnoreCase( EtqName ).InnerText;
+                string name = node.GetAttribute( EtqName ).InnerText;
                 Argument toret = fn.ArgList.LookUp( name );
 
                 // Is it a new argument?
@@ -560,11 +560,15 @@ namespace RAppMenu.Core.MenuComponents {
 		{
 			Menu trueParent = menu;
 
-			// Determine the parent
-			if ( !( menu is RootMenu ) ) {
+			// Determine the parent for the deletion of the unneeded upper menu
+            // Note that this must not be done if we are at top level,
+            // Or if we are working with a graphic menu.
+			if ( !( menu is RootMenu )
+              && !( menu is GraphicMenuEntry ) )
+            {
 				trueParent = menu.Parent;
 
-				// Eliminate the uneeded enclosing menu
+				// Eliminate the unneeded enclosing menu
 				if ( trueParent == null ) {
 					throw new XmlException( "functions should be enclosed in dedicated menu entries" );
 				}

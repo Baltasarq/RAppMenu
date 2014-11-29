@@ -36,15 +36,22 @@ namespace RAppMenu.Core.MenuComponents {
 			}
 		}
 
+        /// <summary>
+        /// Discards the function being held internally, and stores this one
+        /// instead.
+        /// </summary>
+        /// <param name="mc">A <see cref="MenuComponent"/>, should be a <see cref="Function"/> object.</param>
 		public override void Add(MenuComponent mc)
 		{
-			if ( this.MenuComponents.Count > 0 ) {
-				throw new ArgumentException( "an image menu entry can only hold one function" );
-			} else {
-				base.Add( mc );
-			}
+            if ( !( mc is Function ) ) {
+                throw new ArgumentException( "this graphic menu entry can only hold functions" );
+            }
 
-			return;
+            if ( this.MenuComponents.Count > 0 ) {
+                base.RemoveAt( 0 );
+            }
+                
+            base.Add( mc );
 		}
 
 		public override void Remove(MenuComponent mc)
@@ -129,7 +136,54 @@ namespace RAppMenu.Core.MenuComponents {
 
 		public static GraphicMenuEntry FromXml(XmlNode node, GraphicMenu menu)
 		{
-			throw new NotImplementedException();
+            var toret = new GraphicMenuEntry(
+                                       node.GetAttribute( EtqName ).InnerText,
+                                       menu );
+
+            // Retrieve attribute data
+            // Remember that the data here can invalidate the data in the parent
+            foreach(XmlAttribute attr in node.Attributes) {
+                if ( attr.Name.Equals( GraphicMenu.EtqImageWidth, StringComparison.OrdinalIgnoreCase ) )
+                {
+                    menu.ImageWidth = int.Parse( attr.InnerText );
+                }
+                else
+                if ( attr.Name.Equals( GraphicMenu.EtqImageHeight, StringComparison.OrdinalIgnoreCase ) )
+                {
+                    menu.ImageHeight = int.Parse( attr.InnerText );
+                }
+                else
+                if ( attr.Name.Equals( GraphicMenu.EtqMinimumNumberOfColumns, StringComparison.OrdinalIgnoreCase ) )
+                {
+                    menu.MinimumNumberOfColumns = int.Parse( attr.InnerText );
+                }
+                else
+                if ( attr.Name.Equals( EtqImagePath, StringComparison.OrdinalIgnoreCase ) )
+                {
+                    toret.ImagePath = attr.InnerText.Trim();
+                }
+                else
+                if ( attr.Name.Equals( EtqImageToolTip, StringComparison.OrdinalIgnoreCase ) )
+                {
+                    toret.ImageToolTip = attr.InnerText.Trim();
+                }
+            }
+
+            // Retrieve enclosed functions
+            if ( node.ChildNodes.Count != 1 ) { 
+                throw new XmlException( "each graphic entry should have exactly one function" );
+            } else {
+                var subNode = node.ChildNodes[ 0 ];
+
+                if ( subNode.Name.Equals( Function.TagName, StringComparison.OrdinalIgnoreCase ) )
+                {
+                    Function.FromXml( subNode, toret );
+                } else {
+                    throw new XmlException( "sub-component of graphic meny entry is not a function" );
+                }
+            }
+
+            return toret;
 		}
 
 		private string imagePath;

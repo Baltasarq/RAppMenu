@@ -370,6 +370,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
             // Main panel
             this.pnlContainer = new TableLayoutPanel();
 			this.pnlContainer.SuspendLayout();
+            this.Panel.SuspendLayout();
             this.pnlContainer.Dock = DockStyle.Fill;
             this.pnlContainer.AutoSize = true;
             this.Panel.Controls.Add( this.pnlContainer );
@@ -380,6 +381,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.BuildCommands();
 			this.BuildArgumentsListTable();
 
+            this.Panel.ResumeLayout( false );
 			this.pnlContainer.ResumeLayout( false );
 		}
 

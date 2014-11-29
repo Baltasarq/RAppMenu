@@ -26,15 +26,15 @@ namespace RAppMenu.Core.MenuComponents {
 		}
 
 		/// <summary>
-		/// Adds a given function to the images menu, which will become a subentry
+		/// Adds a given entry to the graphic menu, which will become a subentry
 		/// Note that this superseeds the Add in base class (MenuEntry).
 		/// </summary>
-		/// <param name="f">The function to add, as a <see cref="Function"/> object.</param>
+        /// <param name="ime">The <see cref="GraphicMenuEntry"/> object.</param>
 		public override void Add(MenuComponent ime)
 		{
 			if ( !( ime is GraphicMenuEntry) ) {
 				throw new ArgumentException(
-					"argument should be a ImageMenuEntry for ImagesMenu.Add()" );
+					"argument should be a GraphicMenuEntry for GraphicMenu.Add()" );
 			}
 
 			base.Add( ime );
@@ -131,7 +131,35 @@ namespace RAppMenu.Core.MenuComponents {
 
 		public new static GraphicMenu FromXml(XmlNode node, Menu menu)
 		{
-			var toret = new GraphicMenu( "grphMenu", menu );
+            var toret = new GraphicMenu(
+                                          node.GetAttribute( EtqName ).InnerText,
+                                          menu );
+
+            // Retrieve attribute data
+            foreach(XmlAttribute attr in node.Attributes) {
+                if ( attr.Name.Equals( EtqImageWidth, StringComparison.OrdinalIgnoreCase ) )
+                {
+                    toret.ImageWidth = int.Parse( attr.InnerText );
+                }
+                else
+                if ( attr.Name.Equals( EtqImageHeight, StringComparison.OrdinalIgnoreCase ) )
+                {
+                    toret.ImageHeight = int.Parse( attr.InnerText );
+                }
+                else
+                if ( attr.Name.Equals( EtqMinimumNumberOfColumns, StringComparison.OrdinalIgnoreCase ) )
+                {
+                    toret.MinimumNumberOfColumns = int.Parse( attr.InnerText );
+                }
+            }
+
+            // Retrieve ImageMenuEntries (and, eventually, their enclosed functions)
+            foreach(XmlNode subNode in node.ChildNodes) {
+                if ( subNode.Name.Equals( GraphicMenuEntry.TagName, StringComparison.OrdinalIgnoreCase ) )
+                {
+                    GraphicMenuEntry.FromXml( subNode, toret );
+                }
+            }
 
 			return toret;
 		}
