@@ -729,7 +729,7 @@ namespace RAppMenu.Ui {
 			this.pnlProperties.Dock = DockStyle.Fill;
 			this.pnlGroupProperties.Controls.Add( this.pnlProperties );
 
-			this.pnlGroupProperties.Text = "Item properties";
+			this.pnlGroupProperties.Text = "Properties";
 			this.pnlGroupProperties.Font = new Font( this.pnlProperties.Font, FontStyle.Bold );
 			this.pnlGroupProperties.Dock = DockStyle.Fill;
 			this.pnlGroupProperties.Padding = new Padding( 5 );
@@ -876,6 +876,10 @@ namespace RAppMenu.Ui {
 
         private void PrepareViewStructuresForNewDocument()
         {
+            // Remove all editors in the panel of properties
+            this.pnlProperties.Controls.Clear();
+
+            // Remove all nodes in the tree view and add a new root
             this.tvMenu.Nodes.Clear();
             this.tvMenu.Nodes.Add( new UiComponents.RootMenuTreeNode( this.doc.Root ) );
         }
