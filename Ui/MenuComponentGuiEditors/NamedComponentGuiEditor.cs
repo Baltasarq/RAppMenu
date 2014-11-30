@@ -27,6 +27,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
 		private void Build()
 		{
+            this.OnBuilding = true;
+            this.Panel.SuspendLayout();
 			this.pnlEdName = new Panel();
 			this.pnlEdName.SuspendLayout();
 			this.pnlEdName.Dock = DockStyle.Top;
@@ -56,6 +58,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.pnlEdName.MaximumSize = new Size( int.MaxValue, this.edName.Height );
 			this.Panel.Controls.Add( this.pnlEdName );
 			this.pnlEdName.ResumeLayout( false );
+            this.Panel.ResumeLayout( false );
+            this.OnBuilding = false;
 		}
 
 		/// <summary>
@@ -70,7 +74,9 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
 		public override void ReadDataFromComponent()
 		{
+            this.OnBuilding = true;
 			this.edName.Text = this.MenuComponent.Name;
+            this.OnBuilding = false;
 		}
 
 		private Panel pnlEdName;

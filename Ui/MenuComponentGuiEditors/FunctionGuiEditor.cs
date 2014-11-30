@@ -125,6 +125,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
 			this.grdArgsList.CellEndEdit += (object sender, DataGridViewCellEventArgs evt) =>
 				this.OnCellEdited( evt.RowIndex, evt.ColumnIndex );
+            this.grdArgsList.MinimumSize = new Size( 100, 100 );
 
 			this.grdArgsList.Font = new Font( this.grdArgsList.Font, FontStyle.Regular );
 			this.pnlArgsList.Font = new Font( this.pnlArgsList.Font, FontStyle.Bold );
@@ -257,8 +258,12 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.udFunctionStartColumn.Font = new Font( this.udFunctionStartColumn.Font, FontStyle.Bold );
 			this.udFunctionStartColumn.Maximum = 99;
 			this.udFunctionStartColumn.Minimum = 1;
-			this.udFunctionStartColumn.ValueChanged += (sender, e) =>
-				this.Function.StartColumn = (int) this.udFunctionStartColumn.Value;
+            this.udFunctionStartColumn.ValueChanged += (sender, e) => {
+                if ( !this.OnBuilding ) {
+                    this.Function.StartColumn =
+                        (int) this.udFunctionStartColumn.Value;
+                }
+            };
 			pnlInnerGroupDefaultData.Controls.Add( lblStartColumn );
 			pnlInnerGroupDefaultData.Controls.Add( this.udFunctionStartColumn );
 
@@ -272,8 +277,13 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.udFunctionEndColumn.TextAlign = HorizontalAlignment.Right;
             this.udFunctionEndColumn.Maximum = 99;
             this.udFunctionEndColumn.Minimum = 1;
-			this.udFunctionEndColumn.ValueChanged += (sender, e) =>
-				this.Function.EndColumn = (int) this.udFunctionEndColumn.Value;
+            this.udFunctionEndColumn.ValueChanged += (sender, e) => {
+                if ( !this.OnBuilding ) {
+                    this.Function.EndColumn =
+                        (int) this.udFunctionEndColumn.Value;
+                }
+            };
+
 			pnlInnerGroupDefaultData.Controls.Add( lblEndColumn );
 			pnlInnerGroupDefaultData.Controls.Add( this.udFunctionEndColumn );
 			pnlInnerGroupDefaultData.ResumeLayout( false );
@@ -367,10 +377,12 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
 		private void Build()
 		{
+            this.OnBuilding = true;
+
             // Main panel
+            this.Panel.SuspendLayout();
             this.pnlContainer = new TableLayoutPanel();
 			this.pnlContainer.SuspendLayout();
-            this.Panel.SuspendLayout();
             this.pnlContainer.Dock = DockStyle.Fill;
             this.pnlContainer.AutoSize = true;
             this.Panel.Controls.Add( this.pnlContainer );
@@ -381,8 +393,9 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.BuildCommands();
 			this.BuildArgumentsListTable();
 
-            this.Panel.ResumeLayout( false );
 			this.pnlContainer.ResumeLayout( false );
+            this.Panel.ResumeLayout( false );
+            this.OnBuilding = false;
 		}
 
 		/// <summary>
@@ -553,6 +566,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
         public override void ReadDataFromComponent()
         {
             base.ReadDataFromComponent();
+            base.OnBuilding = true;
 
             // Checkboxes
             this.chkFunctionHasData.Checked = this.Function.HasData;
@@ -581,6 +595,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
                 this.EnableCellsHonoringRequired( row.Index );
             }
 
+            this.OnBuilding = false;
             return;
         }
 

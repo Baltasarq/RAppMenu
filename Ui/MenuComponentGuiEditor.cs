@@ -80,6 +80,14 @@ namespace RAppMenu.Ui {
 		/// </summary>
 		public abstract void ReadDataFromComponent();
 
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="RAppMenu.Ui.MenuComponentGuiEditor"/> is on building.
+        /// </summary>
+        /// <value><c>true</c> if on building; otherwise, <c>false</c>.</value>
+        protected bool OnBuilding {
+            get; set;
+        }
+
         private Panel panel;
 		private MenuComponentTreeNode mctn;
 

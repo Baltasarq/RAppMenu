@@ -21,8 +21,12 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
 		private void Build()
 		{
+            this.OnBuilding = true;
+            this.Panel.SuspendLayout();
+
 			// Panel
 			this.pnlMeasures = new FlowLayoutPanel();
+            this.pnlMeasures.AutoSize = true;
 			this.pnlMeasures.SuspendLayout();
 			this.pnlMeasures.Dock = DockStyle.Top;
 			this.Panel.Controls.Add( this.pnlMeasures );
@@ -69,7 +73,6 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			int charWidth = (int) fontSize.Width + 5;
 			this.udImageWidth.MaximumSize = new Size( charWidth * 3, this.udImageWidth.Height );
 			this.udImageHeight.MaximumSize = new Size( charWidth * 3, this.udImageHeight.Height );
-			this.pnlMeasures.MaximumSize = new Size( int.MaxValue, this.udImageWidth.Height );
 
 			// Limits
 			this.udImageWidth.Minimum = CoreComponents.GraphicMenu.MinimumGraphicSize;
@@ -79,20 +82,33 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.udMinimumColumns.Minimum = CoreComponents.GraphicMenu.MinimumColumns;
 			this.udMinimumColumns.Maximum = CoreComponents.GraphicMenu.MaximumColumns;
 
-            // Values
+			this.pnlMeasures.ResumeLayout( false );
+            this.Panel.ResumeLayout( false );
+            this.OnBuilding = false;
+		}
+
+        public override void ReadDataFromComponent()
+        {
+            base.ReadDataFromComponent();
+            this.OnBuilding = true;
+
             this.udImageWidth.Value = this.GraphicMenu.ImageWidth;
             this.udImageHeight.Value = this.GraphicMenu.ImageHeight;
             this.udMinimumColumns.Value = this.GraphicMenu.MinimumNumberOfColumns;
 
-			this.pnlMeasures.ResumeLayout( false );
-		}
+            this.OnBuilding = false;
+        }
 
 		private void OnValuesChanged()
 		{
-			var graphicMenu = (Core.MenuComponents.GraphicMenu) this.MenuComponent;
+            if ( !this.OnBuilding ) {
+    			var graphicMenu = (Core.MenuComponents.GraphicMenu) this.MenuComponent;
 
-			graphicMenu.ImageHeight = (int) this.udImageHeight.Value;
-			graphicMenu.ImageWidth = (int) this.udImageWidth.Value;
+    			graphicMenu.ImageHeight = (int) this.udImageHeight.Value;
+    			graphicMenu.ImageWidth = (int) this.udImageWidth.Value;
+            }
+
+            return;
 		}
 
 		public CoreComponents.GraphicMenu GraphicMenu {

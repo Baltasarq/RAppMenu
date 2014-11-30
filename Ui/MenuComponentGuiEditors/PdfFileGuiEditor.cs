@@ -31,6 +31,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
 		private void Build()
 		{
+            this.OnBuilding = true;
+            this.Panel.SuspendLayout();
 			var tooltipManager = new ToolTip();
 			this.pnlEdFileName = new Panel();
 			this.pnlEdFileName.SuspendLayout();
@@ -63,6 +65,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.pnlEdFileName.ResumeLayout( false );
 			this.pnlEdFileName.MaximumSize = new Size( int.MaxValue, this.btFileName.Height );
 			this.Panel.Controls.Add( this.pnlEdFileName );
+            this.Panel.ResumeLayout( false );
+            this.OnBuilding = false;
 		}
 
 		private void OnFileNameButtonClicked()
@@ -92,10 +96,14 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		/// </summary>
 		public override void ReadDataFromComponent()
 		{
-			string fileName = Path.GetFileName( this.MenuComponent.Name );
+            if ( !this.OnBuilding ) {
+    			string fileName = Path.GetFileName( this.MenuComponent.Name );
 
-			this.edFileName.Text = fileName;
-			this.MenuComponentTreeNode.Text = fileName;
+    			this.edFileName.Text = fileName;
+    			this.MenuComponentTreeNode.Text = fileName;
+            }
+
+            return;
 		}
 
 		private Panel pnlEdFileName;

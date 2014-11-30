@@ -289,9 +289,8 @@ namespace RAppMenu.Ui {
 			this.SetToolbarForNumTasks( this.Document.Root.MenuComponents.Count );
 			this.CreateEditorsFor( this.TreeMenuRoot, this.Document.Root );
 
-			this.TreeMenuRoot.GetEditor( this.pnlProperties ).Show();
-			this.TreeMenuRoot.ExpandAll();
-			this.PrepareView( true );
+            this.TreeMenuRoot.ExpandAll();
+            this.PrepareView( true );
 		}
 
 		private void CreateEditorsFor(MenuComponentTreeNode mctn, CoreComponents.Menu menu)
@@ -300,7 +299,6 @@ namespace RAppMenu.Ui {
 				var separator = submc as CoreComponents.Separator;
 				var pdfFile = submc as CoreComponents.PdfFile;
 				var function = submc as CoreComponents.Function;
-                var grphMenuEntry = submc as CoreComponents.GraphicMenuEntry;
                 var grphMenu = submc as CoreComponents.GraphicMenu;
                 var subMenu = submc as CoreComponents.Menu;
 
@@ -328,16 +326,17 @@ namespace RAppMenu.Ui {
                 if ( grphMenu != null ) {
                     var mtn = new MenuComponentTreeNodes.GraphicMenuTreeNode( grphMenu );
 
+                    // Prepare tree menu and editor for graphic menu
                     mctn.Nodes.Add( mtn );
                     mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
-                    this.CreateEditorsFor( mtn, grphMenu );
-                }
-                else
-                if ( grphMenuEntry != null ) {
-                    var mtn = new MenuComponentTreeNodes.GraphicMenuEntryTreeNode( grphMenuEntry );
 
-                    mctn.Nodes.Add( mtn );
-                    mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
+                    // Prepare tree menu and editor for each graphic menu entry
+                    foreach(CoreComponents.GraphicMenuEntry grme in grphMenu.MenuComponents) {
+                        var grmetn = new UiComponents.GraphicMenuEntryTreeNode( grme );
+
+                        mtn.Nodes.Add( grmetn );
+                        grmetn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
+                    }
                 }
                 else
                 if ( subMenu != null ) {
@@ -886,9 +885,6 @@ namespace RAppMenu.Ui {
 
 		private void PrepareView(bool view)
 		{
-			// Widgets
-            this.splPanels.Visible = view;
-
 			// Actions
 			this.saveAction.Enabled = view;
 			this.addMenuAction.Enabled = view;
@@ -904,8 +900,11 @@ namespace RAppMenu.Ui {
 			// Polish
 			if ( view ) {
 				this.SetActionStatusForTreeNode( this.TreeMenuRoot );
+                this.tvMenu.SelectedNode = this.TreeMenuRoot;
 			}
 
+            // Widgets
+            this.splPanels.Visible = view;
 			this.SetStatus();
 		}
 

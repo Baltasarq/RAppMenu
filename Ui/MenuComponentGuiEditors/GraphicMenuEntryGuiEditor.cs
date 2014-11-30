@@ -123,6 +123,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		{
 			this.edFileName.Text = this.GraphicMenuEntry.ImagePath;
 			this.edTooltip.Text = this.GraphicMenuEntry.ImageToolTip;
+
+            this.functionEditor.ReadDataFromComponent();
 		}
 
 		public GraphicMenuEntry GraphicMenuEntry {

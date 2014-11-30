@@ -155,7 +155,7 @@ namespace RAppMenu.Core.MenuComponents {
 
             // Retrieve ImageMenuEntries (and, eventually, their enclosed functions)
             foreach(XmlNode subNode in node.ChildNodes) {
-                if ( subNode.Name.Equals( GraphicMenuEntry.TagName, StringComparison.OrdinalIgnoreCase ) )
+                if ( subNode.Name.Equals( TagName, StringComparison.OrdinalIgnoreCase ) )
                 {
                     GraphicMenuEntry.FromXml( subNode, toret );
                 }
