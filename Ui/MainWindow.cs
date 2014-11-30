@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Xml;
 using System.Drawing;
 using System.Diagnostics;
 using System.Collections.Generic;
@@ -267,8 +268,19 @@ namespace RAppMenu.Ui {
                 this.SetToolbarForNumTasks( 2 );
                 this.ApplicationsFolder = Path.GetDirectoryName( dlg.FileName );
                 this.SetToolbarTaskFinished();
-                this.doc = DesignOfUserMenu.LoadFromFile( dlg.FileName );
-                this.SetToolbarTaskFinished();
+
+                try {
+                    this.doc = DesignOfUserMenu.LoadFromFile( dlg.FileName );
+                }
+                catch(Exception exc)
+                {
+                    this.SetErrorStatus( exc.Message );
+                    return;
+                }
+                finally {
+                    this.SetToolbarTaskFinished();
+                }
+
                 this.PrepareViewStructuresForNewDocument();
                 this.TreeMenuRoot.Text = this.Document.Root.Name;
                 this.fileNameSet = true;
