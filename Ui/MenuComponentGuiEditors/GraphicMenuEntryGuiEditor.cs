@@ -12,9 +12,9 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		public GraphicMenuEntryGuiEditor(Panel panel, MenuComponentTreeNode mctn, MenuComponent mc)
 			: base( panel, mctn, mc )
 		{
-			this.Build();
+            this.Build();
 			this.functionEditor =
-				new FunctionGuiEditor( this.Panel, mctn, this.GraphicMenuEntry.Function );
+                new FunctionGuiEditor( this.pnlFunction, mctn, this.GraphicMenuEntry.Function );
 
 			this.edFileName.Text = this.GraphicMenuEntry.ImagePath;
 		}
@@ -22,9 +22,9 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		public override void Show()
 		{
 			base.Show();
-			this.functionEditor.Show();
-			this.pnlEdFileName.Show();
-			this.pnlImageTooltip.Show();
+           
+            this.functionEditor.Show();
+            this.pnlContainer.Show();
 		}
 
 		private void BuildFileNamePanel()
@@ -88,15 +88,47 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.pnlImageTooltip.MaximumSize = new Size( int.MaxValue, this.btFileName.Height );
 		}
 
+        private void BuildFunctionEditorPanel()
+        {
+            this.pnlFunction = new Panel();
+            this.pnlFunction.AutoSize = true;
+            this.pnlFunction.Dock = DockStyle.Fill;
+        }
+
 		private void Build()
 		{
 			this.Panel.SuspendLayout();
 
+            this.pnlContainer = new TableLayoutPanel();
+            this.pnlContainer.Dock = DockStyle.Fill;
+            this.pnlContainer.AutoSize = true;
+            this.pnlContainer.SuspendLayout();
+
+            this.pnlFile = new GroupBox();
+            this.pnlFile.Text = "Graphic file";
+            this.pnlFile.Font = new Font( this.pnlFile.Font, FontStyle.Bold );
+            this.pnlFile.SuspendLayout();
+            this.pnlFile.Dock = DockStyle.Top;
+
+            var pnlInnerFile = new TableLayoutPanel();
+            pnlInnerFile.SuspendLayout();
+            pnlInnerFile.Font = new Font( pnlInnerFile.Font, FontStyle.Regular );
+            pnlInnerFile.Dock = DockStyle.Fill;
+
 			this.BuildFileNamePanel();
 			this.BuildTooltipPanel();
+            this.BuildFunctionEditorPanel();
 
-			this.Panel.Controls.Add( this.pnlEdFileName );
-			this.Panel.Controls.Add( this.pnlImageTooltip );
+            pnlInnerFile.Controls.Add( this.pnlEdFileName );
+            pnlInnerFile.Controls.Add( this.pnlImageTooltip );
+            this.pnlFile.Controls.Add( pnlInnerFile );
+            this.pnlContainer.Controls.Add( this.pnlFile );
+            this.pnlContainer.Controls.Add( this.pnlFunction );
+            this.Panel.Controls.Add( this.pnlContainer );
+
+            pnlInnerFile.ResumeLayout( false );
+            this.pnlFile.ResumeLayout( false );
+            this.pnlContainer.ResumeLayout( false );
 			this.Panel.ResumeLayout( false );
 		}
 
@@ -106,7 +138,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			dlg.InitialDirectory = AppInfo.GraphsFolder;
 			dlg.CheckFileExists = true;
 			dlg.DefaultExt = "png";
-			dlg.Filter = "JPG|*.jpg|PNG|*.png|All files|*";
+            dlg.Filter = "PNG|*.png|JPG|*.jpg|All files|*";
 
 			if ( dlg.ShowDialog() == DialogResult.OK ) {
 				string fileName = Path.GetFileName( dlg.FileName );
@@ -133,8 +165,11 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			}
 		}
 
+        private GroupBox pnlFile;
+        private TableLayoutPanel pnlContainer;
 		private Panel pnlEdFileName;
 		private Panel pnlImageTooltip;
+        private Panel pnlFunction;
 		private Label lblFileName;
 		private Label edFileName;
 		private Button btFileName;

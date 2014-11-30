@@ -405,7 +405,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		{
 			int colCount = this.grdArgsList.Columns.Count;
 			int rowCount = this.grdArgsList.Rows.Count;
-			string name = "arg" + rowCount.ToString();
+            string name = "arg" + ( rowCount + 1 );
 
 			// Add a new row
 			this.grdArgsList.Rows.Add( new object[] {
@@ -545,7 +545,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
             this.grdArgsList.Columns[ 0 ].Width = (int) ( width * 0.20 );
 
             // Tag
-            this.grdArgsList.Columns[ 1 ].Width = (int) ( width * 0.18 );
+            this.grdArgsList.Columns[ 1 ].Width = (int) ( width * 0.15 );
 
             // Depends
             this.grdArgsList.Columns[ 2 ].Width = (int) ( width * 0.20 );

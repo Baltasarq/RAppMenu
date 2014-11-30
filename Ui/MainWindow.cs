@@ -253,7 +253,7 @@ namespace RAppMenu.Ui {
 
 		private void OnOpen()
 		{
-            this.SetStatus( "Loading menu..." );
+            this.SetStatus( "Select menu..." );
 
             var dlg = new OpenFileDialog();
 
@@ -265,6 +265,7 @@ namespace RAppMenu.Ui {
                 + "|All files|*";
 
             if ( dlg.ShowDialog() == DialogResult.OK ) {
+                this.SetStatus( "Loading menu..." );
                 this.SetToolbarForNumTasks( 2 );
                 this.ApplicationsFolder = Path.GetDirectoryName( dlg.FileName );
                 this.SetToolbarTaskFinished();
@@ -298,6 +299,7 @@ namespace RAppMenu.Ui {
 		private void PrepareEditorsForDocument()
 		{
 			this.PrepareView( false );
+            this.SetStatus( "Preparing editors..." );
 			this.SetToolbarForNumTasks( this.Document.Root.MenuComponents.Count );
 			this.CreateEditorsFor( this.TreeMenuRoot, this.Document.Root );
 
@@ -937,7 +939,9 @@ namespace RAppMenu.Ui {
 			this.moveEntryDownAction.Enabled = ( !isRoot && hasNext );
 			this.removeEntryAction.Enabled = !isRoot;
 
+            this.splPanels.Panel2.Hide();
 			mctr.GetEditor( this.pnlProperties ).Show();
+            this.splPanels.Panel2.Show();
 		}
 
 		private void SetToolbarForNumTasks(int numTasks)

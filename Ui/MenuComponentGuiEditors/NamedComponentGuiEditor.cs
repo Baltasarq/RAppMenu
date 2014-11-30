@@ -22,6 +22,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		public override void Show()
 		{
 			base.Show();
+
 			this.pnlEdName.Show();
 		}
 
