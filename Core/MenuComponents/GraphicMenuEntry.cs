@@ -145,17 +145,17 @@ namespace RAppMenu.Core.MenuComponents {
             foreach(XmlAttribute attr in node.Attributes) {
                 if ( attr.Name.Equals( GraphicMenu.EtqImageWidth, StringComparison.OrdinalIgnoreCase ) )
                 {
-                    menu.ImageWidth = int.Parse( attr.InnerText );
+                    menu.ImageWidth = attr.GetValueAsInt();
                 }
                 else
                 if ( attr.Name.Equals( GraphicMenu.EtqImageHeight, StringComparison.OrdinalIgnoreCase ) )
                 {
-                    menu.ImageHeight = int.Parse( attr.InnerText );
+                    menu.ImageHeight = attr.GetValueAsInt();
                 }
                 else
                 if ( attr.Name.Equals( GraphicMenu.EtqMinimumNumberOfColumns, StringComparison.OrdinalIgnoreCase ) )
                 {
-                    menu.MinimumNumberOfColumns = int.Parse( attr.InnerText );
+                    menu.MinimumNumberOfColumns = attr.GetValueAsInt();
                 }
                 else
                 if ( attr.Name.Equals( EtqImagePath, StringComparison.OrdinalIgnoreCase ) )

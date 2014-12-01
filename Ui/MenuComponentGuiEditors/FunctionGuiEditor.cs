@@ -487,7 +487,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 				arg.DependsFrom = (string) row.Cells[ colIndex ].Value;
 			}
 			else
-			// The requires info
+			// The required info
 			if ( colIndex == 3 ) {
 				arg.IsRequired = (bool) row.Cells[ colIndex ].Value;
 
@@ -524,12 +524,50 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
         private void EnableCellsHonoringRequired(int rowIndex)
         {
             DataGridViewRow row = this.grdArgsList.Rows[ rowIndex ];
-            bool isRequired = this.Function.ArgList[ rowIndex ].IsRequired;
+			Function.Argument arg = this.Function.ArgList[ rowIndex ];
+            bool isRequired = arg.IsRequired;
 
-            for (int i = 4; i < row.Cells.Count; ++i)
+			// Disable all cells apart from name
+            for (int i = 1; i < row.Cells.Count; ++i)
             {
                 row.Cells[ i ].ReadOnly = isRequired;
             }
+
+			// ... and required
+			row.Cells[ 3 ].ReadOnly = false;
+
+			if ( isRequired ) {
+				// Reset data view
+				row.Cells[ 1 ].Value = "";
+				row.Cells[ 1 ].Style.BackColor = Color.LightGray;
+				row.Cells[ 1 ].Style.ForeColor = Color.LightGray;
+
+				row.Cells[ 2 ].Value = "";
+				row.Cells[ 2 ].Style.BackColor = Color.LightGray;
+				row.Cells[ 2 ].Style.ForeColor = Color.LightGray;
+
+				row.Cells[ 4 ].Value = false;
+				row.Cells[ 2 ].Style.BackColor = Color.LightGray;
+				row.Cells[ 2 ].Style.ForeColor = Color.LightGray;
+
+				// Reset data
+				arg.IsRequired = true;
+				arg.AllowMultiselect = false;
+				arg.DependsFrom = "";
+				arg.Tag = "";
+			} else {
+				// Re-enable data view
+				row.Cells[ 1 ].Style.BackColor = Color.Wheat;
+				row.Cells[ 1 ].Style.ForeColor = Color.Black;
+
+				row.Cells[ 2 ].Value = "";
+				row.Cells[ 2 ].Style.BackColor = Color.Wheat;
+				row.Cells[ 2 ].Style.ForeColor = Color.Black;
+
+				row.Cells[ 4 ].Value = false;
+				row.Cells[ 2 ].Style.BackColor = Color.Wheat;
+				row.Cells[ 2 ].Style.ForeColor = Color.Black;
+			}
 
             return;
         }

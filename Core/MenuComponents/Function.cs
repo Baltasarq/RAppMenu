@@ -175,7 +175,15 @@ namespace RAppMenu.Core.MenuComponents {
 					else
 					// Viewer = "Map"
 					if ( attr.Name.Equals( EtqViewer, StringComparison.OrdinalIgnoreCase ) ) {
-						toret.Viewer = (ViewerType) Enum.Parse( typeof( ViewerType ), attr.InnerText.Trim(), true );
+                        string viewerId = attr.InnerText.Trim();
+                        ViewerType viewer;
+
+                        if ( Enum.TryParse<ViewerType>( viewerId, true, out viewer ) ) {
+                            toret.Viewer = viewer;
+                        } else {
+                            throw new XmlException( "unknown viewer type: " + viewerId
+                                                  + " at argument " + toret.Name );
+                        }
 					}
 				}
 
@@ -607,12 +615,12 @@ namespace RAppMenu.Core.MenuComponents {
 				else
 				// StartColumn = "1"
 				if ( attr.Name.Equals( EtqStartColumn, StringComparison.OrdinalIgnoreCase ) ) {
-					toret.StartColumn = int.Parse( attr.InnerText.Trim() );
+                    toret.StartColumn = attr.GetValueAsInt();
 				}
 				else
 				// EndColumn = "1"
 				if ( attr.Name.Equals( EtqEndColumn, StringComparison.OrdinalIgnoreCase ) ) {
-					toret.EndColumn = int.Parse( attr.InnerText.Trim() );
+                    toret.EndColumn = attr.GetValueAsInt();
 				}
 				else
 				// PreCommand = "quit()"

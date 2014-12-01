@@ -265,6 +265,7 @@ namespace RAppMenu.Ui {
                 + "|All files|*";
 
             if ( dlg.ShowDialog() == DialogResult.OK ) {
+                this.PrepareView( false );
                 this.SetStatus( "Loading menu..." );
                 this.SetToolbarForNumTasks( 2 );
                 this.ApplicationsFolder = Path.GetDirectoryName( dlg.FileName );
@@ -273,19 +274,25 @@ namespace RAppMenu.Ui {
                 try {
                     this.doc = DesignOfUserMenu.LoadFromFile( dlg.FileName );
                 }
+                catch(XmlException exc)
+                {
+                    this.SetErrorStatus( "Malformed XML: " + exc.Message );
+                    return;
+                }
                 catch(Exception exc)
                 {
-                    this.SetErrorStatus( exc.Message );
+                    this.SetErrorStatus( "Unexpected error: " + exc.Message );
                     return;
                 }
                 finally {
                     this.SetToolbarTaskFinished();
                 }
-
+                    
                 this.PrepareViewStructuresForNewDocument();
                 this.TreeMenuRoot.Text = this.Document.Root.Name;
                 this.fileNameSet = true;
 				this.PrepareEditorsForDocument();
+                this.PrepareView( true );
             }
 
             this.SetStatus();
@@ -298,13 +305,11 @@ namespace RAppMenu.Ui {
 		/// </summary>
 		private void PrepareEditorsForDocument()
 		{
-			this.PrepareView( false );
             this.SetStatus( "Preparing editors..." );
 			this.SetToolbarForNumTasks( this.Document.Root.MenuComponents.Count );
 			this.CreateEditorsFor( this.TreeMenuRoot, this.Document.Root );
 
             this.TreeMenuRoot.ExpandAll();
-            this.PrepareView( true );
 		}
 
 		private void CreateEditorsFor(MenuComponentTreeNode mctn, CoreComponents.Menu menu)

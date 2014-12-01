@@ -29,7 +29,39 @@ namespace RAppMenu.Core {
             var toret = (XmlAttribute) node.Attributes.GetNamedItemIgnoreCase( id );
 
             if ( toret == null ) {
-                throw new XmlException( "missing attribute: '" + id +"'" );
+                throw new XmlException( "missing attribute: '" + id +"' at "
+                    + node.GetPath()
+                );
+            }
+
+            return toret;
+        }
+
+        public static string GetPath(this XmlNode node)
+        {
+            var toret = new StringBuilder();
+
+            toret.Append( node.Name );
+
+            while ( node.ParentNode != null
+                 && node.ParentNode.NodeType != XmlNodeType.Document )
+            {
+                node = node.ParentNode;
+                toret.Insert( 0, node.Name + @": " );
+            }
+
+            return toret.ToString();
+        }
+
+        public static int GetValueAsInt(this XmlNode node)
+        {
+            int toret;
+
+            if ( !int.TryParse( node.InnerText.Trim(), out toret) ) {
+                throw new XmlException(
+                    "node '" + node.Name + "' does not contain a number at "
+                    + node.GetPath()
+                );
             }
 
             return toret;
@@ -61,6 +93,11 @@ namespace RAppMenu.Core {
 
             // Extract the name (it is not in the root node, but in the file name)
             this.document.Root.Name = Path.GetFileNameWithoutExtension( this.FileName );
+
+            if ( !docXml.DocumentElement.Name.Equals( RootMenu.TagName, StringComparison.OrdinalIgnoreCase ) )
+            {
+                throw new XmlException( "root element should be: " + RootMenu.TagName );
+            }
 
             // Read the immediate upper level nodes
             this.ReadNodeInto( docXml.DocumentElement, this.document.Root );
