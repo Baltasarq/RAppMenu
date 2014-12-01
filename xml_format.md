@@ -31,7 +31,7 @@ example ->
 Menus
 -----
 
-This is probably the most important tag in the whole file. It allows to nest menus inside menus. 
+This is probably the second most important tag in the whole file. It allows to nest menus inside menus. 
 
 **Syntax**
 ```HTML
@@ -51,28 +51,144 @@ This is probably the most important tag in the whole file. It allows to nest men
 example -> Geometric ->
 ```
 
+PDF File
+--------
+
+*PDF file* entries are a way to launch a PDF viewer for a given PDF document.
+
+**Syntax**
+```HTML
+<PDF Name="name_of_PDF_file">
+```
+
+**Example**
+```HTML
+<Menue>
+  <MenueEntry Name="Geometric">
+  </MenueEntry>
+  <PDF Name="geometric_functions.pdf"/>
+</Menue>
+```
+
+**Shown as**
+```
+example -> Geometric ->
+           geometric_functions.pdf
+```
+
 Separators
 ---------
 
 Separators make it possible to divide the menu in parts, specially when a group of options are not really correlated to another group of options.
 
+**Syntax**
 ```HTML
 <Separator />
 ```
 
-Function arguments
+**Example**
+```HTML
+<Menue>
+  <MenueEntry Name="Geometric">
+  </MenueEntry>
+  <Separator />
+  <PDF Name="geometric_functions.pdf" />
+</Menue>
+```
 
-<FunctionArgument Name="BOXPLOT" Function="boxplot" Variant="\method{boxplot}{default}">
-		         <ReadOnlyArgument Name="x"/>
-		         <ReadOnlyArgument Name="..."/>
-		         <ReadOnlyArgument Name="data"/>
-   	         <SetArgument Name="xlim" Value="c(0.5,2.5)"/>
-		         <SetArgument Name="ylab" Value="Ylab"/>
-		         <SetArgument Name="xlab" Value="Xlab"/>
-		         <SetArgument Name="col" Value="color"/>
-	         </FunctionArgument>
-	         <FunctionArgument Name="PAR" Function="PAR">
-		         <SetArgument Name="font.lab" Value="2"/>
-		         <SetArgument Name="mar" Value="c(5,5,3,2)"/>
-		         <SetArgument Name="cex.lab" Value="1.5"/>
-            </FunctionArgument>
+**Shown as**
+```
+example -> Geometric ->
+           ---------
+           geometric_functions.pdf
+```
+
+Functions
+---------
+
+Functions are central for RWizard Applications. This allows to call existing functions from within RWizard, with a set of parameters and options.
+
+Functions normally need an enclosing menu entry, unless they are at top level, i.e., they directly hanging from *menue*.
+
+**Syntax**
+```HTML
+<MenuEntry Name="function_name">
+<Function Name="function_name"
+	[HasData="true/false"]
+	[RemoveQuotationMarks="true/false"]
+	[DataHeader="true/false"]
+	[DefaultData="value"]
+	[StartColumn="1"]
+	[EndColumn="1"]
+	[PreCommand="value"]>
+
+	[<ExecuteOnce Name="value" />]*
+	
+	[<RequiredArgument Name="value" />]*
+	
+	[<Argument Name="value"
+		[Tag="value"]
+		[AllowMultiselect="true/false"]
+		[DependsFrom="value"]
+		[Viewer="DataColumnsViewer/DataValuesViewer/Map/TaxTree"]*
+	/>]*
+	
+	[<FunctionArgument Name="argument_name"
+			   Function="function_name"
+			   Variant="\method{boxplot}{default}">
+			 
+			 [<SetArgument Name="argument_name" Value="value"/>]*
+	</FunctionArgument>]
+
+</Function>
+</MenuEntry>
+```
+
+- **Arguments** are normal arguments.
+- **RequiredArguments** are arguments that cannot be missing.
+- **FunctionArguments** are arguments that imply a call to another function.
+
+**Example**
+```HTML
+<Menue>
+  <MenueEntry Name="Numeric">
+  	<MenueEntry Name="pow">
+  	<Function Name="pow">
+  		<RequiredArgument Name="x" />
+  		<Argument Name="y" />
+  	</Function>
+  	</MenuEntry>
+  	<MenueEntry Name="sqrt">
+  	<Function Name="sqrt">
+  		<RequiredArgument Name="x" />
+  	</Function>
+  	</MenuEntry>
+  </MenueEntry>
+  <MenueEntry Name="Geometric">
+  	<MenuEntry Name="sin">
+  	<Function Name="sin">
+  		<RequiredArgument Name="x" />
+  	</Function>
+  	</MenuEntry>
+  	<MenuEntry Name="cos">
+  	<Function Name="cos">
+  		<RequiredArgument Name="x" />
+  	</Function>
+  	</MenuEntry>
+  </MenueEntry>
+  <Separator />
+  <PDF Name="numeric_functions.pdf" />
+  <PDF Name="geometric_functions.pdf" />  
+</Menue>
+```
+
+**Shown as**
+```
+example -> 
+	   Numeric -> pow
+	   	      sqrt
+	   Geometric -> sin
+	                cos
+           ---------
+           geometric_functions.pdf
+```
