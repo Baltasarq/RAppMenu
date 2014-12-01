@@ -192,3 +192,18 @@ example ->
            ---------
            geometric_functions.pdf
 ```
+
+Graphic menus
+-------------
+
+These are submenus which show an image for each function.
+
+**Syntax**
+```HTML
+<MenuEntry Name="menu_name" ImageWidth="16..250" ImageHeight="16..250">
+	<MenuEntry Name="function_name" ImagePath="/path/to/file.png" ImageTooltip="help">
+		<Function Name="function_name" ...>
+		</Function>
+	</MenuEntry>
+</MenuEntry>
+```
