@@ -200,9 +200,26 @@ These are submenus which show an image for each function.
 
 **Syntax**
 ```HTML
-<MenuEntry Name="menu_name" ImageWidth="16..250" ImageHeight="16..250">
+<MenuEntry Name="menu_name" ImageWidth="16..250" ImageHeight="16..250" MinNumberColumns="1">
 	<MenuEntry Name="function_name" ImagePath="/path/to/file.png" ImageTooltip="help">
 		<Function Name="function_name" ...>
+		</Function>
+	</MenuEntry>
+</MenuEntry>
+```
+
+**Example**
+```HTML
+<MenuEntry Name="Graph menu of numeric functions" ImageWidth="64" ImageHeight="64">
+	<MenuEntry Name="pow" ImagePath="pow.png" ImageTooltip="powers a given base to an exponent">
+		<Function Name="pow">
+			<RequiredArgument Name="base">
+			<Argument Name="exponent">
+		</Function>
+	</MenuEntry>
+	<MenuEntry Name="sqrt" ImagePath="sqrt.png" ImageTooltip="square root">
+		<Function Name="sqrt">
+			<RequiredArgument Name="x">
 		</Function>
 	</MenuEntry>
 </MenuEntry>
