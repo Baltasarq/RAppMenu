@@ -1,1 +1,2335 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Menue><Function Name="II1" HasData="TRUE" DefaultData="data(ZII1)"><Argument Name="variables" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="agrupa" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="variablespon" Viewer="DataColumnsViewer" /><Argument Name="variablepeso" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="agrupapon" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="variables" /></Function><MenueEntry Name="Distribuciones"><MenueEntry Name="III1"><Function Name="III1"><RequiredArgument Name="valor" /><RequiredArgument Name="media" /><RequiredArgument Name="desvi" /></Function></MenueEntry><MenueEntry Name="III2"><Function Name="III2"><RequiredArgument Name="n" /><RequiredArgument Name="x" /><RequiredArgument Name="p" /></Function></MenueEntry><MenueEntry Name="III3"><Function Name="III3"><RequiredArgument Name="m" /><RequiredArgument Name="n" /><RequiredArgument Name="k" /><RequiredArgument Name="t" /></Function></MenueEntry><MenueEntry Name="III4"><Function Name="III4"><RequiredArgument Name="lambda" /><RequiredArgument Name="x" /></Function></MenueEntry></MenueEntry><MenueEntry Name="Intervalosdeconfianza"><MenueEntry Name="IV1"><Function Name="IV1" HasData="TRUE" DefaultData="data(ZIV1)"><Argument Name="varInteres" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varAgrupacion" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /></Function></MenueEntry><MenueEntry Name="IV2"><Function Name="IV2" HasData="TRUE" DefaultData="data(ZIV1)"><Argument Name="varInteres" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varAgrupacion" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varSel" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /><RequiredArgument Name="varSel" /></Function></MenueEntry><MenueEntry Name="IV3"><Function Name="IV3" HasData="TRUE" DefaultData="data(ZIV3)"><Argument Name="varInteres" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varAgrupacion" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /></Function></MenueEntry><MenueEntry Name="IV4"><Function Name="IV4" HasData="TRUE" DefaultData="data(ZIV1)"><Argument Name="varInteres" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varAgrupacion" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varSel" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /><RequiredArgument Name="varSel" /></Function></MenueEntry></MenueEntry><MenueEntry Name="Contrastesdebondaddeajuste"><MenueEntry Name="VI1"><Function Name="VI1" HasData="TRUE" DefaultData="data(ZVI1)"><Argument Name="varInteres" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varAgrupacion" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /></Function></MenueEntry><MenueEntry Name="VI2"><Function Name="VI2" HasData="TRUE" DefaultData="data(ZVI1)"><Argument Name="varInteres" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varAgrupacion" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /></Function></MenueEntry><MenueEntry Name="VI3"><Function Name="VI3" HasData="TRUE" DefaultData="data(ZVI1)"><Argument Name="varInteres" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varAgrupacion" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /></Function></MenueEntry></MenueEntry><MenueEntry Name="Contrastesdehomogeneidadenvariablescualitativas"><MenueEntry Name="Muestrasindependientes"><MenueEntry Name="VII1"><Function Name="VII1" HasData="TRUE" DefaultData="data(ZVII1)"><Argument Name="varInteres" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varAgrupa" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /></Function></MenueEntry><MenueEntry Name="VII2"><Function Name="VII2" HasData="TRUE" DefaultData="data(ZVII2)"><Argument Name="varInteres" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varAgrupa" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /></Function></MenueEntry></MenueEntry><MenueEntry Name="Muestrasrelacionadas"><MenueEntry Name="VII3"><Function Name="VII3" HasData="TRUE" DefaultData="data(ZVII3)"><Argument Name="varInteres" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varAgrupa" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /></Function></MenueEntry><MenueEntry Name="VII4"><Function Name="VII4" HasData="TRUE" DefaultData="data(ZVII4)"><Argument Name="varInteres" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varAgrupa" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /></Function></MenueEntry><MenueEntry Name="VII5"><Function Name="VII5" HasData="TRUE" DefaultData="data(ZVII5)"><Argument Name="varInteres" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varAgrupa" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /></Function></MenueEntry></MenueEntry></MenueEntry><MenueEntry Name="Contrastesdeindependenciaenvariablescualitativas"><MenueEntry Name="VIII1"><Function Name="VIII1" HasData="TRUE" DefaultData="data(ZVIII1)"><Argument Name="varInteres" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varAgrupa" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /></Function></MenueEntry><MenueEntry Name="VIII2"><Function Name="VIII2" HasData="TRUE" DefaultData="data(ZVIII2)"><Argument Name="varInteres" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varAgrupa" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varEstratos" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /><RequiredArgument Name="varEstratos" /></Function></MenueEntry></MenueEntry><MenueEntry Name="Contrastesdehomogeneidadenvariablescuantitativas"><MenueEntry Name="Pruebasparamétricas"><MenueEntry Name="t-test"><MenueEntry Name="IX1"><Function Name="IX1" HasData="TRUE" DefaultData="data(ZIX1)"><Argument Name="varInteres" Viewer="DataColumnsViewer" /><Argument Name="varPoblacion" Viewer="DataColumnsViewer" /><Argument Name="varComparar1" DependsFrom="varPoblacion" Viewer="DataValuesViewer" /><Argument Name="varComparar2" DependsFrom="varPoblacion" Viewer="DataValuesViewer" /><Argument Name="OrderCat" DependsFrom="varPoblacion" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /><RequiredArgument Name="varPoblacion" /><RequiredArgument Name="varComparar1" /><RequiredArgument Name="varComparar2" /></Function></MenueEntry><MenueEntry Name="IX2"><Function Name="IX2" HasData="TRUE" DefaultData="data(ZIX1)"><Argument Name="varInteres" Viewer="DataColumnsViewer" /><Argument Name="varPoblacion" Viewer="DataColumnsViewer" /><Argument Name="varComparar1" DependsFrom="varPoblacion" Viewer="DataValuesViewer" /><Argument Name="varComparar2" DependsFrom="varPoblacion" Viewer="DataValuesViewer" /><Argument Name="OrderCat" DependsFrom="varPoblacion" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /><RequiredArgument Name="varPoblacion" /><RequiredArgument Name="varComparar1" /><RequiredArgument Name="varComparar2" /></Function></MenueEntry></MenueEntry><MenueEntry Name="IX3"><Function Name="IX3" HasData="TRUE" DefaultData="data(ZIX3)"><Argument Name="varInteres" Viewer="DataColumnsViewer" /><Argument Name="Factor1" Viewer="DataColumnsViewer" /><Argument Name="Factor2" Viewer="DataColumnsViewer" /><Argument Name="Factor3" Viewer="DataColumnsViewer" /><Argument Name="Factor4" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /><RequiredArgument Name="Factor1" /><Argument Name="OrderCat1" DependsFrom="Factor1" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /><Argument Name="OrderCat2" DependsFrom="Factor2" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /><Argument Name="OrderCat3" DependsFrom="Factor3" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /><Argument Name="OrderCat4" DependsFrom="Factor4" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /></Function></MenueEntry><MenueEntry Name="IX4"><Function Name="IX4" HasData="TRUE" DefaultData="data(ZIX3)"><Argument Name="varInteres" Viewer="DataColumnsViewer" /><Argument Name="Factor1" Viewer="DataColumnsViewer" /><Argument Name="Factor2" Viewer="DataColumnsViewer" /><Argument Name="Factor3" Viewer="DataColumnsViewer" /><Argument Name="Covariable1" Viewer="DataColumnsViewer" /><Argument Name="Covariable2" Viewer="DataColumnsViewer" /><Argument Name="Covariable3" Viewer="DataColumnsViewer" /><Argument Name="Covariable4" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /><RequiredArgument Name="Factor1" /><RequiredArgument Name="Covariable1" /><Argument Name="OrderCat1" DependsFrom="Factor1" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /><Argument Name="OrderCat2" DependsFrom="Factor2" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /></Function></MenueEntry><MenueEntry Name="IX5"><Function Name="IX5" HasData="TRUE" DefaultData="data(ZIX5)"><Argument Name="varTiempo" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varTiempo" /></Function></MenueEntry><MenueEntry Name="IX6"><Function Name="IX6" HasData="TRUE" DefaultData="data(ZIX5)"><Argument Name="varTiempo" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="Factor1" Viewer="DataColumnsViewer" /><Argument Name="Factor2" Viewer="DataColumnsViewer" /><Argument Name="Factor3" Viewer="DataColumnsViewer" /><Argument Name="Error" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varTiempo" /><RequiredArgument Name="Factor1" /><RequiredArgument Name="Error" /><Argument Name="OrderCat1" DependsFrom="Factor1" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /><Argument Name="OrderCat2" DependsFrom="Factor2" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /><Argument Name="OrderCat3" DependsFrom="Factor3" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /></Function></MenueEntry><MenueEntry Name="IX7"><Function Name="IX7" HasData="TRUE" DefaultData="data(ZIX5)"><Argument Name="varTiempo" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="Factor1" Viewer="DataColumnsViewer" /><Argument Name="Factor2" Viewer="DataColumnsViewer" /><Argument Name="Factor3" Viewer="DataColumnsViewer" /><Argument Name="Covariable" Viewer="DataColumnsViewer" /><Argument Name="Error" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varTiempo" /><RequiredArgument Name="Factor1" /><RequiredArgument Name="Error" /><RequiredArgument Name="Covariable" /><Argument Name="OrderCat1" DependsFrom="Factor1" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /><Argument Name="OrderCat2" DependsFrom="Factor2" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /><Argument Name="OrderCat3" DependsFrom="Factor3" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /></Function></MenueEntry><MenueEntry Name="IX8"><Function Name="IX8" HasData="TRUE" DefaultData="data(ZIX6)"><Argument Name="varInteres" Viewer="DataColumnsViewer" /><Argument Name="Factor1" Viewer="DataColumnsViewer" /><Argument Name="Factor2" Viewer="DataColumnsViewer" /><Argument Name="Factor3" Viewer="DataColumnsViewer" /><Argument Name="Factor4" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /><RequiredArgument Name="Factor1" /><RequiredArgument Name="Factor2" /><RequiredArgument Name="CF1" /><RequiredArgument Name="CF2" /><Argument Name="OrderCat1" DependsFrom="Factor1" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /><Argument Name="OrderCat2" DependsFrom="Factor2" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /><Argument Name="OrderCat3" DependsFrom="Factor3" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /><Argument Name="OrderCat4" DependsFrom="Factor4" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /></Function></MenueEntry></MenueEntry><MenueEntry Name="Pruebasnoparamétricas"><MenueEntry Name="IX9"><Function Name="IX9" HasData="TRUE" DefaultData="data(ZIX7)"><Argument Name="varInteres" Viewer="DataColumnsViewer" /><Argument Name="varPoblacion" Viewer="DataColumnsViewer" /><Argument Name="varComparar1" DependsFrom="varPoblacion" Viewer="DataValuesViewer" /><Argument Name="varComparar2" DependsFrom="varPoblacion" Viewer="DataValuesViewer" /><Argument Name="OrderCat" DependsFrom="varPoblacion" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /><RequiredArgument Name="varPoblacion" /><RequiredArgument Name="varComparar1" /><RequiredArgument Name="varComparar2" /></Function></MenueEntry><MenueEntry Name="IX10"><Function Name="IX10" HasData="TRUE" DefaultData="data(ZIX7)"><Argument Name="varInteres" Viewer="DataColumnsViewer" /><Argument Name="Factor" Viewer="DataColumnsViewer" /><Argument Name="OrderCat" DependsFrom="Factor" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /><RequiredArgument Name="Factor" /></Function></MenueEntry><MenueEntry Name="IX11"><Function Name="IX11" HasData="TRUE" DefaultData="data(ZIX9)"><Argument Name="varTiempo" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varTiempo" /></Function></MenueEntry><MenueEntry Name="IX12"><Function Name="IX12" HasData="TRUE" DefaultData="data(ZIX10)"><Argument Name="varTiempo" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varBloque" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varTiempo" /><RequiredArgument Name="varBloque" /></Function></MenueEntry><MenueEntry Name="IX13"><Function Name="IX13" HasData="TRUE" DefaultData="data(ZIX11)"><Argument Name="varInteres" Viewer="DataColumnsViewer" /><Argument Name="Factor" Viewer="DataColumnsViewer" /><Argument Name="Covariable" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /><RequiredArgument Name="Factor" /><RequiredArgument Name="Covariable" /></Function></MenueEntry></MenueEntry></MenueEntry><MenueEntry Name="Contrastesdeindependenciaenvariablescuantitativas"><MenueEntry Name="X1"><Function Name="X1" HasData="TRUE" DefaultData="data(ZX1)"><Argument Name="varInteresX" Viewer="DataColumnsViewer" /><Argument Name="varInteresY" Viewer="DataColumnsViewer" /><Argument Name="varAgrupacion" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteresX" /><RequiredArgument Name="varInteresY" /><RequiredArgument Name="pruebas" /></Function></MenueEntry><MenueEntry Name="X2"><Function Name="X2" HasData="TRUE" DefaultData="data(ZX1)"><Argument Name="varInteresX" Viewer="DataColumnsViewer" /><Argument Name="varInteresY" Viewer="DataColumnsViewer" /><Argument Name="varInteresZ" Viewer="DataColumnsViewer" /><Argument Name="varAgrupacion" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteresX" /><RequiredArgument Name="varInteresY" /><RequiredArgument Name="varInteresZ" /><RequiredArgument Name="pruebas" /></Function></MenueEntry><MenueEntry Name="X3"><Function Name="X3" HasData="TRUE" DefaultData="data(ZX3)"><Argument Name="varInteres" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteres" /></Function></MenueEntry></MenueEntry><MenueEntry Name="Regresiones"><MenueEntry Name="Variabledependientecuantitativa"><MenueEntry Name="XI1"><Function Name="XI1" HasData="TRUE" DefaultData="data(ZXI1)"><Argument Name="varInteresX" Viewer="DataColumnsViewer" /><Argument Name="varInteresY" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteresX" /><RequiredArgument Name="varInteresY" /><RequiredArgument Name="modelo" /></Function></MenueEntry><MenueEntry Name="Funcionesnolineales"><MenueEntry Name="XI2"><Function Name="XI2" HasData="TRUE" DefaultData="data(ZXI2)"><Argument Name="varInteresX" Viewer="DataColumnsViewer" /><Argument Name="varInteresY" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteresX" /><RequiredArgument Name="varInteresY" /><RequiredArgument Name="modelo" /></Function></MenueEntry><MenueEntry Name="XI2"><Function Name="XI2" HasData="TRUE" DefaultData="data(ZXI4)"><Argument Name="varInteresX" Viewer="DataColumnsViewer" /><Argument Name="varInteresY" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteresX" /><RequiredArgument Name="varInteresY" /><RequiredArgument Name="modelo" /></Function></MenueEntry><MenueEntry Name="XI2"><Function Name="XI2" HasData="TRUE" DefaultData="data(ZXI5)"><Argument Name="varInteresX" Viewer="DataColumnsViewer" /><Argument Name="varInteresY" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteresX" /><RequiredArgument Name="varInteresY" /><RequiredArgument Name="modelo" /></Function></MenueEntry></MenueEntry><MenueEntry Name="SeleccióndevariablesusandoelVIF"><MenueEntry Name="XI3"><Function Name="XI3" HasData="TRUE" DefaultData="data(ZX3)"><Argument Name="variables" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varCode" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="variables" /><RequiredArgument Name="method" /><RequiredArgument Name="threshold" /></Function></MenueEntry><MenueEntry Name="XI4"><Function Name="XI4" HasData="TRUE" DefaultData="data(ZX3)"><Argument Name="variables" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varCode" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="variables" /><RequiredArgument Name="threshold" /></Function></MenueEntry></MenueEntry><MenueEntry Name="XI5"><Function Name="XI5" HasData="TRUE" DefaultData="data(ZXI6)"><Argument Name="varInteresX" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varInteresY" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteresX" /><RequiredArgument Name="varInteresY" /></Function></MenueEntry><MenueEntry Name="RegresióndePoisson"><MenueEntry Name="XI10"><Function Name="XI10" HasData="TRUE" DefaultData="data(ZXI11)"><Argument Name="varInteresX" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varInteresY" Viewer="DataColumnsViewer" /><Argument Name="offset" Viewer="DataColumnsViewer" /><Argument Name="varplot" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="OrderCat" DependsFrom="varInteresX" AllowMultiSelect="TRUE" Viewer="DataValuesViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteresX" /><RequiredArgument Name="varInteresY" /></Function></MenueEntry><MenueEntry Name="XI11"><Function Name="XI11" HasData="TRUE" DefaultData="data(ZXI12)"><Argument Name="varInteresX" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varInteresY" Viewer="DataColumnsViewer" /><Argument Name="offset" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varInteresX" /><RequiredArgument Name="varInteresY" /></Function></MenueEntry></MenueEntry></MenueEntry><MenueEntry Name="Variabledependientecualitativa"><MenueEntry Name="Regresiónlogísticabinomial"><MenueEntry Name="XI6"><Function Name="XI6" HasData="TRUE" DefaultData="data(ZXI7)"><Argument Name="cat" Viewer="DataColumnsViewer" /><Argument Name="var" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="gruporesp" DependsFrom="cat" Viewer="DataValuesViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="cat" /><RequiredArgument Name="var" /><RequiredArgument Name="gruporesp" /></Function></MenueEntry><MenueEntry Name="XI7"><Function Name="XI7" HasData="TRUE" DefaultData="data(ZXI8)"><Argument Name="cat" Viewer="DataColumnsViewer" /><Argument Name="gruporesp" DependsFrom="cat" Viewer="DataValuesViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="cat" /><RequiredArgument Name="gruporesp" /></Function></MenueEntry></MenueEntry><MenueEntry Name="Regresiónlogísticamultinomial"><MenueEntry Name="XI8"><Function Name="XI8" HasData="TRUE" DefaultData="data(ZXI9)"><Argument Name="cat" Viewer="DataColumnsViewer" /><Argument Name="var" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="cat" /><RequiredArgument Name="var" /></Function></MenueEntry><MenueEntry Name="XI9"><Function Name="XI9" HasData="TRUE" DefaultData="data(ZXI10)"><Argument Name="cat" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="cat" /><RequiredArgument Name="model" /></Function></MenueEntry></MenueEntry></MenueEntry></MenueEntry><MenueEntry Name="Meta-análisis"><MenueEntry Name="XII1"><Function Name="XII1" HasData="TRUE" DefaultData="data(ZXII1)"><Argument Name="event.e" Viewer="DataColumnsViewer" /><Argument Name="n.e" Viewer="DataColumnsViewer" /><Argument Name="event.c" Viewer="DataColumnsViewer" /><Argument Name="n.c" Viewer="DataColumnsViewer" /><Argument Name="studlab" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="event.e" /><RequiredArgument Name="n.e" /><RequiredArgument Name="event.c" /><RequiredArgument Name="n.c" /><RequiredArgument Name="studlab" /></Function></MenueEntry><MenueEntry Name="XII2"><Function Name="XII2" HasData="TRUE" DefaultData="data(ZXII1)"><Argument Name="event.e" Viewer="DataColumnsViewer" /><Argument Name="n.e" Viewer="DataColumnsViewer" /><Argument Name="event.c" Viewer="DataColumnsViewer" /><Argument Name="n.c" Viewer="DataColumnsViewer" /><Argument Name="studlab" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="event.e" /><RequiredArgument Name="n.e" /><RequiredArgument Name="event.c" /><RequiredArgument Name="n.c" /><RequiredArgument Name="studlab" /></Function></MenueEntry><MenueEntry Name="XII3"><Function Name="XII3" HasData="TRUE" DefaultData="data(ZXII1)"><Argument Name="event.e" Viewer="DataColumnsViewer" /><Argument Name="n.e" Viewer="DataColumnsViewer" /><Argument Name="event.c" Viewer="DataColumnsViewer" /><Argument Name="n.c" Viewer="DataColumnsViewer" /><Argument Name="studlab" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="event.e" /><RequiredArgument Name="n.e" /><RequiredArgument Name="event.c" /><RequiredArgument Name="n.c" /><RequiredArgument Name="studlab" /></Function></MenueEntry><MenueEntry Name="XII4"><Function Name="XII4" HasData="TRUE" DefaultData="data(ZXII1)"><Argument Name="event.e" Viewer="DataColumnsViewer" /><Argument Name="n.e" Viewer="DataColumnsViewer" /><Argument Name="event.c" Viewer="DataColumnsViewer" /><Argument Name="n.c" Viewer="DataColumnsViewer" /><Argument Name="studlab" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="event.e" /><RequiredArgument Name="n.e" /><RequiredArgument Name="event.c" /><RequiredArgument Name="n.c" /><RequiredArgument Name="studlab" /></Function></MenueEntry><MenueEntry Name="XII5"><Function Name="XII5" HasData="TRUE" DefaultData="data(ZXII1)"><Argument Name="event.e" Viewer="DataColumnsViewer" /><Argument Name="n.e" Viewer="DataColumnsViewer" /><Argument Name="event.c" Viewer="DataColumnsViewer" /><Argument Name="n.c" Viewer="DataColumnsViewer" /><Argument Name="studlab" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="event.e" /><RequiredArgument Name="n.e" /><RequiredArgument Name="event.c" /><RequiredArgument Name="n.c" /><RequiredArgument Name="studlab" /></Function></MenueEntry></MenueEntry><MenueEntry Name="Análisismultivariante"><MenueEntry Name="Métodosfactoriales"><MenueEntry Name="XIII1"><Function Name="XIII1" HasData="TRUE" DefaultData="data(ZXIII1)"><Argument Name="cat" Viewer="DataColumnsViewer" /><Argument Name="var" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="var" /></Function></MenueEntry><MenueEntry Name="XIII2"><Function Name="XIII2" HasData="TRUE" DefaultData="data(ZXIII2)"><Argument Name="var" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="cat" Viewer="DataColumnsViewer" /><Argument Name="labels" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="var" /></Function></MenueEntry><MenueEntry Name="XIII3"><Function Name="XIII3" HasData="TRUE" DefaultData="data(ZXIII3)"><Argument Name="cat" Viewer="DataColumnsViewer" /><Argument Name="var" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="cat" /><RequiredArgument Name="var" /></Function></MenueEntry><MenueEntry Name="XIII4"><Function Name="XIII4" HasData="TRUE" DefaultData="data(ZXIII4)"><Argument Name="varX" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="varY" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="labels" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="varX" /><RequiredArgument Name="varY" /></Function></MenueEntry></MenueEntry><MenueEntry Name="Métodosdeclasificación"><MenueEntry Name="XIV1"><Function Name="XIV1" HasData="TRUE" DefaultData="data(ZXIV1)"><Argument Name="cat" Viewer="DataColumnsViewer" /><Argument Name="var" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="cat" /><RequiredArgument Name="var" /></Function></MenueEntry><MenueEntry Name="XIV2"><Function Name="XIV2" HasData="TRUE" DefaultData="data(ZXIV2)"><Argument Name="cat" Viewer="DataColumnsViewer" /><Argument Name="var" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="cat" /><RequiredArgument Name="var" /></Function></MenueEntry><MenueEntry Name="XIV3"><Function Name="XIV3" HasData="TRUE" DefaultData="data(ZXIII2)"><Argument Name="cat" Viewer="DataColumnsViewer" /><Argument Name="var" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><Argument Name="labels" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="cat" /><RequiredArgument Name="var" /></Function></MenueEntry><MenueEntry Name="XIV4"><Function Name="XIV4" HasData="TRUE" DefaultData="data(ZXIV4)"><Argument Name="cat" Viewer="DataColumnsViewer" /><Argument Name="var" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="var" /></Function></MenueEntry><MenueEntry Name="XIV5"><Function Name="XIV5" HasData="TRUE" DefaultData="data(ZX3)"><Argument Name="cat" Viewer="DataColumnsViewer" /><Argument Name="var" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" /><RequiredArgument Name="data" /><RequiredArgument Name="cat" /><RequiredArgument Name="var" /></Function></MenueEntry></MenueEntry></MenueEntry><Separator /><PDF Name="StatR-manual.pdf" /></Menue>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Menue>
+  <MenueEntry Name="Estadística descriptiva">
+    <Function Name="II1" HasData="TRUE" DefaultData="data(ZII1)">
+      <Argument Name="variables" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+      <Argument Name="agrupa" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+      <Argument Name="variablespon" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+      <Argument Name="variablepeso" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+      <Argument Name="agrupapon" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+      <RequiredArgument Name="data"/>
+      <RequiredArgument Name="variables"/>
+    </Function>
+  </MenueEntry>
+  <MenueEntry Name="Distribuciones">
+	 <MenueEntry Name="Probabilidad de una distribución Normal">
+		 <Function Name="III1" HasData="FALSE">
+		 <RequiredArgument Name="valor"/>
+		 <RequiredArgument Name="media"/>
+		 <RequiredArgument Name="desvi"/>
+		 </Function>
+   </MenueEntry>
+	 <MenueEntry Name="Probabilidad de una distribución Binomial">
+		 <Function Name="III2" HasData="FALSE">
+		 <RequiredArgument Name="n"/>
+		 <RequiredArgument Name="x"/>
+		 <RequiredArgument Name="p"/>
+		 </Function>
+    </MenueEntry>
+	 <MenueEntry Name="Probabilidad de una distribución Hipergeométrica">
+		 <Function Name="III3" HasData="FALSE">
+		 <RequiredArgument Name="m"/>
+		 <RequiredArgument Name="n"/>
+		 <RequiredArgument Name="k"/>
+		 <RequiredArgument Name="t"/>
+		 </Function>
+    </MenueEntry>
+   <MenueEntry Name="Probabilidad de una distribución de Poisson">
+		 <Function Name="III4" HasData="FALSE">
+		 <RequiredArgument Name="lambda"/>
+		 <RequiredArgument Name="x"/>
+		 </Function>
+   </MenueEntry>
+  </MenueEntry>
+  <MenueEntry Name="Intervalos de confianza">
+	  <MenueEntry Name="De la media de una población Normal">
+      <Function Name="IV1" HasData="TRUE" DefaultData="data(ZIV1)">
+	     <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+	     <Argument Name="varAgrupacion" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+	     <RequiredArgument Name="data"/>
+	     <RequiredArgument Name="varInteres"/>
+		  </Function>
+	  </MenueEntry>
+	  <MenueEntry Name="De la diferencia de medias de dos poblaciones Normales">
+	    <Function Name="IV2" HasData="TRUE" DefaultData="data(ZIV1)">
+			  <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			  <Argument Name="varAgrupacion" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			  <Argument Name="varSel" Viewer="DataValuesViewer" AllowMultiSelect="TRUE"/>
+			  <RequiredArgument Name="data"/>
+	      <RequiredArgument Name="varInteres"/>
+	      <RequiredArgument Name="varSel"/>
+      </Function>
+	  </MenueEntry>
+	  <MenueEntry Name="De la varianza y desviación típica de una población Normal">
+	    <Function Name="IV3" HasData="TRUE" DefaultData="data(ZIV3)">
+			  <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			  <Argument Name="varAgrupacion" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			  <RequiredArgument Name="data"/>
+	      <RequiredArgument Name="varInteres"/>
+		 </Function>
+	  </MenueEntry>
+	  <MenueEntry Name="Razón de varianza de dos poblaciones Normales">
+	   	<Function Name="IV4" HasData="TRUE" DefaultData="data(ZIV1)">
+			  <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			  <Argument Name="varAgrupacion" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			  <Argument Name="varSel" Viewer="DataValuesViewer" AllowMultiSelect="TRUE"/>
+			  <RequiredArgument Name="data"/>
+	      <RequiredArgument Name="varInteres"/>
+	      <RequiredArgument Name="varSel"/>
+		  </Function>
+	  </MenueEntry>
+  </MenueEntry>
+  <MenueEntry Name="Contrastes de bondad de ajuste">
+	 <MenueEntry Name="Ajuste a un distribución de Poisson">
+     <Function Name="VI1" HasData="TRUE" DefaultData="data(ZVI1)">
+       <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			 <Argument Name="varAgrupacion" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			 <SetArgument Name="distribucion" Value="'Poisson'"/>
+			 <RequiredArgument Name="data"/>
+       <RequiredArgument Name="varInteres"/>
+     </Function>
+   </MenueEntry>
+	  <MenueEntry Name="Ajuste a un distribución de Binomial">
+		 <Function Name="VI2" HasData="TRUE" DefaultData="data(ZVI1)">
+       <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			 <Argument Name="varAgrupacion" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			 <SetArgument Name="distribucion" Value="'Binomial'"/>
+			 <RequiredArgument Name="data"/>
+       <RequiredArgument Name="varInteres"/>
+		 </Function>
+    </MenueEntry>
+	 <MenueEntry Name="Ajuste a un distribución de Normal">
+		 <Function Name="VI3" HasData="TRUE" DefaultData="data(ZVI1)">
+        <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			  <Argument Name="varAgrupacion" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			  <SetArgument Name="distribucion" Value="'Normal'"/>
+        <RequiredArgument Name="data"/>
+        <RequiredArgument Name="varInteres"/>
+		 </Function>
+    </MenueEntry>
+  </MenueEntry>
+  <MenueEntry Name="Contrastes de homogeneidad en variables cualitativas">
+  	<MenueEntry Name="Muestras independientes">
+		 <MenueEntry Name="Variables politómicas">
+        <Function Name="VII1" HasData="TRUE" DefaultData="data(ZVII1)">
+	        <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			    <Argument Name="varAgrupa" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			    <SetArgument Name="pruebas" Value="c(1,2,3)"/>
+			    <RequiredArgument Name="data"/>
+          <RequiredArgument Name="varInteres"/>
+        </Function>
+		 </MenueEntry>
+		 <MenueEntry Name="Variables dicotómicas">
+       <Function Name="VII2" HasData="TRUE" DefaultData="data(ZVII2)">
+         <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			   <Argument Name="varAgrupa" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			   <SetArgument Name="pruebas" Value="c(1,4,5,6,7)"/>
+			   <RequiredArgument Name="data"/>
+         <RequiredArgument Name="varInteres"/>
+			 </Function>
+ 		 </MenueEntry>
+ 	 </MenueEntry>
+  	<MenueEntry Name="Muestras relacionadas ">
+		 <MenueEntry Name="Variables politómicas">
+       <Function Name="VII3" HasData="TRUE" DefaultData="data(ZVII3)">
+	       <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			   <Argument Name="varAgrupa" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			   <SetArgument Name="pruebas" Value="c(8)"/>
+			   <SetArgument Name="shade" Value="FALSE"/>
+			   <RequiredArgument Name="data"/>
+         <RequiredArgument Name="varInteres"/>
+			 </Function>
+		 </MenueEntry>
+		 <MenueEntry Name="Variables dicotómicas sin repetición">
+       <Function Name="VII4" HasData="TRUE" DefaultData="data(ZVII4)">
+         <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			   <Argument Name="varAgrupa" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			   <SetArgument Name="pruebas" Value="c(9,10)"/>
+			   <SetArgument Name="shade" Value="FALSE"/>
+			   <RequiredArgument Name="data"/>
+         <RequiredArgument Name="varInteres"/>
+			 </Function>
+ 		 </MenueEntry>
+		 <MenueEntry Name="Variables dicotómicas con repetición">
+	    	<Function Name="VII5" HasData="TRUE" DefaultData="data(ZVII5)">
+         <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			   <Argument Name="varAgrupa" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+				 <SetArgument Name="pruebas" Value="c(11)"/>
+				 <SetArgument Name="shade" Value="FALSE"/>
+				 <RequiredArgument Name="data"/>
+         <RequiredArgument Name="varInteres"/>
+			 </Function>
+ 		 </MenueEntry>
+ 	 </MenueEntry>
+  </MenueEntry>
+  <MenueEntry Name="Contrastes de independencia en variables cualitativas">
+	 <MenueEntry Name="Variables politómicas">
+		 <Function Name="VIII1" HasData="TRUE" DefaultData="data(ZVIII1)">
+			 <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			 <Argument Name="varAgrupa" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			 <SetArgument Name="pruebas" Value="c(1,12,13)"/>
+			 <RequiredArgument Name="data"/>
+       <RequiredArgument Name="varInteres"/>
+		 </Function>
+	 </MenueEntry>
+	 <MenueEntry Name="Variables dicotómicas">
+		 <Function Name="VIII2" HasData="TRUE" DefaultData="data(ZVIII2)">
+			 <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			 <Argument Name="varAgrupa" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			 <Argument Name="varEstratos" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			 <SetArgument Name="pruebas" Value="c(1,14,15,16,17)"/>
+			 <RequiredArgument Name="data"/>
+       <RequiredArgument Name="varInteres"/>
+       <RequiredArgument Name="varEstratos"/>
+		 </Function>
+	 </MenueEntry>
+  </MenueEntry>
+  <MenueEntry Name="Contrastes de homogeneidad en variables cuantitativas">
+   <MenueEntry Name="Pruebas paramétricas">
+     <MenueEntry Name="t-test">
+       <MenueEntry Name="Muestras independientes">
+         <Function Name="IX1" HasData="TRUE" DefaultData="data(ZIX1)">
+			     <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			     <Argument Name="varPoblacion" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+           <Argument Name="varComparar1"  Viewer="DataValuesViewer" DependsFrom="varPoblacion"/>
+           <Argument Name="varComparar2"  Viewer="DataValuesViewer" DependsFrom="varPoblacion"/>
+           <Argument Name="OrderCat"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="varPoblacion"/>
+			     <RequiredArgument Name="data"/>
+           <RequiredArgument Name="varInteres"/>
+           <RequiredArgument Name="varPoblacion"/>
+           <RequiredArgument Name="varComparar1"/>
+           <RequiredArgument Name="varComparar2"/>
+           <FunctionArgument Name="BOXPLOT" Function="boxplot" Variant="\method{boxplot}{default}">
+		         <ReadOnlyArgument Name="x"/>
+		         <ReadOnlyArgument Name="..."/>
+		         <ReadOnlyArgument Name="data"/>
+   	         <SetArgument Name="xlim" Value="c(0.5,2.5)"/>
+		         <SetArgument Name="ylab" Value="Ylab"/>
+		         <SetArgument Name="xlab" Value="Xlab"/>
+		         <SetArgument Name="col" Value="color"/>
+	         </FunctionArgument>
+	         <FunctionArgument Name="PAR" Function="PAR">
+		         <SetArgument Name="font.lab" Value="2"/>
+		         <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		         <SetArgument Name="cex.lab" Value="1.5"/>
+            </FunctionArgument>
+            <FunctionArgument Name="BEANPLOT" Function="beanplot">
+             <ReadOnlyArgument Name="..."/>
+             <SetArgument Name="xlim" Value="c(0.5,2.5)"/>
+		         <SetArgument Name="ylab" Value="Ylab"/>
+		         <SetArgument Name="xlab" Value="Xlab"/>
+		         <SetArgument Name="col" Value="color1"/>
+	          </FunctionArgument>
+	          <FunctionArgument Name="LEGEND" Function="legend">
+		        </FunctionArgument>
+	          <FunctionArgument Name="AXIS" Function="axis">
+		        </FunctionArgument>
+	          <FunctionArgument Name="MTEXT" Function="mtext">
+		        </FunctionArgument>
+	          <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+		        </FunctionArgument>
+         </Function>
+       </MenueEntry>
+       <MenueEntry Name="Muestras dependientes">
+	   	   <Function Name="IX2" HasData="TRUE" DefaultData="data(ZIX1)">
+			     <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			     <Argument Name="varPoblacion" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			     <Argument Name="varComparar1"  Viewer="DataValuesViewer" DependsFrom="varPoblacion"/>
+           <Argument Name="varComparar2"  Viewer="DataValuesViewer" DependsFrom="varPoblacion"/>
+           <Argument Name="OrderCat"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="varPoblacion"/>
+           <RequiredArgument Name="data"/>
+           <RequiredArgument Name="varInteres"/>
+           <RequiredArgument Name="varPoblacion"/>
+           <RequiredArgument Name="varComparar1"/>
+           <RequiredArgument Name="varComparar2"/>
+           <FunctionArgument Name="BOXPLOT" Function="boxplot" Variant="\method{boxplot}{default}">
+		         <ReadOnlyArgument Name="x"/>
+		         <ReadOnlyArgument Name="..."/>
+		         <ReadOnlyArgument Name="data"/>
+   	         <SetArgument Name="xlim" Value="c(0.5,2.5)"/>
+		         <SetArgument Name="ylab" Value="Ylab"/>
+		         <SetArgument Name="xlab" Value="Xlab"/>
+		         <SetArgument Name="col" Value="color"/>
+	         </FunctionArgument>
+	         <FunctionArgument Name="PAR" Function="PAR">
+		         <SetArgument Name="font.lab" Value="2"/>
+		         <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		         <SetArgument Name="cex.lab" Value="1.5"/>
+            </FunctionArgument>
+            <FunctionArgument Name="BEANPLOT" Function="beanplot">
+             <ReadOnlyArgument Name="..."/>
+             <SetArgument Name="xlim" Value="c(0.5,2.5)"/>
+		         <SetArgument Name="ylab" Value="Ylab"/>
+		         <SetArgument Name="xlab" Value="Xlab"/>
+		         <SetArgument Name="col" Value="color1"/>
+	          </FunctionArgument>
+	          <FunctionArgument Name="LEGEND" Function="legend">
+		        </FunctionArgument>
+	          <FunctionArgument Name="AXIS" Function="axis">
+		        </FunctionArgument>
+	          <FunctionArgument Name="MTEXT" Function="mtext">
+		        </FunctionArgument>
+	          <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+		        </FunctionArgument>
+         </Function>
+	     </MenueEntry>
+      </MenueEntry>
+      <MenueEntry Name="Análisis de varianza (ANOVA)">
+        <Function Name="IX3" HasData="TRUE" DefaultData="data(ZIX3)">
+			    <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			    <Argument Name="Factor1" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			    <Argument Name="Factor2" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			    <Argument Name="Factor3" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			    <Argument Name="Factor4" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			    <RequiredArgument Name="data"/>
+          <RequiredArgument Name="varInteres"/>
+          <RequiredArgument Name="Factor1"/>
+          <Argument Name="OrderCat1"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="Factor1"/>
+          <Argument Name="OrderCat2"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="Factor2"/>
+          <Argument Name="OrderCat3"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="Factor3"/>
+          <Argument Name="OrderCat4"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="Factor4"/>
+          <FunctionArgument Name="PAR1" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="PAR2" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="PAR3" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="PAR4" Function="PAR">
+            <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="LEGEND1" Function="legend">
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIS1" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT1" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT1" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+		      <FunctionArgument Name="LEGEND2" Function="legend">
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIS2" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT2" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT2" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+		      <FunctionArgument Name="LEGEND3" Function="legend">
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIS3" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT3" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT3" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+		      <FunctionArgument Name="LEGEND4" Function="legend">
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIS4" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT4" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT4" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+		      <FunctionArgument Name="BEANPLOT1" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+            <SetArgument Name="ylab" Value="varInteres"/>
+            <SetArgument Name="xlab" Value="FF1"/>
+            <SetArgument Name="col" Value="color1"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BEANPLOT2" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+            <SetArgument Name="ylab" Value="varInteres"/>
+            <SetArgument Name="xlab" Value="FF2"/>
+            <SetArgument Name="col" Value="color1"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BEANPLOT3" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+            <SetArgument Name="ylab" Value="varInteres"/>
+            <SetArgument Name="xlab" Value="FF3"/>
+            <SetArgument Name="col" Value="color1"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BEANPLOT4" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+            <SetArgument Name="ylab" Value="varInteres"/>
+            <SetArgument Name="xlab" Value="FF4"/>
+            <SetArgument Name="col" Value="color1"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BOXPLOT1" Function="boxplot" Variant="\method{boxplot}{default}">
+           <ReadOnlyArgument Name="x"/>
+		       <ReadOnlyArgument Name="..."/>
+		       <ReadOnlyArgument Name="data"/>
+           <SetArgument Name="ylab" Value="varInteres"/>
+           <SetArgument Name="xlab" Value="FF1"/>
+           <SetArgument Name="col" Value="color"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BOXPLOT2" Function="boxplot" Variant="\method{boxplot}{default}">
+           <ReadOnlyArgument Name="x"/>
+		       <ReadOnlyArgument Name="..."/>
+		       <ReadOnlyArgument Name="data"/>
+           <SetArgument Name="ylab" Value="varInteres"/>
+           <SetArgument Name="xlab" Value="FF2"/>
+           <SetArgument Name="col" Value="color"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BOXPLOT3" Function="boxplot" Variant="\method{boxplot}{default}">
+           <ReadOnlyArgument Name="x"/>
+		       <ReadOnlyArgument Name="..."/>
+		       <ReadOnlyArgument Name="data"/>
+           <SetArgument Name="ylab" Value="varInteres"/>
+           <SetArgument Name="xlab" Value="FF3"/>
+           <SetArgument Name="col" Value="color"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BOXPLOT4" Function="boxplot" Variant="\method{boxplot}{default}">
+           <ReadOnlyArgument Name="x"/>
+		       <ReadOnlyArgument Name="..."/>
+		       <ReadOnlyArgument Name="data"/>
+           <SetArgument Name="ylab" Value="varInteres"/>
+           <SetArgument Name="xlab" Value="FF4"/>
+           <SetArgument Name="col" Value="color"/>
+          </FunctionArgument>
+          <FunctionArgument Name="INTERPLOT1.2" Function="interaction.plot">
+		       <ReadOnlyArgument Name="x.factor"/>
+		       <ReadOnlyArgument Name="trace.factor"/>
+		       <ReadOnlyArgument Name="response"/>
+		       <SetArgument Name="ylab" Value="varInteres"/>
+           <SetArgument Name="xlab" Value="FF1"/>
+		       <SetArgument Name="legend" Value="TRUE"/>
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="lwd" Value="2"/>
+		       <SetArgument Name="main" Value="paste('Factor',FF2)"/>
+		       <SetArgument Name="trace.label" Value="''"/>
+		       <SetArgument Name="col" Value="rainbow(length(unique(datos[,FF2])))"/>
+		       <SetArgument Name="cex.main" Value="2"/>
+		      </FunctionArgument>
+          <FunctionArgument Name="INTERPLOT1.3" Function="interaction.plot">
+		       <ReadOnlyArgument Name="x.factor"/>
+		       <ReadOnlyArgument Name="trace.factor"/>
+		       <ReadOnlyArgument Name="response"/>
+		       <SetArgument Name="ylab" Value="varInteres"/>
+           <SetArgument Name="xlab" Value="FF1"/>
+		       <SetArgument Name="legend" Value="TRUE"/>
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="lwd" Value="2"/>
+		       <SetArgument Name="main" Value="paste('Factor',FF3)"/>
+		       <SetArgument Name="trace.label" Value="''"/>
+		       <SetArgument Name="col" Value="rainbow(length(unique(datos[,FF3])))"/>
+		       <SetArgument Name="cex.main" Value="2"/>
+		      </FunctionArgument>
+          <FunctionArgument Name="INTERPLOT1.4" Function="interaction.plot">
+		       <ReadOnlyArgument Name="x.factor"/>
+		       <ReadOnlyArgument Name="trace.factor"/>
+		       <ReadOnlyArgument Name="response"/>
+		       <SetArgument Name="ylab" Value="varInteres"/>
+           <SetArgument Name="xlab" Value="FF1"/>
+		       <SetArgument Name="legend" Value="TRUE"/>
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="lwd" Value="2"/>
+		       <SetArgument Name="main" Value="paste('Factor',FF4)"/>
+		       <SetArgument Name="trace.label" Value="''"/>
+		       <SetArgument Name="col" Value="rainbow(length(unique(datos[,FF4])))"/>
+		       <SetArgument Name="cex.main" Value="2"/>
+		      </FunctionArgument>
+          <FunctionArgument Name="INTERPLOT2.3" Function="interaction.plot">
+		       <ReadOnlyArgument Name="x.factor"/>
+		       <ReadOnlyArgument Name="trace.factor"/>
+		       <ReadOnlyArgument Name="response"/>
+		       <SetArgument Name="ylab" Value="varInteres"/>
+           <SetArgument Name="xlab" Value="FF2"/>
+		       <SetArgument Name="legend" Value="TRUE"/>
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="lwd" Value="2"/>
+		       <SetArgument Name="main" Value="paste('Factor',FF3)"/>
+		       <SetArgument Name="trace.label" Value="''"/>
+		       <SetArgument Name="col" Value="rainbow(length(unique(datos[,FF3])))"/>
+		       <SetArgument Name="cex.main" Value="2"/>
+		      </FunctionArgument>
+          <FunctionArgument Name="INTERPLOT2.4" Function="interaction.plot">
+		       <ReadOnlyArgument Name="x.factor"/>
+		       <ReadOnlyArgument Name="trace.factor"/>
+		       <ReadOnlyArgument Name="response"/>
+		       <SetArgument Name="ylab" Value="varInteres"/>
+           <SetArgument Name="xlab" Value="FF2"/>
+		       <SetArgument Name="legend" Value="TRUE"/>
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="lwd" Value="2"/>
+		       <SetArgument Name="main" Value="paste('Factor',FF4)"/>
+		       <SetArgument Name="trace.label" Value="''"/>
+		       <SetArgument Name="col" Value="rainbow(length(unique(datos[,FF4])))"/>
+		       <SetArgument Name="cex.main" Value="2"/>
+		      </FunctionArgument>
+          <FunctionArgument Name="INTERPLOT3.4" Function="interaction.plot">
+		       <ReadOnlyArgument Name="x.factor"/>
+		       <ReadOnlyArgument Name="trace.factor"/>
+		       <ReadOnlyArgument Name="response"/>
+		       <SetArgument Name="ylab" Value="varInteres"/>
+           <SetArgument Name="xlab" Value="FF3"/>
+		       <SetArgument Name="legend" Value="TRUE"/>
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="lwd" Value="2"/>
+		       <SetArgument Name="main" Value="paste('Factor',FF4)"/>
+		       <SetArgument Name="trace.label" Value="''"/>
+		       <SetArgument Name="col" Value="rainbow(length(unique(datos[,FF4])))"/>
+		       <SetArgument Name="cex.main" Value="2"/>
+		      </FunctionArgument>
+        </Function>
+      </MenueEntry>
+      <MenueEntry Name="Análisis de covarianza (ANCOVA)">
+        <Function Name="IX4" HasData="TRUE" DefaultData="data(ZIX3)">
+         <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="Factor1" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="Factor2" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="Factor3" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="Covariable1" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="Covariable2" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="Covariable3" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="Covariable4" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			   <RequiredArgument Name="data"/>
+         <RequiredArgument Name="varInteres"/>
+         <RequiredArgument Name="Factor1"/>
+         <RequiredArgument Name="Covariable1"/>
+         <Argument Name="OrderCat1"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="Factor1"/>
+         <Argument Name="OrderCat2"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="Factor2"/>
+         <FunctionArgument Name="PAR1" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="PAR2" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="PAR3" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="LEGEND1" Function="legend">
+           <SetArgument Name="x" Value="'topleft'"/>
+		        <SetArgument Name="legend" Value="legendT"/>
+		        <SetArgument Name="bty" Value="'n'"/>
+		        <SetArgument Name="pch" Value="c(pcht)"/>
+		        <SetArgument Name="col" Value="color"/>
+		        <SetArgument Name="pt.cex" Value="1.5"/>
+		        <SetArgument Name="lty" Value="c(ltyT)"/>
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIS1" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT1" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT1" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+		      <FunctionArgument Name="LEGEND2" Function="legend">
+            <SetArgument Name="x" Value="'topleft'"/>
+		        <SetArgument Name="legend" Value="legendT"/>
+		        <SetArgument Name="bty" Value="'n'"/>
+		        <SetArgument Name="pch" Value="c(pcht)"/>
+		        <SetArgument Name="col" Value="color"/>
+		        <SetArgument Name="pt.cex" Value="1.5"/>
+		        <SetArgument Name="lty" Value="c(ltyT)"/>
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIS2" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT2" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT2" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+		      <FunctionArgument Name="LEGEND3" Function="legend">
+           <SetArgument Name="x" Value="'topleft'"/>
+		        <SetArgument Name="legend" Value="legendT"/>
+		        <SetArgument Name="bty" Value="'n'"/>
+		        <SetArgument Name="pch" Value="c(pcht)"/>
+		        <SetArgument Name="col" Value="color"/>
+		        <SetArgument Name="pt.cex" Value="1.5"/>
+		        <SetArgument Name="lty" Value="c(ltyT)"/>
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIS3" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT3" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT3" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+          <FunctionArgument Name="INTERPLOT1.2" Function="interaction.plot">
+		       <ReadOnlyArgument Name="x.factor"/>
+		       <ReadOnlyArgument Name="trace.factor"/>
+		       <ReadOnlyArgument Name="response"/>
+		       <SetArgument Name="ylab" Value="varInteres"/>
+           <SetArgument Name="xlab" Value="FF1"/>
+		       <SetArgument Name="legend" Value="TRUE"/>
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="lwd" Value="2"/>
+		       <SetArgument Name="main" Value="paste('Factor',FF2)"/>
+		       <SetArgument Name="trace.label" Value="''"/>
+		       <SetArgument Name="col" Value="rainbow(length(unique(datos[,FF2])))"/>
+		       <SetArgument Name="cex.main" Value="2"/>
+		      </FunctionArgument>
+          <FunctionArgument Name="INTERPLOT1.3" Function="interaction.plot">
+		       <ReadOnlyArgument Name="x.factor"/>
+		       <ReadOnlyArgument Name="trace.factor"/>
+		       <ReadOnlyArgument Name="response"/>
+		       <SetArgument Name="ylab" Value="varInteres"/>
+           <SetArgument Name="xlab" Value="FF1"/>
+		       <SetArgument Name="legend" Value="TRUE"/>
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="lwd" Value="2"/>
+		       <SetArgument Name="main" Value="paste('Factor',FF3)"/>
+		       <SetArgument Name="trace.label" Value="''"/>
+		       <SetArgument Name="col" Value="rainbow(length(unique(datos[,FF3])))"/>
+		       <SetArgument Name="cex.main" Value="2"/>
+		      </FunctionArgument>
+          <FunctionArgument Name="INTERPLOT2.3" Function="interaction.plot">
+		       <ReadOnlyArgument Name="x.factor"/>
+		       <ReadOnlyArgument Name="trace.factor"/>
+		       <ReadOnlyArgument Name="response"/>
+		       <SetArgument Name="ylab" Value="varInteres"/>
+           <SetArgument Name="xlab" Value="FF2"/>
+		       <SetArgument Name="legend" Value="TRUE"/>
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+           <SetArgument Name="lwd" Value="2"/>
+		       <SetArgument Name="main" Value="paste('Factor',FF3)"/>
+		       <SetArgument Name="trace.label" Value="''"/>
+		       <SetArgument Name="col" Value="rainbow(length(unique(datos[,FF3])))"/>
+		       <SetArgument Name="cex.main" Value="2"/>
+		      </FunctionArgument>
+        </Function>
+      </MenueEntry>
+      <MenueEntry Name="ANOVA para factores con medidas repetidas">
+       <Function Name="IX5" HasData="TRUE" DefaultData="data(ZIX5)">
+			   <Argument Name="varTiempo" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			   <RequiredArgument Name="data"/>
+         <RequiredArgument Name="varTiempo"/>
+         <FunctionArgument Name="BOXPLOT" Function="boxplot" Variant="\method{boxplot}{default}">
+		        <ReadOnlyArgument Name="x"/>
+		        <ReadOnlyArgument Name="..."/>
+		        <SetArgument Name="ylab" Value="YLAB"/>
+		        <SetArgument Name="xlab" Value="XLAB"/>
+		        <SetArgument Name="col" Value="color"/>
+	        </FunctionArgument>
+	        <FunctionArgument Name="PAR" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BEANPLOT" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+            <SetArgument Name="xlim" Value="c(0.5,2.5)"/>
+		        <SetArgument Name="ylab" Value="YLAB"/>
+		        <SetArgument Name="xlab" Value="XLAB"/>
+		        <SetArgument Name="col" Value="color1"/>
+	        </FunctionArgument>
+	        <FunctionArgument Name="LEGEND" Function="legend">
+		      </FunctionArgument>
+	        <FunctionArgument Name="AXIS" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+          </FunctionArgument>
+       </Function>
+      </MenueEntry>
+      <MenueEntry Name="ANOVA para factores con medidas repetidas y no repetidas">
+       <Function Name="IX6" HasData="TRUE" DefaultData="data(ZIX5)">
+         <Argument Name="varTiempo" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+         <Argument Name="Factor1" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="Factor2" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="Factor3" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="Error" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <RequiredArgument Name="data"/>
+         <RequiredArgument Name="varTiempo"/>
+         <RequiredArgument Name="Factor1"/>
+         <RequiredArgument Name="Error"/>
+         <Argument Name="OrderCat1"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="Factor1"/>
+         <Argument Name="OrderCat2"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="Factor2"/>
+         <Argument Name="OrderCat3"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="Factor3"/>
+         <FunctionArgument Name="BOXPLOTT" Function="boxplot" Variant="\method{boxplot}{default}">
+		       <ReadOnlyArgument Name="x"/>
+		       <ReadOnlyArgument Name="..."/>
+		       <SetArgument Name="ylab" Value="YLAB"/>
+		       <SetArgument Name="xlab" Value="XLAB"/>
+		       <SetArgument Name="col" Value="color"/>
+		       <SetArgument Name="main" Value="'Factor Tiempo'"/>
+           <SetArgument Name="cex.main" Value="2"/>
+         </FunctionArgument>
+         <FunctionArgument Name="BOXPLOT1" Function="boxplot" Variant="\method{boxplot}{default}">
+           <ReadOnlyArgument Name="x"/>
+		       <ReadOnlyArgument Name="..."/>
+           <SetArgument Name="ylab" Value="YLAB"/>
+           <SetArgument Name="xlab" Value="FF1"/>
+           <SetArgument Name="col" Value="color"/>
+           <SetArgument Name="main" Value="paste('Factor',Factor1)"/>
+           <SetArgument Name="cex.main" Value="2"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BOXPLOT2" Function="boxplot" Variant="\method{boxplot}{default}">
+           <ReadOnlyArgument Name="x"/>
+		       <ReadOnlyArgument Name="..."/>
+           <SetArgument Name="ylab" Value="YLAB"/>
+           <SetArgument Name="xlab" Value="FF2"/>
+           <SetArgument Name="col" Value="color"/>
+           <SetArgument Name="main" Value="paste('Factor',Factor2)"/>
+           <SetArgument Name="cex.main" Value="2"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BOXPLOT3" Function="boxplot" Variant="\method{boxplot}{default}">
+           <ReadOnlyArgument Name="x"/>
+		       <ReadOnlyArgument Name="..."/>
+           <SetArgument Name="ylab" Value="YLAB"/>
+           <SetArgument Name="xlab" Value="FF3"/>
+           <SetArgument Name="col" Value="color"/>
+           <SetArgument Name="main" Value="paste('Factor',Factor3)"/>
+           <SetArgument Name="cex.main" Value="2"/>
+          </FunctionArgument>
+         <FunctionArgument Name="BEANPLOTT" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+            <SetArgument Name="ylab" Value="YLAB"/>
+            <SetArgument Name="xlab" Value="XLAB"/>
+            <SetArgument Name="col" Value="color1"/>
+            <SetArgument Name="main" Value="'Factor Tiempo'"/>
+            <SetArgument Name="cex.main" Value="2"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BEANPLOT1" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+            <SetArgument Name="ylab" Value="YLAB"/>
+            <SetArgument Name="xlab" Value="FF1"/>
+            <SetArgument Name="col" Value="color1"/>
+            <SetArgument Name="main" Value="paste('Factor',Factor1)"/>
+            <SetArgument Name="cex.main" Value="2"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BEANPLOT2" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+            <SetArgument Name="ylab" Value="YLAB"/>
+            <SetArgument Name="xlab" Value="FF2"/>
+            <SetArgument Name="col" Value="color1"/>
+            <SetArgument Name="main" Value="paste('Factor',Factor2)"/>
+            <SetArgument Name="cex.main" Value="2"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BEANPLOT3" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+            <SetArgument Name="ylab" Value="YLAB"/>
+            <SetArgument Name="xlab" Value="FF3"/>
+            <SetArgument Name="col" Value="color1"/>
+            <SetArgument Name="main" Value="paste('Factor',Factor3)"/>
+            <SetArgument Name="cex.main" Value="2"/>
+          </FunctionArgument>
+         <FunctionArgument Name="PART" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+         <FunctionArgument Name="PAR1" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="PAR2" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="PAR3" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="LEGENDT" Function="legend">
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIST" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXTT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXTT" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+          <FunctionArgument Name="LEGEND1" Function="legend">
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIS1" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT1" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT1" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+		      <FunctionArgument Name="LEGEND2" Function="legend">
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIS2" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT2" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT2" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+		      <FunctionArgument Name="LEGEND3" Function="legend">
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIS3" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT3" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT3" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+		      <FunctionArgument Name="INTERPLOT1" Function="interaction.plot">
+		       <ReadOnlyArgument Name="x.factor"/>
+		       <ReadOnlyArgument Name="trace.factor"/>
+		       <ReadOnlyArgument Name="response"/>
+		       <SetArgument Name="ylab" Value="YLAB"/>
+           <SetArgument Name="xlab" Value="XLAB"/>
+		       <SetArgument Name="legend" Value="TRUE"/>
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="lwd" Value="2"/>
+		       <SetArgument Name="main" Value="paste('Factor',Factor1)"/>
+		       <SetArgument Name="trace.label" Value="''"/>
+		       <SetArgument Name="col" Value="rainbow(length(unique(datos4[,Factor1])))"/>
+		       <SetArgument Name="cex.main" Value="2"/>
+		      </FunctionArgument>
+		      <FunctionArgument Name="INTERPLOT2" Function="interaction.plot">
+		       <ReadOnlyArgument Name="x.factor"/>
+		       <ReadOnlyArgument Name="trace.factor"/>
+		       <ReadOnlyArgument Name="response"/>
+		       <SetArgument Name="ylab" Value="YLAB"/>
+           <SetArgument Name="xlab" Value="XLAB"/>
+		       <SetArgument Name="legend" Value="TRUE"/>
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="lwd" Value="2"/>
+		       <SetArgument Name="main" Value="paste('Factor',Factor2)"/>
+		       <SetArgument Name="trace.label" Value="''"/>
+		       <SetArgument Name="col" Value="rainbow(length(unique(datos4[,Factor2])))"/>
+		       <SetArgument Name="cex.main" Value="2"/>
+		      </FunctionArgument>
+		      <FunctionArgument Name="INTERPLOT3" Function="interaction.plot">
+		       <ReadOnlyArgument Name="x.factor"/>
+		       <ReadOnlyArgument Name="trace.factor"/>
+		       <ReadOnlyArgument Name="response"/>
+		       <SetArgument Name="ylab" Value="YLAB"/>
+           <SetArgument Name="xlab" Value="XLAB"/>
+		       <SetArgument Name="legend" Value="TRUE"/>
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="lwd" Value="2"/>
+		       <SetArgument Name="main" Value="paste('Factor',Factor3)"/>
+		       <SetArgument Name="trace.label" Value="''"/>
+		       <SetArgument Name="col" Value="rainbow(length(unique(datos4[,Factor3])))"/>
+		       <SetArgument Name="cex.main" Value="2"/>
+		      </FunctionArgument>
+       </Function>
+      </MenueEntry>
+      <MenueEntry Name="ANCOVA para factores con medidas repetidas y no repetidas">
+       <Function Name="IX7" HasData="TRUE" DefaultData="data(ZIX5)">
+         <Argument Name="varTiempo" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			   <Argument Name="Factor1" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			   <Argument Name="Factor2" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="Factor3" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="Covariable" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="Error" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			   <RequiredArgument Name="data"/>
+         <RequiredArgument Name="varTiempo"/>
+         <RequiredArgument Name="Factor1"/>
+         <RequiredArgument Name="Error"/>
+         <RequiredArgument Name="Covariable"/>
+         <Argument Name="OrderCat1"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="Factor1"/>
+         <Argument Name="OrderCat2"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="Factor2"/>
+         <Argument Name="OrderCat3"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="Factor3"/>
+         <FunctionArgument Name="BOXPLOTT" Function="boxplot" Variant="\method{boxplot}{default}">
+		       <ReadOnlyArgument Name="x"/>
+		       <ReadOnlyArgument Name="..."/>
+		       <SetArgument Name="ylab" Value="YLAB"/>
+		       <SetArgument Name="xlab" Value="XLAB"/>
+		       <SetArgument Name="col" Value="color"/>
+		       <SetArgument Name="main" Value="'Factor Tiempo'"/>
+           <SetArgument Name="cex.main" Value="2"/>
+         </FunctionArgument>
+         <FunctionArgument Name="BOXPLOT1" Function="boxplot" Variant="\method{boxplot}{default}">
+           <ReadOnlyArgument Name="x"/>
+		       <ReadOnlyArgument Name="..."/>
+           <SetArgument Name="ylab" Value="YLAB"/>
+           <SetArgument Name="xlab" Value="FF1"/>
+           <SetArgument Name="col" Value="color"/>
+           <SetArgument Name="main" Value="paste('Factor',Factor1)"/>
+           <SetArgument Name="cex.main" Value="2"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BOXPLOT2" Function="boxplot" Variant="\method{boxplot}{default}">
+           <ReadOnlyArgument Name="x"/>
+		       <ReadOnlyArgument Name="..."/>
+           <SetArgument Name="ylab" Value="YLAB"/>
+           <SetArgument Name="xlab" Value="FF2"/>
+           <SetArgument Name="col" Value="color"/>
+           <SetArgument Name="main" Value="paste('Factor',Factor2)"/>
+           <SetArgument Name="cex.main" Value="2"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BOXPLOT3" Function="boxplot" Variant="\method{boxplot}{default}">
+           <ReadOnlyArgument Name="x"/>
+		       <ReadOnlyArgument Name="..."/>
+           <SetArgument Name="ylab" Value="YLAB"/>
+           <SetArgument Name="xlab" Value="FF3"/>
+           <SetArgument Name="col" Value="color"/>
+           <SetArgument Name="main" Value="paste('Factor',Factor3)"/>
+           <SetArgument Name="cex.main" Value="2"/>
+          </FunctionArgument>
+         <FunctionArgument Name="BEANPLOTT" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+            <SetArgument Name="ylab" Value="YLAB"/>
+            <SetArgument Name="xlab" Value="XLAB"/>
+            <SetArgument Name="col" Value="color1"/>
+            <SetArgument Name="main" Value="'Factor Tiempo'"/>
+            <SetArgument Name="cex.main" Value="2"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BEANPLOT1" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+            <SetArgument Name="ylab" Value="YLAB"/>
+            <SetArgument Name="xlab" Value="FF1"/>
+            <SetArgument Name="col" Value="color1"/>
+            <SetArgument Name="main" Value="paste('Factor',Factor1)"/>
+            <SetArgument Name="cex.main" Value="2"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BEANPLOT2" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+            <SetArgument Name="ylab" Value="YLAB"/>
+            <SetArgument Name="xlab" Value="FF2"/>
+            <SetArgument Name="col" Value="color1"/>
+            <SetArgument Name="main" Value="paste('Factor',Factor2)"/>
+            <SetArgument Name="cex.main" Value="2"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BEANPLOT3" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+            <SetArgument Name="ylab" Value="YLAB"/>
+            <SetArgument Name="xlab" Value="FF3"/>
+            <SetArgument Name="col" Value="color1"/>
+            <SetArgument Name="main" Value="paste('Factor',Factor3)"/>
+            <SetArgument Name="cex.main" Value="2"/>
+          </FunctionArgument>
+         <FunctionArgument Name="PART" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+         <FunctionArgument Name="PAR1" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="PAR2" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="PAR3" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="LEGENDT" Function="legend">
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIST" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXTT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXTT" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+          <FunctionArgument Name="LEGEND1" Function="legend">
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIS1" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT1" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT1" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+		      <FunctionArgument Name="LEGEND2" Function="legend">
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIS2" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT2" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT2" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+		      <FunctionArgument Name="LEGEND3" Function="legend">
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIS3" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT3" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT3" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+		      <FunctionArgument Name="INTERPLOT1" Function="interaction.plot">
+		       <ReadOnlyArgument Name="x.factor"/>
+		       <ReadOnlyArgument Name="trace.factor"/>
+		       <ReadOnlyArgument Name="response"/>
+		       <SetArgument Name="ylab" Value="YLAB"/>
+           <SetArgument Name="xlab" Value="XLAB"/>
+		       <SetArgument Name="legend" Value="TRUE"/>
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="main" Value="paste('Factor',Factor1)"/>
+		       <SetArgument Name="trace.label" Value="''"/>
+		       <SetArgument Name="col" Value="rainbow(length(unique(datos4[,Factor1])))"/>
+		       <SetArgument Name="cex.main" Value="2"/>
+		      </FunctionArgument>
+		      <FunctionArgument Name="INTERPLOT2" Function="interaction.plot">
+		       <ReadOnlyArgument Name="x.factor"/>
+		       <ReadOnlyArgument Name="trace.factor"/>
+		       <ReadOnlyArgument Name="response"/>
+		       <SetArgument Name="ylab" Value="YLAB"/>
+           <SetArgument Name="xlab" Value="XLAB"/>
+		       <SetArgument Name="legend" Value="TRUE"/>
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="main" Value="paste('Factor',Factor2)"/>
+		       <SetArgument Name="trace.label" Value="''"/>
+		       <SetArgument Name="col" Value="rainbow(length(unique(datos4[,Factor2])))"/>
+		       <SetArgument Name="cex.main" Value="2"/>
+		      </FunctionArgument>
+		      <FunctionArgument Name="INTERPLOT3" Function="interaction.plot">
+		       <ReadOnlyArgument Name="x.factor"/>
+		       <ReadOnlyArgument Name="trace.factor"/>
+		       <ReadOnlyArgument Name="response"/>
+		       <SetArgument Name="ylab" Value="YLAB"/>
+           <SetArgument Name="xlab" Value="XLAB"/>
+		       <SetArgument Name="legend" Value="TRUE"/>
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="main" Value="paste('Factor',Factor3)"/>
+		       <SetArgument Name="trace.label" Value="''"/>
+		       <SetArgument Name="col" Value="rainbow(length(unique(datos4[,Factor3])))"/>
+		       <SetArgument Name="cex.main" Value="2"/>
+		      </FunctionArgument>
+       </Function>
+      </MenueEntry>
+      <MenueEntry Name="ANOVA anidado">
+        <Function Name="IX8" HasData="TRUE" DefaultData="data(ZIX6)">
+			    <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			    <Argument Name="Factor1" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			    <Argument Name="Factor2" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			    <Argument Name="Factor3" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			    <Argument Name="Factor4" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			    <RequiredArgument Name="data"/>
+          <RequiredArgument Name="varInteres"/>
+          <RequiredArgument Name="Factor1"/>
+          <RequiredArgument Name="Factor2"/>
+          <RequiredArgument Name="CF1"/>
+          <RequiredArgument Name="CF2"/>
+          <Argument Name="OrderCat1"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="Factor1"/>
+          <Argument Name="OrderCat2"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="Factor2"/>
+          <Argument Name="OrderCat3"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="Factor3"/>
+          <Argument Name="OrderCat4"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="Factor4"/>
+          <FunctionArgument Name="PAR1" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="PAR2" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="PAR3" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="PAR4" Function="PAR">
+            <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="LEGEND1" Function="legend">
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIS1" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT1" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT1" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+		      <FunctionArgument Name="LEGEND2" Function="legend">
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIS2" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT2" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT2" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+		      <FunctionArgument Name="LEGEND3" Function="legend">
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIS3" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT3" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT3" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+		      <FunctionArgument Name="LEGEND4" Function="legend">
+          </FunctionArgument>
+	        <FunctionArgument Name="AXIS4" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT4" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT4" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+		      <FunctionArgument Name="BEANPLOT1" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+            <SetArgument Name="ylab" Value="varInteres"/>
+            <SetArgument Name="xlab" Value="FF1"/>
+            <SetArgument Name="col" Value="color1"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BEANPLOT2" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+            <SetArgument Name="ylab" Value="varInteres"/>
+            <SetArgument Name="xlab" Value="FF2"/>
+            <SetArgument Name="col" Value="color1"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BEANPLOT3" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+            <SetArgument Name="ylab" Value="varInteres"/>
+            <SetArgument Name="xlab" Value="FF3"/>
+            <SetArgument Name="col" Value="color1"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BEANPLOT4" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+            <SetArgument Name="ylab" Value="varInteres"/>
+            <SetArgument Name="xlab" Value="FF4"/>
+            <SetArgument Name="col" Value="color1"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BOXPLOT1" Function="boxplot" Variant="\method{boxplot}{default}">
+           <ReadOnlyArgument Name="x"/>
+		       <ReadOnlyArgument Name="..."/>
+           <SetArgument Name="ylab" Value="varInteres"/>
+           <SetArgument Name="xlab" Value="FF1"/>
+           <SetArgument Name="col" Value="color"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BOXPLOT2" Function="boxplot" Variant="\method{boxplot}{default}">
+           <ReadOnlyArgument Name="x"/>
+		       <ReadOnlyArgument Name="..."/>
+           <SetArgument Name="ylab" Value="varInteres"/>
+           <SetArgument Name="xlab" Value="FF2"/>
+           <SetArgument Name="col" Value="color"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BOXPLOT3" Function="boxplot" Variant="\method{boxplot}{default}">
+           <ReadOnlyArgument Name="x"/>
+		       <ReadOnlyArgument Name="..."/>
+           <SetArgument Name="ylab" Value="varInteres"/>
+           <SetArgument Name="xlab" Value="FF3"/>
+           <SetArgument Name="col" Value="color"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BOXPLOT4" Function="boxplot" Variant="\method{boxplot}{default}">
+           <ReadOnlyArgument Name="x"/>
+		       <ReadOnlyArgument Name="..."/>
+           <SetArgument Name="ylab" Value="varInteres"/>
+           <SetArgument Name="xlab" Value="FF4"/>
+           <SetArgument Name="col" Value="color"/>
+          </FunctionArgument>
+        </Function>
+      </MenueEntry>
+    </MenueEntry>
+    <MenueEntry Name="Pruebas no paramétricas">
+      <MenueEntry Name="Contrastes para dos muestras independientes">
+       <Function Name="IX9" HasData="TRUE" DefaultData="data(ZIX7)">
+          <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			    <Argument Name="varPoblacion" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			    <Argument Name="varComparar1"  Viewer="DataValuesViewer" DependsFrom="varPoblacion"/>
+          <Argument Name="varComparar2"  Viewer="DataValuesViewer" DependsFrom="varPoblacion"/>
+          <Argument Name="OrderCat"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="varPoblacion"/>
+			    <RequiredArgument Name="data"/>
+          <RequiredArgument Name="varInteres"/>
+          <RequiredArgument Name="varPoblacion"/>
+          <RequiredArgument Name="varComparar1"/>
+          <RequiredArgument Name="varComparar2"/>
+          <FunctionArgument Name="BOXPLOT" Function="boxplot" Variant="\method{boxplot}{default}">
+		       <ReadOnlyArgument Name="x"/>
+		       <ReadOnlyArgument Name="..."/>
+		       <SetArgument Name="ylab" Value="YLAB"/>
+		       <SetArgument Name="xlab" Value="XLAB"/>
+		       <SetArgument Name="col" Value="color"/>
+		       <SetArgument Name="xlim" Value="c(0.5,2.5)"/>
+	        </FunctionArgument>
+	        <FunctionArgument Name="PAR" Function="PAR">
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BEANPLOT" Function="beanplot">
+           <ReadOnlyArgument Name="..."/>
+           <SetArgument Name="xlim" Value="c(0.5,2.5)"/>
+		       <SetArgument Name="ylab" Value="YLAB"/>
+		       <SetArgument Name="xlab" Value="XLAB"/>
+		       <SetArgument Name="col" Value="color1"/>
+	        </FunctionArgument>
+	        <FunctionArgument Name="LEGEND" Function="legend">
+		      </FunctionArgument>
+	        <FunctionArgument Name="AXIS" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+        </Function>
+      </MenueEntry>
+      <MenueEntry Name="Contrastes para k-muestras independientes">
+        <Function Name="IX10" HasData="TRUE" DefaultData="data(ZIX7)">
+          <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			    <Argument Name="Factor" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			    <Argument Name="OrderCat" Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="Factor"/>
+			    <RequiredArgument Name="data"/>
+          <RequiredArgument Name="varInteres"/>
+          <RequiredArgument Name="Factor"/>
+          <FunctionArgument Name="BOXPLOT" Function="boxplot" Variant="\method{boxplot}{default}">
+		        <ReadOnlyArgument Name="x"/>
+		        <ReadOnlyArgument Name="..."/>
+		        <SetArgument Name="ylab" Value="YLAB"/>
+		        <SetArgument Name="xlab" Value="XLAB"/>
+		        <SetArgument Name="col" Value="color"/>
+	        </FunctionArgument>
+          <FunctionArgument Name="PAR" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BEANPLOT" Function="beanplot">
+           <ReadOnlyArgument Name="..."/>
+		       <SetArgument Name="ylab" Value="YLAB"/>
+		       <SetArgument Name="xlab" Value="XLAB"/>
+		       <SetArgument Name="col" Value="color1"/>
+	        </FunctionArgument>
+	        <FunctionArgument Name="LEGEND" Function="legend">
+		      </FunctionArgument>
+	        <FunctionArgument Name="AXIS" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+        </Function>
+      </MenueEntry>
+      <MenueEntry Name="Contrastes para dos muestras dependientes">
+        <Function Name="IX11" HasData="TRUE" DefaultData="data(ZIX9)">
+         <Argument Name="varTiempo" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+			   <RequiredArgument Name="data"/>
+         <RequiredArgument Name="varTiempo"/>
+         <FunctionArgument Name="BOXPLOT" Function="boxplot" Variant="\method{boxplot}{default}">
+		        <ReadOnlyArgument Name="x"/>
+		        <ReadOnlyArgument Name="..."/>
+		        <SetArgument Name="ylab" Value="YLAB"/>
+		        <SetArgument Name="xlab" Value="XLAB"/>
+		        <SetArgument Name="col" Value="color"/>
+		        <SetArgument Name="xlim" Value="c(0.5,2.5)"/>
+          </FunctionArgument>
+	        <FunctionArgument Name="PAR" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BEANPLOT" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+            <SetArgument Name="xlim" Value="c(0.5,2.5)"/>
+		        <SetArgument Name="ylab" Value="YLAB"/>
+		        <SetArgument Name="xlab" Value="XLAB"/>
+		        <SetArgument Name="col" Value="color1"/>
+	        </FunctionArgument>
+	        <FunctionArgument Name="LEGEND" Function="legend">
+		      </FunctionArgument>
+	        <FunctionArgument Name="AXIS" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+        </Function>
+      </MenueEntry>
+      <MenueEntry Name="Contrastes para k-muestras dependientes">
+        <Function Name="IX12" HasData="TRUE" DefaultData="data(ZIX10)">
+         <Argument Name="varTiempo" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+         <Argument Name="varBloque" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			   <RequiredArgument Name="data"/>
+         <RequiredArgument Name="varTiempo"/>
+         <RequiredArgument Name="varBloque"/>
+         <FunctionArgument Name="BOXPLOT" Function="boxplot" Variant="\method{boxplot}{default}">
+            <ReadOnlyArgument Name="x"/>
+		        <ReadOnlyArgument Name="..."/>
+		        <SetArgument Name="ylab" Value="YLAB"/>
+		        <SetArgument Name="xlab" Value="XLAB"/>
+		        <SetArgument Name="col" Value="color"/>
+          </FunctionArgument>
+	        <FunctionArgument Name="PAR" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="BEANPLOT" Function="beanplot">
+            <ReadOnlyArgument Name="..."/>
+		        <SetArgument Name="ylab" Value="YLAB"/>
+		        <SetArgument Name="xlab" Value="XLAB"/>
+		        <SetArgument Name="col" Value="color1"/>
+	        </FunctionArgument>
+	        <FunctionArgument Name="LEGEND" Function="legend">
+		      </FunctionArgument>
+	        <FunctionArgument Name="AXIS" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+        </Function>
+      </MenueEntry>
+      <MenueEntry Name="Análisis de covarianza (ANCOVA) no paramétrico">
+        <Function Name="IX13" HasData="TRUE" DefaultData="data(ZIX11)">
+         <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="Factor" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="Covariable" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			   <RequiredArgument Name="data"/>
+         <RequiredArgument Name="varInteres"/>
+         <RequiredArgument Name="Factor"/>
+         <RequiredArgument Name="Covariable"/>
+         <FunctionArgument Name="PAR" Function="PAR">
+		        <SetArgument Name="font.lab" Value="2"/>
+		        <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		        <SetArgument Name="cex.lab" Value="1.5"/>
+         </FunctionArgument>
+         <FunctionArgument Name="LEGEND" Function="legend">
+           <SetArgument Name="x" Value="'topleft'"/>
+           <SetArgument Name="legend" Value="legendT"/>
+           <SetArgument Name="bty" Value="'n'"/>
+           <SetArgument Name="pch" Value="c(pcht)"/>
+           <SetArgument Name="col" Value="color"/>
+           <SetArgument Name="pt.cex" Value="1.5"/>
+           <SetArgument Name="lty" Value="c(ltyT)"/>
+         </FunctionArgument>
+	       <FunctionArgument Name="AXIS" Function="axis">
+		     </FunctionArgument>
+	       <FunctionArgument Name="MTEXT" Function="mtext">
+		     </FunctionArgument>
+	       <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+         </FunctionArgument>
+         <FunctionArgument Name="T.AOV" Function="T.aov" Variant="\method{T.aov}{default}">
+           <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="y"/>
+           <ReadOnlyArgument Name="group"/>
+         </FunctionArgument>
+        </Function>
+      </MenueEntry>
+    </MenueEntry>
+  </MenueEntry>
+  <MenueEntry Name="Contrastes de independencia en variables cuantitativas">
+   <MenueEntry Name="Correlaciones bivariadas simples">
+     <Function Name="X1" HasData="TRUE" DefaultData="data(ZX1)">
+       <Argument Name="varInteresX" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="varInteresY" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="varAgrupacion" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+			 <RequiredArgument Name="data"/>
+       <RequiredArgument Name="varInteresX"/>
+       <RequiredArgument Name="varInteresY"/>
+       <RequiredArgument Name="pruebas"/>
+       <FunctionArgument Name="PAR" Function="PAR">
+		     <SetArgument Name="font.lab" Value="2"/>
+		     <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		     <SetArgument Name="cex.lab" Value="1.5"/>
+       </FunctionArgument>
+       <FunctionArgument Name="LEGEND" Function="legend">
+       </FunctionArgument>
+       <FunctionArgument Name="AXIS" Function="axis">
+		   </FunctionArgument>
+	     <FunctionArgument Name="MTEXT" Function="mtext">
+		   </FunctionArgument>
+	     <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+       </FunctionArgument>
+      </Function>
+   </MenueEntry>
+   <MenueEntry Name="Correlaciones parciales">
+     <Function Name="X2" HasData="TRUE" DefaultData="data(ZX1)">
+       <Argument Name="varInteresX" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="varInteresY" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="varInteresZ" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="varAgrupacion"/>
+			 <RequiredArgument Name="data"/>
+       <RequiredArgument Name="varInteresX"/>
+       <RequiredArgument Name="varInteresY"/>
+       <RequiredArgument Name="varInteresZ"/>
+       <RequiredArgument Name="pruebas"/>
+       <FunctionArgument Name="PAR" Function="PAR">
+		     <SetArgument Name="font.lab" Value="2"/>
+		     <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		     <SetArgument Name="cex.lab" Value="1.5"/>
+       </FunctionArgument>
+       <FunctionArgument Name="LEGEND" Function="legend">
+       </FunctionArgument>
+       <FunctionArgument Name="AXIS" Function="axis">
+		   </FunctionArgument>
+	     <FunctionArgument Name="MTEXT" Function="mtext">
+		   </FunctionArgument>
+	     <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+       </FunctionArgument>
+      </Function>
+   </MenueEntry>
+   <MenueEntry Name="Correlaciones múltiples">
+     <Function Name="X3" HasData="TRUE" DefaultData="data(ZX3)">
+       <Argument Name="varInteres" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+       <RequiredArgument Name="data"/>
+       <RequiredArgument Name="varInteres"/>
+       <FunctionArgument Name="PAR" Function="PAR">
+		     <SetArgument Name="font.lab" Value="2"/>
+		     <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		     <SetArgument Name="cex.lab" Value="1.5"/>
+       </FunctionArgument>
+       <FunctionArgument Name="CORRPLOT" Function="corrplot">
+         <ReadOnlyArgument Name="corr"/>
+         <ReadOnlyArgument Name="p.mat"/>
+		     <SetArgument Name="type" Value="'full'"/>
+		     <SetArgument Name="method" Value="'circle'"/>
+		     <SetArgument Name="order" Value="'FPC'"/>
+		     <SetArgument Name="sig.level" Value="0.05"/>
+       </FunctionArgument>
+       <FunctionArgument Name="SPLOMT" Function="SplomT" Variant="SplomT">
+         <ReadOnlyArgument Name="data"/>
+		     <SetArgument Name="hist" Value="'b'"/>
+		     <SetArgument Name="cex.diag" Value="0.4"/>
+		     <SetArgument Name="h.diag" Value="0.4"/>
+		     <SetArgument Name="hist.col" Value="'green'"/>
+		     <SetArgument Name="colYonX" Value="'red'"/>
+		     <SetArgument Name="colXonY" Value="'blue'"/>
+		     <SetArgument Name="mainL" Value="' '"/>
+       </FunctionArgument>
+      </Function>
+   </MenueEntry>
+  </MenueEntry>
+  <MenueEntry Name="Regresiones">
+   <MenueEntry Name="Variable dependiente cuantitativa">
+      <MenueEntry Name="Regresión simple">
+        <Function Name="XI1" HasData="TRUE" DefaultData="data(ZXI1)">
+         <Argument Name="varInteresX" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="varInteresY" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/> 
+         <RequiredArgument Name="data"/>
+         <RequiredArgument Name="varInteresX"/>
+         <RequiredArgument Name="varInteresY"/>
+         <RequiredArgument Name="modelo"/>
+         <FunctionArgument Name="PAR" Function="PAR">
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="font.main" Value="2"/>
+		       <SetArgument Name="cex.main" Value="1.7"/>
+          </FunctionArgument>
+          <FunctionArgument Name="LEGEND" Function="legend">
+          </FunctionArgument>
+          <FunctionArgument Name="AXIS" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+          <FunctionArgument Name="PLOTR" Function="plot" Variant="plot.default">>
+           <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="y"/>
+           <ReadOnlyArgument Name="data"/>
+		       <SetArgument Name="xlab" Value="'Pronóstico tipificado'"/>
+		       <SetArgument Name="ylab" Value="'Residuos tipificados'"/>
+		       <SetArgument Name="col" Value="red"/>
+		       <SetArgument Name="pch" Value="16"/>
+		       <SetArgument Name="ylim" Value="c(minres,maxres)"/>
+		       <SetArgument Name="main" Value="names(residuos)[z]"/>
+          </FunctionArgument>
+          <FunctionArgument Name="PLOT" Function="plot" Variant="plot.default">>
+           <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="y"/>
+           <ReadOnlyArgument Name="data"/>
+		       <SetArgument Name="xlab" Value="Xlab"/>
+		       <SetArgument Name="ylab" Value="Ylab"/>
+		       <SetArgument Name="col" Value="color"/>
+		       <SetArgument Name="pch" Value="pch"/>
+		       <SetArgument Name="cex" Value="CEXPCH"/>
+		       <SetArgument Name="main" Value="texto"/>
+          </FunctionArgument>
+        </Function>
+     </MenueEntry>
+     <MenueEntry Name="Funciones no lineales">
+       <MenueEntry Name="Funciones de acumulación">
+         <Function Name="XI2" HasData="TRUE" DefaultData="data(ZXI2)">
+          <Argument Name="varInteresX" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+          <Argument Name="varInteresY" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+          <RequiredArgument Name="data"/>
+          <RequiredArgument Name="varInteresX"/>
+          <RequiredArgument Name="varInteresY"/>
+          <RequiredArgument Name="modelo"/>
+          <SetArgument Name="modelo" Value="c('Clench','Nexponential','Saturation','Rational')"/>
+          <SetArgument Name="mfrow" Value="c(2,2)"/>
+          <FunctionArgument Name="PAR" Function="PAR">
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="font.main" Value="2"/>
+		       <SetArgument Name="cex.main" Value="1.7"/>
+          </FunctionArgument>
+          <FunctionArgument Name="LEGEND" Function="legend">
+          </FunctionArgument>
+          <FunctionArgument Name="AXIS" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+          <FunctionArgument Name="PLOT" Function="plot" Variant="plot.default">>
+           <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="y"/>
+           <ReadOnlyArgument Name="data"/>
+		       <SetArgument Name="xlab" Value="Xlab"/>
+		       <SetArgument Name="ylab" Value="Ylab"/>
+		       <SetArgument Name="col" Value="color"/>
+		       <SetArgument Name="pch" Value="pch"/>
+		       <SetArgument Name="cex" Value="CEXPCH"/>
+		       <SetArgument Name="main" Value="texto"/>
+          </FunctionArgument>
+         </Function>
+        </MenueEntry>
+        <MenueEntry Name="Funciones de crecimiento">
+         <Function Name="XI2" HasData="TRUE" DefaultData="data(ZXI4)">
+          <Argument Name="varInteresX" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+          <Argument Name="varInteresY" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+          <RequiredArgument Name="data"/>
+          <RequiredArgument Name="varInteresX"/>
+          <RequiredArgument Name="varInteresY"/>
+          <RequiredArgument Name="modelo"/>
+          <SetArgument Name="modelo" Value="c('Bertalanffy', 'Gompertz')"/>
+          <SetArgument Name="mfrow" Value="c(1,2)"/>
+          <FunctionArgument Name="PAR" Function="PAR">
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="font.main" Value="2"/>
+		       <SetArgument Name="cex.main" Value="1.7"/>
+          </FunctionArgument>
+          <FunctionArgument Name="LEGEND" Function="legend">
+          </FunctionArgument>
+          <FunctionArgument Name="AXIS" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+          <FunctionArgument Name="PLOT" Function="plot" Variant="plot.default">>
+           <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="y"/>
+           <ReadOnlyArgument Name="data"/>
+		       <SetArgument Name="xlab" Value="Xlab"/>
+		       <SetArgument Name="ylab" Value="Ylab"/>
+		       <SetArgument Name="col" Value="color"/>
+		       <SetArgument Name="pch" Value="pch"/>
+		       <SetArgument Name="cex" Value="CEXPCH"/>
+		       <SetArgument Name="main" Value="texto"/>
+          </FunctionArgument>
+         </Function>
+        </MenueEntry>
+        <MenueEntry Name="Función logística">
+         <Function Name="XI2" HasData="TRUE" DefaultData="data(ZXI5)">
+          <Argument Name="varInteresX" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+          <Argument Name="varInteresY" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+          <RequiredArgument Name="data"/>
+          <RequiredArgument Name="varInteresX"/>
+          <RequiredArgument Name="varInteresY"/>
+          <RequiredArgument Name="modelo"/>
+          <SetArgument Name="modelo" Value="'Logistic'"/>
+          <SetArgument Name="mfrow" Value="NULL"/>
+          <FunctionArgument Name="PAR" Function="PAR">
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="font.main" Value="2"/>
+		       <SetArgument Name="cex.main" Value="1.7"/>
+          </FunctionArgument>
+          <FunctionArgument Name="LEGEND" Function="legend">
+          </FunctionArgument>
+          <FunctionArgument Name="AXIS" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+          <FunctionArgument Name="PLOT" Function="plot" Variant="plot.default">>
+           <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="y"/>
+           <ReadOnlyArgument Name="data"/>
+		       <SetArgument Name="xlab" Value="Xlab"/>
+		       <SetArgument Name="ylab" Value="Ylab"/>
+		       <SetArgument Name="col" Value="color"/>
+		       <SetArgument Name="pch" Value="pch"/>
+		       <SetArgument Name="cex" Value="CEXPCH"/>
+		       <SetArgument Name="main" Value="texto"/>
+          </FunctionArgument>
+         </Function>
+        </MenueEntry>
+     </MenueEntry>
+     <MenueEntry Name="Selección de variables usando el VIF">
+       <MenueEntry Name="Selección de variables no correlacionadas">
+         <Function Name="XI3" HasData="TRUE" DefaultData="data(ZX3)">
+           <Argument Name="variables" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+           <Argument Name="varCode" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+           <RequiredArgument Name="data"/>
+           <RequiredArgument Name="variables"/>
+           <RequiredArgument Name="method"/>
+           <RequiredArgument Name="threshold"/>
+         </Function>
+       </MenueEntry>
+       <MenueEntry Name="Selección de variables correlacionadas">
+          <Function Name="XI4" HasData="TRUE" DefaultData="data(ZX3)">
+           <Argument Name="variables" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+           <Argument Name="varCode" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+           <RequiredArgument Name="data"/>
+           <RequiredArgument Name="variables"/>
+           <RequiredArgument Name="threshold"/>
+         </Function>
+       </MenueEntry>
+     </MenueEntry>
+     <MenueEntry Name="Regresión múltiple">
+        <Function Name="XI5" HasData="TRUE" DefaultData="data(ZXI6)">
+         <Argument Name="varInteresX" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+         <Argument Name="varInteresY" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <RequiredArgument Name="data"/>
+         <RequiredArgument Name="varInteresX"/>
+         <RequiredArgument Name="varInteresY"/>
+        </Function>
+     </MenueEntry>
+     <MenueEntry Name="Regresión de Poisson">
+        <MenueEntry Name="Estimación del modelo">
+         <Function Name="XI10" HasData="TRUE" DefaultData="data(ZXI11)">
+           <Argument Name="varInteresX" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+           <Argument Name="varInteresY" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+           <Argument Name="offset" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+           <Argument Name="varplot" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+           <Argument Name="OrderCat"  Viewer="DataValuesViewer" AllowMultiSelect="TRUE" DependsFrom="varInteresX"/>
+           <RequiredArgument Name="data"/>
+           <RequiredArgument Name="varInteresX"/>
+           <RequiredArgument Name="varInteresY"/>
+           <FunctionArgument Name="PAR" Function="PAR">
+		         <SetArgument Name="font.lab" Value="2"/>
+		         <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		         <SetArgument Name="cex.lab" Value="1.5"/>
+		         <SetArgument Name="cex.main" Value="2"/>
+            </FunctionArgument>
+           <FunctionArgument Name="LEGEND" Function="legend">
+             <SetArgument Name="x" Value="'topleft'"/>
+             <SetArgument Name="legend" Value="levels(datos[,varplot[3]])"/>
+             <SetArgument Name="bty" Value="'n'"/>
+             <SetArgument Name="pch" Value="pch"/>
+             <SetArgument Name="col" Value="color"/>
+             <SetArgument Name="lty" Value="1"/>
+           </FunctionArgument>
+	         <FunctionArgument Name="AXIS" Function="axis">
+	           <SetArgument Name="side" Value="1"/>
+	           <SetArgument Name="at" Value="1:lefac"/>
+	           <SetArgument Name="levels" Value="levels(datos[,varplot[2]])"/>
+           </FunctionArgument>
+	         <FunctionArgument Name="MTEXT" Function="mtext">
+		       </FunctionArgument>
+	         <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+           </FunctionArgument>
+           <FunctionArgument Name="PLOT.TS" Function="plot.ts" Variant="\method{plot}{ts}">
+             <ReadOnlyArgument Name="x"/>
+             <ReadOnlyArgument Name="y"/>
+             <SetArgument Name="plot.type" Value="'single'"/>
+             <SetArgument Name="xlab" Value="xlab"/>
+             <SetArgument Name="ylab" Value="ylab"/>
+             <SetArgument Name="xaxt" Value="xaxt"/>
+             <SetArgument Name="col" Value="color"/>
+           </FunctionArgument>
+         </Function>
+       </MenueEntry>
+        <MenueEntry Name="Predicción del modelo">
+         <Function Name="XI11" HasData="TRUE" DefaultData="data(ZXI12)">
+           <Argument Name="varInteresX" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+           <Argument Name="varInteresY" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+           <Argument Name="offset" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+           <RequiredArgument Name="data"/>
+           <RequiredArgument Name="varInteresX"/>
+           <RequiredArgument Name="varInteresY"/>
+         </Function>
+        </MenueEntry>
+     </MenueEntry>
+   </MenueEntry>
+   <MenueEntry Name="Variable dependiente cualitativa">
+     <MenueEntry Name="Regresión logística binomial">
+       <MenueEntry Name="Estimación del modelo">
+         <Function Name="XI6" HasData="TRUE" DefaultData="data(ZXI7)">
+           <Argument Name="cat" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+           <Argument Name="var" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+           <Argument Name="gruporesp"  Viewer="DataValuesViewer" DependsFrom="cat"/>
+           <RequiredArgument Name="data"/>
+           <RequiredArgument Name="cat"/>
+           <RequiredArgument Name="var"/>
+           <RequiredArgument Name="gruporesp"/>
+         </Function>
+        </MenueEntry>
+        <MenueEntry Name="Predicción del modelo">
+         <Function Name="XI7" HasData="TRUE" DefaultData="data(ZXI8)">
+           <Argument Name="cat" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+           <Argument Name="gruporesp"  Viewer="DataValuesViewer" DependsFrom="cat"/>
+           <RequiredArgument Name="data"/>
+           <RequiredArgument Name="cat"/>
+           <RequiredArgument Name="gruporesp"/>
+         </Function>
+        </MenueEntry>
+     </MenueEntry>
+     <MenueEntry Name="Regresión logística multinomial">
+        <MenueEntry Name="Estimación del modelo">
+         <Function Name="XI8" HasData="TRUE" DefaultData="data(ZXI9)">
+           <Argument Name="cat" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+           <Argument Name="var" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+           <RequiredArgument Name="data"/>
+           <RequiredArgument Name="cat"/>
+           <RequiredArgument Name="var"/>
+         </Function>
+        </MenueEntry>
+        <MenueEntry Name="Predicción del modelo">
+         <Function Name="XI9" HasData="TRUE" DefaultData="data(ZXI10)">
+           <Argument Name="cat" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+           <RequiredArgument Name="data"/>
+           <RequiredArgument Name="cat"/>
+           <RequiredArgument Name="model"/>
+         </Function>
+        </MenueEntry>
+     </MenueEntry>
+   </MenueEntry>
+  </MenueEntry>
+  <MenueEntry Name="Meta-análisis">
+   <MenueEntry Name="Diagrama de bosque">
+      <Function Name="XII1" HasData="TRUE" DefaultData="data(ZXII1)">
+       <Argument Name="event.e" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="n.e" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="event.c" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="n.c" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="studlab" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <RequiredArgument Name="data"/>
+       <RequiredArgument Name="event.e"/>
+       <RequiredArgument Name="n.e"/>
+       <RequiredArgument Name="event.c"/>
+       <RequiredArgument Name="n.c"/>
+       <RequiredArgument Name="studlab"/>
+       <FunctionArgument Name="META" Function="metabin">
+         <ReadOnlyArgument Name="event.e"/>
+         <ReadOnlyArgument Name="n.e"/>
+         <ReadOnlyArgument Name="event.c"/>
+         <ReadOnlyArgument Name="n.c"/>
+         <ReadOnlyArgument Name="studlab"/>
+         <SetArgument Name="sm" Value="'OR'"/>
+         <SetArgument Name="method" Value="'MH'"/>
+         <SetArgument Name="print.CMH" Value="TRUE"/>
+        </FunctionArgument>
+        <FunctionArgument Name="FOREST" Function="forest" Variant="\method{forest}{meta}">
+         <ReadOnlyArgument Name="x"/>
+         <SetArgument Name="text.fixed" Value="'Fixed effect model'"/>
+         <SetArgument Name="text.random" Value="'Random effects model'"/>
+         <SetArgument Name="pooled.totals" Value="TRUE"/>
+         <SetArgument Name="pooled.events" Value="TRUE"/>
+         <SetArgument Name="xlab" Value="NULL"/>
+         <SetArgument Name="leftcols" Value="NULL"/>
+         <SetArgument Name="leftlabs" Value="NULL"/>
+         <SetArgument Name="rightcols" Value="NULL"/>
+         <SetArgument Name="rightlabs" Value="NULL"/>
+         <SetArgument Name="lab.e" Value="NULL"/>
+         <SetArgument Name="lab.c" Value="NULL"/>
+         <SetArgument Name="hetlab" Value="NULL"/>
+         <SetArgument Name="addspace" Value="FALSE"/>
+         <SetArgument Name="col.square" Value="'red'"/>
+         <SetArgument Name="col.diamond" Value="'blue'"/>
+         <SetArgument Name="fs.xlab" Value="14"/>
+         <SetArgument Name="ff.xlab" Value="2"/>
+        </FunctionArgument>
+      </Function>
+    </MenueEntry>
+    <MenueEntry Name="Diagrama de bosque acumulativo">
+      <Function Name="XII2" HasData="TRUE" DefaultData="data(ZXII1)">
+       <Argument Name="event.e" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="n.e" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="event.c" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="n.c" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="studlab" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <RequiredArgument Name="data"/>
+       <RequiredArgument Name="event.e"/>
+       <RequiredArgument Name="n.e"/>
+       <RequiredArgument Name="event.c"/>
+       <RequiredArgument Name="n.c"/>
+       <RequiredArgument Name="studlab"/>
+       <FunctionArgument Name="META" Function="metabin">
+         <ReadOnlyArgument Name="event.e"/>
+         <ReadOnlyArgument Name="n.e"/>
+         <ReadOnlyArgument Name="event.c"/>
+         <ReadOnlyArgument Name="n.c"/>
+         <ReadOnlyArgument Name="studlab"/>
+         <SetArgument Name="sm" Value="'OR'"/>
+         <SetArgument Name="method" Value="'MH'"/>
+         <SetArgument Name="print.CMH" Value="TRUE"/>
+        </FunctionArgument>
+        <FunctionArgument Name="FOREST" Function="forest" Variant="\method{forest}{meta}">
+         <ReadOnlyArgument Name="x"/>
+         <SetArgument Name="text.fixed" Value="'Fixed effect model'"/>
+         <SetArgument Name="text.random" Value="'Random effects model'"/>
+         <SetArgument Name="pooled.totals" Value="TRUE"/>
+         <SetArgument Name="pooled.events" Value="TRUE"/>
+         <SetArgument Name="xlab" Value="NULL"/>
+         <SetArgument Name="leftcols" Value="NULL"/>
+         <SetArgument Name="leftlabs" Value="NULL"/>
+         <SetArgument Name="rightcols" Value="NULL"/>
+         <SetArgument Name="rightlabs" Value="NULL"/>
+         <SetArgument Name="lab.e" Value="NULL"/>
+         <SetArgument Name="lab.c" Value="NULL"/>
+         <SetArgument Name="hetlab" Value="NULL"/>
+         <SetArgument Name="addspace" Value="FALSE"/>
+         <SetArgument Name="col.square" Value="'red'"/>
+         <SetArgument Name="col.diamond" Value="'blue'"/>
+         <SetArgument Name="fs.xlab" Value="14"/>
+         <SetArgument Name="ff.xlab" Value="2"/>
+        </FunctionArgument>
+      </Function>
+    </MenueEntry>
+    <MenueEntry Name="Gráfico de L´Abbé">
+      <Function Name="XII3" HasData="TRUE" DefaultData="data(ZXII1)">
+       <Argument Name="event.e" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="n.e" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="event.c" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="n.c" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="studlab" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <RequiredArgument Name="data"/>
+       <RequiredArgument Name="event.e"/>
+       <RequiredArgument Name="n.e"/>
+       <RequiredArgument Name="event.c"/>
+       <RequiredArgument Name="n.c"/>
+       <RequiredArgument Name="studlab"/>
+       <FunctionArgument Name="META" Function="metabin">
+         <ReadOnlyArgument Name="event.e"/>
+         <ReadOnlyArgument Name="n.e"/>
+         <ReadOnlyArgument Name="event.c"/>
+         <ReadOnlyArgument Name="n.c"/>
+         <ReadOnlyArgument Name="studlab"/>
+         <SetArgument Name="sm" Value="'OR'"/>
+         <SetArgument Name="method" Value="'MH'"/>
+         <SetArgument Name="print.CMH" Value="TRUE"/>
+        </FunctionArgument>
+        <FunctionArgument Name="LABBE" Function="labbe" Variant="\method{labbe}{default}">
+         <ReadOnlyArgument Name="x"/>
+         <ReadOnlyArgument Name="y"/>
+         <SetArgument Name="xlab" Value="NULL"/>
+         <SetArgument Name="ylab" Value="NULL"/>
+         <SetArgument Name="studlab" Value="TRUE"/>
+         <SetArgument Name="cex.lab" Value="1.3"/>
+         <SetArgument Name="cex.axis" Value="1.2"/>
+         <SetArgument Name="main" Value="NULL"/>
+         <SetArgument Name="cex.main" Value="1.4"/>
+         <SetArgument Name="bg" Value="'green'"/>
+         <SetArgument Name="font.lab" Value="'2'"/>
+        </FunctionArgument>
+      </Function>
+    </MenueEntry>
+    <MenueEntry Name="Diagrama de embudo">
+      <Function Name="XII4" HasData="TRUE" DefaultData="data(ZXII1)">
+       <Argument Name="event.e" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="n.e" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="event.c" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="n.c" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="studlab" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <RequiredArgument Name="data"/>
+       <RequiredArgument Name="event.e"/>
+       <RequiredArgument Name="n.e"/>
+       <RequiredArgument Name="event.c"/>
+       <RequiredArgument Name="n.c"/>
+       <RequiredArgument Name="studlab"/>
+       <FunctionArgument Name="META" Function="metabin">
+         <ReadOnlyArgument Name="event.e"/>
+         <ReadOnlyArgument Name="n.e"/>
+         <ReadOnlyArgument Name="event.c"/>
+         <ReadOnlyArgument Name="n.c"/>
+         <ReadOnlyArgument Name="studlab"/>
+         <SetArgument Name="sm" Value="'OR'"/>
+         <SetArgument Name="method" Value="'MH'"/>
+         <SetArgument Name="print.CMH" Value="TRUE"/>
+        </FunctionArgument>
+        <FunctionArgument Name="FUNNEL" Function="funnel" Variant="\method{fannel}{default}">
+         <ReadOnlyArgument Name="x"/>
+         <ReadOnlyArgument Name="y"/>
+         <SetArgument Name="comb.fixed" Value="TRUE"/>
+         <SetArgument Name="level" Value="0.95"/>
+         <SetArgument Name="contour.levels" Value="c(0.9, 0.95, 0.99)"/>
+         <SetArgument Name="col.contour" Value="COLOR"/>
+         <SetArgument Name="studlab" Value="TRUE"/>
+         <SetArgument Name="xlab" Value="NULL"/>
+         <SetArgument Name="ylab" Value="NULL"/>
+         <SetArgument Name="font.lab" Value="'2'"/>
+         <SetArgument Name="cex.lab" Value="1.6"/>
+         <SetArgument Name="cex.axis" Value="1.2"/>
+         <SetArgument Name="main" Value="NULL"/>
+         <SetArgument Name="cex.main" Value="1.8"/>
+        </FunctionArgument>
+        <FunctionArgument Name="LEGEND" Function="legend">
+         <SetArgument Name="x" Value="'topright'"/>
+         <SetArgument Name="legend" Value="c('0.1 > p > 0.05, '0.05 > p > 0.01', '0.01 > p > 0')"/>
+         <SetArgument Name="fill" Value="COLOR"/>
+         <SetArgument Name="bty" Value="'n'"/>
+        </FunctionArgument>
+      </Function>
+    </MenueEntry>
+    <MenueEntry Name="Diagrama de análisis de sensibilidad">
+      <Function Name="XII5" HasData="TRUE" DefaultData="data(ZXII1)">
+       <Argument Name="event.e" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="n.e" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="event.c" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="n.c" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <Argument Name="studlab" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+       <RequiredArgument Name="data"/>
+       <RequiredArgument Name="event.e"/>
+       <RequiredArgument Name="n.e"/>
+       <RequiredArgument Name="event.c"/>
+       <RequiredArgument Name="n.c"/>
+       <RequiredArgument Name="studlab"/>
+       <FunctionArgument Name="META" Function="metabin">
+         <ReadOnlyArgument Name="event.e"/>
+         <ReadOnlyArgument Name="n.e"/>
+         <ReadOnlyArgument Name="event.c"/>
+         <ReadOnlyArgument Name="n.c"/>
+         <ReadOnlyArgument Name="studlab"/>
+         <SetArgument Name="sm" Value="'OR'"/>
+         <SetArgument Name="method" Value="'MH'"/>
+         <SetArgument Name="print.CMH" Value="TRUE"/>
+        </FunctionArgument>
+        <FunctionArgument Name="FOREST" Function="forest" Variant="\method{forest}{meta}">
+         <ReadOnlyArgument Name="x"/>
+         <SetArgument Name="text.fixed" Value="'Fixed effect model'"/>
+         <SetArgument Name="text.random" Value="'Random effects model'"/>
+         <SetArgument Name="pooled.totals" Value="TRUE"/>
+         <SetArgument Name="pooled.events" Value="TRUE"/>
+         <SetArgument Name="xlab" Value="NULL"/>
+         <SetArgument Name="leftcols" Value="NULL"/>
+         <SetArgument Name="leftlabs" Value="NULL"/>
+         <SetArgument Name="rightcols" Value="NULL"/>
+         <SetArgument Name="rightlabs" Value="NULL"/>
+         <SetArgument Name="lab.e" Value="NULL"/>
+         <SetArgument Name="lab.c" Value="NULL"/>
+         <SetArgument Name="hetlab" Value="NULL"/>
+         <SetArgument Name="addspace" Value="FALSE"/>
+         <SetArgument Name="col.square" Value="'red'"/>
+         <SetArgument Name="col.diamond" Value="'blue'"/>
+         <SetArgument Name="fs.xlab" Value="14"/>
+         <SetArgument Name="ff.xlab" Value="2"/>
+        </FunctionArgument>
+      </Function>
+    </MenueEntry>
+  </MenueEntry>
+  <MenueEntry Name="Análisis multivariante">
+   <MenueEntry Name="Métodos factoriales">
+     <MenueEntry Name="Análisis de Correspondencias">
+       <Function Name="XIII1" HasData="TRUE" DefaultData="data(ZXIII1)">
+         <Argument Name="cat" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="var" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+         <RequiredArgument Name="data"/>
+         <RequiredArgument Name="var"/>
+         <FunctionArgument Name="PAR" Function="PAR">
+           <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+          </FunctionArgument>
+          <FunctionArgument Name="LEGEND" Function="legend">
+		      </FunctionArgument>
+	        <FunctionArgument Name="AXIS" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+        </Function>
+      </MenueEntry>
+      <MenueEntry Name="Componentes Principales">
+        <Function Name="XIII2" HasData="TRUE" DefaultData="data(ZXIII2)">
+          <Argument Name="var" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+          <Argument Name="cat" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+          <Argument Name="labels" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+          <RequiredArgument Name="data"/>
+          <RequiredArgument Name="var"/>
+          <FunctionArgument Name="PAR" Function="PAR">
+           <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="LEGEND" Function="legend">
+		      </FunctionArgument>
+	        <FunctionArgument Name="AXIS" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+          <FunctionArgument Name="PCA" Function="prcomp" Variant="\method{prcomp}{default}">
+           <ReadOnlyArgument Name="x"/>
+		       <SetArgument Name="scale." Value="TRUE"/>
+		       <SetArgument Name="cor" Value="TRUE"/>
+          </FunctionArgument>
+          <FunctionArgument Name="pcabiplot" Function="biplot" Variant="\method{biplot}{default}">
+           <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="y"/>
+          </FunctionArgument>
+          <FunctionArgument Name="pca2d" Function="pca2d" Variant="pca2d">
+           <ReadOnlyArgument Name="pca"/>
+           <ReadOnlyArgument Name="components"/>
+           <ReadOnlyArgument Name="group"/>
+           <SetArgument Name="group" Value="datos[,cat]"/>
+		       <SetArgument Name="biplot" Value="TRUE"/>
+		       <SetArgument Name="show.group.labels" Value="TRUE"/>
+		       <SetArgument Name="show.labels" Value="show"/>
+		       <SetArgument Name="components" Value="dim2d"/>
+          </FunctionArgument>
+          <FunctionArgument Name="pca3d" Function="pca3d" Variant="pca3d">
+           <ReadOnlyArgument Name="pca"/>
+           <ReadOnlyArgument Name="components"/>
+           <ReadOnlyArgument Name="group"/>
+           <SetArgument Name="group" Value="datos[,cat]"/>
+		       <SetArgument Name="biplot" Value="TRUE"/>
+		       <SetArgument Name="show.group.labels" Value="TRUE"/>
+		       <SetArgument Name="show.labels" Value="show"/>
+		       <SetArgument Name="components" Value="dim3d"/>
+          </FunctionArgument>
+        </Function>
+      </MenueEntry>
+      <MenueEntry Name="Escalamiento Multidimensional">
+        <Function Name="XIII3" HasData="TRUE" DefaultData="data(ZXIII3)">
+          <Argument Name="cat" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+          <Argument Name="var" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+          <RequiredArgument Name="data"/>
+          <RequiredArgument Name="cat"/>
+          <RequiredArgument Name="var"/>
+          <FunctionArgument Name="PAR" Function="PAR">
+           <SetArgument Name="font.lab" Value="2"/>
+           <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="METAMDS" Function="metaMDS">
+           <ReadOnlyArgument Name="comm"/>
+          </FunctionArgument>
+          <FunctionArgument Name="SCATTERPLOT" Function="scatterplot" Variant="\method{scatterplot}{default}">
+           <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="y"/>
+           <ReadOnlyArgument Name="..."/>
+           <ReadOnlyArgument Name="data"/>
+           <SetArgument Name="reg.line" Value="FALSE"/>
+           <SetArgument Name="smooth" Value="FALSE"/>
+           <SetArgument Name="spread" Value="FALSE"/>
+           <SetArgument Name="span" Value="1"/>
+           <SetArgument Name="grid" Value="FALSE"/>
+           <SetArgument Name="xlim" Value="c(Xmin,Xmax)"/>
+           <SetArgument Name="ylim" Value="c(Ymin,Ymax)"/>
+           <SetArgument Name="boxplots" Value="FALSE"/>
+           <SetArgument Name="by.groups" Value="TRUE"/>
+           <SetArgument Name="ellipse" Value="TRUE"/>
+           <SetArgument Name="col" Value="color1"/>
+           <SetArgument Name="pch" Value="pcht"/>
+           <SetArgument Name="xlab" Value="'NMDS1'"/>
+           <SetArgument Name="ylab" Value="'NMDS2'"/>
+           <SetArgument Name="legend.plot" Value="FALSE"/>
+          </FunctionArgument>
+          <FunctionArgument Name="LEGEND" Function="legend">
+           <SetArgument Name="x" Value="'topleft'"/>
+           <SetArgument Name="legend" Value="unique(datos2[,1])"/>
+           <SetArgument Name="bty" Value="'n'"/>
+           <SetArgument Name="col" Value="color1"/>
+           <SetArgument Name="pch" Value="pcht"/>
+		      </FunctionArgument>
+	        <FunctionArgument Name="AXIS" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+	         <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="y"/>
+           <ReadOnlyArgument Name="labels"/>
+           <SetArgument Name="xlim" Value="c(Xmin,Xmax)"/>
+           <SetArgument Name="ylim" Value="c(Ymin,Ymax)"/>
+           <SetArgument Name="col" Value="'black'"/>
+           <SetArgument Name="cex" Value="1"/>
+		      </FunctionArgument>
+        </Function>
+      </MenueEntry>
+       <MenueEntry Name="Correlación Canónica">
+        <Function Name="XIII4" HasData="TRUE" DefaultData="data(ZXIII4)">
+          <Argument Name="varX" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+          <Argument Name="varY" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+          <Argument Name="labels" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+          <RequiredArgument Name="data"/>
+          <RequiredArgument Name="varX"/>
+          <RequiredArgument Name="varY"/>
+          <FunctionArgument Name="PAR" Function="PAR">
+           <SetArgument Name="font.lab" Value="2"/>
+           <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="CANCOR" Function="cancor" Variant="\method{cancor}{default}">
+           <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="y"/>
+          </FunctionArgument>
+          <FunctionArgument Name="SCATTERPLOT" Function="scatterplot" Variant="\method{scatterplot}{default}">
+           <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="y"/>
+           <ReadOnlyArgument Name="..."/>
+           <ReadOnlyArgument Name="data"/>
+           <SetArgument Name="reg.line" Value="FALSE"/>
+           <SetArgument Name="smooth" Value="FALSE"/>
+           <SetArgument Name="spread" Value="FALSE"/>
+           <SetArgument Name="span" Value="1"/>
+           <SetArgument Name="grid" Value="FALSE"/>
+           <SetArgument Name="xlim" Value="c(Xmin,Xmax)"/>
+           <SetArgument Name="ylim" Value="c(Ymin,Ymax)"/>
+           <SetArgument Name="boxplots" Value="FALSE"/>
+           <SetArgument Name="by.groups" Value="TRUE"/>
+           <SetArgument Name="ellipse" Value="TRUE"/>
+           <SetArgument Name="col" Value="color1"/>
+           <SetArgument Name="pch" Value="pcht"/>
+           <SetArgument Name="xlab" Value="xlab"/>
+           <SetArgument Name="ylab" Value="ylab"/>
+           <SetArgument Name="legend.plot" Value="FALSE"/>
+          </FunctionArgument>
+          <FunctionArgument Name="LEGEND" Function="legend">
+           <SetArgument Name="x" Value="'topleft'"/>
+           <SetArgument Name="legend" Value="unique(datos2[,1])"/>
+           <SetArgument Name="bty" Value="'n'"/>
+           <SetArgument Name="col" Value="color1"/>
+           <SetArgument Name="pch" Value="pcht"/>
+		      </FunctionArgument>
+	        <FunctionArgument Name="AXIS" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXTX" Function="text" Variant="\method{text}{default}">
+	         <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="y"/>
+           <ReadOnlyArgument Name="labels"/>
+           <SetArgument Name="xlim" Value="c(Xmin,Xmax)"/>
+           <SetArgument Name="ylim" Value="c(Ymin,Ymax)"/>
+           <SetArgument Name="col" Value="'black'"/>
+           <SetArgument Name="cex" Value="1"/>
+		      </FunctionArgument>
+		      <FunctionArgument Name="TEXTY" Function="text" Variant="\method{text}{default}">
+	         <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="y"/>
+           <ReadOnlyArgument Name="labels"/>
+           <SetArgument Name="xlim" Value="c(Xmin,Xmax)"/>
+           <SetArgument Name="ylim" Value="c(Ymin,Ymax)"/>
+           <SetArgument Name="col" Value="'blue'"/>
+           <SetArgument Name="cex" Value="1"/>
+		      </FunctionArgument>
+        </Function>
+      </MenueEntry>
+    </MenueEntry>
+    <MenueEntry Name="Métodos de clasificación">
+     <MenueEntry Name="Arboles de clasificación y regresión (CARTs)">
+       <Function Name="XIV1" HasData="TRUE" DefaultData="data(ZXIV1)">
+         <Argument Name="cat" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="var" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+         <RequiredArgument Name="data"/>
+         <RequiredArgument Name="cat"/>
+         <RequiredArgument Name="var"/>
+         <FunctionArgument Name="PAR" Function="PAR">
+		       <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+         </FunctionArgument>
+         <FunctionArgument Name="CART" Function="rpart">
+           <ReadOnlyArgument Name="formula"/>
+           <ReadOnlyArgument Name="data"/>
+           <SetArgument Name="control" Value="rpart.control(minsplit=2, minbucket=2, cp=0.01,
+maxcompete = 4, maxsurrogate = 5, usesurrogate = 2, xval = 10, surrogatestyle=0, maxdepth = 30)"/>
+         </FunctionArgument>
+         <FunctionArgument Name="RPART" Function="rpart.plot">
+           <ReadOnlyArgument Name="x"/>
+           <SetArgument Name="type" Value="0"/>
+           <SetArgument Name="extra" Value="2"/>
+           <SetArgument Name="varlen" Value="0"/>
+           <SetArgument Name="ycompress" Value="TRUE"/>
+           <SetArgument Name="main" Value="NULL"/>
+           <SetArgument Name="cex.main" Value="2"/>
+           <SetArgument Name="cex" Value="1.2"/>
+         </FunctionArgument>
+       </Function>
+     </MenueEntry>
+     <MenueEntry Name="Análisis Discriminante">
+       <Function Name="XIV2" HasData="TRUE" DefaultData="data(ZXIV2)">
+         <Argument Name="cat" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+         <Argument Name="var" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+         <RequiredArgument Name="data"/>
+         <RequiredArgument Name="cat"/>
+         <RequiredArgument Name="var"/>
+         <FunctionArgument Name="PAR" Function="PAR">
+           <SetArgument Name="font.lab" Value="2"/>
+           <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+         </FunctionArgument>
+         <FunctionArgument Name="LEGEND" Function="legend">
+           <SetArgument Name="x" Value="'topleft'"/>
+           <SetArgument Name="legend" Value="unique(datos3[,1])"/>
+           <SetArgument Name="bty" Value="'n'"/>
+           <SetArgument Name="col" Value="color1"/>
+           <SetArgument Name="pch" Value="pcht"/>
+		      </FunctionArgument>
+	        <FunctionArgument Name="AXIS" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+	         <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="y"/>
+           <SetArgument Name="labels" Value="labels = rownames(can2$structure)"/>
+           <SetArgument Name="xlim" Value="c(Xmin,Xmax)"/>
+           <SetArgument Name="ylim" Value="c(Ymin,Ymax)"/>
+           <SetArgument Name="col" Value="'black'"/>
+           <SetArgument Name="cex" Value="1"/>
+		      </FunctionArgument>
+		      <FunctionArgument Name="SCATTERPLOT" Function="scatterplot" Variant="\method{scatterplot}{default}">
+           <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="y"/>
+           <ReadOnlyArgument Name="..."/>
+           <ReadOnlyArgument Name="data"/>
+           <SetArgument Name="reg.line" Value="FALSE"/>
+           <SetArgument Name="smooth" Value="FALSE"/>
+           <SetArgument Name="spread" Value="FALSE"/>
+           <SetArgument Name="span" Value="1"/>
+           <SetArgument Name="grid" Value="FALSE"/>
+           <SetArgument Name="xlim" Value="c(Xmin,Xmax)"/>
+           <SetArgument Name="ylim" Value="c(Ymin,Ymax)"/>
+           <SetArgument Name="boxplots" Value="FALSE"/>
+           <SetArgument Name="by.groups" Value="TRUE"/>
+           <SetArgument Name="ellipse" Value="TRUE"/>
+           <SetArgument Name="col" Value="color1"/>
+           <SetArgument Name="pch" Value="pcht"/>
+           <SetArgument Name="xlab" Value="paste('CAN',dimS[1],round(can2$pct[dimS[1]],digits=2),'%')"/>
+           <SetArgument Name="ylab" Value="paste('CAN',dimS[2],round(can2$pct[dimS[2]],digits=2),'%')"/>
+           <SetArgument Name="legend.plot" Value="FALSE"/>
+          </FunctionArgument>
+          <FunctionArgument Name="CANPLOT" Function="candisc" Variant="\method{plot}{candisc}">
+           <ReadOnlyArgument Name="x"/>
+          </FunctionArgument>
+          <FunctionArgument Name="CANDISC1" Function="candisc" Variant="\method{candisc}{mlm}">
+           <ReadOnlyArgument Name="mod"/>
+           <ReadOnlyArgument Name="term"/>
+           <ReadOnlyArgument Name="ndim"/>
+          </FunctionArgument>
+          <FunctionArgument Name="CANDISC2" Function="candisc" Variant="\method{candisc}{mlm}">
+           <ReadOnlyArgument Name="mod"/>
+           <ReadOnlyArgument Name="term"/>
+           <ReadOnlyArgument Name="ndim"/>
+          </FunctionArgument>
+        </Function>
+     </MenueEntry>
+     <MenueEntry Name="Análisis Discriminante y Componentes Principales">
+        <Function Name="XIV3" HasData="TRUE" DefaultData="data(ZXIII2)">
+          <Argument Name="cat" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+          <Argument Name="var" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+          <Argument Name="labels" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+          <RequiredArgument Name="data"/>
+          <RequiredArgument Name="cat"/>
+          <RequiredArgument Name="var"/>
+          <FunctionArgument Name="PAR" Function="PAR">
+           <SetArgument Name="font.lab" Value="2"/>
+           <SetArgument Name="mar" Value="c(5,5,3,2)"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+          </FunctionArgument>
+          <FunctionArgument Name="DAPC" Function="dapc" Variant="\method{dapc}{data.frame}">
+           <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="grp"/>
+		       <SetArgument Name="n.pca" Value="60"/>
+		       <SetArgument Name="n.da" Value="30"/>
+          </FunctionArgument>
+          <FunctionArgument Name="SCATTERDAPC" Function="scatter.dapc" Variant="\method{scatter}{dapc}">
+           <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="xax"/>
+           <ReadOnlyArgument Name="yax"/>
+		       <SetArgument Name="col" Value="color1"/>
+		       <SetArgument Name="solid" Value="1"/>
+		       <SetArgument Name="scree.da" Value="FALSE"/>
+		       <SetArgument Name="scree.pca" Value="FALSE"/>
+		       <SetArgument Name="legend" Value="TRUE"/>
+		       <SetArgument Name="posi.leg" Value="'topright'"/>
+		       <SetArgument Name="cex.lab" Value="2"/>
+		       <SetArgument Name="labels" Value="NULL"/>
+          </FunctionArgument>
+          <FunctionArgument Name="LEGEND" Function="legend">
+		      </FunctionArgument>
+	        <FunctionArgument Name="AXIS" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+	         <ReadOnlyArgument Name="x"/>
+	         <ReadOnlyArgument Name="y"/>
+	         <ReadOnlyArgument Name="labels"/>
+	         <SetArgument Name="pos" Value="4"/>
+	         <SetArgument Name="str" Value="0"/>
+		      </FunctionArgument>
+        </Function>
+      </MenueEntry>
+      <MenueEntry Name="Dendrograma">
+        <Function Name="XIV4" HasData="TRUE" DefaultData="data(ZXIV4)">
+          <Argument Name="cat" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+          <Argument Name="var" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+          <RequiredArgument Name="data"/>
+          <RequiredArgument Name="var"/>
+          <FunctionArgument Name="HCLUST" Function="hclust">
+           <ReadOnlyArgument Name="d"/>
+          </FunctionArgument>
+          <FunctionArgument Name="PLOT1" Function="hclust" Variant="\method{plot}{hclust}">
+           <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="y"/>
+           <ReadOnlyArgument Name="data"/>
+           <ReadOnlyArgument Name="label"/>
+           <SetArgument Name="sub" Value="''"/>
+           <SetArgument Name="xlab" Value="''"/>
+          </FunctionArgument>
+          <FunctionArgument Name="PLOT2" Function="hclust" Variant="\method{plot}{hclust}">
+           <ReadOnlyArgument Name="x"/>
+           <ReadOnlyArgument Name="y"/>
+           <ReadOnlyArgument Name="data"/>
+           <ReadOnlyArgument Name="label"/>
+           <SetArgument Name="sub" Value="''"/>
+           <SetArgument Name="xlab" Value="''"/>
+          </FunctionArgument>
+          <FunctionArgument Name="PAR" Function="PAR">
+           <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="cex.main" Value="1.7"/>
+          </FunctionArgument>
+          <FunctionArgument Name="LEGEND" Function="legend">
+		      </FunctionArgument>
+	        <FunctionArgument Name="AXIS" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+        </Function>
+      </MenueEntry>
+      <MenueEntry Name="Mapa de calor">
+        <Function Name="XIV5" HasData="TRUE" DefaultData="data(ZX3)">
+          <Argument Name="cat" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
+          <Argument Name="var" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"/>
+          <RequiredArgument Name="data"/>
+          <RequiredArgument Name="cat"/>
+          <RequiredArgument Name="var"/>
+          <FunctionArgument Name="HEATMAP" Function="heatmap">
+           <ReadOnlyArgument Name="x"/>
+          </FunctionArgument>
+          <FunctionArgument Name="PAR" Function="PAR">
+           <SetArgument Name="font.lab" Value="2"/>
+		       <SetArgument Name="cex.lab" Value="1.5"/>
+		       <SetArgument Name="cex.main" Value="1.2"/>
+          </FunctionArgument>
+          <FunctionArgument Name="LEGEND" Function="legend">
+		      </FunctionArgument>
+	        <FunctionArgument Name="AXIS" Function="axis">
+		      </FunctionArgument>
+	        <FunctionArgument Name="MTEXT" Function="mtext">
+		      </FunctionArgument>
+	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
+		      </FunctionArgument>
+        </Function>
+      </MenueEntry>
+    </MenueEntry>
+  </MenueEntry>
+  <Separator/>
+  <PDF Name="StatR-manual.pdf"/>
+  </Menue>
