@@ -74,6 +74,7 @@ namespace RAppMenu.Core.MenuComponents {
             }
             set {
                 this.imagePath = value.Trim();
+                this.SetNeedsSave();
             }
         }
 
@@ -87,6 +88,7 @@ namespace RAppMenu.Core.MenuComponents {
             }
             set {
                 this.imageToolTip = value.Trim();
+                this.SetNeedsSave();
             }
         }
 

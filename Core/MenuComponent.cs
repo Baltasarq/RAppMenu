@@ -46,6 +46,7 @@ namespace RAppMenu.Core {
             }
 
             this.name = value.Trim().Replace( " ", "" );
+            this.SetNeedsSave();
 		}
 
 		/// <summary>
@@ -128,6 +129,28 @@ namespace RAppMenu.Core {
 
 			return toret.ToString();
 		}
+
+        /// <summary>
+        /// Sets this document as needing save.
+        /// </summary>
+        public virtual void SetNeedsSave()
+        {
+            MenuComponent mc = this;
+            RootMenu root = mc as RootMenu;
+
+            while( mc != null
+                && root == null )
+            {
+                mc = mc.Parent;
+                root = mc as RootMenu;
+            }
+
+            if ( root != null ) {
+                root.NeedsSave = true;
+            }
+
+            return;
+        }
 
 		public override string ToString()
 		{

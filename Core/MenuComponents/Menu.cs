@@ -42,6 +42,7 @@ namespace RAppMenu.Core.MenuComponents {
 		public virtual void Add(MenuComponent mc)
 		{
 			this.menuComponents.Add( mc );
+            this.SetNeedsSave();
 		}
 
 		/// <summary>
@@ -78,6 +79,7 @@ namespace RAppMenu.Core.MenuComponents {
         public virtual void RemoveAt(int index)
         {
             this.menuComponents.RemoveAt( index );
+            this.SetNeedsSave();
         }
 
         /// <summary>
@@ -87,6 +89,7 @@ namespace RAppMenu.Core.MenuComponents {
         public virtual void Remove(MenuComponent mc)
         {
             this.menuComponents.Remove( mc );
+            this.SetNeedsSave();
         }
 
 		/// <summary>
@@ -118,6 +121,7 @@ namespace RAppMenu.Core.MenuComponents {
                 this.menuComponents[ org ] = mcDest;
             }
 
+            this.SetNeedsSave();
             return;
         }
 

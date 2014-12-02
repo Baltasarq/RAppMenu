@@ -39,9 +39,16 @@ namespace RAppMenu.Core {
 
         public static string GetPath(this XmlNode node)
         {
+            var attr = node as XmlAttribute;
             var toret = new StringBuilder();
 
             toret.Append( node.Name );
+
+            if ( attr != null ) {
+                // Get to the owner of the attribute
+                node = attr.OwnerElement;
+                toret.Insert( 0, node.Name + @": " );
+            }
 
             while ( node.ParentNode != null
                  && node.ParentNode.NodeType != XmlNodeType.Document )
@@ -60,6 +67,20 @@ namespace RAppMenu.Core {
             if ( !int.TryParse( node.InnerText.Trim(), out toret) ) {
                 throw new XmlException(
                     "node '" + node.Name + "' does not contain a number at "
+                    + node.GetPath()
+                );
+            }
+
+            return toret;
+        }
+
+        public static bool GetValueAsBool(this XmlNode node)
+        {
+            bool toret;
+
+            if ( !bool.TryParse( node.InnerText.Trim(), out toret) ) {
+                throw new XmlException(
+                    "node '" + node.Name + "' does not contain a boolean at "
                     + node.GetPath()
                 );
             }
@@ -101,6 +122,7 @@ namespace RAppMenu.Core {
 
             // Read the immediate upper level nodes
             this.ReadNodeInto( docXml.DocumentElement, this.document.Root );
+            this.document.NeedsSave = false;
         }
 
         private void ReadNodeInto(XmlNode node, Menu menu)

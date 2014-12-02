@@ -425,7 +425,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.btFunctionRemoveArgument.Enabled = true;
 
 			// Add the new argument to the function
-			this.Function.ArgList.Add( new Function.Argument( name ) );
+            this.Function.ArgList.Add( new Function.Argument( name, this.Function ) );
 		}
 
 		/// <summary>

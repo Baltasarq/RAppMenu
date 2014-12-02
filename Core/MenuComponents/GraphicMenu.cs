@@ -51,6 +51,7 @@ namespace RAppMenu.Core.MenuComponents {
             set {
                 this.imageWidth = Math.Max( MinimumGraphicSize, value );
 				this.imageWidth = Math.Min( MaximumGraphicSize, value );
+                this.SetNeedsSave();
             }
         }
 
@@ -65,6 +66,7 @@ namespace RAppMenu.Core.MenuComponents {
             set {
 				this.imageHeight = Math.Max( MinimumGraphicSize, value );
 				this.imageHeight = Math.Min( MaximumGraphicSize, value );
+                this.SetNeedsSave();
             }
         }
 
@@ -79,6 +81,7 @@ namespace RAppMenu.Core.MenuComponents {
             set {
 				this.minimumNumberOfColumns = Math.Max( MinimumColumns, value );
 				this.minimumNumberOfColumns = Math.Min( MaximumColumns, value );
+                this.SetNeedsSave();
             }
         }
 

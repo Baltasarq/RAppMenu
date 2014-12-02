@@ -35,8 +35,32 @@ namespace RAppMenu.Ui {
 			this.SetStatus();
 		}
 
+        /// <summary>
+        /// Prepares the following menu to be closed.
+        /// It saves it if needed;
+        /// </summary>
+        private void OnCloseDocument()
+        {
+            if ( this.Document !=null
+              && this.Document.NeedsSave )
+            {
+                DialogResult result =
+                    MessageBox.Show( "Do you want to save?", 
+                        "Closing menu", 
+                        MessageBoxButtons.YesNo );
+
+                if ( result == DialogResult.Yes ) {
+                    this.OnSave();
+                }
+            }
+
+            this.doc = null;
+        }
+
 		private void OnNew()
 		{
+            this.OnCloseDocument();
+
 			this.SetStatus( "Preparing new document..." );
 			this.doc = new DesignOfUserMenu();
             this.fileNameSet = false;
@@ -253,6 +277,8 @@ namespace RAppMenu.Ui {
 
 		private void OnOpen()
 		{
+            this.OnCloseDocument();
+
             this.SetStatus( "Select menu..." );
 
             var dlg = new OpenFileDialog();

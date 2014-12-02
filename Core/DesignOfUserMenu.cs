@@ -14,6 +14,7 @@ namespace RAppMenu.Core {
 		public DesignOfUserMenu()
 		{
 			this.root = new RootMenu();
+            this.NeedsSave = true;
 		}
 
 		/// <summary>
@@ -48,6 +49,7 @@ namespace RAppMenu.Core {
 			}
 
             this.Root.Name = Path.GetFileNameWithoutExtension( fileNameDest );
+            this.NeedsSave = false;
 			return;
 		}
 
@@ -80,6 +82,20 @@ namespace RAppMenu.Core {
 		{
 			return string.Format( "[DesignOfUserMenu: Root={0}]", Root.ToString() );
 		}
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="RAppMenu.Core.DesignOfUserMenu"/> needs save.
+        /// Honors the NeedsSave property in Root, a <see cref="RootMenu"/>
+        /// </summary>
+        /// <value><c>true</c> if needs save; otherwise, <c>false</c>.</value>
+        public bool NeedsSave {
+            get {
+                return this.Root.NeedsSave;
+            }
+            set {
+                this.Root.NeedsSave = value;
+            }
+        }
 
 		private RootMenu root;
 	}

@@ -23,6 +23,14 @@ namespace RAppMenu.Core.MenuComponents {
 
 			doc.WriteEndElement();
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="RAppMenu.Core.DesignOfUserMenu"/> needs save.
+        /// </summary>
+        /// <value><c>true</c> if needs save; otherwise, <c>false</c>.</value>
+        public bool NeedsSave {
+            get; set;
+        }
 	}
 }
 

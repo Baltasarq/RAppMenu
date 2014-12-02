@@ -37,17 +37,42 @@ namespace RAppMenu.Core.MenuComponents {
 			/// Initializes a new instance of the <see cref="RAppMenu.Core.MenuComponents.Function+FunctionArgument"/> class.
 			/// </summary>
 			/// <param name="name">Name.</param>
-			public Argument(string name)
+            public Argument(string name, Function owner)
 				: base( name )
 			{
+                this.owner = owner;
 			}
+
+            /// <summary>
+            /// Gets the function that owns this argument.
+            /// </summary>
+            /// <value>The owner, as a <see cref="Function"/>.</value>
+            public Function Owner {
+                get {
+                    return this.owner;
+                }
+            }
+
+            /// <summary>
+            /// Sets this menu as needing save.
+            /// </summary>
+            public override void SetNeedsSave()
+            {
+                this.Owner.SetNeedsSave();
+            }
 
 			/// <summary>
 			/// Gets or sets a value indicating whether this argument is required.
 			/// </summary>
 			/// <value><c>true</c> if this instance is required; otherwise, <c>false</c>.</value>
 			public bool IsRequired {
-				get; set;
+                get {
+                    return this.required;
+                }
+                set {
+                    this.required = value;
+                    this.SetNeedsSave();
+                }
 			}
 
 			/// <summary>
@@ -55,15 +80,41 @@ namespace RAppMenu.Core.MenuComponents {
 			/// </summary>
 			/// <value>The viewer, as a <see cref="ViewerType"/>.</value>
 			public ViewerType Viewer {
-				get; set;
+                get {
+                    return this.viewer;
+                }
+                set {
+                    this.viewer = value;
+                    this.SetNeedsSave();
+                }
 			}
 
+            /// <summary>
+            /// Gets or sets dependency of this argument.
+            /// </summary>
+            /// <value>The dependency info, as string.</value>
 			public string DependsFrom {
-				get; set;
+                get {
+                    return this.depends;
+                }
+                set {
+                    this.depends = value.Trim();
+                    this.SetNeedsSave();
+                }
 			}
 
+            /// <summary>
+            /// Gets or sets the tag.
+            /// </summary>
+            /// <value>The tag, as a string.</value>
 			public string Tag {
-				get; set;
+                get {
+                    return this.tag;
+                }
+                set {
+                    this.tag = value.Trim();
+                    this.SetNeedsSave();
+                }
 			}
 
 			/// <summary>
@@ -71,7 +122,13 @@ namespace RAppMenu.Core.MenuComponents {
 			/// </summary>
 			/// <value><c>true</c> if allow multiselect; otherwise, <c>false</c>.</value>
 			public bool AllowMultiselect {
-				get; set;
+                get {
+                    return this.multiSelect;
+                }
+                set {
+                    this.multiSelect = value;
+                    this.SetNeedsSave();
+                }
 			}
 
 			public override string ToString()
@@ -82,7 +139,7 @@ namespace RAppMenu.Core.MenuComponents {
 			}
 
 			/// <summary>
-			/// Converts this menu component to XML.
+			/// Converts this argument to XML.
 			/// </summary>
 			/// <param name="doc">The document, as a XmlTextWriter.</param>
 			public override void ToXml(XmlTextWriter doc)
@@ -141,7 +198,7 @@ namespace RAppMenu.Core.MenuComponents {
 
                 // Is it a new argument?
                 if ( toret == null ) {
-                    toret = new Argument( "tempArg" );
+                    toret = new Argument( "tempArg", fn );
                     isNewArgument = true;
                 }
 
@@ -170,7 +227,7 @@ namespace RAppMenu.Core.MenuComponents {
 					else
 					// AllowMultiSelect = "TRUE"
 					if ( attr.Name.Equals( EtqAllowMultiSelect, StringComparison.OrdinalIgnoreCase ) ) {
-						toret.AllowMultiselect = bool.Parse( attr.InnerText.Trim() );
+                        toret.AllowMultiselect = attr.GetValueAsBool();
 					}
 					else
 					// Viewer = "Map"
@@ -193,12 +250,38 @@ namespace RAppMenu.Core.MenuComponents {
 
 				return toret;
 			}
+
+            private Function owner;
+            private bool required;
+            private bool multiSelect;
+            private ViewerType viewer;
+            private string depends;
+            private string tag;
 		}
 
 		/// <summary>
 		/// Represents the collection of arguments in this function.
 		/// </summary>
 		public class ArgumentList: Collection<Argument> {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="RAppMenu.Core.MenuComponents.Function+ArgumentList"/> class.
+            /// </summary>
+            /// <param name="owner">The function owner.</param>
+            public ArgumentList(Function owner)
+            {
+                this.owner = owner;
+            }
+
+            /// <summary>
+            /// Gets the owner of this argument list.
+            /// </summary>
+            /// <value>The owner, as a <see cref="Function"/>.</value>
+            public Function Owner {
+                get {
+                    return this.owner;
+                }
+            }
+
 			/// <summary>
 			/// Insert a new function argument in the collection.
 			/// </summary>
@@ -208,6 +291,7 @@ namespace RAppMenu.Core.MenuComponents {
 			{
 				this.Chk( item );
 				base.InsertItem( index, item );
+                this.Owner.SetNeedsSave();
 			}
 
 			/// <summary>
@@ -219,6 +303,7 @@ namespace RAppMenu.Core.MenuComponents {
 			{
 				this.Chk( item );
 				base.SetItem( index, item );
+                this.Owner.SetNeedsSave();
 			}
 
 			/// <summary>
@@ -269,12 +354,29 @@ namespace RAppMenu.Core.MenuComponents {
 
 				return toret.Append( "]]" ).ToString();
 			}
+
+            private Function owner;
 		}
 
 		/// <summary>
 		/// Represents the execute once list of string values, a program.
 		/// </summary>
 		public class ExecuteOnceProgram: Collection<string> {
+            public ExecuteOnceProgram(Function owner)
+            {
+                this.owner = owner;
+            }
+
+            /// <summary>
+            /// Gets the owner of this program.
+            /// </summary>
+            /// <value>The owner, as a <see cref="Function"/>.</value>
+            public Function Owner {
+                get {
+                    return this.owner;
+                }
+            }
+
 			/// <summary>
 			/// Inserts a new sentence in the program.
 			/// </summary>
@@ -284,6 +386,7 @@ namespace RAppMenu.Core.MenuComponents {
 			{
 				this.Chk( newValue );
 				base.InsertItem( index, newValue );
+                this.Owner.SetNeedsSave();
 			}
 
 			/// <summary>
@@ -295,6 +398,7 @@ namespace RAppMenu.Core.MenuComponents {
 			{
 				this.Chk( newValue );
 				base.SetItem( index, newValue );
+                this.Owner.SetNeedsSave();
 			}
 
 			/// <summary>
@@ -320,7 +424,7 @@ namespace RAppMenu.Core.MenuComponents {
 					this.Add( sentence );
 				}
 
-				return;
+                this.Owner.SetNeedsSave();
 			}
 
             public override string ToString()
@@ -333,6 +437,8 @@ namespace RAppMenu.Core.MenuComponents {
 
                 return txt.ToString();
             }
+
+            private Function owner;
 		}
 
 		/// <summary>
@@ -343,8 +449,8 @@ namespace RAppMenu.Core.MenuComponents {
         public Function(string name, Menu parent)
             :base( name, parent )
 		{
-			this.argumentList = new ArgumentList();
-			this.preOnceProgram = new ExecuteOnceProgram();
+            this.argumentList = new ArgumentList( this );
+            this.preOnceProgram = new ExecuteOnceProgram( this );
             this.startColumn = 0;
             this.HasData = false;
             this.DataHeader = false;
@@ -357,7 +463,13 @@ namespace RAppMenu.Core.MenuComponents {
 		/// </summary>
 		/// <value><c>true</c> if this instance has data; otherwise, <c>false</c>.</value>
 		public bool HasData {
-			get; set;
+            get {
+                return this.hasData;
+            }
+            set {
+                this.hasData = value;
+                this.SetNeedsSave();
+            }
 		}
 
 		/// <summary>
@@ -366,7 +478,13 @@ namespace RAppMenu.Core.MenuComponents {
 		/// </summary>
 		/// <value><c>true</c> if data header; otherwise, <c>false</c>.</value>
 		public bool DataHeader {
-			get; set;
+            get {
+                return this.dataHeader;
+            }
+            set {
+                this.dataHeader = value;
+                this.SetNeedsSave();
+            }
 		}
 
 		/// <summary>
@@ -374,7 +492,13 @@ namespace RAppMenu.Core.MenuComponents {
 		/// </summary>
 		/// <value>The command, as a string.</value>
 		public string PreCommand {
-			get; set;
+            get {
+                return this.preCommand;
+            }
+            set {
+                this.preCommand = value.Trim();
+                this.SetNeedsSave();
+            }
 		}
 
 		/// <summary>
@@ -387,6 +511,7 @@ namespace RAppMenu.Core.MenuComponents {
 			}
 			set {
 				this.defaultData = value.Trim();
+                this.SetNeedsSave();
 			}
 		}
 
@@ -404,6 +529,7 @@ namespace RAppMenu.Core.MenuComponents {
 				}
 
 				this.startColumn = value;
+                this.SetNeedsSave();
 			}
 		}
 
@@ -421,6 +547,7 @@ namespace RAppMenu.Core.MenuComponents {
 				}
 
 				this.endColumn = value;
+                this.SetNeedsSave();
 			}
 		}
 
@@ -431,7 +558,13 @@ namespace RAppMenu.Core.MenuComponents {
 		/// </summary>
 		/// <value><c>true</c> if remove quotation marks; otherwise, <c>false</c>.</value>
 		public bool RemoveQuotationMarks {
-			get; set;
+            get {
+                return this.removeQuotes;
+            }
+            set {
+                this.removeQuotes = value;
+                this.SetNeedsSave();
+            }
 		}
 
 		/// <summary>
@@ -595,17 +728,17 @@ namespace RAppMenu.Core.MenuComponents {
 				else
 				// HasData = "true"
 				if ( attr.Name.Equals( EtqHasData, StringComparison.OrdinalIgnoreCase ) ) {
-					toret.HasData = bool.Parse( attr.InnerText );
+                    toret.HasData = attr.GetValueAsBool();
 				}
 				else
 				// RemoveQuotationMarks = "TRUE"
 				if ( attr.Name.Equals( EtqRemoveQuotationMarks, StringComparison.OrdinalIgnoreCase ) ) {
-					toret.HasData = bool.Parse( attr.InnerText );
+                    toret.HasData = attr.GetValueAsBool();
 				}
 				else
 				// DataHeader = "TRUE"
 				if ( attr.Name.Equals( EtqDataHeader, StringComparison.OrdinalIgnoreCase ) ) {
-					toret.DataHeader = bool.Parse( attr.InnerText );
+                    toret.DataHeader = attr.GetValueAsBool();
 				}
 				else
 				// DefaultData = "Carnivores"
@@ -646,6 +779,10 @@ namespace RAppMenu.Core.MenuComponents {
 			return toret;
 		}
 
+        private bool hasData;
+        private bool dataHeader;
+        private bool removeQuotes;
+        private string preCommand;
         private int startColumn;
         private int endColumn;
         private string defaultData;
