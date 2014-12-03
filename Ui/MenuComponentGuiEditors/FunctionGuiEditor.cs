@@ -67,13 +67,14 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
 			this.spFnCallLists = new SplitContainer();
 			this.spFnCallLists.Dock = DockStyle.Fill;
-			this.spFnCallLists.IsSplitterFixed = true;
 
 			this.BuildFunctionCallListTable();
 			this.BuildFunctionCallArgumentsListTable();
 
 			this.spFnCallLists.Panel1.Controls.Add( this.pnlFnCalls );
 			this.spFnCallLists.Panel2.Controls.Add( this.pnlFnCallArgs );
+			this.spFnCallLists.IsSplitterFixed = true;
+
 			this.pnlFnCallsLists.Controls.Add( this.spFnCallLists );
 			this.pnlContainer.Controls.Add( this.pnlFnCallsLists );
 			this.pnlFnCallsLists.ResumeLayout( false );
@@ -150,6 +151,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.pnlFnCallArgButtons.Controls.Add( btFunctionAddFnCallArg );
 			this.pnlFnCallArgButtons.Controls.Add( btFunctionRemoveFnCallArg );
 
+			this.pnlFnCallArgs.Controls.Add( this.pnlFnCallArgButtons );
 			this.pnlFnCallArgs.Controls.Add( this.grdFnCallArgsList );
 			this.pnlFnCallArgs.ResumeLayout( false );
 		}
@@ -168,7 +170,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.grdFnCallList.AutoGenerateColumns = false;
 			this.grdFnCallList.AllowUserToAddRows = false;
 			this.grdFnCallList.MultiSelect = false;
-			this.grdFnCallList.Dock = DockStyle.Left;
+			this.grdFnCallList.Dock = DockStyle.Fill;
 			this.grdFnCallList.AllowUserToOrderColumns = false;
 
 			var textCellTemplate = new DataGridViewTextBoxCell();
@@ -204,8 +206,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 				};
 
             this.grdFnCallList.MinimumSize = new Size( 360, 100 );
-			this.grdFnCallList.Font = new Font( this.grdArgsList.Font, FontStyle.Regular );
-			this.pnlFnCallsLists.Font = new Font( this.pnlArgsList.Font, FontStyle.Bold );
+            this.grdFnCallList.Font = new Font( this.grdFnCallList.Font, FontStyle.Regular );
+            this.pnlFnCallsLists.Font = new Font( this.pnlFnCallsLists.Font, FontStyle.Bold );
 
 			// Buttons panel
 			this.pnlFnCallButtons = new FlowLayoutPanel();
@@ -233,8 +235,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.removeFunctionCallArgumentAction.AddComponent( this.btFunctionRemoveFnCall );
 			this.pnlFnCallButtons.Controls.Add( this.btFunctionAddFnCall );
 			this.pnlFnCallButtons.Controls.Add( this.btFunctionRemoveFnCall );
+			this.pnlFnCalls.Controls.Add( this.pnlFnCallButtons );
 			this.pnlFnCalls.Controls.Add( this.grdFnCallList );
-			this.pnlFnCalls.Controls.Add( this.pnlFnCallArgButtons );
 			this.pnlFnCalls.ResumeLayout( false );
 		}
 
@@ -584,8 +586,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.BuildCheckBoxes();
 			this.BuildDefaultData();
 			this.BuildCommands();
+            this.BuildFunctionCallListTables();
 			this.BuildArgumentsListTable();
-			this.BuildFunctionCallListTables();
 
 			this.pnlContainer.ResumeLayout( false );
             this.Panel.ResumeLayout( false );
@@ -748,7 +750,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		/// </summary>
         private void OnResizeEditor()
         {
-            int width = this.pnlContainer.Width;
+            int width = this.pnlContainer.ClientSize.Width;
 
 			// ArgList
             // Name
@@ -770,7 +772,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
             this.grdArgsList.Columns[ 5 ].Width = (int) ( width * 0.20 );
 
 			// FnCalls
-			this.spFnCallLists.SplitterDistance = width / 2;
+			this.spFnCallLists.SplitterDistance = (int) ( width * 0.60 );
         }
 
         /// <summary>
