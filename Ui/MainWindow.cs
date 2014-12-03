@@ -899,6 +899,8 @@ namespace RAppMenu.Ui {
 			new UserAction( "Remove function argument", 9, null );
 			new UserAction( "Add function call argument", 13, null );
 			new UserAction( "Remove function call argument", 9, null );
+			new UserAction( "Add argument to function call", 13, null );
+			new UserAction( "Remove argument from function call", 9, null );
 		}
 
 		private void Build()

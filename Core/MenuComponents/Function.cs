@@ -144,47 +144,47 @@ namespace RAppMenu.Core.MenuComponents {
 			/// <param name="doc">The document, as a XmlTextWriter.</param>
 			public override void ToXml(XmlTextWriter doc)
 			{
-				string tagName = ArgumentTagName;
-
-				// Choose the tag to use
+				// Emit the required argument tag
 				if ( this.IsRequired ) {
-					tagName = RequiredArgumentTagName;
+					doc.WriteStartElement( ArgumentTagName );
+					doc.WriteStartAttribute( EtqName );
+					doc.WriteString( this.Name );
+					doc.WriteEndAttribute();
+					doc.WriteEndElement();
 				}
 
-				doc.WriteStartElement( tagName );
+				doc.WriteStartElement( ArgumentTagName );
 
 				// Name = "arg1"
 				doc.WriteStartAttribute( EtqName );
 				doc.WriteString( this.Name );
 				doc.WriteEndAttribute();
 
-				if ( !this.IsRequired ) {
-					// DependsFrom = "?"
-					if ( !string.IsNullOrWhiteSpace( this.DependsFrom ) ) {
-						doc.WriteStartAttribute( EtqDepends );
-						doc.WriteString( this.DependsFrom );
-						doc.WriteEndAttribute();
-					}
-
-					// Tag = "?"
-					if ( !string.IsNullOrWhiteSpace( this.Tag ) ) {
-						doc.WriteStartAttribute( EtqTag );
-						doc.WriteString( this.Tag );
-						doc.WriteEndAttribute();
-					}
-
-					// AllowMultiSelect = "TRUE"
-					if ( this.AllowMultiselect ) {
-						doc.WriteStartAttribute( EtqAllowMultiSelect );
-						doc.WriteString( true.ToString().ToUpper() );
-						doc.WriteEndAttribute();
-					}
-
-					// Viewer = "Map"
-					doc.WriteStartAttribute( EtqViewer );
-					doc.WriteString( this.Viewer.ToString() );
+				// DependsFrom = "?"
+				if ( !string.IsNullOrWhiteSpace( this.DependsFrom ) ) {
+					doc.WriteStartAttribute( EtqDepends );
+					doc.WriteString( this.DependsFrom );
 					doc.WriteEndAttribute();
 				}
+
+				// Tag = "?"
+				if ( !string.IsNullOrWhiteSpace( this.Tag ) ) {
+					doc.WriteStartAttribute( EtqTag );
+					doc.WriteString( this.Tag );
+					doc.WriteEndAttribute();
+				}
+
+				// AllowMultiSelect = "TRUE"
+				if ( this.AllowMultiselect ) {
+					doc.WriteStartAttribute( EtqAllowMultiSelect );
+					doc.WriteString( true.ToString().ToUpper() );
+					doc.WriteEndAttribute();
+				}
+
+				// Viewer = "Map"
+				doc.WriteStartAttribute( EtqViewer );
+				doc.WriteString( this.Viewer.ToString() );
+				doc.WriteEndAttribute();
 
 				doc.WriteEndElement();
 				return;
