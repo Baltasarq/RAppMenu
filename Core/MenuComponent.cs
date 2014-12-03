@@ -18,6 +18,7 @@ namespace RAppMenu.Core {
 			this.SetName( name );
 			this.parent = parent;
 			this.parent.Add( this );
+            this.root = null;
 		}
 
 		protected MenuComponent(string name)
@@ -131,22 +132,44 @@ namespace RAppMenu.Core {
 		}
 
         /// <summary>
+        /// Gets the root of the menu this component pertains to.
+        /// </summary>
+        /// <value>The root, as a <see cref="RootMenu"/>.</value>
+        public RootMenu Root {
+            get {
+                this.GetRoot();
+                return this.root;
+            }
+        }
+
+        private void GetRoot()
+        {
+            if ( this.root == null ) {
+                MenuComponent mc = this;
+                RootMenu rootMenu = mc as RootMenu;
+
+                while( mc != null
+                    && rootMenu == null )
+                {
+                    mc = mc.Parent;
+                    rootMenu = mc as RootMenu;
+                }
+
+                if ( rootMenu != null ) {
+                    this.root = rootMenu;
+                }
+            }
+
+            return;
+        }
+
+        /// <summary>
         /// Sets this document as needing save.
         /// </summary>
         public virtual void SetNeedsSave()
         {
-            MenuComponent mc = this;
-            RootMenu root = mc as RootMenu;
-
-            while( mc != null
-                && root == null )
-            {
-                mc = mc.Parent;
-                root = mc as RootMenu;
-            }
-
-            if ( root != null ) {
-                root.NeedsSave = true;
+            if ( this.Root != null ) {
+                this.Root.NeedsSave = true;
             }
 
             return;
@@ -159,6 +182,7 @@ namespace RAppMenu.Core {
 
         private string name;
 		private Menu parent;
+        private RootMenu root;
 	}
 }
 
