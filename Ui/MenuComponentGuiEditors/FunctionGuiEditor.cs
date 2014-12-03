@@ -12,6 +12,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		{
 			this.addFunctionArgumentAction = UserAction.LookUp( "addfunctionargument" );
 			this.removeFunctionArgumentAction = UserAction.LookUp( "removefunctionargument" );
+			this.addFunctionCallArgumentAction = UserAction.LookUp( "addfunctioncallargument" );
+			this.removeFunctionCallArgumentAction = UserAction.LookUp( "removefunctioncallargument" );
 
 			this.Build();
 			
@@ -43,8 +45,148 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
             this.pnlContainer.Show();
 
 			this.btFunctionRemoveArgument.Enabled = ( this.grdArgsList.Rows.Count > 0 );
+			this.btFunctionRemoveFnCall.Enabled = ( this.grdFnCallList.Rows.Count > 0 );
 			this.addFunctionArgumentAction.CallBack = this.OnAddFunctionArgument;
 			this.removeFunctionArgumentAction.CallBack = this.OnRemoveFunctionArgument;
+			this.addFunctionCallArgumentAction.CallBack = this.OnAddFunctionCall;
+			this.removeFunctionCallArgumentAction.CallBack = this.OnRemoveFunctionCall;
+		}
+
+		private void BuildFunctionCallListTables()
+		{
+			this.pnlFnCallsList = new GroupBox();
+			this.pnlFnCallsList.SuspendLayout();
+			//this.pnlFnArgsList.Resize += (sender, e) => this.OnResizeArgsList();
+			this.pnlFnCallsList.Dock = DockStyle.Fill;
+			this.pnlFnCallsList.Text = "Function calls";
+
+			this.spFnCallLists = new SplitContainer();
+			this.spFnCallLists.IsSplitterFixed = true;
+
+			this.BuildFunctionCallListTable();
+			this.BuildFunctionCallArgumentsListTable();
+
+			this.spFnCallLists.Panel1.Controls.Add( this.grdFnCallList );
+			this.spFnCallLists.Panel2.Controls.Add( this.grdFnCallArgsList );
+			this.pnlFnCallsList.Controls.Add( this.pnlFnCallsList );
+			this.pnlFnCallsList.ResumeLayout( false );
+		}
+
+		/// <summary>
+		/// Builds the grid view for the arguments of function call arguments.
+		/// </summary>
+		private void BuildFunctionCallArgumentsListTable()
+		{
+			this.grdFnCallArgsList = new DataGridView();
+			this.grdFnCallArgsList.AllowUserToResizeRows = false;
+			this.grdFnCallArgsList.RowHeadersVisible = false;
+			this.grdFnCallArgsList.AutoGenerateColumns = false;
+			this.grdFnCallArgsList.AllowUserToAddRows = false;
+			this.grdFnCallArgsList.MultiSelect = false;
+			this.grdFnCallArgsList.Dock = DockStyle.Fill;
+			this.grdFnCallArgsList.AllowUserToOrderColumns = false;
+
+			var textCellTemplate = new DataGridViewTextBoxCell();
+			textCellTemplate.Style.BackColor = Color.Wheat;
+
+			var column0 = new DataGridViewTextBoxColumn();
+			var column1 = new DataGridViewTextBoxColumn();
+
+			column0.CellTemplate = textCellTemplate;
+			column1.CellTemplate = textCellTemplate;
+
+			column0.HeaderText = "Name";
+			column0.Width = 120;
+			column0.SortMode = DataGridViewColumnSortMode.NotSortable;
+			column1.HeaderText = "Value";
+			column1.Width = 120;
+
+			this.grdFnCallArgsList.Columns.AddRange( new DataGridViewColumn[] {
+				column0,
+				column1,
+			} );
+
+			this.grdFnCallArgsList.MinimumSize = new Size( 240, 100 );
+			this.grdFnCallArgsList.Font = new Font( this.grdFnCallArgsList.Font, FontStyle.Regular );
+			this.pnlFnCallsList.Controls.Add( this.grdFnCallArgsList );
+		}
+
+		private void BuildFunctionCallListTable()
+		{
+			var toolTips = new ToolTip();
+
+			this.grdFnCallList = new DataGridView();
+			this.grdFnCallList.AllowUserToResizeRows = false;
+			this.grdFnCallList.RowHeadersVisible = false;
+			this.grdFnCallList.AutoGenerateColumns = false;
+			this.grdFnCallList.AllowUserToAddRows = false;
+			this.grdFnCallList.MultiSelect = false;
+			this.grdFnCallList.Dock = DockStyle.Left;
+			this.grdFnCallList.AllowUserToOrderColumns = false;
+
+			var textCellTemplate = new DataGridViewTextBoxCell();
+			textCellTemplate.Style.BackColor = Color.Wheat;
+
+			var column0 = new DataGridViewTextBoxColumn();
+			var column1 = new DataGridViewTextBoxColumn();
+			var column2 = new DataGridViewTextBoxColumn();
+
+			column0.CellTemplate = textCellTemplate;
+			column1.CellTemplate = textCellTemplate;
+			column2.CellTemplate = textCellTemplate;
+
+			column0.HeaderText = "Name";
+			column0.Width = 120;
+			column0.SortMode = DataGridViewColumnSortMode.NotSortable;
+			column1.HeaderText = "Function";
+			column1.Width = 120;
+			column1.SortMode = DataGridViewColumnSortMode.NotSortable;
+			column2.HeaderText = "Variant";
+			column2.Width = 120;
+			column2.SortMode = DataGridViewColumnSortMode.NotSortable;
+
+			this.grdFnCallList.Columns.AddRange( new DataGridViewColumn[] {
+				column0,
+				column1,
+				column2,
+			} );
+
+	//		this.grdFnArgsList.CellEndEdit += (object sender, DataGridViewCellEventArgs evt) =>
+	//						this.OnCellEdited( evt.RowIndex, evt.ColumnIndex );
+            this.grdFnCallList.MinimumSize = new Size( 360, 100 );
+			this.grdFnCallList.Font = new Font( this.grdArgsList.Font, FontStyle.Regular );
+			this.pnlFnCallsList.Font = new Font( this.pnlArgsList.Font, FontStyle.Bold );
+
+			// Buttons panel
+			this.pnlCallArgButtons = new FlowLayoutPanel();
+			this.pnlCallArgButtons.AutoSize = true;
+			this.pnlCallArgButtons.Dock = DockStyle.Bottom;
+			this.btFunctionAddFnCall = new Button();
+
+			this.btFunctionAddFnCall.Size = this.btFunctionAddFnCall.MinimumSize = 
+				this.btFunctionAddFnCall.MaximumSize = new Size( 32, 32 );
+			this.btFunctionAddFnCall.ImageList = UserAction.ImageList;
+			this.btFunctionAddFnCall.ImageIndex = this.addFunctionArgumentAction.ImageIndex;
+			this.btFunctionAddFnCall.Click += (sender, e) => this.addFunctionCallArgumentAction.CallBack();
+			toolTips.SetToolTip( this.btFunctionAddFnCall, this.addFunctionCallArgumentAction.Text );
+
+			this.btFunctionRemoveFnCall = new Button();
+			this.btFunctionRemoveFnCall.Size = this.btFunctionRemoveFnCall.MinimumSize = 
+				this.btFunctionRemoveFnCall.MaximumSize = new Size( 32, 32 );
+			this.btFunctionRemoveFnCall.ImageList = UserAction.ImageList;
+			this.btFunctionRemoveFnCall.ImageIndex = this.removeFunctionCallArgumentAction.ImageIndex;
+			this.btFunctionRemoveFnCall.Click += (sender, e) => this.removeFunctionCallArgumentAction.CallBack();
+			toolTips.SetToolTip( this.btFunctionRemoveFnCall, this.removeFunctionCallArgumentAction.Text );
+
+            // Prepare
+			this.addFunctionCallArgumentAction.AddComponent( this.btFunctionAddFnCall );
+			this.removeFunctionCallArgumentAction.AddComponent( this.btFunctionRemoveFnCall );
+			this.pnlArgButtons.Controls.Add( this.btFunctionAddFnCall );
+			this.pnlArgButtons.Controls.Add( this.btFunctionRemoveFnCall );
+			this.pnlFnCallsList.Controls.Add( this.grdFnCallList );
+			this.pnlFnCallsList.Controls.Add( this.pnlCallArgButtons );
+			this.pnlFnCallsList.ResumeLayout( false );
+			//this.OnResizeArgsList();
 		}
 
 		private void BuildArgumentsListTable()
@@ -53,7 +195,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
 			this.pnlArgsList = new GroupBox();
 			this.pnlArgsList.SuspendLayout();
-			this.pnlArgsList.Resize += (sender, e) => this.OnResizeArgsList();
+			this.pnlArgsList.Resize += (sender, e) => this.OnResizeEditor();
 			this.pnlArgsList.Dock = DockStyle.Fill;
 			this.pnlArgsList.Text = "Arguments";
 
@@ -125,15 +267,15 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
 			this.grdArgsList.CellEndEdit += (object sender, DataGridViewCellEventArgs evt) =>
 				this.OnCellEdited( evt.RowIndex, evt.ColumnIndex );
-            this.grdArgsList.MinimumSize = new Size( 100, 100 );
+            this.grdArgsList.MinimumSize = new Size( 240, 100 );
 
 			this.grdArgsList.Font = new Font( this.grdArgsList.Font, FontStyle.Regular );
 			this.pnlArgsList.Font = new Font( this.pnlArgsList.Font, FontStyle.Bold );
 
 			// Buttons panel
-			this.pnlButtons = new FlowLayoutPanel();
-			this.pnlButtons.AutoSize = true;
-			this.pnlButtons.Dock = DockStyle.Bottom;
+			this.pnlArgButtons = new FlowLayoutPanel();
+			this.pnlArgButtons.AutoSize = true;
+			this.pnlArgButtons.Dock = DockStyle.Bottom;
 			this.btFunctionAddArgument = new Button();
 
 			this.btFunctionAddArgument.Size = this.btFunctionAddArgument.MinimumSize = 
@@ -154,13 +296,13 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
             // Prepare
 			this.addFunctionArgumentAction.AddComponent( this.btFunctionAddArgument );
 			this.removeFunctionArgumentAction.AddComponent( this.btFunctionRemoveArgument );
-			this.pnlButtons.Controls.Add( this.btFunctionAddArgument );
-			this.pnlButtons.Controls.Add( this.btFunctionRemoveArgument );
+			this.pnlArgButtons.Controls.Add( this.btFunctionAddArgument );
+			this.pnlArgButtons.Controls.Add( this.btFunctionRemoveArgument );
 			this.pnlArgsList.Controls.Add( this.grdArgsList );
-			this.pnlArgsList.Controls.Add( this.pnlButtons );
+			this.pnlArgsList.Controls.Add( this.pnlArgButtons );
             this.pnlContainer.Controls.Add( this.pnlArgsList );
 			this.pnlArgsList.ResumeLayout( false );
-			this.OnResizeArgsList();
+			this.OnResizeEditor();
 		}
 
 		private void BuildCheckBoxes()
@@ -392,6 +534,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.BuildDefaultData();
 			this.BuildCommands();
 			this.BuildArgumentsListTable();
+			this.BuildFunctionCallListTable();
 
 			this.pnlContainer.ResumeLayout( false );
             this.Panel.ResumeLayout( false );
@@ -516,6 +659,14 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			return;
 		}
 
+		private void OnAddFunctionCall()
+		{
+		}
+
+		private void OnRemoveFunctionCall()
+		{
+		}
+
         /// <summary>
         /// Enables or disables the cells following required,
         /// depending on its value.
@@ -575,10 +726,11 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		/// <summary>
 		/// Makes the arguments list occupy the whole width of the container panel.
 		/// </summary>
-        private void OnResizeArgsList()
+        private void OnResizeEditor()
         {
             int width = this.pnlContainer.Width;
 
+			// ArgList
             // Name
             this.grdArgsList.Columns[ 0 ].Width = (int) ( width * 0.20 );
 
@@ -596,6 +748,9 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
             // Viewer
             this.grdArgsList.Columns[ 5 ].Width = (int) ( width * 0.20 );
+
+			// FnCalls
+			this.spFnCallLists.SplitterDistance = width / 2;
         }
 
         /// <summary>
@@ -644,15 +799,22 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		private GroupBox pnlGroupCommands;
 		private Panel pnlPreCommand;
 		private Panel pnlExecuteOnce;
-		private Panel pnlButtons;
+		private Panel pnlArgButtons;
+		private Panel pnlCallArgButtons;
 		private GroupBox pnlArgsList;
+		private GroupBox pnlFnCallsList;
+		private SplitContainer spFnCallLists;
 
 		private CheckBox chkFunctionHasData;
 		private CheckBox chkFunctionRemoveQuotes;
 		private CheckBox chkFunctionDataHeader;
 		private DataGridView grdArgsList;
+		private DataGridView grdFnCallList;
+		private DataGridView grdFnCallArgsList;
 		private Button btFunctionAddArgument;
 		private Button btFunctionRemoveArgument;
+		private Button btFunctionAddFnCall;
+		private Button btFunctionRemoveFnCall;
 
 		private TextBox edFunctionDefaultData;
 		private TextBox edFunctionPreCommand;
@@ -662,6 +824,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 
 		private UserAction addFunctionArgumentAction;
 		private UserAction removeFunctionArgumentAction;
+		private UserAction addFunctionCallArgumentAction;
+		private UserAction removeFunctionCallArgumentAction;
 	}
 }
 

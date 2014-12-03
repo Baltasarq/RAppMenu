@@ -41,13 +41,16 @@ namespace RAppMenu.Ui {
         /// </summary>
         private void OnCloseDocument()
         {
-            if ( this.Document !=null
+            if ( this.Document != null
               && this.Document.NeedsSave )
             {
                 DialogResult result =
-                    MessageBox.Show( "Do you want to save?", 
+                    MessageBox.Show( this,
+					    "Menu data modified. Do you want to save?", 
                         "Closing menu", 
-                        MessageBoxButtons.YesNo );
+                        MessageBoxButtons.YesNo,
+					    MessageBoxIcon.Question,
+					    MessageBoxDefaultButton.Button1 );
 
                 if ( result == DialogResult.Yes ) {
                     this.OnSave();
@@ -55,6 +58,7 @@ namespace RAppMenu.Ui {
             }
 
             this.doc = null;
+			this.PrepareView( false );
         }
 
 		private void OnNew()
@@ -893,6 +897,8 @@ namespace RAppMenu.Ui {
 			// For the function GUI editor
 			new UserAction( "Add function argument", 13, null );
 			new UserAction( "Remove function argument", 9, null );
+			new UserAction( "Add function call argument", 13, null );
+			new UserAction( "Remove function call argument", 9, null );
 		}
 
 		private void Build()
