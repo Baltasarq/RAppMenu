@@ -74,6 +74,11 @@
     <Compile Include="Core\XmlReader.cs" />
     <Compile Include="Ui\MenuComponentTreeNodes\PdfFileTreeNode.cs" />
     <Compile Include="Ui\MenuComponentTreeNodes\GraphicMenuEntryTreeNode.cs" />
+    <Compile Include="Core\MenuComponents\FunctionArgument.cs" />
+    <Compile Include="Core\MenuComponents\FunctionArgumentList.cs" />
+    <Compile Include="Core\MenuComponents\FunctionBaseArgument.cs" />
+    <Compile Include="Core\MenuComponents\FunctionCallArgument.cs" />
+    <Compile Include="Core\MenuComponents\FunctionExecuteOnce.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />
