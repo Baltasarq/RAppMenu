@@ -7,7 +7,7 @@ namespace RAppMenu.Core.MenuComponents {
 		/// <summary>
 		/// Represents the collection of arguments in this function.
 		/// </summary>
-		public class ArgumentList: Collection<Argument> {
+		public class ArgumentList: Collection<BaseArgument> {
 			/// <summary>
 			/// Initializes a new instance of the <see cref="RAppMenu.Core.MenuComponents.Function+ArgumentList"/> class.
 			/// </summary>
@@ -32,7 +32,7 @@ namespace RAppMenu.Core.MenuComponents {
 			/// </summary>
 			/// <param name="index">The index, as an int.</param>
 			/// <param name="item">The <see cref="FunctionArgument"/> to insert.</param>
-			protected override void InsertItem(int index, Argument item)
+			protected override void InsertItem(int index, BaseArgument item)
 			{
 				this.Chk( item );
 				base.InsertItem( index, item );
@@ -44,7 +44,7 @@ namespace RAppMenu.Core.MenuComponents {
 			/// </summary>
 			/// <param name="index">The index, as an int.</param>
 			/// <param name="item">The <see cref="FunctionArgument"/> to modify.</param>
-			protected override void SetItem(int index, Argument item)
+			protected override void SetItem(int index, BaseArgument item)
 			{
 				this.Chk( item );
 				base.SetItem( index, item );
@@ -55,7 +55,7 @@ namespace RAppMenu.Core.MenuComponents {
 			/// Cheks that the specified value is not null.
 			/// </summary>
 			/// <param name="value">The <see cref="FunctionArgument"/> to check.</param>
-			private void Chk(Argument value)
+			private void Chk(BaseArgument value)
 			{
 				if ( value == null ) {
 					throw new ArgumentException( "function argument cannot be null" ); 

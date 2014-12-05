@@ -26,7 +26,8 @@ namespace RAppMenu.Core.MenuComponents {
         public Function(string name, Menu parent)
             :base( name, parent )
 		{
-            this.argumentList = new ArgumentList( this );
+            this.regularArgumentList = new ArgumentList( this );
+			this.fnCallArgumentList = new ArgumentList( this );
             this.preOnceProgram = new ExecuteOnceProgram( this );
             this.startColumn = 0;
             this.HasData = false;
@@ -159,9 +160,19 @@ namespace RAppMenu.Core.MenuComponents {
 		/// Gets the argument list.
 		/// </summary>
 		/// <value>The argument list, as a <see cref="ArgumentList"/>.</value>
-		public ArgumentList ArgList {
+		public ArgumentList RegularArgumentList {
 			get {
-				return this.argumentList;
+				return this.regularArgumentList;
+			}
+		}
+
+		/// <summary>
+		/// Gets the function calls argument list.
+		/// </summary>
+		/// <value>The argument list, as a <see cref="ArgumentList"/>.</value>
+		public ArgumentList FunctionCallsArgumentList {
+			get {
+				return this.fnCallArgumentList;
 			}
 		}
 
@@ -172,7 +183,7 @@ namespace RAppMenu.Core.MenuComponents {
 					+ "RemoveQuotationMarks={7}, PreProgramOnce={8}, ArgList={9}]",
 			        Name,
 				    HasData, DataHeader, PreCommand, DefaultData, StartColumn,
-			        EndColumn, RemoveQuotationMarks, PreProgramOnce, ArgList.ToString() );
+			        EndColumn, RemoveQuotationMarks, PreProgramOnce, RegularArgumentList.ToString() );
 		}
 
 		/// <summary>
@@ -259,7 +270,7 @@ namespace RAppMenu.Core.MenuComponents {
 			}
 
 			// Arguments
-			foreach(Argument arg in this.ArgList) {
+			foreach(Argument arg in this.RegularArgumentList) {
 				arg.ToXml( doc );
 			}
 
@@ -364,7 +375,8 @@ namespace RAppMenu.Core.MenuComponents {
         private int endColumn;
         private string defaultData;
 		private ExecuteOnceProgram preOnceProgram;
-		private ArgumentList argumentList;
+		private ArgumentList regularArgumentList;
+		private ArgumentList fnCallArgumentList;
 	}
 }
 

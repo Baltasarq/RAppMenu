@@ -25,6 +25,7 @@ namespace RAppMenu.Ui {
 
 		private void OnQuit()
 		{
+			this.OnCloseDocument();
 			this.Close();
 		}
 
@@ -466,8 +467,8 @@ namespace RAppMenu.Ui {
 				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.add.png" )
 			);
 
-			this.addFnCallIconBmp = new Bitmap(
-				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.addFnCall.png" )
+			this.editFnCallsIconBmp = new Bitmap(
+				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.editFnCalls.png" )
 			);
 
 			this.deleteIconBmp = new Bitmap(
@@ -868,7 +869,7 @@ namespace RAppMenu.Ui {
                 this.menuIconBmp, this.graphicIconBmp, this.functionIconBmp,
                 this.pdfIconBmp, this.separatorIconBmp,
                 this.deleteIconBmp, this.upIconBmp, this.downIconBmp,
-				this.playIconBmp, this.addIconBmp
+				this.playIconBmp, this.addIconBmp, this.editFnCallsIconBmp
             });
 
             this.newAction = new UserAction( "New", 0, this.OnNew );
@@ -889,7 +890,7 @@ namespace RAppMenu.Ui {
 
 			// For the function GUI editor
 			new UserAction( "Add function argument", 13, null );
-			new UserAction( "Edit function call arguments", 9, null );
+			new UserAction( "Edit function call arguments", 14, null );
 			new UserAction( "Remove function argument", 9, null );
 			new UserAction( "Add function call argument", 13, null );
 			new UserAction( "Remove function call argument", 9, null );
@@ -915,6 +916,7 @@ namespace RAppMenu.Ui {
             this.Controls.Add( this.stStatus );
 
 			this.Text = AppInfo.Name;
+			this.FormClosing += (sender, e) => this.OnCloseDocument();
 			this.Icon = Icon.FromHandle( appIconBmp.GetHicon() );
 			this.MinimumSize = new Size( 1000, 740 );
             this.Size = this.MinimumSize;
@@ -1122,7 +1124,7 @@ namespace RAppMenu.Ui {
 
 		private Bitmap appIconBmp;
 		private Bitmap addIconBmp;
-		private Bitmap addFnCallIconBmp;
+		private Bitmap editFnCallsIconBmp;
 		private Bitmap deleteIconBmp;
         private Bitmap downIconBmp;
 		private Bitmap functionIconBmp;

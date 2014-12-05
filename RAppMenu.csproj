@@ -79,6 +79,7 @@
     <Compile Include="Core\MenuComponents\FunctionBaseArgument.cs" />
     <Compile Include="Core\MenuComponents\FunctionCallArgument.cs" />
     <Compile Include="Core\MenuComponents\FunctionExecuteOnce.cs" />
+    <Compile Include="Ui\MenuComponentGuiEditors\FunctionGuiEditors\FunctionCallsGuiEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />
@@ -87,6 +88,7 @@
     <Folder Include="Core\MenuComponents\" />
     <Folder Include="Ui\MenuComponentGuiEditors\" />
     <Folder Include="Ui\MenuComponentTreeNodes\" />
+    <Folder Include="Ui\MenuComponentGuiEditors\FunctionGuiEditors\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Res\delete.png" />
@@ -106,5 +108,6 @@
     <EmbeddedResource Include="Res\up.png" />
     <EmbeddedResource Include="Res\play.png" />
     <EmbeddedResource Include="Res\add.png" />
+    <EmbeddedResource Include="Res\editFnCalls.png" />
   </ItemGroup>
 </Project>
