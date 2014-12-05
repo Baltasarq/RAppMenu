@@ -537,7 +537,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		private void OnEditFunctionCallArguments()
 		{
 			if ( this.fnCallsEditor == null ) {
-				this.fnCallsEditor = new FunctionCallsGuiEditor();
+				this.fnCallsEditor = new FunctionCallsGuiEditor( this.Function );
 			}
 
 			this.fnCallsEditor.ShowDialog();

@@ -2,16 +2,39 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
+using RAppMenu.Core.MenuComponents;
+
 namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 	public class FunctionCallsGuiEditor: Form {
-		public FunctionCallsGuiEditor()
+		public FunctionCallsGuiEditor(Function f)
 		{
+			this.function = f;
+			this.StartPosition = FormStartPosition.CenterParent;
+
+			Bitmap icon = new Bitmap(
+				System.Reflection.Assembly.GetEntryAssembly().
+				GetManifestResourceStream( "RAppMenu.Res.r-editor.png" )
+			);
+
+			this.Icon = Icon.FromHandle( icon.GetHicon() );
+			this.Text = "Function call arguments editor";
+
 			this.addFunctionCallAction = UserAction.LookUp( "addfunctioncallargument" );
 			this.removeFunctionCallAction = UserAction.LookUp( "removefunctioncallargument" );
 			this.addFunctionCallArgumentAction = UserAction.LookUp( "addargumenttofunctioncall" );
 			this.removeFunctionCallArgumentAction = UserAction.LookUp( "removeargumentfromfunctioncall" );
 
 			this.Build();
+		}
+
+		/// <summary>
+		/// Gets the function this editor modifies its function call arguments.
+		/// </summary>
+		/// <value>The function.</value>
+		public Function Function {
+			get {
+				return this.function;
+			}
 		}
 
 		protected override void OnShown(EventArgs e)
@@ -32,7 +55,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.pnlFnCallsLists = new GroupBox();
 			this.pnlFnCallsLists.SuspendLayout();
 			this.pnlFnCallsLists.Dock = DockStyle.Fill;
-			this.pnlFnCallsLists.Text = "Function calls";
+			this.pnlFnCallsLists.Text = "Function call arguments";
 
 			this.spFnCallLists = new SplitContainer();
 			this.spFnCallLists.Dock = DockStyle.Fill;
@@ -79,6 +102,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			var toolTips = new ToolTip();
 
 			this.pnlFnCallArgs = new Panel();
+			this.pnlFnCallArgs.AutoScroll = true;
 			this.pnlFnCallArgs.Dock = DockStyle.Fill;
 			this.pnlFnCallArgs.SuspendLayout();
 
@@ -142,6 +166,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.pnlFnCallArgButtons.Controls.Add( btFunctionAddFnCallArg );
 			this.pnlFnCallArgButtons.Controls.Add( btFunctionRemoveFnCallArg );
 
+			this.addFunctionCallArgumentAction.AddComponent( this.btFunctionAddFnCallArg );
+			this.removeFunctionCallArgumentAction.AddComponent( this.btFunctionRemoveFnCallArg );
 			this.pnlFnCallArgs.Controls.Add( this.pnlFnCallArgButtons );
 			this.pnlFnCallArgs.Controls.Add( this.grdFnCallArgsList );
 			this.pnlFnCallArgs.ResumeLayout( false );
@@ -152,6 +178,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			var toolTips = new ToolTip();
 
 			this.pnlFnCalls = new Panel();
+			this.pnlFnCalls.AutoScroll = true;
 			this.pnlFnCalls.SuspendLayout();
 			this.pnlFnCalls.Dock = DockStyle.Fill;
 
@@ -222,8 +249,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			toolTips.SetToolTip( this.btFunctionRemoveFnCall, this.removeFunctionCallArgumentAction.Text );
 
 			// Prepare
-			this.addFunctionCallArgumentAction.AddComponent( this.btFunctionAddFnCall );
-			this.removeFunctionCallArgumentAction.AddComponent( this.btFunctionRemoveFnCall );
+			this.addFunctionCallAction.AddComponent( this.btFunctionAddFnCall );
+			this.removeFunctionCallAction.AddComponent( this.btFunctionRemoveFnCall );
 			this.pnlFnCallButtons.Controls.Add( this.btFunctionAddFnCall );
 			this.pnlFnCallButtons.Controls.Add( this.btFunctionRemoveFnCall );
 			this.pnlFnCalls.Controls.Add( this.pnlFnCallButtons );
@@ -252,6 +279,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 
 		private void OnAddFunctionCall()
 		{
+			this.grdFnCallList.Rows.Add();
 		}
 
 		private void OnRemoveFunctionCall()
@@ -260,6 +288,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 
 		private void OnAddFunctionCallArgument()
 		{
+			this.grdFnCallArgsList.Rows.Add();
 		}
 
 		private void OnRemoveFunctionCallArgument()
@@ -270,7 +299,27 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 		{
 			base.OnResize( e );
 
+			// Set splitter
 			this.spFnCallLists.SplitterDistance = (int) ( this.pnlFnCallsLists.Width * 0.50 );
+
+			// Set columns
+			int widthPanel1 = this.spFnCallLists.Panel1.ClientSize.Width;
+			int widthPanel2 = this.spFnCallLists.Panel2.ClientSize.Width;
+
+			// FnCall: Name
+			this.grdFnCallList.Columns[ 0 ].Width = (int) ( widthPanel1 * 0.33 );
+
+			// FnCall: Function name
+			this.grdFnCallList.Columns[ 1 ].Width = (int) ( widthPanel1 * 0.33 );
+
+			// FnCall: Variant
+			this.grdFnCallList.Columns[ 2 ].Width = (int) ( widthPanel1 * 0.34 );
+
+			// Arg: Name
+			this.grdFnCallArgsList.Columns[ 0 ].Width = (int) ( widthPanel2 * 0.50 );
+
+			// Arg: Value
+			this.grdFnCallArgsList.Columns[ 1 ].Width = (int) ( widthPanel2 * 0.50 );
 		}
 
 
@@ -295,6 +344,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 		private UserAction removeFunctionCallAction;
 		private UserAction addFunctionCallArgumentAction;
 		private UserAction removeFunctionCallArgumentAction;
+
+		private Function function;
 	}
 }
 
