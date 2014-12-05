@@ -41,11 +41,24 @@ namespace RAppMenu.Core.MenuComponents {
 			public CallArgument(string name, Function owner)
 				:base( name, owner )
 			{
+                this.args = new ArgumentList( owner );
 			}
+
+            /// <summary>
+            /// Returns the arguments in this function call.
+            /// </summary>
+            /// <value>The argument list, as an <see cref="ArgumentList"/>.</value>
+            public ArgumentList ArgumentList {
+                get {
+                    return this.args;
+                }
+            }
 
 			public override void ToXml(XmlTextWriter doc)
 			{
 			}
+
+            private ArgumentList args;
 		}
 	}
 }

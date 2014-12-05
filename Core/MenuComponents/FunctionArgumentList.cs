@@ -9,9 +9,9 @@ namespace RAppMenu.Core.MenuComponents {
 		/// </summary>
 		public class ArgumentList: Collection<BaseArgument> {
 			/// <summary>
-			/// Initializes a new instance of the <see cref="RAppMenu.Core.MenuComponents.Function+ArgumentList"/> class.
+			/// Initializes a new instance of the <see cref="RAppMenu.Core.MenuComponents.Function.ArgumentList"/> class.
 			/// </summary>
-			/// <param name="owner">The function owner.</param>
+			/// <param name="owner">The <see cref="Function"/> owner.</param>
 			public ArgumentList(Function owner)
 			{
 				this.owner = owner;
@@ -31,7 +31,7 @@ namespace RAppMenu.Core.MenuComponents {
 			/// Insert a new function argument in the collection.
 			/// </summary>
 			/// <param name="index">The index, as an int.</param>
-			/// <param name="item">The <see cref="FunctionArgument"/> to insert.</param>
+            /// <param name="item">The <see cref="BaseArgument"/> to insert.</param>
 			protected override void InsertItem(int index, BaseArgument item)
 			{
 				this.Chk( item );
@@ -40,10 +40,10 @@ namespace RAppMenu.Core.MenuComponents {
 			}
 
 			/// <summary>
-			/// Modifies a given <see cref="FunctionArgument"/> at the given index.
+            /// Modifies a given <see cref="BaseArgument"/> at the given index.
 			/// </summary>
 			/// <param name="index">The index, as an int.</param>
-			/// <param name="item">The <see cref="FunctionArgument"/> to modify.</param>
+			/// <param name="item">The <see cref="BaseArgument"/> to modify.</param>
 			protected override void SetItem(int index, BaseArgument item)
 			{
 				this.Chk( item );
@@ -54,7 +54,7 @@ namespace RAppMenu.Core.MenuComponents {
 			/// <summary>
 			/// Cheks that the specified value is not null.
 			/// </summary>
-			/// <param name="value">The <see cref="FunctionArgument"/> to check.</param>
+            /// <param name="value">The <see cref="BaseArgument"/> to check.</param>
 			private void Chk(BaseArgument value)
 			{
 				if ( value == null ) {
@@ -71,13 +71,13 @@ namespace RAppMenu.Core.MenuComponents {
 			/// <summary>
 			/// Looks up a given argument by its id.
 			/// </summary>
-			/// <returns>The <see cref="Argument"/>.</returns>
+			/// <returns>The <see cref="BaseArgument"/>.</returns>
 			/// <param name="id">An identifier, as string.</param>
-			public Argument LookUp(string id)
+			public BaseArgument LookUp(string id)
 			{
-				Argument toret = null;
+				BaseArgument toret = null;
 
-				foreach(Argument arg in this) {
+				foreach(BaseArgument arg in this) {
 					if ( arg.Name == id ) {
 						toret = arg;
 						break;

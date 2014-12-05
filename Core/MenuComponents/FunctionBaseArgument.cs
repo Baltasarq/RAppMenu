@@ -24,7 +24,11 @@ namespace RAppMenu.Core.MenuComponents {
 			/// </summary>
 			public override void SetNeedsSave()
 			{
-				this.Owner.SetNeedsSave();
+                if ( this.Owner != null ) {
+                    this.Owner.SetNeedsSave();
+                }
+
+                return;
 			}
 
 			private Function owner;

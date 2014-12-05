@@ -158,7 +158,7 @@ namespace RAppMenu.Core.MenuComponents {
 			{
 				bool isNewArgument = false;
 				string name = node.GetAttribute( EtqName ).InnerText;
-				Argument toret = fn.RegularArgumentList.LookUp( name );
+                var toret = (Argument) fn.RegularArgumentList.LookUp( name );
 
 				// Is it a new argument?
 				if ( toret == null ) {
