@@ -450,63 +450,60 @@ namespace RAppMenu.Ui {
 
 		private void BuildIcons()
 		{
+			System.Reflection.Assembly entryAssembly;
+
 			try {
+				entryAssembly = System.Reflection.Assembly.GetEntryAssembly();
+
 				this.appIconBmp = new Bitmap(
-					System.Reflection.Assembly.GetEntryAssembly().
-					GetManifestResourceStream( "RAppMenu.Res.r-editor.png" )
+					entryAssembly.GetManifestResourceStream( "RAppMenu.Res.r-editor.png" )
 				);
 			} catch(Exception) {
 				throw new ArgumentException( "Unable to load embedded icons" );
 			}
 
 			this.addIconBmp = new Bitmap(
-				System.Reflection.Assembly.GetEntryAssembly().
-				GetManifestResourceStream( "RAppMenu.Res.add.png" )
-				);
+				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.add.png" )
+			);
+
+			this.addFnCallIconBmp = new Bitmap(
+				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.addFnCall.png" )
+			);
 
 			this.deleteIconBmp = new Bitmap(
-				System.Reflection.Assembly.GetEntryAssembly().
-				GetManifestResourceStream( "RAppMenu.Res.delete.png" )
+				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.delete.png" )
 			);
 
 			this.openIconBmp = new Bitmap(
-				System.Reflection.Assembly.GetEntryAssembly().
-				GetManifestResourceStream( "RAppMenu.Res.open.png" )
+				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.open.png" )
 			);
 
 			this.infoIconBmp = new Bitmap(
-				System.Reflection.Assembly.GetEntryAssembly().
-				GetManifestResourceStream( "RAppMenu.Res.info.png" )
+				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.info.png" )
 			);
 
 			this.newIconBmp = new Bitmap(
-				System.Reflection.Assembly.GetEntryAssembly().
-				GetManifestResourceStream( "RAppMenu.Res.new.png" )
+				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.new.png" )
 			);
 
 			this.saveIconBmp = new Bitmap(
-				System.Reflection.Assembly.GetEntryAssembly().
-				GetManifestResourceStream( "RAppMenu.Res.save.png" )
+				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.save.png" )
 			);
 
 			this.quitIconBmp = new Bitmap(
-				System.Reflection.Assembly.GetEntryAssembly().
-				GetManifestResourceStream( "RAppMenu.Res.quit.png" )
+				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.quit.png" )
 			);
 
 			this.menuIconBmp = new Bitmap(
-				System.Reflection.Assembly.GetEntryAssembly().
-				GetManifestResourceStream( "RAppMenu.Res.menu.png" )
+				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.menu.png" )
 			);
 
 			this.functionIconBmp = new Bitmap(
-				System.Reflection.Assembly.GetEntryAssembly().
-				GetManifestResourceStream( "RAppMenu.Res.function.png" )
+				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.function.png" )
 			);
 
 			this.pdfIconBmp = new Bitmap(
-				System.Reflection.Assembly.GetEntryAssembly().
-				GetManifestResourceStream( "RAppMenu.Res.pdf.png" )
+				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.pdf.png" )
 			);
 
 			this.graphicIconBmp = new Bitmap(
@@ -515,23 +512,19 @@ namespace RAppMenu.Ui {
 			);
 
             this.separatorIconBmp = new Bitmap(
-                System.Reflection.Assembly.GetEntryAssembly().
-                GetManifestResourceStream( "RAppMenu.Res.separator.png" )
+				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.separator.png" )
             );
 
             this.upIconBmp = new Bitmap(
-                System.Reflection.Assembly.GetEntryAssembly().
-                GetManifestResourceStream( "RAppMenu.Res.up.png" )
+				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.up.png" )
             );
 
             this.downIconBmp = new Bitmap(
-                System.Reflection.Assembly.GetEntryAssembly().
-                GetManifestResourceStream( "RAppMenu.Res.down.png" )
+				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.down.png" )
             );
 
 			this.playIconBmp = new Bitmap(
-				System.Reflection.Assembly.GetEntryAssembly().
-				GetManifestResourceStream( "RAppMenu.Res.play.png" )
+				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.play.png" )
 			);
 		}
 
@@ -896,6 +889,7 @@ namespace RAppMenu.Ui {
 
 			// For the function GUI editor
 			new UserAction( "Add function argument", 13, null );
+			new UserAction( "Edit function call arguments", 9, null );
 			new UserAction( "Remove function argument", 9, null );
 			new UserAction( "Add function call argument", 13, null );
 			new UserAction( "Remove function call argument", 9, null );
@@ -1128,6 +1122,7 @@ namespace RAppMenu.Ui {
 
 		private Bitmap appIconBmp;
 		private Bitmap addIconBmp;
+		private Bitmap addFnCallIconBmp;
 		private Bitmap deleteIconBmp;
         private Bitmap downIconBmp;
 		private Bitmap functionIconBmp;
