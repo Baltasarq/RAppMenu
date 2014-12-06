@@ -346,7 +346,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 		{
             DataGridViewCell cell = this.grdFnCallList.CurrentCell;
 
-            if ( this.grdFnCallArgsList.Rows.Count > 0 ) {
+            if ( this.grdFnCallList.Rows.Count > 0 ) {
                 if ( cell != null ) {
                     int rowIndex = cell.RowIndex;
 
@@ -359,6 +359,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 
                 if ( this.grdFnCallList.Rows.Count == 0 ) {
                     this.removeFunctionCallAction.Disable();
+                    this.addFunctionCallArgumentAction.Disable();
                 }
             }
 
