@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Xml;
 
 namespace RAppMenu.Core.MenuComponents {
@@ -58,6 +59,9 @@ namespace RAppMenu.Core.MenuComponents {
 
 				public override void ToXml(XmlTextWriter doc)
 				{
+                    Trace.WriteLine( "Arg.ToXml: " + this.ToString() );
+                    Trace.Indent();
+
                     // Decide which tag name to use
                     if ( this.IsReadOnly ) {
                         doc.WriteStartElement( TagNameReadOnly );
@@ -83,10 +87,12 @@ namespace RAppMenu.Core.MenuComponents {
                     doc.WriteEndAttribute();
 
                     doc.WriteEndElement();
+                    Trace.Unindent();
 				}
 
                 public static Arg FromXml(XmlNode node, CallArgument fnCall)
                 {
+                    Trace.WriteLine( "Arg.FromXml: " + node.AsString() );
                     string name = node.GetAttribute( EtqName ).InnerText;
                     var toret = (Arg) fnCall.ArgumentList.LookUp( name );
                     XmlNode attrValue = node.Attributes.GetNamedItemIgnoreCase( EtqValue );
@@ -161,6 +167,8 @@ namespace RAppMenu.Core.MenuComponents {
 
 			public override void ToXml(XmlTextWriter doc)
 			{
+                Trace.WriteLine( "CallArgument.ToXml node: " + this.ToString() );
+
                 doc.WriteStartElement( TagName );
 
                 // Name = "x"
@@ -188,6 +196,8 @@ namespace RAppMenu.Core.MenuComponents {
 
             public static CallArgument FromXml(XmlNode node, Function f)
             {
+                Trace.WriteLine( "CallArgument.FromXml node: " + node );
+
                 XmlNode variantAttr = node.Attributes.GetNamedItemIgnoreCase( EtqVariant );
                 string name = node.GetAttribute( EtqName ).InnerText;
                 var toret = new CallArgument( name, f );

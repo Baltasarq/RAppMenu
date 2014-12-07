@@ -25,7 +25,7 @@ namespace RAppMenu {
                 }
 
                 MessageBox.Show( null, exc.Message, AppInfo.Name );
-                Trace.WriteLine( exc.Message );
+                Trace.WriteLine( "[CRITICAL] " + DateTime.Now + ": " + exc.Message );
                 Trace.WriteLine( exc.StackTrace );
 			}
 		}

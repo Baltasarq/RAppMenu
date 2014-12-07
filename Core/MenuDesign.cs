@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using System.Text;
@@ -6,12 +7,12 @@ using System.Text;
 using RAppMenu.Core.MenuComponents;
 
 namespace RAppMenu.Core {
-	public class DesignOfUserMenu {
+	public class MenuDesign {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RAppMenu.Core.DesignOfUserMenu"/> class.
+        /// Initializes a new instance of the <see cref="RAppMenu.Core.MenuDesign"/> class.
         /// Creates an empty menu, with a Root node.
         /// </summary>
-		public DesignOfUserMenu()
+		public MenuDesign()
 		{
 			this.root = new RootMenu();
             this.NeedsSave = true;
@@ -25,6 +26,9 @@ namespace RAppMenu.Core {
 		/// </param>
 		public void SaveToFile(string fileNameDest)
 		{
+            Trace.WriteLine( DateTime.Now + ": MenuDesign.SaveToFile: " + fileNameDest );
+            Trace.Indent();
+
 			string fileNameOrg = Path.GetTempFileName();
 			var xmlDocWriter = new XmlTextWriter( fileNameOrg, Encoding.UTF8 );
 
@@ -50,6 +54,8 @@ namespace RAppMenu.Core {
 
             this.Root.Name = Path.GetFileNameWithoutExtension( fileNameDest );
             this.NeedsSave = false;
+
+            Trace.Unindent();
 			return;
 		}
 
@@ -68,23 +74,27 @@ namespace RAppMenu.Core {
         /// <summary>
         /// Loads the document from a file.
         /// </summary>
-        /// <returns>The <see cref="DesignOfUserMenu"/> loaded from file.</returns>
+        /// <returns>The <see cref="MenuDesign"/> loaded from file.</returns>
         /// <param name="fileName">File name.</param>
-        public static DesignOfUserMenu LoadFromFile(string fileName)
+        public static MenuDesign LoadFromFile(string fileName)
         {
+            Trace.WriteLine( DateTime.Now + ": read XML from " + fileName );
+            Trace.Indent();
+
             var reader = new XmlReader( fileName );
 
             reader.Read();
-            return reader.DesignOfUserMenu;
+            Trace.Unindent();
+            return reader.MenuDesign;
         }
 
 		public override string ToString()
 		{
-			return string.Format( "[DesignOfUserMenu: Root={0}]", Root.ToString() );
+            return string.Format( "[MenuDesign: Root={0}]", Root.ToString() );
 		}
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="RAppMenu.Core.DesignOfUserMenu"/> needs save.
+        /// Gets or sets a value indicating whether this <see cref="RAppMenu.Core.MenuDesign"/> needs save.
         /// Honors the NeedsSave property in Root, a <see cref="RootMenu"/>
         /// </summary>
         /// <value><c>true</c> if needs save; otherwise, <c>false</c>.</value>

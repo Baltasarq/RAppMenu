@@ -1,5 +1,6 @@
 using System;
 using System.Xml;
+using System.Diagnostics;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
@@ -188,6 +189,9 @@ namespace RAppMenu.Core.MenuComponents {
 
 		public override void ToXml(XmlTextWriter doc)
 		{
+            Trace.WriteLine( "Menu.ToXml: " + this.ToString() );
+            Trace.Indent();
+
 			doc.WriteStartElement( TagName );
 
             // Name = "m1"
@@ -200,6 +204,7 @@ namespace RAppMenu.Core.MenuComponents {
 				mc.ToXml( doc );
 			}
 
+            Trace.Unindent();
 			doc.WriteEndElement();
 		}
 
@@ -211,6 +216,8 @@ namespace RAppMenu.Core.MenuComponents {
         /// <param name="parent">The parent <see cref="Menu"/>.</param>
         public static Menu FromXml(XmlNode node, Menu parent)
         {
+            Trace.WriteLine( "Menu.FromXml: " + node.AsString() );
+
             var toret = new Menu( "tempMenu", parent );
 
             // Name = "m1"

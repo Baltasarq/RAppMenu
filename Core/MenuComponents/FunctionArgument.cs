@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Xml;
 
 namespace RAppMenu.Core.MenuComponents {
@@ -108,6 +109,9 @@ namespace RAppMenu.Core.MenuComponents {
 			/// <param name="doc">The document, as a XmlTextWriter.</param>
 			public override void ToXml(XmlTextWriter doc)
 			{
+                Trace.WriteLine( "Function.ToXml(): " + this.ToString() );
+                Trace.Indent();
+
 				// Emit the required argument tag
 				if ( this.IsRequired ) {
 					doc.WriteStartElement( ArgumentTagName );
@@ -151,11 +155,14 @@ namespace RAppMenu.Core.MenuComponents {
 				doc.WriteEndAttribute();
 
 				doc.WriteEndElement();
+                Trace.Unindent();
 				return;
 			}
 
 			public static Argument FromXml(XmlNode node, Function fn)
 			{
+                Trace.WriteLine( "Argument.FromXml: " + node.AsString() );
+
 				bool isNewArgument = false;
 				string name = node.GetAttribute( EtqName ).InnerText;
                 var toret = (Argument) fn.RegularArgumentList.LookUp( name );

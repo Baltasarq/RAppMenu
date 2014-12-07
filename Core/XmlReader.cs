@@ -2,12 +2,27 @@
 using System.Text;
 using System.Xml;
 using System.IO;
+using System.Diagnostics;
 using System.Collections.Generic;
 
 using RAppMenu.Core.MenuComponents;
 
 namespace RAppMenu.Core {
 	static class XmlAttributeCollectionExtension {
+        public static string AsString(this XmlNode node)
+        {
+            var attributesInfo = new StringBuilder();
+
+            foreach(XmlAttribute attr in node.Attributes) {
+                attributesInfo.AppendFormat( "({0}: {1})", attr.Name, attr.Value );
+            }
+
+            return string.Format( "[{0} [{1}]: '{2}']",
+                node.Name,
+                attributesInfo.ToString(),
+                node.Value );
+        }
+
 		public static XmlNode GetNamedItemIgnoreCase(this XmlAttributeCollection attrList, string id)
 		{
 			XmlAttribute toret = null;
@@ -124,11 +139,15 @@ namespace RAppMenu.Core {
         }
 
         /// <summary>
-        /// Launch the lecture, building the <see cref="DesignOfUserMenu"/>.
+        /// Launch the lecture, building the <see cref="MenuDesign"/>.
         /// </summary>
         public void Read()
         {
-            this.document = new DesignOfUserMenu();
+            Trace.WriteLine( DateTime.Now + ": " 
+                + "read document from: "
+                + this.FileName );
+
+            this.document = new MenuDesign();
 
             // Open the file
             var docXml = new XmlDocument();
@@ -236,14 +255,14 @@ namespace RAppMenu.Core {
         /// <summary>
         /// Gets the design of user menu.
         /// </summary>
-        /// <value>The design of user menu, as a <see cref="DesignOfUserMenu"/>.</value>
-        public DesignOfUserMenu DesignOfUserMenu {
+        /// <value>The design of user menu, as a <see cref="MenuDesign"/>.</value>
+        public MenuDesign MenuDesign {
             get {
                 return this.document;
             }
         }
 
-        private DesignOfUserMenu document;
+        private MenuDesign document;
 
 		private static readonly SortedSet<string> FirstLevelGraphicAttributes =
 			new SortedSet<string>( new string[] {

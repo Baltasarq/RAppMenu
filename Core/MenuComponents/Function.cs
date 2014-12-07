@@ -1,5 +1,5 @@
 using System;
-using System.Text;
+using System.Diagnostics;
 using System.Xml;
 
 namespace RAppMenu.Core.MenuComponents {
@@ -192,6 +192,9 @@ namespace RAppMenu.Core.MenuComponents {
 		/// <param name="doc">The document, as a XmlTextWriter.</param>
 		public override void ToXml(XmlTextWriter doc)
 		{
+            Trace.WriteLine( "Function.ToXml: " + this.ToString() );
+            Trace.Indent();
+
 			// Functions must be surrounded by dedicated menus,
 			// unless they are at top level
 			bool needsEnclosingMenu = !( this.Parent is RootMenu );
@@ -287,12 +290,16 @@ namespace RAppMenu.Core.MenuComponents {
 				doc.WriteEndElement();
 			}
 
+            Trace.Unindent();
 			return;
 		}
 
 		public static Function FromXml(XmlNode node, Menu menu)
 		{
 			Menu trueParent = menu;
+
+            Trace.WriteLine( "Function.FromXml: " + node.AsString() );
+            Trace.Indent();
 
 			// Determine the parent for the deletion of the unneeded upper menu
             // Note that this must not be done if we are at top level,
@@ -374,6 +381,7 @@ namespace RAppMenu.Core.MenuComponents {
                 }
 			}
 
+            Trace.Unindent();
 			return toret;
 		}
 

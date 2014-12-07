@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Diagnostics;
 
 namespace RAppMenu.Core.MenuComponents {
     public class PdfFile: MenuComponent {
@@ -28,15 +29,20 @@ namespace RAppMenu.Core.MenuComponents {
 
         public override void ToXml(XmlTextWriter doc)
         {
+            Trace.WriteLine( "PdfFile.ToXml: " + this.ToString() );
             doc.WriteStartElement( TagName );
+
             doc.WriteStartAttribute( EtqName );
             doc.WriteString( this.FileName );
             doc.WriteEndAttribute();
+
             doc.WriteEndElement();
         }
 
 		public static PdfFile FromXml(XmlNode node, Menu parent)
 		{
+            Trace.WriteLine( "PdfFile.FromXml: " + node.AsString() );
+
 			var toret = new PdfFile( "tempFileName.test", parent );
 
 			// Name = "m1"

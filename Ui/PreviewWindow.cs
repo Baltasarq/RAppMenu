@@ -18,7 +18,7 @@ namespace RAppMenu.Ui {
         /// </summary>
         /// <param name="doc">The <see cref="Document"/>object, containing the menu.</param>
         /// <param name="icon">The icon for the window.</param>
-        public PreviewWindow(DesignOfUserMenu doc, Icon icon)
+        public PreviewWindow(MenuDesign doc, Icon icon)
         {
             this.document = doc;
 			this.errors = new StringBuilder();
@@ -173,13 +173,13 @@ namespace RAppMenu.Ui {
         /// Gets the document this preview window is showing.
         /// </summary>
         /// <value>The <see cref="Document"/> object.</value>
-        public DesignOfUserMenu Document {
+        public MenuDesign Document {
             get {
                 return this.document;
             }
         }
 
-        private DesignOfUserMenu document;
+        private MenuDesign document;
 		private GroupBox pnlErrors;
 		private ListBox lbErrors;
 		private StringBuilder errors;

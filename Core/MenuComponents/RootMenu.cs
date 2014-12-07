@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 namespace RAppMenu.Core.MenuComponents {
 	/// <summary>
@@ -15,6 +16,9 @@ namespace RAppMenu.Core.MenuComponents {
 
         public override void ToXml(System.Xml.XmlTextWriter doc)
         {
+            Trace.WriteLine( "RootMenu.ToXml: " + this.ToString() );
+            Trace.Indent();
+
 			doc.WriteStartElement( TagName );
 
             foreach (MenuComponent mc in this.MenuComponents) {
@@ -22,10 +26,11 @@ namespace RAppMenu.Core.MenuComponents {
             }
 
 			doc.WriteEndElement();
+            Trace.Unindent();
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="RAppMenu.Core.DesignOfUserMenu"/> needs save.
+        /// Gets or sets a value indicating whether this <see cref="RAppMenu.Core.MenuDesign"/> needs save.
         /// </summary>
         /// <value><c>true</c> if needs save; otherwise, <c>false</c>.</value>
         public bool NeedsSave {

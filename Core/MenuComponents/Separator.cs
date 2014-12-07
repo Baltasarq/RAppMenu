@@ -1,4 +1,4 @@
-using System;
+using System.Diagnostics;
 using System.Xml;
 
 namespace RAppMenu.Core.MenuComponents {
@@ -19,6 +19,8 @@ namespace RAppMenu.Core.MenuComponents {
 		/// </summary>
 		public override void ToXml(XmlTextWriter doc)
 		{
+            Trace.WriteLine( "Separator.ToXml()" );
+
 			doc.WriteStartElement( TagName );
 			doc.WriteEndElement();
 		}
@@ -31,6 +33,8 @@ namespace RAppMenu.Core.MenuComponents {
         /// <param name="parent">The parent <see cref="Menu"/>.</param>
         public static Separator FromXml(XmlNode node, Menu parent)
         {
+            Trace.WriteLine( "Separator.FromXml()" );
+
             return new Separator( parent );
         }
 

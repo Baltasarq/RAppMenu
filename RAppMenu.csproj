@@ -56,7 +56,6 @@
     <Compile Include="Core\MenuComponents\Menu.cs" />
     <Compile Include="Core\MenuComponents\RootMenu.cs" />
     <Compile Include="Ui\GraphMenu.cs" />
-    <Compile Include="Core\DesignOfUserMenu.cs" />
     <Compile Include="Ui\MenuComponentGuiEditors\NamedComponentGuiEditor.cs" />
     <Compile Include="Ui\MenuComponentGuiEditors\SeparatorGuiEditor.cs" />
     <Compile Include="Ui\MenuComponentGuiEditors\PdfFileGuiEditor.cs" />
@@ -81,6 +80,7 @@
     <Compile Include="Core\MenuComponents\FunctionCallArgument.cs" />
     <Compile Include="Core\MenuComponents\FunctionExecuteOnce.cs" />
     <Compile Include="Ui\MenuComponentGuiEditors\FunctionGuiEditors\FunctionCallsGuiEditor.cs" />
+    <Compile Include="Core\MenuDesign.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />

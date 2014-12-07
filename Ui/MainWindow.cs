@@ -31,6 +31,8 @@ namespace RAppMenu.Ui {
 
 		private void OnShowWeb()
 		{
+            Trace.WriteLine( System.DateTime.Now + ": Launching browser..." );
+
 			this.SetStatus( "Launching external browser..." );
 			Process.Start( AppInfo.Web );
 			this.SetStatus();
@@ -45,6 +47,9 @@ namespace RAppMenu.Ui {
             if ( this.Document != null
               && this.Document.NeedsSave )
             {
+                Trace.WriteLine( System.DateTime.Now + ": Closing document: "
+                                                + this.Document.Root.Name );
+
                 DialogResult result =
                     MessageBox.Show( this,
 					    "Menu data modified. Do you want to save?", 
@@ -64,10 +69,12 @@ namespace RAppMenu.Ui {
 
 		private void OnNew()
 		{
+            Trace.WriteLine( System.DateTime.Now + ": Creating document" );
+
             this.OnCloseDocument();
 
 			this.SetStatus( "Preparing new document..." );
-			this.doc = new DesignOfUserMenu();
+			this.doc = new MenuDesign();
             this.fileNameSet = false;
 
             this.PrepareViewStructuresForNewDocument();
@@ -282,6 +289,9 @@ namespace RAppMenu.Ui {
 
 		private void OnOpen()
 		{
+            Trace.WriteLine( System.DateTime.Now + ": Opening document" );
+            Trace.Indent();
+
             this.OnCloseDocument();
 
             this.SetStatus( "Select menu..." );
@@ -303,7 +313,7 @@ namespace RAppMenu.Ui {
                 this.SetToolbarTaskFinished();
 
                 try {
-                    this.doc = DesignOfUserMenu.LoadFromFile( dlg.FileName );
+                    this.doc = MenuDesign.LoadFromFile( dlg.FileName );
                 }
                 catch(XmlException exc)
                 {
@@ -320,6 +330,7 @@ namespace RAppMenu.Ui {
                     return;
                 }
                 finally {
+                    Trace.Unindent();
                     this.SetToolbarTaskFinished();
                 }
                     
@@ -412,6 +423,8 @@ namespace RAppMenu.Ui {
 
 		private void OnSave()
 		{
+            Trace.WriteLine( DateTime.Now + ": Saving " + this.Document.Root.Name );
+            Trace.Indent();
             this.SetStatus( "Saving menu..." );
 
             if ( !fileNameSet ) {
@@ -429,8 +442,26 @@ namespace RAppMenu.Ui {
                     this.SetToolbarForNumTasks( 2 );
                     this.ApplicationsFolder = Path.GetDirectoryName( dlg.FileName );
                     this.SetToolbarTaskFinished();
-                    this.Document.SaveToFile( dlg.FileName );
-                    this.SetToolbarTaskFinished();
+
+                    try {
+                        this.Document.SaveToFile( dlg.FileName );
+                    } catch(XmlException exc)
+                    {
+                        this.SetErrorStatus( "Malformed XML: " + exc.Message );
+                        Trace.WriteLine( exc.Message );
+                        Trace.WriteLine( exc.StackTrace );
+                    }
+                    catch(Exception exc)
+                    {
+                        this.SetErrorStatus( "Unexpected error: " + exc.Message );
+                        Trace.WriteLine( exc.Message );
+                        Trace.WriteLine( exc.StackTrace );
+                    }
+                    finally {
+                        this.SetToolbarTaskFinished();
+                        Trace.Unindent();
+                    }
+
     				this.TreeMenuRoot.Text = this.Document.Root.Name;
                     this.fileNameSet = true;
                 }
@@ -904,6 +935,8 @@ namespace RAppMenu.Ui {
 
 		private void Build()
 		{
+            Trace.WriteLine( "Building Gui..." );
+
             this.BuildIcons();
             this.BuildUserActions();
 			this.BuildMenu();
@@ -924,6 +957,8 @@ namespace RAppMenu.Ui {
 			this.Icon = Icon.FromHandle( appIconBmp.GetHicon() );
 			this.MinimumSize = new Size( 1000, 740 );
             this.Size = this.MinimumSize;
+
+            Trace.WriteLine( "Gui Built." );
 		}
 
         private void PrepareViewStructuresForNewDocument()
@@ -1034,7 +1069,7 @@ namespace RAppMenu.Ui {
 			}
 		}
 
-		public DesignOfUserMenu Document {
+		public MenuDesign Document {
 			get {
 				return this.doc;
 			}
@@ -1159,7 +1194,7 @@ namespace RAppMenu.Ui {
 		private UserAction addGraphicMenuAction;
 		private UserAction previewAction;
 
-		private DesignOfUserMenu doc;
+		private MenuDesign doc;
         private bool fileNameSet;
 	}
 }

@@ -1,8 +1,6 @@
 using System;
 using System.Xml;
-using System.Drawing;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace RAppMenu.Core.MenuComponents {
 	/// <summary>
@@ -97,6 +95,9 @@ namespace RAppMenu.Core.MenuComponents {
 
         public override void ToXml(XmlTextWriter doc)
         {
+            Trace.WriteLine( "GraphicMenu.ToXml: " + this.ToString() );
+            Trace.Indent();
+
             doc.WriteStartElement( Menu.TagName );
 
             // Name = "m1"
@@ -130,10 +131,14 @@ namespace RAppMenu.Core.MenuComponents {
 			}
 
             doc.WriteEndElement();
+            Trace.Unindent();
         }
 
 		public new static GraphicMenu FromXml(XmlNode node, Menu menu)
 		{
+            Trace.WriteLine( "RootMenu.FromXml: " + node.AsString() );
+            Trace.Indent();
+
             var toret = new GraphicMenu(
                                           node.GetAttribute( EtqName ).InnerText,
                                           menu );
@@ -164,6 +169,7 @@ namespace RAppMenu.Core.MenuComponents {
                 }
             }
 
+            Trace.Unindent();
 			return toret;
 		}
 
