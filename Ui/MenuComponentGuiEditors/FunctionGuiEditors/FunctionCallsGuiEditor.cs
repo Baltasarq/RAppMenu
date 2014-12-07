@@ -37,6 +37,31 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			}
 		}
 
+        /// <summary>
+        /// Populates the datagridview of function calls.
+        /// </summary>
+        private void Populate()
+        {
+            this.grdFnCallList.Hide();
+            this.grdFnCallArgsList.Hide();
+
+            this.grdFnCallList.Rows.Clear();
+            this.grdFnCallArgsList.Rows.Clear();
+
+            foreach(Function.CallArgument call in this.Function.FunctionCallsArgumentList)
+            {
+                this.grdFnCallList.Rows.Add(
+                    call.Name,
+                    call.FunctionName,
+                    call.Variant
+                );
+            }
+
+            this.grdFnCallList.Show();
+            this.grdFnCallArgsList.Show();
+            return;
+        }
+
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown( e );
@@ -50,11 +75,13 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.removeFunctionCallArgumentAction.Enabled = ( this.grdFnCallArgsList.Rows.Count > 0 );
             this.addFunctionCallArgumentAction.Enabled = this.removeFunctionCallAction.Enabled;
 
+            this.Populate();
 		}
 
 		private void Build()
 		{
 			this.pnlFnCallsLists = new GroupBox();
+            this.pnlFnCallsLists.Font = new Font( this.pnlFnCallsLists.Font, FontStyle.Bold );
 			this.pnlFnCallsLists.SuspendLayout();
 			this.pnlFnCallsLists.Dock = DockStyle.Fill;
 			this.pnlFnCallsLists.Text = "Function call arguments";
@@ -109,6 +136,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.pnlFnCallArgs.SuspendLayout();
 
 			this.grdFnCallArgsList = new DataGridView();
+            this.grdFnCallArgsList.Font = new Font( this.grdFnCallArgsList.Font, FontStyle.Regular );
             this.grdFnCallArgsList.BackgroundColor = Color.White;
 			this.grdFnCallArgsList.AllowUserToResizeRows = false;
 			this.grdFnCallArgsList.RowHeadersVisible = false;
@@ -121,25 +149,38 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			var textCellTemplate = new DataGridViewTextBoxCell();
 			textCellTemplate.Style.BackColor = Color.Wheat;
 
+            var checkBoxCellTemplate = new DataGridViewCheckBoxCell();
+            checkBoxCellTemplate.Style.BackColor = Color.White;
+
+            var textCellTemplateMonoSpaced = new DataGridViewTextBoxCell();
+            textCellTemplateMonoSpaced.Style.BackColor = Color.Wheat;
+            textCellTemplateMonoSpaced.Style.Font = new Font( FontFamily.GenericMonospace, 8 );
+
 			var column0 = new DataGridViewTextBoxColumn();
-			var column1 = new DataGridViewTextBoxColumn();
+            var column1 = new DataGridViewCheckBoxColumn();
+            var column2 = new DataGridViewTextBoxColumn();
 
 			column0.CellTemplate = textCellTemplate;
-			column1.CellTemplate = textCellTemplate;
+            column1.CellTemplate = checkBoxCellTemplate;
+            column2.CellTemplate = textCellTemplateMonoSpaced;
 
 			column0.HeaderText = "Name";
 			column0.Width = 120;
 			column0.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column1.HeaderText = "Value";
-			column1.Width = 120;
+            column1.HeaderText = "Read only";
+            column1.Width = 120;
+            column1.SortMode = DataGridViewColumnSortMode.NotSortable;
+			column2.HeaderText = "Value";
+			column2.Width = 120;
+            column2.SortMode = DataGridViewColumnSortMode.NotSortable;
 
 			this.grdFnCallArgsList.Columns.AddRange( new DataGridViewColumn[] {
 				column0,
 				column1,
+                column2
 			} );
 
 			this.grdFnCallArgsList.MinimumSize = new Size( 240, 100 );
-			this.grdFnCallArgsList.Font = new Font( FontFamily.GenericMonospace, 10 );
 			this.grdFnCallArgsList.CellEndEdit +=
 				(object sender, DataGridViewCellEventArgs evt) => {
 				this.OnFnCallArgCellEdited( evt.RowIndex, evt.ColumnIndex );
@@ -186,6 +227,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.pnlFnCalls.Dock = DockStyle.Fill;
 
 			this.grdFnCallList = new DataGridView();
+            this.grdFnCallList.Font = new Font( this.grdFnCallList.Font, FontStyle.Regular );
             this.grdFnCallList.BackgroundColor = Color.White;
 			this.grdFnCallList.AllowUserToResizeRows = false;
 			this.grdFnCallList.RowHeadersVisible = false;
@@ -198,13 +240,17 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			var textCellTemplate = new DataGridViewTextBoxCell();
 			textCellTemplate.Style.BackColor = Color.Wheat;
 
+            var textCellTemplateMonoSpaced = new DataGridViewTextBoxCell();
+            textCellTemplateMonoSpaced.Style.BackColor = Color.Wheat;
+            textCellTemplateMonoSpaced.Style.Font = new Font( FontFamily.GenericMonospace, 8 );
+
 			var column0 = new DataGridViewTextBoxColumn();
 			var column1 = new DataGridViewTextBoxColumn();
 			var column2 = new DataGridViewTextBoxColumn();
 
 			column0.CellTemplate = textCellTemplate;
 			column1.CellTemplate = textCellTemplate;
-			column2.CellTemplate = textCellTemplate;
+            column2.CellTemplate = textCellTemplateMonoSpaced;
 
 			column0.HeaderText = "Name";
 			column0.Width = 120;
@@ -231,8 +277,6 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
                 this.PrepareArgsForCurrentCall( e.RowIndex );
 
 			this.grdFnCallList.MinimumSize = new Size( 360, 100 );
-			this.grdFnCallList.Font = new Font( this.grdFnCallList.Font, FontStyle.Regular );
-			this.pnlFnCallsLists.Font = new Font( this.pnlFnCallsLists.Font, FontStyle.Bold );
 
 			// Buttons panel
 			this.pnlFnCallButtons = new FlowLayoutPanel();
@@ -279,7 +323,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
                     this.grdFnCallArgsList.Rows.Add();
                     DataGridViewRow row = this.grdFnCallArgsList.Rows[ lastArgIndex ];
                     row.Cells[ 0 ].Value = arg.Name;
-                    row.Cells[ 1 ].Value = arg.Value;
+                    row.Cells[ 1 ].Value = arg.IsReadOnly;
+                    row.Cells[ 2 ].Value = arg.Value;
                 }
 
                 this.grdFnCallArgsList.Show();
@@ -297,6 +342,25 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 		/// <param name="colIndex">The col index, as an int, which gives the attribute of the argument.</param>
 		private void OnFnCallCellEdited(int rowIndex, int colIndex)
 		{
+            DataGridViewRow row = this.grdFnCallList.Rows[ rowIndex ];
+            string value = (string) row.Cells[ colIndex ].Value;
+            var fnCall = (Function.CallArgument) this.Function.FunctionCallsArgumentList[ rowIndex ];
+
+            if ( !string.IsNullOrWhiteSpace( value ) ) {
+                if ( colIndex == 0 ) {
+                    fnCall.Name = value;
+                }
+                else
+                if ( colIndex == 1 ) {
+                    fnCall.FunctionName = value;
+                }
+                else
+                if ( colIndex == 2 ) {
+                    fnCall.Variant = value;
+                }
+            }
+
+            return;
 		}
 
 		/// <summary>
@@ -306,6 +370,32 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 		/// <param name="colIndex">The col index, as an int, which gives the attribute of the argument.</param>
 		private void OnFnCallArgCellEdited(int rowIndex, int colIndex)
 		{
+            DataGridViewRow row = this.grdFnCallArgsList.Rows[ rowIndex ];
+            Function.CallArgument fnCall = this.GetCurrentFunctionCall();
+            var arg = (Function.CallArgument.Arg) fnCall.ArgumentList[ rowIndex ];
+
+            if ( fnCall != null ) {
+                if ( colIndex != 1 ) {
+                    string value = (string) row.Cells[ colIndex ].Value;
+
+                    if( !string.IsNullOrWhiteSpace( value ) )
+                    {
+                        if ( colIndex == 0 ) {
+                            arg.Name = value;
+                        }
+                        else
+                        if ( colIndex == 2 ) {
+                            arg.Value = value;
+                        }
+                    }
+                }
+                else
+                if ( colIndex == 1 ) {
+                    arg.IsReadOnly = (bool) row.Cells[ colIndex ].Value;
+                }
+            }
+
+            return;
 		}
 
         /// <summary>
@@ -433,10 +523,13 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.grdFnCallList.Columns[ 2 ].Width = (int) ( widthPanel1 * 0.34 );
 
 			// Arg: Name
-			this.grdFnCallArgsList.Columns[ 0 ].Width = (int) ( widthPanel2 * 0.50 );
+			this.grdFnCallArgsList.Columns[ 0 ].Width = (int) ( widthPanel2 * 0.40 );
+
+            // Arg: Read only
+            this.grdFnCallArgsList.Columns[ 1 ].Width = (int) ( widthPanel2 * 0.20 );
 
 			// Arg: Value
-			this.grdFnCallArgsList.Columns[ 1 ].Width = (int) ( widthPanel2 * 0.50 );
+			this.grdFnCallArgsList.Columns[ 2 ].Width = (int) ( widthPanel2 * 0.40 );
 		}
 
 

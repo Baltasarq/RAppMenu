@@ -308,11 +308,15 @@ namespace RAppMenu.Ui {
                 catch(XmlException exc)
                 {
                     this.SetErrorStatus( "Malformed XML: " + exc.Message );
+                    Trace.WriteLine( exc.Message );
+                    Trace.WriteLine( exc.StackTrace );
                     return;
                 }
                 catch(Exception exc)
                 {
                     this.SetErrorStatus( "Unexpected error: " + exc.Message );
+                    Trace.WriteLine( exc.Message );
+                    Trace.WriteLine( exc.StackTrace );
                     return;
                 }
                 finally {

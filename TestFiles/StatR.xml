@@ -1424,7 +1424,7 @@
 		      </FunctionArgument>
 	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
 		      </FunctionArgument>
-          <FunctionArgument Name="PLOTR" Function="plot" Variant="plot.default">>
+          <FunctionArgument Name="PLOTR" Function="plot" Variant="plot.default">
            <ReadOnlyArgument Name="x"/>
            <ReadOnlyArgument Name="y"/>
            <ReadOnlyArgument Name="data"/>
@@ -1435,7 +1435,7 @@
 		       <SetArgument Name="ylim" Value="c(minres,maxres)"/>
 		       <SetArgument Name="main" Value="names(residuos)[z]"/>
           </FunctionArgument>
-          <FunctionArgument Name="PLOT" Function="plot" Variant="plot.default">>
+          <FunctionArgument Name="PLOT" Function="plot" Variant="plot.default">
            <ReadOnlyArgument Name="x"/>
            <ReadOnlyArgument Name="y"/>
            <ReadOnlyArgument Name="data"/>
@@ -1474,7 +1474,7 @@
 		      </FunctionArgument>
 	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
 		      </FunctionArgument>
-          <FunctionArgument Name="PLOT" Function="plot" Variant="plot.default">>
+          <FunctionArgument Name="PLOT" Function="plot" Variant="plot.default">
            <ReadOnlyArgument Name="x"/>
            <ReadOnlyArgument Name="y"/>
            <ReadOnlyArgument Name="data"/>
@@ -1512,7 +1512,7 @@
 		      </FunctionArgument>
 	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
 		      </FunctionArgument>
-          <FunctionArgument Name="PLOT" Function="plot" Variant="plot.default">>
+          <FunctionArgument Name="PLOT" Function="plot" Variant="plot.default">
            <ReadOnlyArgument Name="x"/>
            <ReadOnlyArgument Name="y"/>
            <ReadOnlyArgument Name="data"/>
@@ -1550,7 +1550,7 @@
 		      </FunctionArgument>
 	        <FunctionArgument Name="TEXT" Function="text" Variant="\method{text}{default}">
 		      </FunctionArgument>
-          <FunctionArgument Name="PLOT" Function="plot" Variant="plot.default">>
+          <FunctionArgument Name="PLOT" Function="plot" Variant="plot.default">
            <ReadOnlyArgument Name="x"/>
            <ReadOnlyArgument Name="y"/>
            <ReadOnlyArgument Name="data"/>

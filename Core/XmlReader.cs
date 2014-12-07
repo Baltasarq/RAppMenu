@@ -8,12 +8,22 @@ using RAppMenu.Core.MenuComponents;
 
 namespace RAppMenu.Core {
 	static class XmlAttributeCollectionExtension {
-		public static XmlNode GetNamedItemIgnoreCase(this XmlAttributeCollection xmlc, string id)
+		public static XmlNode GetNamedItemIgnoreCase(this XmlAttributeCollection attrList, string id)
 		{
 			XmlAttribute toret = null;
-			id = id.Trim();
 
-			foreach ( XmlAttribute attr in xmlc ) {
+            if ( string.IsNullOrWhiteSpace( id ) ) {
+                throw new XmlException(
+                    "getting attribute of list: asking for null id" );
+            }
+
+            if ( attrList == null ) {
+                throw new XmlException(
+                    "getting attribute of list: missing attribute list" );
+            }
+
+            id = id.Trim();
+			foreach ( XmlAttribute attr in attrList ) {
 				if ( attr.Name.Equals( id, StringComparison.OrdinalIgnoreCase ) ) {
 					toret = attr;
 					break;
@@ -25,8 +35,20 @@ namespace RAppMenu.Core {
 
         public static XmlAttribute GetAttribute(this XmlNode node, string id)
         {
+            XmlAttribute toret = null;
+
+            if ( string.IsNullOrWhiteSpace( id ) ) {
+                throw new XmlException(
+                    "getting attribute from node: asking for null id" );
+            }
+
+            if ( node == null ) {
+                throw new XmlException(
+                    "getting attribute from node: missing attribute list" );
+            }
+
             id = id.Trim();
-            var toret = (XmlAttribute) node.Attributes.GetNamedItemIgnoreCase( id );
+            toret = (XmlAttribute) node.Attributes.GetNamedItemIgnoreCase( id );
 
             if ( toret == null ) {
                 throw new XmlException( "missing attribute: '" + id +"' at "

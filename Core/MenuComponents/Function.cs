@@ -274,6 +274,11 @@ namespace RAppMenu.Core.MenuComponents {
 				arg.ToXml( doc );
 			}
 
+            // Function call arguments
+            foreach(CallArgument arg in this.FunctionCallsArgumentList) {
+                arg.ToXml( doc );
+            }
+
 			// Close the function
             doc.WriteEndElement();
 
@@ -362,6 +367,11 @@ namespace RAppMenu.Core.MenuComponents {
 				{
 					Argument.FromXml( subNode, toret );
 				}
+                else
+                if ( subNode.Name.Equals( CallArgument.TagName, StringComparison.OrdinalIgnoreCase ) )
+                {
+                    CallArgument.FromXml( subNode, toret );
+                }
 			}
 
 			return toret;

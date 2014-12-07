@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 using RAppMenu.Core;
@@ -11,6 +12,8 @@ namespace RAppMenu {
 		{
 			Form mainForm = null;
 
+            AppInfo.BuildLog();
+
 			try {
 				mainForm = new MainWindow();
 				Application.EnableVisualStyles();
@@ -22,6 +25,8 @@ namespace RAppMenu {
                 }
 
                 MessageBox.Show( null, exc.Message, AppInfo.Name );
+                Trace.WriteLine( exc.Message );
+                Trace.WriteLine( exc.StackTrace );
 			}
 		}
 	}

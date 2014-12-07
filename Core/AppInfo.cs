@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Diagnostics;
 
 namespace RAppMenu.Core {
 	public static class AppInfo {
@@ -6,6 +8,7 @@ namespace RAppMenu.Core {
 		public const string Web = "http://www.ipez.es/rwizard/";
 		public const string Version = "1.0 20141020";
         public const string FileExtension = "xml";
+        public const string LogFile = "rappmenu.errors.log";
 
 		/// <summary>
 		/// Gets or sets the applications folder.
@@ -31,6 +34,22 @@ namespace RAppMenu.Core {
 		public static string GraphsFolder {
 			get; set;
 		}
+
+        public static void BuildLog()
+        {
+            Trace.Listeners.Add( new TextWriterTraceListener( 
+                new FileStream( AppInfo.LogFile, FileMode.OpenOrCreate )
+            ) );
+
+            Trace.AutoFlush = true;
+
+            Trace.Write( Name );
+            Trace.Write( ' ' );
+            Trace.Write( Version );
+            Trace.Write( ' ' );
+            Trace.WriteLine( DateTime.Now );
+            Trace.WriteLine( "============================================" );
+        }
 	}
 }
 
