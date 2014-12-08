@@ -85,12 +85,12 @@ namespace RAppMenu.Core.MenuComponents {
 
 		public override string ToString()
 		{
-			string toret = base.ToString();
-
-			toret = "[GraphicMenu" + toret.Substring( 5, toret.Length -1 );
+            string toret = "[GraphicMenu " + base.ToString();
 
 			return toret
-				+ string.Format( "ImageWidth={0}, ImageHeight={1}, MinimumNumberOfColumns={2}]", ImageWidth, ImageHeight, MinimumNumberOfColumns );
+				+ string.Format(
+                    " ImageWidth={0}, ImageHeight={1}, MinimumNumberOfColumns={2}]",
+                    ImageWidth, ImageHeight, MinimumNumberOfColumns );
 		}
 
         public override void ToXml(XmlTextWriter doc)
@@ -139,9 +139,8 @@ namespace RAppMenu.Core.MenuComponents {
             Trace.WriteLine( "RootMenu.FromXml: " + node.AsString() );
             Trace.Indent();
 
-            var toret = new GraphicMenu(
-                                          node.GetAttribute( EtqName ).InnerText,
-                                          menu );
+            var toret = new GraphicMenu( node.GetAttribute( EtqName ).InnerText,
+                                         menu );
 
             // Retrieve attribute data
             foreach(XmlAttribute attr in node.Attributes) {

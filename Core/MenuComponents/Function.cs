@@ -197,7 +197,8 @@ namespace RAppMenu.Core.MenuComponents {
 
 			// Functions must be surrounded by dedicated menus,
 			// unless they are at top level
-			bool needsEnclosingMenu = !( this.Parent is RootMenu );
+			bool needsEnclosingMenu = !( this.Parent is RootMenu )
+                                   && !( this.Parent is GraphicMenuEntry );
 
 			if (  needsEnclosingMenu ) {
 				doc.WriteStartElement( Menu.TagName );

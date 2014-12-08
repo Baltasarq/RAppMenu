@@ -228,8 +228,9 @@ namespace RAppMenu.Core {
 			// Is it a menu?
 			if ( node.Name.Equals( Menu.TagName, StringComparison.OrdinalIgnoreCase ) )
 			{
-				if ( !HasAttributes( node, FirstLevelGraphicAttributes ) )
-				{
+                toret = HasAttributes( node, FirstLevelGraphicAttributes );
+
+				if ( !toret ) {
 					// Explore its subnodes
 					foreach ( XmlNode subNode in node.ChildNodes ) {
 						if ( HasAttributes( subNode, SecondLevelGraphicAttributes ) )

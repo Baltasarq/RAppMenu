@@ -12,9 +12,9 @@ namespace RAppMenu {
 		{
 			Form mainForm = null;
 
-            AppInfo.BuildLog();
-
 			try {
+                AppInfo.BuildLog();
+
 				mainForm = new MainWindow();
 				Application.EnableVisualStyles();
 				Application.Run( mainForm );
@@ -28,6 +28,9 @@ namespace RAppMenu {
                 Trace.WriteLine( "[CRITICAL] " + DateTime.Now + ": " + exc.Message );
                 Trace.WriteLine( exc.StackTrace );
 			}
+            finally {
+                AppInfo.CloseLog();
+            }
 		}
 	}
 }

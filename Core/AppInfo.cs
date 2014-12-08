@@ -35,6 +35,9 @@ namespace RAppMenu.Core {
 			get; set;
 		}
 
+        /// <summary>
+        /// Prepares the log for all events in the app.
+        /// </summary>
         public static void BuildLog()
         {
             Trace.Listeners.Add( new TextWriterTraceListener( 
@@ -49,6 +52,15 @@ namespace RAppMenu.Core {
             Trace.Write( ' ' );
             Trace.WriteLine( DateTime.Now );
             Trace.WriteLine( "============================================" );
+        }
+
+        /// <summary>
+        /// Closes the log, avoiding any data loss.
+        /// </summary>
+        public static void CloseLog()
+        {
+            Trace.Flush();
+            Trace.Close();
         }
 	}
 }
