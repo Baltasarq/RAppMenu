@@ -52,7 +52,7 @@ namespace RAppMenu.Ui {
 
                 DialogResult result =
                     MessageBox.Show( this,
-					    "Menu data modified. Do you want to save?", 
+					    "Do you want to save?", 
                         "Closing menu", 
                         MessageBoxButtons.YesNo,
 					    MessageBoxIcon.Question,
@@ -421,13 +421,25 @@ namespace RAppMenu.Ui {
 			return;
 		}
 
+		private void OnSaveAs()
+		{
+			Trace.WriteLine( DateTime.Now + ": Saving " + this.Document.Root.Name );
+			Trace.Indent();
+			this.SetStatus( "Saving menu as..." );
+
+			this.fileNameSet = false;
+			this.OnSave();
+
+			Trace.Unindent();
+		}
+
 		private void OnSave()
 		{
             Trace.WriteLine( DateTime.Now + ": Saving " + this.Document.Root.Name );
             Trace.Indent();
             this.SetStatus( "Saving menu..." );
 
-            if ( !fileNameSet ) {
+            if ( !this.fileNameSet ) {
                 var dlg = new SaveFileDialog();
 
                 dlg.Title = "Save menu";
@@ -462,6 +474,7 @@ namespace RAppMenu.Ui {
                         Trace.Unindent();
                     }
 
+					this.GetSelectedTreeNode().GetEditor( this.pnlProperties ).Show();
     				this.TreeMenuRoot.Text = this.Document.Root.Name;
                     this.fileNameSet = true;
                 }
@@ -526,6 +539,10 @@ namespace RAppMenu.Ui {
 				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.save.png" )
 			);
 
+			this.saveAsIconBmp = new Bitmap(
+				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.save-as.png" )
+			);
+
 			this.quitIconBmp = new Bitmap(
 				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.quit.png" )
 			);
@@ -579,7 +596,11 @@ namespace RAppMenu.Ui {
             this.opSave = new ToolStripMenuItem( "&" + saveAction.Text );
 			this.opSave.ShortcutKeys = Keys.Control | Keys.S;
             this.opSave.Click += (sender, e) => this.saveAction.CallBack();
-            this.opSave.Image = UserAction.ImageList.Images[ this.saveAction.ImageIndex ];;
+            this.opSave.Image = UserAction.ImageList.Images[ this.saveAction.ImageIndex ];
+
+			this.opSaveAs = new ToolStripMenuItem( "&" + this.saveAsAction.Text );
+			this.opSaveAs.Click += (sender, e) => this.saveAsAction.CallBack();
+			this.opSaveAs.Image = UserAction.ImageList.Images[ this.saveAsAction.ImageIndex ];
 
             this.opQuit = new ToolStripMenuItem( "&" + quitAction.Text );
 			this.opQuit.ShortcutKeys = Keys.Control | Keys.Q;
@@ -633,7 +654,7 @@ namespace RAppMenu.Ui {
 
 			this.mFile.DropDownItems.AddRange( new ToolStripItem[] {
                 this.opNew, this.opLoad,
-                this.opSave, this.opQuit
+                this.opSave, this.opSaveAs, this.opQuit
 			});
 
 			this.mEdit.DropDownItems.AddRange( new ToolStripItem[] {
@@ -656,6 +677,7 @@ namespace RAppMenu.Ui {
             this.quitAction.AddComponent( this.opQuit );
             this.loadAction.AddComponent( this.opLoad );
             this.saveAction.AddComponent( this.opSave );
+			this.saveAsAction.AddComponent( this.opSaveAs );
 			this.addMenuAction.AddComponent( this.opAddMenu );
 			this.addGraphicMenuAction.AddComponent( this.opAddGraphicMenu );
 			this.addFunctionAction.AddComponent( this.opAddFunction );
@@ -904,12 +926,14 @@ namespace RAppMenu.Ui {
                 this.menuIconBmp, this.graphicIconBmp, this.functionIconBmp,
                 this.pdfIconBmp, this.separatorIconBmp,
                 this.deleteIconBmp, this.upIconBmp, this.downIconBmp,
-				this.playIconBmp, this.addIconBmp, this.editFnCallsIconBmp
+				this.playIconBmp, this.addIconBmp, this.editFnCallsIconBmp,
+				this.saveAsIconBmp
             });
 
             this.newAction = new UserAction( "New", 0, this.OnNew );
 			this.loadAction = new UserAction( "Open", 1, this.OnOpen );
 			this.saveAction = new UserAction( "Save", 2, this.OnSave );
+			this.saveAsAction = new UserAction( "Save as", 15, this.OnSaveAs );
             this.quitAction = new UserAction( "Quit", 3, this.OnQuit );
 
             this.addMenuAction = new UserAction( "Add menu", 4, this.OnAddMenu );
@@ -975,6 +999,7 @@ namespace RAppMenu.Ui {
 		{
 			// Actions
 			this.saveAction.Enabled = view;
+			this.saveAsAction.Enabled = view;
 			this.addMenuAction.Enabled = view;
 			this.addGraphicMenuAction.Enabled = view;
 			this.addSeparatorAction.Enabled = view;
@@ -1130,6 +1155,7 @@ namespace RAppMenu.Ui {
 		private ToolStripMenuItem opQuit;
 		private ToolStripMenuItem opLoad;
 		private ToolStripMenuItem opSave;
+		private ToolStripMenuItem opSaveAs;
 		private ToolStripMenuItem opNew;
 		private ToolStripMenuItem opAddMenu;
 		private ToolStripMenuItem opAddFunction;
@@ -1175,6 +1201,7 @@ namespace RAppMenu.Ui {
 		private Bitmap infoIconBmp;
 		private Bitmap newIconBmp;
 		private Bitmap saveIconBmp;
+		private Bitmap saveAsIconBmp;
         private Bitmap separatorIconBmp;
         private Bitmap upIconBmp;
 		private Bitmap quitIconBmp;
@@ -1183,6 +1210,7 @@ namespace RAppMenu.Ui {
 		private UserAction newAction;
 		private UserAction loadAction;
 		private UserAction saveAction;
+		private UserAction saveAsAction;
 
 		private UserAction addMenuAction;
 		private UserAction addFunctionAction;

@@ -23,6 +23,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		{
 			base.Show();
 
+			this.edName.Text = this.MenuComponent.Name;
 			this.pnlEdName.Show();
 		}
 

@@ -233,7 +233,8 @@ namespace RAppMenu.Core {
 				if ( !toret ) {
 					// Explore its subnodes
 					foreach ( XmlNode subNode in node.ChildNodes ) {
-						if ( HasAttributes( subNode, SecondLevelGraphicAttributes ) )
+						if ( HasAttributes( subNode, FirstLevelGraphicAttributes )
+						  || HasAttributes( subNode, SecondLevelGraphicAttributes ) )
 						{
 							toret = true;
 							break;

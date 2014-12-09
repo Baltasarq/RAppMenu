@@ -44,6 +44,15 @@ namespace RAppMenu.Ui {
 			return;
 		}
 
+		/// <summary>
+		/// Hides the editor.
+		/// It is assured no other editor is shown.
+		/// </summary>
+		public void Hide()
+		{
+			this.HideAllEditors();
+		}
+
         /// <summary>
         /// Gets the panel in which the editor is going to be placed.
         /// </summary>

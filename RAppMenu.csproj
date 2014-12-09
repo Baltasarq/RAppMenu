@@ -110,5 +110,6 @@
     <EmbeddedResource Include="Res\play.png" />
     <EmbeddedResource Include="Res\add.png" />
     <EmbeddedResource Include="Res\editFnCalls.png" />
+    <EmbeddedResource Include="Res\save-as.png" />
   </ItemGroup>
 </Project>
