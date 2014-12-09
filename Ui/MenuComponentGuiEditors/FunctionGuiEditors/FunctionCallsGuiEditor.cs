@@ -8,6 +8,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 	public class FunctionCallsGuiEditor: Form {
 		public FunctionCallsGuiEditor(Function f)
 		{
+			this.numFnCalls = 0;
+			this.numFnCallArgs = 0;
 			this.function = f;
 			this.StartPosition = FormStartPosition.CenterParent;
 
@@ -311,25 +313,22 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 
         private void PrepareArgsForCurrentCall(int rowIndex)
         {
-            if ( this.Function.FunctionCallsArgumentList.Count > 0 ) {
+			this.grdFnCallArgsList.Hide();
+			this.grdFnCallArgsList.Rows.Clear();
+
+            if ( this.Function.FunctionCallsArgumentList.Count > 0
+			  && rowIndex >= 0
+			  && rowIndex < this.grdFnCallList.Rows.Count )
+			{
                 var call = (Function.CallArgument) this.Function.FunctionCallsArgumentList[ rowIndex ];
 
-                this.grdFnCallArgsList.Hide();
-                this.grdFnCallArgsList.Rows.Clear();
-
                 foreach(Function.CallArgument.Arg arg in call.ArgumentList) {
-                    int lastArgIndex = this.grdFnCallArgsList.Rows.Count;
-
-                    this.grdFnCallArgsList.Rows.Add();
-                    DataGridViewRow row = this.grdFnCallArgsList.Rows[ lastArgIndex ];
-                    row.Cells[ 0 ].Value = arg.Name;
-                    row.Cells[ 1 ].Value = arg.IsReadOnly;
-                    row.Cells[ 2 ].Value = arg.Value;
+                    this.grdFnCallArgsList.Rows.Add(
+										arg.Name, arg.IsReadOnly, arg.Value );
                 }
-
-                this.grdFnCallArgsList.Show();
             }
 
+			this.grdFnCallArgsList.Show();
             this.removeFunctionCallArgumentAction.Enabled =
                 ( this.grdFnCallArgsList.Rows.Count > 0 );
             return;
@@ -342,23 +341,27 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 		/// <param name="colIndex">The col index, as an int, which gives the attribute of the argument.</param>
 		private void OnFnCallCellEdited(int rowIndex, int colIndex)
 		{
-            DataGridViewRow row = this.grdFnCallList.Rows[ rowIndex ];
-            string value = (string) row.Cells[ colIndex ].Value;
-            var fnCall = (Function.CallArgument) this.Function.FunctionCallsArgumentList[ rowIndex ];
+			if ( rowIndex >= 0
+			  && colIndex >= 0 )
+			{
+	            DataGridViewRow row = this.grdFnCallList.Rows[ rowIndex ];
+	            string value = (string) row.Cells[ colIndex ].Value;
+	            var fnCall = (Function.CallArgument) this.Function.FunctionCallsArgumentList[ rowIndex ];
 
-            if ( !string.IsNullOrWhiteSpace( value ) ) {
-                if ( colIndex == 0 ) {
-                    fnCall.Name = value;
-                }
-                else
-                if ( colIndex == 1 ) {
-                    fnCall.FunctionName = value;
-                }
-                else
-                if ( colIndex == 2 ) {
-                    fnCall.Variant = value;
-                }
-            }
+	            if ( !string.IsNullOrWhiteSpace( value ) ) {
+	                if ( colIndex == 0 ) {
+	                    fnCall.Name = value;
+	                }
+	                else
+	                if ( colIndex == 1 ) {
+	                    fnCall.FunctionName = value;
+	                }
+	                else
+	                if ( colIndex == 2 ) {
+	                    fnCall.Variant = value;
+	                }
+	            }
+			}
 
             return;
 		}
@@ -369,12 +372,16 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 		/// <param name="rowIndex">The row index, as an int, which gives the argument number.</param>
 		/// <param name="colIndex">The col index, as an int, which gives the attribute of the argument.</param>
 		private void OnFnCallArgCellEdited(int rowIndex, int colIndex)
-		{
-            DataGridViewRow row = this.grdFnCallArgsList.Rows[ rowIndex ];
-            Function.CallArgument fnCall = this.GetCurrentFunctionCall();
-            var arg = (Function.CallArgument.Arg) fnCall.ArgumentList[ rowIndex ];
+		{           
+            Function.CallArgument fnCall = this.GetCurrentFunctionCall();            
 
-            if ( fnCall != null ) {
+            if ( fnCall != null
+			  && rowIndex >= 0
+			  && colIndex >= 0 )
+			{
+				var arg = (Function.CallArgument.Arg) fnCall.ArgumentList[ rowIndex ];
+				DataGridViewRow row = this.grdFnCallArgsList.Rows[ rowIndex ];
+
                 if ( colIndex != 1 ) {
                     string value = (string) row.Cells[ colIndex ].Value;
 
@@ -417,12 +424,10 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 
 		private void OnAddFunctionCall()
 		{
-            int lastCallIndex = this.grdFnCallList.Rows.Count;
-            string name = "arg" + lastCallIndex;
+			string name = "arg" + ( ++this.numFnCalls );
 
             // Add in the UI
-			this.grdFnCallList.Rows.Add();
-            this.grdFnCallList.Rows[ lastCallIndex ].Cells[ 0 ].Value = name;
+			this.grdFnCallList.Rows.Add( name, "", "" );
 
             // Add in the function
             this.Function.FunctionCallsArgumentList.Add(
@@ -445,6 +450,11 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 
                     // Remove in the function
                     this.Function.FunctionCallsArgumentList.RemoveAt( rowIndex );
+
+					// Remove the fn call args at the right
+					this.PrepareArgsForCurrentCall(
+										Math.Min( rowIndex,
+					                              this.grdFnCallList.Rows.Count - 1 ) );
                 }
 
                 if ( this.grdFnCallList.Rows.Count == 0 ) {
@@ -461,12 +471,10 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
             Function.CallArgument currentCall = this.GetCurrentFunctionCall();
 
             if ( currentCall != null ) {
-                int lastCallArgIndex = this.grdFnCallArgsList.Rows.Count;
-                string name = currentCall.Name + ".arg" + lastCallArgIndex;
+                string name = currentCall.Name + ".arg" + ( ++this.numFnCallArgs );
 
                 // Add a new argument in the UI
-    			this.grdFnCallArgsList.Rows.Add();
-                this.grdFnCallArgsList.Rows[ lastCallArgIndex ].Cells[ 0 ].Value = name;
+    			this.grdFnCallArgsList.Rows.Add( name, false, "" );
 
                 // Add a new argument to the function call
                 currentCall.ArgumentList.Add(
@@ -556,6 +564,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 		private UserAction removeFunctionCallArgumentAction;
 
 		private Function function;
+		private int numFnCalls;
+		private int numFnCallArgs;
 	}
 }
 

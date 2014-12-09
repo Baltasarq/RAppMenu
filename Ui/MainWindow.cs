@@ -14,6 +14,11 @@ namespace RAppMenu.Ui {
 	public class MainWindow: Form {
 		public MainWindow()
 		{
+			this.numMenus = 0;
+			this.numFunctions = 0;
+			this.numPDFs = 0;
+			this.numGraphicMenus = 0;
+			this.numGraphicMenuEntries = 0;
 			this.doc = null;
             this.ApplicationsFolder = "Applications";
             this.PdfFolder = "Pdf";
@@ -87,7 +92,7 @@ namespace RAppMenu.Ui {
             string id = "newMenuEntry";
 
 			this.SetStatus( "Creating menu..." );
-            id += this.tvMenu.GetNodeCount( true ).ToString();
+            id += ( ++this.numMenus ).ToString();
             var menu = new CoreComponents.Menu( id, (CoreComponents.Menu) parentMc );
             this.AddTreeNode( new UiComponents.MenuTreeNode( menu ) );
 		}
@@ -97,15 +102,15 @@ namespace RAppMenu.Ui {
 			MenuComponentTreeNode tn;
             MenuComponent parentMc = this.GetMenuComponentOfTreeNode();
 			var parentImagesMenu = parentMc as CoreComponents.GraphicMenu;
-			string id = this.tvMenu.GetNodeCount( true ).ToString();
+			string id;
 
 			this.SetStatus( "Creating function..." );
 			if ( parentImagesMenu != null ) {
-				id = "newGraphIdFunction" + id;
+				id = "newGraphIdFunction" + ( ++this.numGraphicMenuEntries );
                 var ime = new CoreComponents.GraphicMenuEntry( id, parentImagesMenu );
 				tn = new UiComponents.GraphicMenuEntryTreeNode( ime );
 			} else {
-				id = "newFunction" + id;
+				id = "newFunction" + ( ++this.numFunctions );
                 var f = new CoreComponents.Function( id, (CoreComponents.Menu) parentMc );
 				tn = new UiComponents.FunctionTreeNode( f );
 			}
@@ -116,7 +121,7 @@ namespace RAppMenu.Ui {
         private void OnAddPdf()
         {
             MenuComponent parentMc = this.GetMenuComponentOfTreeNode();
-            string id = "file" + this.tvMenu.GetNodeCount( true ) + ".pdf";
+            string id = "file" + ( ++this.numPDFs ) + ".pdf";
 
 			this.SetStatus( "Creating pdf..." );
             var pf = new CoreComponents.PdfFile( id, (CoreComponents.Menu) parentMc );
@@ -137,7 +142,7 @@ namespace RAppMenu.Ui {
             string id = "newGraphicMenu";
 
 			this.SetStatus( "Creating graphic menu..." );
-            id += this.tvMenu.GetNodeCount( true ).ToString();
+            id += ( ++this.numGraphicMenus ).ToString();
             var gm = new CoreComponents.GraphicMenu( id, (CoreComponents.Menu) parentMc );
             this.AddTreeNode( new UiComponents.GraphicMenuTreeNode( gm ) );
         }
@@ -957,6 +962,39 @@ namespace RAppMenu.Ui {
 			new UserAction( "Remove argument from function call", 9, null );
 		}
 
+		private void BuildContextlMenu()
+		{
+			var menu = new ContextMenuStrip();
+			menu.ImageList = UserAction.ImageList;
+			this.tvMenu.ContextMenuStrip = menu;
+
+			var cmMoveUp = new ToolStripMenuItem( this.moveEntryUpAction.Text ) {
+				ImageIndex = this.moveEntryUpAction.ImageIndex,
+			};
+			cmMoveUp.Click += (sender, e) => this.moveEntryUpAction.CallBack();
+			this.moveEntryUpAction.AddComponent( cmMoveUp );
+
+			var cmMoveDown = new ToolStripMenuItem( this.moveEntryDownAction.Text ) {
+				ImageIndex = this.moveEntryDownAction.ImageIndex,
+			};
+			cmMoveDown.Click += (sender, e) => this.moveEntryDownAction.CallBack();
+			this.moveEntryDownAction.AddComponent( cmMoveDown );
+
+			var cmRemove = new ToolStripMenuItem( this.removeEntryAction.Text ) {
+				ImageIndex = this.removeEntryAction.ImageIndex,
+			};
+			cmRemove.Click += (sender, e) => this.removeEntryAction.CallBack();
+			this.removeEntryAction.AddComponent( cmRemove );
+
+			menu.Items.AddRange( new ToolStripMenuItem[] {
+				cmMoveUp,
+				cmMoveDown,
+				cmRemove,
+			} );
+
+			return;
+		}
+
 		private void Build()
 		{
             Trace.WriteLine( "Building Gui..." );
@@ -969,6 +1007,7 @@ namespace RAppMenu.Ui {
 			this.BuildPropertiesPanel();
 			this.BuildStatus();
 			this.BuildToolBar();
+			this.BuildContextlMenu();
 
 			this.SetStatus( "Preparing user interface..." );
 			this.Controls.Add( this.splPanels );
@@ -976,7 +1015,7 @@ namespace RAppMenu.Ui {
 			this.Controls.Add( this.mMain );
             this.Controls.Add( this.stStatus );
 
-			this.Text = AppInfo.Name;
+			this.Text = AppInfo.Name + ' ' + AppInfo.Version;
 			this.FormClosing += (sender, e) => this.OnCloseDocument();
 			this.Icon = Icon.FromHandle( appIconBmp.GetHicon() );
 			this.MinimumSize = new Size( 1000, 740 );
@@ -1224,6 +1263,11 @@ namespace RAppMenu.Ui {
 
 		private MenuDesign doc;
         private bool fileNameSet;
+		private int numMenus;
+		private int numFunctions;
+		private int numPDFs;
+		private int numGraphicMenus;
+		private int numGraphicMenuEntries;
 	}
 }
 
