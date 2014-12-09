@@ -6,7 +6,7 @@ namespace RAppMenu.Core {
 	public static class AppInfo {
 		public const string Name = "RAppMenu";
 		public const string Web = "http://www.ipez.es/rwizard/";
-		public const string Version = "1.0.3 20141209";
+		public const string Version = "1.0.4 20141209";
         public const string FileExtension = "xml";
         public const string LogFile = "rappmenu.errors.log";
 

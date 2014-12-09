@@ -26,14 +26,11 @@ namespace RAppMenu.Core.MenuComponents {
 		/// </value>
 		public override string Name {
 			get {
-				return base.Name;
+				return this.Function.Name;
 			}
 			set {
-				base.Name = "ime_" + value;
-
-				if ( this.MenuComponents.Count > 0 ) {
-					this.Function.Name = value;
-				}
+				base.Name = value;
+				this.Function.Name = value;
 			}
 		}
 
