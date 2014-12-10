@@ -6,7 +6,7 @@ namespace RAppMenu.Core {
 	public static class AppInfo {
 		public const string Name = "RAppMenu";
 		public const string Web = "http://www.ipez.es/rwizard/";
-		public const string Version = "1.0.4 20141209";
+		public const string Version = "1.0.5 20141210";
         public const string FileExtension = "xml";
         public const string LogFile = "rappmenu.errors.log";
 
@@ -41,7 +41,7 @@ namespace RAppMenu.Core {
         public static void BuildLog()
         {
             Trace.Listeners.Add( new TextWriterTraceListener( 
-                new FileStream( AppInfo.LogFile, FileMode.OpenOrCreate )
+                new FileStream( AppInfo.LogFile, FileMode.Create )
             ) );
 
             Trace.AutoFlush = true;
@@ -51,7 +51,7 @@ namespace RAppMenu.Core {
             Trace.Write( Version );
             Trace.Write( ' ' );
             Trace.WriteLine( DateTime.Now );
-            Trace.WriteLine( "============================================" );
+            Trace.WriteLine( "================================================" );
         }
 
         /// <summary>

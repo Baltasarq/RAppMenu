@@ -791,6 +791,11 @@ namespace RAppMenu.Ui {
             this.tvMenu = new TreeView();
             this.tvMenu.HideSelection = false;
             this.tvMenu.AfterSelect += (sender, e) => this.OnTreeNodeSelected();
+			this.tvMenu.NodeMouseClick += (object sender, TreeNodeMouseClickEventArgs e) => {
+				if ( e.Button == MouseButtons.Right ) {
+					this.tvMenu.SelectedNode = e.Node;
+				}
+			};
             this.tvMenu.Font = new Font( this.tvMenu.Font, FontStyle.Regular );
             this.tvMenu.Dock = DockStyle.Fill;
             this.tvMenu.ImageList = UserAction.ImageList;

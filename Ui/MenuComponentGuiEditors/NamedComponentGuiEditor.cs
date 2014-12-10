@@ -44,8 +44,6 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.edName = new TextBox();
 			this.edName.Font = new Font( this.edName.Font, FontStyle.Bold );
 			this.edName.Dock = DockStyle.Fill;
-			this.edName.GotFocus += (sender, e) => this.edName.SelectAll();
-			this.edName.Click += (sender, e) => this.edName.SelectAll();
 			this.edName.KeyUp += (sender, e) => {
 				string name = this.edName.Text;
 
