@@ -175,6 +175,17 @@ namespace RAppMenu.Core {
             return;
         }
 
+		/// <summary>
+		/// Copies this instance.
+		/// </summary>
+		/// <param name="newParentOrOwner">
+		/// The <see cref="Menu"/> which will be the parent or owner of the copy.
+		/// </param>
+		/// <returns>
+		/// A new <see cref="MenuComponent"/>, which is an exact copy of this one.
+		/// </returns>
+		public abstract MenuComponent Copy(MenuComponent newParentOrOwner);
+
 		public override string ToString()
 		{
 			return string.Format( "[MenuComponent: Name={0}]", Name );

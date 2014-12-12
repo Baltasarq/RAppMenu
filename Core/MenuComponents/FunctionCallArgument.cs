@@ -57,6 +57,11 @@ namespace RAppMenu.Core.MenuComponents {
                     get; set;
                 }
 
+                public override MenuComponent Copy(MenuComponent newParentOrOwner)
+                {
+                    throw new NotImplementedException();
+                }
+
 				public override void ToXml(XmlTextWriter doc)
 				{
                     Trace.WriteLine( "Arg.ToXml: " + this.ToString() );
@@ -163,6 +168,11 @@ namespace RAppMenu.Core.MenuComponents {
                     this.functionName = value.Trim();
                     this.SetNeedsSave();
                 }
+            }
+
+            public override MenuComponent Copy(MenuComponent newParentOrOwner)
+            {
+                throw new NotImplementedException();
             }
 
 			public override void ToXml(XmlTextWriter doc)

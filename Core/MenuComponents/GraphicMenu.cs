@@ -83,6 +83,34 @@ namespace RAppMenu.Core.MenuComponents {
             }
         }
 
+		/// <summary>
+		/// Copies this GraphicMenu.
+		/// </summary>
+		/// <param name="newParent">
+		/// The <see cref="Menu"/> which will be the parent of the copy.
+		/// </param>
+		/// <returns>
+		/// A new <see cref="GraphicMenu"/>, which is an exact copy of this one.
+		/// </returns>
+		public override MenuComponent Copy(MenuComponent newParent)
+		{
+			if ( !( newParent is Menu ) ) {
+				throw new ArgumentException( "parent of a copied menu should be another menu" );
+			}
+
+            var toret = new GraphicMenu( this.Name, (Menu) newParent ) {
+				MinimumNumberOfColumns = this.MinimumNumberOfColumns,
+				ImageHeight = this.ImageHeight,
+				imageWidth = this.ImageWidth,
+			};
+
+			foreach ( GraphicMenuEntry gmc in this.MenuComponents ) {
+				gmc.Copy( toret );
+			}
+
+			return toret;
+		}
+
 		public override string ToString()
 		{
             string toret = "[GraphicMenu " + base.ToString();

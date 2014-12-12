@@ -96,6 +96,30 @@ namespace RAppMenu.Core.MenuComponents {
 				}
 			}
 
+			/// <summary>
+			/// Copies this Argument.
+			/// </summary>
+			/// <param name="newParent">
+			/// The <see cref="Function"/> which will be the owner of the copy.
+			/// </param>
+			/// <returns>
+			/// A new <see cref="FunctionArgument"/>, which is an exact copy of this one.
+			/// </returns>
+			public override MenuComponent Copy(MenuComponent newParent)
+			{
+				if ( !( newParent is Function ) ) {
+					throw new ArgumentException( "need a function for the owner of copied Argument" );
+				}
+
+				return new Argument( this.Name, (Function) newParent ) {
+					IsRequired = this.IsRequired,
+					AllowMultiselect = this.AllowMultiselect,
+					Viewer = this.Viewer,
+					DependsFrom = this.DependsFrom,
+					Tag = this.Tag
+				};
+			}
+
 			public override string ToString()
 			{
 				return string.Format( "[Argument: IsRequired={0}, Viewer={1}, "
@@ -114,7 +138,7 @@ namespace RAppMenu.Core.MenuComponents {
 
 				// Emit the required argument tag
 				if ( this.IsRequired ) {
-					doc.WriteStartElement( ArgumentTagName );
+					doc.WriteStartElement( RequiredArgumentTagName );
 					doc.WriteStartAttribute( EtqName );
 					doc.WriteString( this.Name );
 					doc.WriteEndAttribute();

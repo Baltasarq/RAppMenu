@@ -186,6 +186,11 @@ namespace RAppMenu.Core.MenuComponents {
 			        EndColumn, RemoveQuotationMarks, PreProgramOnce, RegularArgumentList.ToString() );
 		}
 
+        public override MenuComponent Copy(MenuComponent newParentOrOwner)
+        {
+            throw new NotImplementedException();
+        }
+
 		/// <summary>
 		/// Converts this menu component to XML.
 		/// </summary>

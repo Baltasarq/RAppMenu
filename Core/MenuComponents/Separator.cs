@@ -38,6 +38,20 @@ namespace RAppMenu.Core.MenuComponents {
             return new Separator( parent );
         }
 
+		/// <summary>
+		/// Copies this separator.
+		/// </summary>
+		/// <param name="newParent">
+		/// The <see cref="Menu"/> which will be the parent of the copy.
+		/// </param>
+		/// <returns>
+		/// A new <see cref="Separator"/>, which is an exact copy of this one.
+		/// </returns>
+		public override MenuComponent Copy(MenuComponent newParent)
+		{
+			return new Separator( (Menu) newParent );
+		}
+
 		public override string ToString()
 		{
 			return "[Separator]";

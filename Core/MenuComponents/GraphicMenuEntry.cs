@@ -100,6 +100,31 @@ namespace RAppMenu.Core.MenuComponents {
 			}
 		}
 
+		/// <summary>
+		/// Copies this graphic menu entry.
+		/// </summary>
+		/// <param name="newParentOrOwner">
+		/// The <see cref="GraphicMenu"/> which will be the parent or owner of the copy.
+		/// </param>
+		/// <returns>
+		/// A new <see cref="GraphicMenu"/>, which is an exact copy of this one.
+		/// </returns>
+		public override MenuComponent Copy(MenuComponent newParent)
+		{
+			if ( !( newParent is GraphicMenu ) ) {
+				throw new ArgumentException( "parent of copies graphic menu entry should be a graphic menu" );
+			}
+
+            var toret = new GraphicMenuEntry( this.Name, (GraphicMenu) newParent ) {
+				ImagePath = this.ImagePath,
+				ImageToolTip = this.ImageToolTip
+			};
+
+			this.Function.Copy( toret );
+
+			return toret;
+		}
+
 		public override string ToString()
 		{
 			return string.Format( "[GraphicMenuEntry: Name={0}, ImagePath={1}, "

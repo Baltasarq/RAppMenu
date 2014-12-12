@@ -25,7 +25,7 @@
     <Function Name="OverlapTaxa" HasData="TRUE" DefaultData="data(Carnivores)" EndColumn="5">
      <RequiredArgument Name="data"/>
      <RequiredArgument Name="Level"/>
-     <Argument Name="Level" Viewer="DataColumsViewer" AllowMultiSelect="FALSE"/>
+     <Argument Name="Level" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"/>
    </Function>
   </MenueEntry>
   <Separator/>

@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 using System.Diagnostics;
 
 namespace RAppMenu.Core.MenuComponents {
@@ -21,6 +22,24 @@ namespace RAppMenu.Core.MenuComponents {
                 return this.Name;
             }
         }
+
+		/// <summary>
+		/// Copies this Argument.
+		/// </summary>
+		/// <param name="newParent">
+		/// The <see cref="Function"/> which will be the parent of the copy.
+		/// </param>
+		/// <returns>
+		/// A new <see cref="FunctionArgument"/>, which is an exact copy of this one.
+		/// </returns>
+		public override MenuComponent Copy(MenuComponent newParent)
+		{
+			if ( !( newParent is Menu ) ) {
+				throw new ArgumentException( "parent of new PdfFile should be Menu" );
+			}
+
+			return new PdfFile( this.FileName, (Menu) newParent );
+		}
 
 		public override string ToString()
 		{

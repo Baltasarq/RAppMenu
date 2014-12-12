@@ -174,6 +174,30 @@ namespace RAppMenu.Core.MenuComponents {
             return;
         }
 
+		/// <summary>
+		/// Copies this instance.
+		/// </summary>
+		/// <param name="newParent">
+		/// The <see cref="Menu"/> which will be the parent.
+		/// </param>
+		/// <returns>
+		/// A new <see cref="Menu"/>, which is an exact copy of this one.
+		/// </returns>
+		public override MenuComponent Copy(MenuComponent newParent)
+		{
+			if ( !( newParent is Menu ) ) {
+				throw new ArgumentException( "parent of copy of menu should be a menu" );
+			}
+
+            var toret = new Menu( this.Name, (Menu) newParent );
+
+			foreach ( MenuComponent mc in this.MenuComponents ) {
+				mc.Copy( toret );
+			}
+
+			return toret;
+		}
+
 		public override string ToString()
 		{
 			var toret = new StringBuilder();
