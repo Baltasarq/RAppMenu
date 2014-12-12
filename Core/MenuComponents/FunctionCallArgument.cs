@@ -57,9 +57,26 @@ namespace RAppMenu.Core.MenuComponents {
                     get; set;
                 }
 
-                public override MenuComponent Copy(MenuComponent newParentOrOwner)
+                /// <summary>
+                /// Copies this Arg into a new one.
+                /// </summary>
+                /// <param name="newOwner">New <see cref="CallArgument"/> owner.</param>
+                /// <returns>A new <see cref="Arg"</see>./></returns>
+                public override MenuComponent Copy(MenuComponent newOwner)
                 {
-                    throw new NotImplementedException();
+                    var callArgumentOwner = newOwner as CallArgument;
+
+                    if ( callArgumentOwner != null ) {
+                        throw new ArgumentException( "new owner should be call argument copying arg" );
+                    }
+
+                    var toret = new Arg( this.Name, callArgumentOwner) {
+                        Value = this.Value,
+                        IsReadOnly = this.IsReadOnly
+                    };
+
+                    callArgumentOwner.ArgumentList.Add( toret );
+                    return toret;
                 }
 
 				public override void ToXml(XmlTextWriter doc)
@@ -170,9 +187,30 @@ namespace RAppMenu.Core.MenuComponents {
                 }
             }
 
-            public override MenuComponent Copy(MenuComponent newParentOrOwner)
+            /// <summary>
+            /// Copies this CallArgument
+            /// </summary>
+            /// <param name="newOwner">New <see cref="Function"/> owner.</param>
+            /// <returns>A new, identical <see cref="CallArgument"/>.
+            public override MenuComponent Copy(MenuComponent newOwner)
             {
-                throw new NotImplementedException();
+                var functionOwner = newOwner as Function;
+
+                if ( functionOwner != null ) {
+                    throw new ArgumentException( "new owner should be a Function when copying CallArgument's" );
+                }
+
+                var toret = new CallArgument( this.Name, functionOwner ) {
+                    Variant = this.Variant,
+                    FunctionName = this.FunctionName
+                };
+
+                foreach(Arg arg in this.ArgumentList) {
+                    arg.Copy( toret );
+                }
+
+                functionOwner.FunctionCallsArgumentList.Add( toret );
+                return toret;
             }
 
 			public override void ToXml(XmlTextWriter doc)

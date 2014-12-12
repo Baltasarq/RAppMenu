@@ -99,25 +99,30 @@ namespace RAppMenu.Core.MenuComponents {
 			/// <summary>
 			/// Copies this Argument.
 			/// </summary>
-			/// <param name="newParent">
+            /// <param name="newOwner">
 			/// The <see cref="Function"/> which will be the owner of the copy.
 			/// </param>
 			/// <returns>
 			/// A new <see cref="FunctionArgument"/>, which is an exact copy of this one.
 			/// </returns>
-			public override MenuComponent Copy(MenuComponent newParent)
+			public override MenuComponent Copy(MenuComponent newOwner)
 			{
-				if ( !( newParent is Function ) ) {
+                var functionOwner = newOwner as Function;
+
+                if ( functionOwner != null ) {
 					throw new ArgumentException( "need a function for the owner of copied Argument" );
 				}
 
-				return new Argument( this.Name, (Function) newParent ) {
+                var toret = new Argument( this.Name, functionOwner ) {
 					IsRequired = this.IsRequired,
 					AllowMultiselect = this.AllowMultiselect,
 					Viewer = this.Viewer,
 					DependsFrom = this.DependsFrom,
 					Tag = this.Tag
 				};
+
+                functionOwner.RegularArgumentList.Add( toret );
+                return toret;
 			}
 
 			public override string ToString()

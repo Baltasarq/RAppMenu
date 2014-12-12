@@ -186,9 +186,42 @@ namespace RAppMenu.Core.MenuComponents {
 			        EndColumn, RemoveQuotationMarks, PreProgramOnce, RegularArgumentList.ToString() );
 		}
 
-        public override MenuComponent Copy(MenuComponent newParentOrOwner)
+        /// <summary>
+        /// Copies this Function.
+        /// </summary>
+        /// <param name="newParent">The new parent of the <see cref="Function"/>.</param>
+        /// <returns>A new <see cref="Function"/>.</returns>
+        public override MenuComponent Copy(MenuComponent newParent)
         {
-            throw new NotImplementedException();
+            var menuParent = newParent as Menu;
+
+            if ( menuParent == null ) {
+                throw new ArgumentException( "parent of a copied function should be a menu" );
+            }
+
+            var toret = new Function( this.Name, menuParent ) {
+                HasData = this.HasData,
+                DataHeader = this.DataHeader,
+                PreCommand = this.PreCommand,
+                RemoveQuotationMarks = this.RemoveQuotationMarks,
+                StartColumn = this.StartColumn,
+                EndColumn = this.EndColumn,
+                DefaultData = this.DefaultData
+            };
+
+            foreach(string sentence in this.PreProgramOnce) {
+                toret.PreProgramOnce.Add( sentence );
+            }
+
+            foreach(Argument arg in this.RegularArgumentList) {
+                arg.Copy( toret );
+            }
+
+            foreach(Argument arg in this.FunctionCallsArgumentList) {
+                arg.Copy( toret );
+            }
+
+            return toret;
         }
 
 		/// <summary>
