@@ -879,6 +879,10 @@ namespace RAppMenu.Ui {
             this.tbbSave.ImageIndex = this.saveAction.ImageIndex;
             this.tbbSave.ToolTipText = this.saveAction.Text;
             this.tbbSave.Click += (sender, e) => this.saveAction.CallBack();
+			this.tbbSaveAs = new ToolStripButton();
+			this.tbbSaveAs.ImageIndex = this.saveAsAction.ImageIndex;
+			this.tbbSaveAs.ToolTipText = this.saveAsAction.Text;
+			this.tbbSaveAs.Click += (sender, e) => this.saveAsAction.CallBack();
 			this.tbbQuit = new ToolStripButton();
             this.tbbQuit.ImageIndex = this.quitAction.ImageIndex;
             this.tbbQuit.ToolTipText = this.quitAction.Text;
@@ -893,13 +897,14 @@ namespace RAppMenu.Ui {
 			this.tbBar.BackColor = Color.DarkGray;
 			this.tbBar.Items.AddRange( new ToolStripButton[] {
 				this.tbbNew, this.tbbOpen, this.tbbSave,
-				this.tbbPreview, this.tbbQuit
+				this.tbbSaveAs, this.tbbPreview, this.tbbQuit
 			});
 
             // User actions
             this.newAction.AddComponent( this.tbbNew );
             this.loadAction.AddComponent( this.tbbOpen );
             this.saveAction.AddComponent( this.tbbSave );
+			this.saveAsAction.AddComponent( this.tbbSaveAs );
             this.quitAction.AddComponent( this.tbbQuit );
 			this.previewAction.AddComponent( this.tbbPreview );
 		}
@@ -1228,6 +1233,7 @@ namespace RAppMenu.Ui {
 		private ToolStripButton tbbNew;
 		private ToolStripButton tbbOpen;
 		private ToolStripButton tbbSave;
+		private ToolStripButton tbbSaveAs;
 		private ToolStripButton tbbQuit;
 		private ToolStripButton tbbPreview;
 

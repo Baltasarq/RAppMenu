@@ -198,7 +198,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.pnlContainer.Controls.Add( this.pnlGroupChecks );
 
 			this.chkFunctionHasData = new CheckBox();
-			this.chkFunctionHasData.Text = "Has data";
+			this.chkFunctionHasData.Text = "Data";
 			this.chkFunctionHasData.Dock = DockStyle.Fill;
 			this.chkFunctionHasData.MinimumSize =
 				new Size( this.chkFunctionHasData.Width, this.chkFunctionHasData.Height * 2 );
@@ -207,7 +207,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.pnlChecks.Controls.Add( this.chkFunctionHasData );
 
 			this.chkFunctionDataHeader = new CheckBox();
-			this.chkFunctionDataHeader.Text = "Has data header";
+			this.chkFunctionDataHeader.Text = "Data header";
 			this.chkFunctionDataHeader.Dock = DockStyle.Fill;
 			this.chkFunctionDataHeader.MinimumSize =
 				new Size( this.chkFunctionDataHeader.Width, this.chkFunctionDataHeader.Height * 2 );
