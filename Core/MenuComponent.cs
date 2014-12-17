@@ -46,7 +46,7 @@ namespace RAppMenu.Core {
                 throw new ArgumentNullException( "invalid name for menu component" );
             }
 
-            this.name = value.Trim().Replace( " ", "" );
+            // this.name = value.Trim().Replace( " ", "" ); // fixes issue #2
             this.SetNeedsSave();
 		}
 
