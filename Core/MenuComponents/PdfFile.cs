@@ -10,6 +10,7 @@ namespace RAppMenu.Core.MenuComponents {
         public PdfFile(string fileName, Menu parent)
             : base( fileName, parent )
         {
+			this.PageNumber = 1;
         }
 
         /// <summary>
@@ -70,6 +71,27 @@ namespace RAppMenu.Core.MenuComponents {
 
 			return toret;
 		}
+
+		/// <summary>
+		/// Gets or sets the page number.
+		/// </summary>
+		/// <value>
+		/// The page number, as a positive, greater than 0, int.
+		/// </value>
+		public int PageNumber {
+			get {
+				return this.pageNumber;
+			}
+			set {
+				if ( value < 1 ) {
+					throw new ArgumentException( "page should be > 0" );
+				}
+
+				this.pageNumber = value;
+			}
+		}
+
+		private int pageNumber;
     }
 }
 
