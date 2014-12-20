@@ -9,7 +9,7 @@ namespace RAppMenu.Core.MenuComponents {
 	/// <summary>
 	/// Represents menu entries.
 	/// </summary>
-	public class Menu: MenuComponent {
+	public abstract class Menu: MenuComponent {
 		public const string TagName = "MenueEntry";
         public const string EtqName = "Name";
 
@@ -185,11 +185,11 @@ namespace RAppMenu.Core.MenuComponents {
 		/// </returns>
 		public override MenuComponent Copy(MenuComponent newParent)
 		{
-			if ( !( newParent is Menu ) ) {
+			if ( !( newParent is RegularMenu ) ) {
 				throw new ArgumentException( "parent of copy of menu should be a menu" );
 			}
 
-            var toret = new Menu( this.Name, (Menu) newParent );
+            var toret = new RegularMenu( this.Name, (RegularMenu) newParent );
 
 			foreach ( MenuComponent mc in this.MenuComponents ) {
 				mc.Copy( toret );
@@ -242,7 +242,7 @@ namespace RAppMenu.Core.MenuComponents {
         {
             Trace.WriteLine( "Menu.FromXml: " + node.AsString() );
 
-            var toret = new Menu( "tempMenu", parent );
+            var toret = new RegularMenu( "tempMenu", parent );
 
             // Name = "m1"
             var nameAttr = (XmlAttribute) node.Attributes.GetNamedItemIgnoreCase( EtqName );

@@ -94,11 +94,11 @@ namespace RAppMenu.Core.MenuComponents {
 		/// </returns>
 		public override MenuComponent Copy(MenuComponent newParent)
 		{
-			if ( !( newParent is Menu ) ) {
+			if ( !( newParent is RegularMenu ) ) {
 				throw new ArgumentException( "parent of a copied menu should be another menu" );
 			}
 
-            var toret = new GraphicMenu( this.Name, (Menu) newParent ) {
+            var toret = new GraphicMenu( this.Name, (RegularMenu) newParent ) {
 				MinimumNumberOfColumns = this.MinimumNumberOfColumns,
 				ImageHeight = this.ImageHeight,
 				imageWidth = this.ImageWidth,

@@ -35,11 +35,11 @@ namespace RAppMenu.Core.MenuComponents {
 		/// </returns>
 		public override MenuComponent Copy(MenuComponent newParent)
 		{
-			if ( !( newParent is Menu ) ) {
+			if ( !( newParent is RegularMenu ) ) {
 				throw new ArgumentException( "parent of new PdfFile should be Menu" );
 			}
 
-			return new PdfFile( this.FileName, (Menu) newParent );
+			return new PdfFile( this.FileName, (RegularMenu) newParent );
 		}
 
 		public override string ToString()

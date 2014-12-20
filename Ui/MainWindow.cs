@@ -93,7 +93,7 @@ namespace RAppMenu.Ui {
 
 			this.SetStatus( "Creating menu..." );
             id += ( ++this.numMenus ).ToString();
-            var menu = new CoreComponents.Menu( id, (CoreComponents.Menu) parentMc );
+            var menu = new CoreComponents.RegularMenu( id, (CoreComponents.Menu) parentMc );
             this.AddTreeNode( new UiComponents.MenuTreeNode( menu ) );
 		}
 
