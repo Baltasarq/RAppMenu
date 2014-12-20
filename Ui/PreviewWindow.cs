@@ -117,7 +117,7 @@ namespace RAppMenu.Ui {
 			mFile.DropDownItems.Add( opQuit );
 
 			// Build user's menu root
-			var mRoot = new ToolStripMenuItem( "Applications" );
+			var mRoot = new ToolStripMenuItem( "RWizard Applications" );
 
             // Build user's menu
             var mUser = new ToolStripMenuItem( this.Document.Root.Name );
