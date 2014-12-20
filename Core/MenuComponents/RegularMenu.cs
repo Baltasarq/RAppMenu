@@ -14,17 +14,47 @@ namespace RAppMenu.Core.MenuComponents {
 
             // We need to store the new PDF File in the list
             if ( mc is PdfFile ) {
-                this.PDFNameList.Add( mc.Name );
+                this.pdfList.Add( mc.Name );
             }
+
+            return;
+        }
+
+        public override void Remove(MenuComponent mc)
+        {
+            base.Remove( mc );
+
+            // We need to keep the PDF list in sync
+            if ( mc is PdfFile ) {
+                this.pdfList.Remove( mc.Name );
+            }
+
+            return;
+        }
+
+        public override void RemoveAt(int index)
+        {
+            var pdfmc = this.MenuComponents[ index ] as PdfFile;
+            base.RemoveAt( index );
+
+            // We need to keep the PDF list in sync
+            if ( pdfmc != null ) {
+                this.pdfList.Remove( pdfmc.Name );
+            }
+
+            return;
         }
 
         /// <summary>
         /// Gets the PDF list.
         /// </summary>
-        /// <value>A <see cref="PDFList"/>.</value>
-        public PDFList PDFNameList {
+        /// <value>A vector of string.</value>
+        public string[] PDFNameList {
             get {
-                return this.pdfList;
+                var toret = new string[ this.pdfList.Count ];
+
+                this.pdfList.CopyTo( toret, 0 );
+                return toret;
             }
         }
 
