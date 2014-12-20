@@ -370,7 +370,7 @@ namespace RAppMenu.Ui {
 				var pdfFile = submc as CoreComponents.PdfFile;
 				var function = submc as CoreComponents.Function;
                 var grphMenu = submc as CoreComponents.GraphicMenu;
-                var subMenu = submc as CoreComponents.Menu;
+                var subMenu = submc as CoreComponents.RegularMenu;
 
 				if ( separator != null ) {
 					var mtn = new MenuComponentTreeNodes.SeparatorTreeNode( separator );

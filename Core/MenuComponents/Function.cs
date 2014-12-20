@@ -17,6 +17,7 @@ namespace RAppMenu.Core.MenuComponents {
 		public const string EtqDefaultData = "DefaultData";
 		public const string EtqStartColumn = "StartColumn";
         public const string EtqEndColumn = "EndColumn";
+        public const string EtqPDFRef = "PDF";
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RAppMenu.Core.MenuComponents.Function"/> class.
@@ -34,6 +35,8 @@ namespace RAppMenu.Core.MenuComponents {
             this.DataHeader = false;
             this.RemoveQuotationMarks = false;
             this.DefaultData = "";
+            this.PDFPageNumber = 1;
+            this.PDFName = "";
 		}
 
 		/// <summary>
@@ -176,6 +179,38 @@ namespace RAppMenu.Core.MenuComponents {
 			}
 		}
 
+        /// <summary>
+        /// Gets or sets the name of the PDF for the manual of this function
+        /// </summary>
+        /// <value>The name of the PDF.</value>
+        public string PDFName {
+            get {
+                return this.pdfName;
+            }
+            set {
+                this.pdfName = value.Trim();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the page number.
+        /// </summary>
+        /// <value>
+        /// The page number, as a positive, greater than 0, int.
+        /// </value>
+        public int PDFPageNumber {
+            get {
+                return this.pdfPageNumber;
+            }
+            set {
+                if ( value < 1 ) {
+                    throw new ArgumentException( "page should be > 0" );
+                }
+
+                this.pdfPageNumber = value;
+            }
+        }
+
 		public override string ToString()
 		{
 			return string.Format( "[Function: Name={0} HasData={1}, DataHeader={2}, "
@@ -206,7 +241,9 @@ namespace RAppMenu.Core.MenuComponents {
                 RemoveQuotationMarks = this.RemoveQuotationMarks,
                 StartColumn = this.StartColumn,
                 EndColumn = this.EndColumn,
-                DefaultData = this.DefaultData
+                DefaultData = this.DefaultData,
+                PDFName = this.PDFName,
+                PDFPageNumber = this.PDFPageNumber
             };
 
             foreach(string sentence in this.PreProgramOnce) {
@@ -301,6 +338,19 @@ namespace RAppMenu.Core.MenuComponents {
 				doc.WriteString( this.PreCommand );
 				doc.WriteEndAttribute();
 			}
+
+            // PDF = "manual.pdf$6"
+            if ( !string.IsNullOrWhiteSpace( this.PDFName ) ) {
+                string pdfReference = this.PDFName;
+
+                if ( this.PDFPageNumber > 1 ) {
+                    pdfReference += "$" + this.PDFPageNumber;
+                }
+
+                doc.WriteStartAttribute( EtqPDFRef );
+                doc.WriteString( pdfReference );
+                doc.WriteEndAttribute();
+            }
 
 			// ExecuteOnce sentences
 			foreach(string sentence in this.PreProgramOnce) {
@@ -399,6 +449,20 @@ namespace RAppMenu.Core.MenuComponents {
 				if ( attr.Name.Equals( EtqPreCommand, StringComparison.OrdinalIgnoreCase ) ) {
 					toret.PreCommand = attr.InnerText.Trim();
 				}
+                else
+                // PDF = "manual.pdf$5"
+                if ( attr.Name.Equals( EtqPDFRef, StringComparison.OrdinalIgnoreCase ) ) {
+                    string pdfReference = attr.InnerText.Trim();
+
+                    if ( pdfReference.IndexOf( '$' ) >= 0 ) {
+                        string[] parts = pdfReference.Split( '$' );
+
+                        toret.PDFName = parts[ 0 ].Trim();
+                        toret.PDFPageNumber = Convert.ToInt32( parts[ 1 ] );
+                    } else {
+                        toret.PDFName = pdfReference;
+                    }
+                }
 			}
 
 			// Function arguments & execute once sentences
@@ -431,6 +495,8 @@ namespace RAppMenu.Core.MenuComponents {
         private int startColumn;
         private int endColumn;
         private string defaultData;
+        private int pdfPageNumber;
+        private string pdfName;
 		private ExecuteOnceProgram preOnceProgram;
 		private ArgumentList regularArgumentList;
 		private ArgumentList fnCallArgumentList;
