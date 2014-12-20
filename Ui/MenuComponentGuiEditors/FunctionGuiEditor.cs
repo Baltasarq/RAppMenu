@@ -51,6 +51,12 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.addFunctionArgumentAction.CallBack = this.OnAddFunctionArgument;
 			this.editFnCallArgumentsAction.CallBack = this.OnEditFunctionCallArguments;
 			this.removeFunctionArgumentAction.CallBack = this.OnRemoveFunctionArgument;
+
+            // Load PDF File names
+            this.edPDFFileName.Items.Clear();
+            this.edPDFFileName.Items.Add( "" );
+            this.edPDFFileName.Items.AddRange( this.Function.Root.Owner.PDFNameList );
+            this.edPDFFileName.SelectedItem = this.Function.PDFName;
 		}
 
 		private void BuildArgumentsListTable()
@@ -191,7 +197,6 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.pnlChecks = new FlowLayoutPanel();
 			this.pnlChecks.SuspendLayout();
             this.pnlChecks.AutoSize = true;
-			this.pnlChecks.AutoSize = true;
 			this.pnlChecks.Font = new Font( this.pnlChecks.Font, FontStyle.Regular );
 			this.pnlChecks.Dock = DockStyle.Fill;
 			this.pnlGroupChecks.Controls.Add( this.pnlChecks );
@@ -201,7 +206,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.chkFunctionHasData.Text = "Data";
 			this.chkFunctionHasData.Dock = DockStyle.Fill;
 			this.chkFunctionHasData.MinimumSize =
-				new Size( this.chkFunctionHasData.Width, this.chkFunctionHasData.Height * 2 );
+				new Size( this.chkFunctionHasData.Width, this.chkFunctionHasData.Height );
 			this.chkFunctionHasData.CheckedChanged += (object sender, EventArgs e) =>
 				this.Function.HasData = this.chkFunctionHasData.Checked;
 			this.pnlChecks.Controls.Add( this.chkFunctionHasData );
@@ -210,16 +215,16 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.chkFunctionDataHeader.Text = "Data header";
 			this.chkFunctionDataHeader.Dock = DockStyle.Fill;
 			this.chkFunctionDataHeader.MinimumSize =
-				new Size( this.chkFunctionDataHeader.Width, this.chkFunctionDataHeader.Height * 2 );
+				new Size( this.chkFunctionDataHeader.Width, this.chkFunctionDataHeader.Height );
 			this.chkFunctionDataHeader.CheckedChanged += (object sender, EventArgs e) =>
 				this.Function.DataHeader = this.chkFunctionDataHeader.Checked;
 			this.pnlChecks.Controls.Add( chkFunctionDataHeader );
 
 			this.chkFunctionRemoveQuotes = new CheckBox();
-			this.chkFunctionRemoveQuotes.Text = "Remove quotation marks";
+			this.chkFunctionRemoveQuotes.Text = "Remove quotes";
 			this.chkFunctionRemoveQuotes.Dock = DockStyle.Fill;
 			this.chkFunctionRemoveQuotes.MinimumSize =
-				new Size( this.chkFunctionRemoveQuotes.Width, this.chkFunctionRemoveQuotes.Height * 2 );
+				new Size( this.chkFunctionRemoveQuotes.Width, this.chkFunctionRemoveQuotes.Height );
 			this.chkFunctionRemoveQuotes.CheckedChanged += (object sender, EventArgs e) => 
 				this.Function.RemoveQuotationMarks = this.chkFunctionRemoveQuotes.Checked;
 			this.pnlChecks.Controls.Add( chkFunctionRemoveQuotes );
@@ -255,7 +260,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.edFunctionDefaultData.KeyUp += (sender, e) => {
 				string contents = this.edFunctionDefaultData.Text.Trim();
 
-				if ( string.IsNullOrEmpty( contents ) ) {
+				if ( !string.IsNullOrEmpty( contents ) ) {
 					this.Function.DefaultData = contents;
 				}
 
@@ -313,6 +318,75 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
             this.udFunctionStartColumn.MaximumSize = new Size( charWidth * 2, this.udFunctionStartColumn.Height );
             this.edFunctionDefaultData.MinimumSize = new Size( charWidth * 12, this.edFunctionDefaultData.Height );
 		}
+
+        private void BuildPDFReference()
+        {
+            this.pnlPDFReference = new GroupBox();
+            this.pnlPDFReference.SuspendLayout();
+            this.pnlPDFReference.AutoSize = true;
+            this.pnlPDFReference.Dock = DockStyle.Top;
+            this.pnlPDFReference.Text = "PDF Manual";
+            this.pnlPDFReference.Font = new Font( this.pnlPDFReference.Font, FontStyle.Bold );
+
+            var pnlInnerPDFReference = new FlowLayoutPanel();
+            pnlInnerPDFReference.SuspendLayout();
+            pnlInnerPDFReference.Font = new Font( pnlInnerPDFReference.Font, FontStyle.Regular );
+            pnlInnerPDFReference.Dock = DockStyle.Fill;
+            pnlInnerPDFReference.AutoSize = true;
+            this.pnlPDFReference.Controls.Add( pnlInnerPDFReference );
+            this.pnlContainer.Controls.Add( this.pnlPDFReference );
+
+            // Default data
+            var lblPDFFile = new Label();
+            lblPDFFile.Text = "PDF file:";
+            lblPDFFile.AutoSize = false;
+            lblPDFFile.TextAlign = ContentAlignment.MiddleLeft;
+            this.edPDFFileName = new ComboBox();
+            this.edPDFFileName.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.edPDFFileName.Font = new Font( this.edPDFFileName.Font, FontStyle.Bold );
+            this.edPDFFileName.SelectedIndexChanged += (sender, e) => {
+                string contents = this.edPDFFileName.SelectedText.Trim();
+
+                if ( !string.IsNullOrEmpty( contents ) ) {
+                    this.Function.PDFName = contents;
+                }
+
+                return;
+            };
+            pnlInnerPDFReference.Controls.Add( lblPDFFile );
+            pnlInnerPDFReference.Controls.Add( this.edPDFFileName );
+
+            // Start page
+            var lblStartPage = new Label();
+            lblStartPage.Text = "Start page:";
+            lblStartPage.AutoSize = true;
+            lblStartPage.TextAlign = ContentAlignment.MiddleLeft;
+            this.udFunctionStartPage = new NumericUpDown();
+            this.udFunctionStartPage.TextAlign = HorizontalAlignment.Right;
+            this.udFunctionStartPage.Font = new Font( this.udFunctionStartPage.Font, FontStyle.Bold );
+            this.udFunctionStartPage.Maximum = 999;
+            this.udFunctionStartPage.Minimum = 1;
+            this.udFunctionStartPage.ValueChanged += (sender, e) => {
+                if ( !this.OnBuilding ) {
+                    this.Function.PDFPageNumber =
+                        (int) this.udFunctionStartPage.Value;
+                }
+            };
+            pnlInnerPDFReference.Controls.Add( lblStartPage );
+            pnlInnerPDFReference.Controls.Add( this.udFunctionStartPage );
+            pnlInnerPDFReference.ResumeLayout( false );
+            this.pnlGroupDefaultData.ResumeLayout( false );
+
+            // Sizes for controls
+            Graphics grf = new Form().CreateGraphics();
+            SizeF fontSize = grf.MeasureString( "W", this.udFunctionEndColumn.Font );
+            int charWidth = (int) fontSize.Width + 5;
+            this.udFunctionStartPage.MaximumSize = new Size( charWidth * 2, this.udFunctionEndColumn.Height );
+            this.edPDFFileName.MinimumSize = new Size( charWidth * 12, this.edPDFFileName.Height );
+            this.pnlPDFReference.MinimumSize = new Size(
+                this.Panel.ClientSize.Width,
+                this.edPDFFileName.Height );
+        }
 
 		private void BuildCommands()
 		{
@@ -407,6 +481,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			// Sub panels
 			this.BuildCheckBoxes();
 			this.BuildDefaultData();
+            this.BuildPDFReference();
 			this.BuildCommands();
 			this.BuildArgumentsListTable();
 
@@ -611,6 +686,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		private FlowLayoutPanel pnlChecks;
 		private GroupBox pnlGroupChecks;
 		private GroupBox pnlGroupDefaultData;
+        private GroupBox pnlPDFReference;
 		private GroupBox pnlGroupCommands;
 		private GroupBox pnlArgsList;
 		private Panel pnlPreCommand;
@@ -628,8 +704,10 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		private TextBox edFunctionDefaultData;
 		private TextBox edFunctionPreCommand;
 		private TextBox edFunctionExecuteOnce;
+        private ComboBox edPDFFileName;
 		private NumericUpDown udFunctionStartColumn;
 		private NumericUpDown udFunctionEndColumn;
+        private NumericUpDown udFunctionStartPage;
 
 		private UserAction addFunctionArgumentAction;
 		private UserAction editFnCallArgumentsAction;

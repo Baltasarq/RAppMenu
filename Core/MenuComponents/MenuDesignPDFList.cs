@@ -2,13 +2,15 @@
 using System.Text;
 using System.Collections.ObjectModel;
 
-namespace RAppMenu.Core.MenuComponents {
-    public partial class RegularMenu {
+using RAppMenu.Core.MenuComponents;
+
+namespace RAppMenu.Core {
+    public partial class MenuDesign {
         /// <summary>
-        /// Represents the collection of PDF's in this regular menu.
+        /// Represents the collection of PDF's in the whole menu design.
         /// </summary>
-        public class PDFList: Collection<string> {
-            public PDFList(RegularMenu owner)
+        public class PDFList: Collection<PdfFile> {
+            public PDFList(MenuDesign owner)
             {
                 this.owner = owner;
             }
@@ -16,8 +18,8 @@ namespace RAppMenu.Core.MenuComponents {
             /// <summary>
             /// Gets the owner of this list of PDF's
             /// </summary>
-            /// <value>The owner, a <see cref="RegularMenu"/>.</value>
-            public RegularMenu Owner {
+            /// <value>The owner, a <see cref="MenuDesign"/>.</value>
+            public MenuDesign Owner {
                 get {
                     return this.owner;
                 }
@@ -29,14 +31,14 @@ namespace RAppMenu.Core.MenuComponents {
 
                 toret.Append( "[PDFList PDFs=[" );
 
-                foreach(string pdfName in this) {
-                    toret.Append( pdfName + ' ' );
+                foreach(PdfFile pdf in this) {
+                    toret.Append( pdf.Name + ' ' );
                 }
 
                 return toret.Append( "]]" ).ToString();
             }
 
-            private RegularMenu owner;
+            private MenuDesign owner;
         }
 }
 }

@@ -82,7 +82,7 @@
     <Compile Include="Ui\MenuComponentGuiEditors\FunctionGuiEditors\FunctionCallsGuiEditor.cs" />
     <Compile Include="Core\MenuDesign.cs" />
     <Compile Include="Core\MenuComponents\RegularMenu.cs" />
-    <Compile Include="Core\MenuComponents\RegularMenuPDFList.cs" />
+    <Compile Include="Core\MenuComponents\MenuDesignPDFList.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />

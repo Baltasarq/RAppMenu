@@ -5,16 +5,16 @@ namespace RAppMenu.Core.MenuComponents {
         public RegularMenu(string name, Menu parent)
             :base( name, parent )
         {
-            this.pdfList = new PDFList( this );
         }
 
         public override void Add(MenuComponent mc)
         {
+            var pdfFile = mc as PdfFile;
             base.Add( mc );
 
             // We need to store the new PDF File in the list
-            if ( mc is PdfFile ) {
-                this.pdfList.Add( mc.Name );
+            if (pdfFile != null ) {
+                this.Root.Owner.GetPDFList().Add( pdfFile );
             }
 
             return;
@@ -22,11 +22,12 @@ namespace RAppMenu.Core.MenuComponents {
 
         public override void Remove(MenuComponent mc)
         {
+            var pdfFile = mc as PdfFile;
             base.Remove( mc );
 
             // We need to keep the PDF list in sync
             if ( mc is PdfFile ) {
-                this.pdfList.Remove( mc.Name );
+                this.Root.Owner.GetPDFList().Remove( pdfFile );
             }
 
             return;
@@ -39,23 +40,10 @@ namespace RAppMenu.Core.MenuComponents {
 
             // We need to keep the PDF list in sync
             if ( pdfmc != null ) {
-                this.pdfList.Remove( pdfmc.Name );
+                this.Root.Owner.GetPDFList().Remove( pdfmc );
             }
 
             return;
-        }
-
-        /// <summary>
-        /// Gets the PDF list.
-        /// </summary>
-        /// <value>A vector of string.</value>
-        public string[] PDFNameList {
-            get {
-                var toret = new string[ this.pdfList.Count ];
-
-                this.pdfList.CopyTo( toret, 0 );
-                return toret;
-            }
         }
 
         public override string ToString()
@@ -63,13 +51,8 @@ namespace RAppMenu.Core.MenuComponents {
             string toret = base.ToString();
 
             toret = "[RegularMenu " + toret;
-            toret = " " + this.PDFNameList.ToString();
-
-            return toret;
+            return toret + "]";
         }
-                
-
-        private PDFList pdfList;
     }
 }
 

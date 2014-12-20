@@ -7,7 +7,7 @@ using System.Text;
 using RAppMenu.Core.MenuComponents;
 
 namespace RAppMenu.Core {
-	public class MenuDesign {
+	public partial class MenuDesign {
         /// <summary>
         /// Initializes a new instance of the <see cref="RAppMenu.Core.MenuDesign"/> class.
         /// Creates an empty menu, with a Root node.
@@ -15,6 +15,7 @@ namespace RAppMenu.Core {
 		public MenuDesign()
 		{
             this.root = new RootMenu( this );
+            this.pdfList = new PDFList( this );
             this.NeedsSave = true;
 		}
 
@@ -107,6 +108,34 @@ namespace RAppMenu.Core {
             }
         }
 
+        /// <summary>
+        /// Gets the PDF list.
+        /// </summary>
+        /// <value>A vector of string.</value>
+        public string[] PDFNameList {
+            get {
+                var toret = new string[ this.pdfList.Count ];
+                int pos = 0;
+
+                foreach(PdfFile pdf in this.pdfList) {
+                    toret[ pos ] = pdf.Name;
+                }
+
+                return toret;
+            }
+        }
+
+        /// <summary>
+        /// Gets the PDF list, for internal uses.
+        /// Menus must update the pdf list, after all.
+        /// </summary>
+        /// <returns>The <see cref="PDFList"/>.</returns>
+        internal PDFList GetPDFList()
+        {
+            return this.pdfList;
+        }
+
 		private RootMenu root;
+        private PDFList pdfList;
 	}
 }
