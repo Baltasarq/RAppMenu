@@ -14,7 +14,7 @@ namespace RAppMenu.Core {
         /// </summary>
 		public MenuDesign()
 		{
-			this.root = new RootMenu();
+            this.root = new RootMenu( this );
             this.NeedsSave = true;
 		}
 

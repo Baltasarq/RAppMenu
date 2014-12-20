@@ -9,9 +9,10 @@ namespace RAppMenu.Core.MenuComponents {
 	public class RootMenu: Menu {
 		public new const string TagName = "Menue";
 
-		public RootMenu()
+        public RootMenu(MenuDesign owner)
 			:base( "Root" )
 		{
+            this.menuDesign = owner;
 		}
 
         public override void ToXml(System.Xml.XmlTextWriter doc)
@@ -36,6 +37,18 @@ namespace RAppMenu.Core.MenuComponents {
         public bool NeedsSave {
             get; set;
         }
+
+        /// <summary>
+        /// Gets the owner, a <see cref="MenuDesign"/>.
+        /// </summary>
+        /// <value>The owner, a a <see cref="MenuDesign"/>.</value>
+        public MenuDesign Owner {
+            get {
+                return this.menuDesign;
+            }
+        }
+
+        private MenuDesign menuDesign;
 	}
 }
 
