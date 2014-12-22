@@ -385,6 +385,7 @@ namespace RAppMenu.Core.MenuComponents {
 
 		public static Function FromXml(XmlNode node, Menu menu)
 		{
+			string functionName = node.GetAttribute( EtqName ).InnerText.Trim();
 			Menu trueParent = menu;
 
             Trace.WriteLine( "Function.FromXml: " + node.AsString() );
@@ -394,7 +395,8 @@ namespace RAppMenu.Core.MenuComponents {
             // Note that this must not be done if we are at top level,
             // Or if we are working with a graphic menu.
 			if ( !( menu is RootMenu )
-              && !( menu is GraphicMenuEntry ) )
+              && !( menu is GraphicMenuEntry )
+			  && menu.Name == functionName )
             {
 				trueParent = menu.Parent;
 
@@ -406,15 +408,10 @@ namespace RAppMenu.Core.MenuComponents {
 				menu.Remove();
 			}
 
-            var toret = new Function( "tempFn", trueParent );
+            var toret = new Function( functionName, trueParent );
 
 			// Attribute info
 			foreach (XmlAttribute attr in node.Attributes) {
-				// Name = "m1"
-				if ( attr.Name.Equals( EtqName, StringComparison.OrdinalIgnoreCase ) ) {
-					toret.Name = attr.InnerText;
-				}
-				else
 				// HasData = "true"
 				if ( attr.Name.Equals( EtqHasData, StringComparison.OrdinalIgnoreCase ) ) {
                     toret.HasData = attr.GetValueAsBool();
