@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Menue>
+  <MenueEntry Name="Descriptive statistics">
+    <Function Name="II1" HasData="TRUE" DefaultData="data(ZII1)" PDF="StatR-manual.pdf$4">
+      <Argument Name="variables" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"></Argument>
+      <Argument Name="group" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"></Argument>
+      <Argument Name="variablesWM" Viewer="DataColumnsViewer" AllowMultiSelect="FALSE"></Argument>
+      <Argument Name="variablesW" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"></Argument>
+      <Argument Name="groupWM" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"></Argument>
+      <RequiredArgument Name="data"></RequiredArgument>
+      <RequiredArgument Name="variables"></RequiredArgument>
+    </Function>
+  </MenueEntry>
+  <MenueEntry Name="Distributions">
+	 <MenueEntry Name="Probability of a Normal distribution">
+		 <Function Name="III1" HasData="FALSE" PDF="StatR-manual.pdf$12">
+		 <RequiredArgument Name="value"></RequiredArgument>
+		 <RequiredArgument Name="mean"></RequiredArgument>
+		 <RequiredArgument Name="sd"></RequiredArgument>
+		 </Function>
+   </MenueEntry>
+	 <MenueEntry Name="Probability of a Binomial distribution">
+		 <Function Name="III2" HasData="FALSE" PDF="StatR-manual.pdf$18">
+		 <RequiredArgument Name="n"></RequiredArgument>
+		 <RequiredArgument Name="x"></RequiredArgument>
+		 <RequiredArgument Name="p"></RequiredArgument>
+		 </Function>
+    </MenueEntry>
+	 <MenueEntry Name="Probability of a Hypergeometric distribution">
+		 <Function Name="III3" HasData="FALSE" PDF="StatR-manual.pdf$20">
+		 <RequiredArgument Name="N"></RequiredArgument>
+		 <RequiredArgument Name="N.p"></RequiredArgument>
+		 <RequiredArgument Name="n"></RequiredArgument>
+		 <RequiredArgument Name="x"></RequiredArgument>
+		 </Function>
+    </MenueEntry>
+   <MenueEntry Name="Probability of a Poisson distribution">
+		 <Function Name="III4" HasData="FALSE" PDF="StatR-manual.pdf$22">
+		 <RequiredArgument Name="lambda"></RequiredArgument>
+		 <RequiredArgument Name="x"></RequiredArgument>
+		 </Function>
+   </MenueEntry>
+  </MenueEntry>
+  <MenueEntry Name="Confidence intervals">
+	  <MenueEntry Name="For the mean of a Normal population">
+      <Function Name="IV1" HasData="TRUE" DefaultData="data(ZIV1)" PDF="StatR-manual.pdf$24">
+	     <Argument Name="variables" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"></Argument>
+	     <Argument Name="group" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"></Argument>
+	     <RequiredArgument Name="data"></RequiredArgument>
+	     <RequiredArgument Name="variables"></RequiredArgument>
+		  </Function>
+	  </MenueEntry>
+    <MenueEntry Name="Of the difference between Normal pupulation means">
+	   <Function Name="IV2" HasData="TRUE" DefaultData="data(ZIV1)" PDF="StatR-manual.pdf$26">
+	     <Argument Name="variables" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"></Argument>
+	     <Argument Name="group" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"></Argument>
+			  <Argument Name="varSel" Viewer="DataValuesViewer" AllowMultiSelect="TRUE"></Argument>
+			  <RequiredArgument Name="data"></RequiredArgument>
+	      <RequiredArgument Name="variables"></RequiredArgument>
+	      <RequiredArgument Name="varSel"></RequiredArgument>
+      </Function>
+	  </MenueEntry>
+     	  <MenueEntry Name="For the variance and standard deviation of a Normal population">
+	    <Function Name="IV3" HasData="TRUE" DefaultData="data(ZIV3)" PDF="StatR-manual.pdf$29">
+			  <Argument Name="variables" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"></Argument>
+			  <Argument Name="group" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"></Argument>
+			  <RequiredArgument Name="data"></RequiredArgument>
+	      <RequiredArgument Name="variables"></RequiredArgument>
+		 </Function>
+	  </MenueEntry>
+	  <MenueEntry Name="Ratio of variances between Normal populations and test for homogeneity of variances">
+	   	<Function Name="IV4" HasData="TRUE" DefaultData="data(ZIV1)" PDF="StatR-manual.pdf$31">
+			  <Argument Name="variables" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"></Argument>
+			  <Argument Name="group" Viewer="DataColumnsViewer" AllowMultiSelect="TRUE"></Argument>
+			  <Argument Name="varSel" Viewer="DataValuesViewer" AllowMultiSelect="TRUE"></Argument>
+			  <RequiredArgument Name="data"></RequiredArgument>
+	      <RequiredArgument Name="variables"></RequiredArgument>
+	      <RequiredArgument Name="varSel"></RequiredArgument>
+		  </Function>
+	  </MenueEntry>
+  </MenueEntry>
+  <Separator></Separator>
+  <PDF Name="StatR-manual.pdf"></PDF>
+  </Menue>
