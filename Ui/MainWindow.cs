@@ -510,7 +510,7 @@ namespace RAppMenu.Ui {
 				entryAssembly = System.Reflection.Assembly.GetEntryAssembly();
 
 				this.appIconBmp = new Bitmap(
-					entryAssembly.GetManifestResourceStream( "RAppMenu.Res.r-editor.png" )
+					entryAssembly.GetManifestResourceStream( "RAppMenu.Res.appIcon.png" )
 				);
 			} catch(Exception) {
 				throw new ArgumentException( "Unable to load embedded icons" );

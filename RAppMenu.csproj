@@ -10,7 +10,7 @@
     <RootNamespace>RAppMenu</RootNamespace>
     <AssemblyName>RAppMenu</AssemblyName>
     <StartupObject>RAppMenu.Ppal</StartupObject>
-    <ApplicationIcon>Res\r-editor.ico</ApplicationIcon>
+    <ApplicationIcon>Res\appIconico</ApplicationIcon>
     <CodePage>65001</CodePage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -98,9 +98,7 @@
     <EmbeddedResource Include="Res\info.png" />
     <EmbeddedResource Include="Res\new.png" />
     <EmbeddedResource Include="Res\save.png" />
-    <EmbeddedResource Include="Res\r-editor.png" />
     <EmbeddedResource Include="Res\quit.png" />
-    <EmbeddedResource Include="Res\r-editor.ico" />
     <EmbeddedResource Include="Res\graphic.png" />
     <EmbeddedResource Include="Res\menu.png" />
     <EmbeddedResource Include="Res\open.png" />
@@ -113,5 +111,7 @@
     <EmbeddedResource Include="Res\add.png" />
     <EmbeddedResource Include="Res\editFnCalls.png" />
     <EmbeddedResource Include="Res\save-as.png" />
+    <EmbeddedResource Include="Res\appIcon.ico" />
+    <EmbeddedResource Include="Res\appIcon.png" />
   </ItemGroup>
 </Project>
