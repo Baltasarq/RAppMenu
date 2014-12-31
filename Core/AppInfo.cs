@@ -29,7 +29,18 @@ namespace RAppMenu.Core {
 		/// </summary>
 		/// <value>The applications folder, as a string.</value>
 		public static string ApplicationsFolder {
-			get; set;
+            get {
+                if ( string.IsNullOrWhiteSpace( pathToApplications ) ) {
+                    pathToApplications = Path.Combine(
+                        GetPathToMainApp(),
+                        "Applications" );
+                }
+
+                return pathToApplications;
+            }
+            set {
+                pathToApplications = value.Trim();
+            }
 		}
 
 		/// <summary>
@@ -37,7 +48,18 @@ namespace RAppMenu.Core {
 		/// </summary>
 		/// <value>The pdf folder path, as a string.</value>
 		public static string PdfFolder {
-			get; set;
+            get {
+                if ( string.IsNullOrWhiteSpace( pathToPDFs ) ) {
+                    pathToPDFs = Path.Combine(
+                        GetPathToMainApp(),
+                        "Pdf" );
+                }
+
+                return pathToPDFs;
+            }
+            set {
+                pathToPDFs = value.Trim();
+            }
 		}
 
 		/// <summary>
@@ -45,7 +67,18 @@ namespace RAppMenu.Core {
 		/// </summary>
 		/// <value>The graphs folder, as a string.</value>
 		public static string GraphsFolder {
-			get; set;
+            get {
+                if ( string.IsNullOrWhiteSpace( pathToGraphics ) ) {
+                    pathToGraphics = Path.Combine(
+                        GetPathToMainApp(),
+                        "Graphs" );
+                }
+
+                return pathToGraphics;
+            }
+            set {
+                pathToGraphics = value.Trim();
+            }
 		}
 
         /// <summary>
@@ -82,6 +115,30 @@ namespace RAppMenu.Core {
             Trace.Flush();
             Trace.Close();
         }
+
+        public static string GetPathToMainApp()
+        {
+            if ( string.IsNullOrEmpty( pathToMainApp ) ) {
+                Trace.WriteLine( DateTime.Now + ": " + "Trying to locate RWizard..." );
+
+                try {
+                    string[] keys = Microsoft.Win32.Registry.CurrentUser.GetSubKeyNames();
+                } catch(Exception exc)
+                {
+                    Trace.WriteLine( DateTime.Now + ": " + "Error trying to locate RWizard:" );
+                    Trace.WriteLine( exc.Message + "\n" + exc.StackTrace );
+                }
+
+                Trace.WriteLine( DateTime.Now + ": " + "Finished trying to locate RWizard." );
+            }
+
+            return pathToMainApp;
+        }
+
+        private static string pathToMainApp = "";
+        private static string pathToApplications = "";
+        private static string pathToPDFs = "";
+        private static string pathToGraphics = "";
 	}
 }
 

@@ -20,9 +20,6 @@ namespace RAppMenu.Ui {
 			this.numGraphicMenus = 0;
 			this.numGraphicMenuEntries = 0;
 			this.doc = null;
-            this.ApplicationsFolder = "Applications";
-            this.PdfFolder = "Pdf";
-			this.GraphsFolder = "Graphs";
 
 			this.Build();
 			this.PrepareView( false );
@@ -83,7 +80,7 @@ namespace RAppMenu.Ui {
             lblDesc.Font = new Font( FontFamily.GenericSansSerif, 12 );
             lblDesc.Dock = DockStyle.Fill;
             lblDesc.Text = "This is an auxiliary tool, written "
-                + "to make RWizard applications easily.";
+                + "to help make RWizard applications easily.";
 
             pnlText.Controls.Add( lblDesc );
             pnlText.Controls.Add( lblInfo );
