@@ -8,7 +8,20 @@ namespace RAppMenu.Core {
 		public const string Web = "http://www.ipez.es/rwizard/";
 		public const string Version = "1.0.6 20141220";
         public const string FileExtension = "xml";
-        public const string LogFile = "rappmenu.errors.log";
+        public const string LogFile = Name + ".errors.log";
+
+        /// <summary>
+        /// Gets the application configuration folder ready to work.
+        /// </summary>
+        /// <returns>The app config folder, as a string.</returns>
+        public static string PrepareAppConfigFolder()
+        {
+            string toret = Environment.GetFolderPath( Environment.SpecialFolder.ApplicationData );
+            toret = Path.Combine( toret, Name );
+
+            Directory.CreateDirectory( toret );
+            return toret;
+        }
 
 		/// <summary>
 		/// Gets or sets the applications folder.
@@ -40,8 +53,12 @@ namespace RAppMenu.Core {
         /// </summary>
         public static void BuildLog()
         {
+            string logPath = Path.Combine(
+                PrepareAppConfigFolder(),
+                LogFile );
+
             Trace.Listeners.Add( new TextWriterTraceListener( 
-                new FileStream( AppInfo.LogFile, FileMode.Create )
+                new FileStream( logPath, FileMode.Create )
             ) );
 
             Trace.AutoFlush = true;
@@ -59,6 +76,9 @@ namespace RAppMenu.Core {
         /// </summary>
         public static void CloseLog()
         {
+            Trace.WriteLine( "================================================" );
+            Trace.WriteLine( DateTime.Now + ": finishing...." );
+
             Trace.Flush();
             Trace.Close();
         }

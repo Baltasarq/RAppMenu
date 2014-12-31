@@ -10,7 +10,7 @@
     <RootNamespace>RAppMenu</RootNamespace>
     <AssemblyName>RAppMenu</AssemblyName>
     <StartupObject>RAppMenu.Ppal</StartupObject>
-    <ApplicationIcon>Res\appIconico</ApplicationIcon>
+    <ApplicationIcon>Res\appIcon.ico</ApplicationIcon>
     <CodePage>65001</CodePage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">

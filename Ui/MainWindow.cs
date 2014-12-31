@@ -43,6 +43,69 @@ namespace RAppMenu.Ui {
 			this.SetStatus();
 		}
 
+        private void OnShowLog()
+        {
+            Trace.WriteLine( System.DateTime.Now + ": Showing log..." );
+            Trace.Flush();
+
+            string logPath = Path.Combine(
+                AppInfo.PrepareAppConfigFolder(),
+                AppInfo.LogFile );
+
+            this.SetStatus( "Launching external browser..." );
+            Process.Start( logPath );
+            this.SetStatus();
+        }
+
+        private void OnAbout()
+        {
+            var formAbout = new Form();
+
+            formAbout.Icon = this.Icon;
+            formAbout.Padding = new Padding( 10 );
+            formAbout.FormBorderStyle = FormBorderStyle.FixedSingle;
+            formAbout.MaximumSize = formAbout.MinimumSize =
+                new Size( 480, 200 );
+
+            var pnlText = new Panel();
+            pnlText.Dock = DockStyle.Fill;
+
+            var lblInfo = new Label();
+            lblInfo.AutoSize = true;
+            lblInfo.Padding = new Padding( 5 );
+            lblInfo.Font = new Font( FontFamily.GenericSansSerif, 14 );
+            lblInfo.Font = new Font( lblInfo.Font, FontStyle.Bold );
+            lblInfo.Dock = DockStyle.Top;
+            lblInfo.Text = AppInfo.Name + " " + AppInfo.Version;
+
+            var lblDesc = new Label();
+            lblDesc.Padding = new Padding( 5 );
+            lblDesc.Font = new Font( FontFamily.GenericSansSerif, 12 );
+            lblDesc.Dock = DockStyle.Fill;
+            lblDesc.Text = "This is an auxiliary tool, written "
+                + "to make RWizard applications easily.";
+
+            pnlText.Controls.Add( lblDesc );
+            pnlText.Controls.Add( lblInfo );
+
+            var picIcon = new PictureBox();
+            picIcon.Padding = new Padding( 20 );
+            picIcon.Dock = DockStyle.Left;
+            picIcon.Image = this.appIconBmp;
+            picIcon.MinimumSize = new Size(
+                this.appIconBmp.Width + 50,
+                this.appIconBmp.Height + 50 );
+
+            var pnlAbout = new Panel();
+            pnlAbout.Dock = DockStyle.Fill;
+            pnlAbout.Controls.Add( pnlText );
+            pnlAbout.Controls.Add( picIcon );
+
+            formAbout.Controls.Add( pnlAbout );
+            formAbout.StartPosition = FormStartPosition.CenterParent;
+            formAbout.ShowDialog();
+        }
+
         /// <summary>
         /// Prepares the following menu to be closed.
         /// It saves it if needed;
@@ -652,6 +715,12 @@ namespace RAppMenu.Ui {
 			opWeb.Click += (sender, e) => this.OnShowWeb();
 			opWeb.Image = this.infoIconBmp;
 
+            var opLog = new ToolStripMenuItem( "&Show log..." );
+            opLog.Click += (sender, e) => this.OnShowLog();
+
+            var opAbout = new ToolStripMenuItem( "&About..." );
+            opAbout.Click += (sender, e) => this.OnAbout();
+
 			this.mFile = new ToolStripMenuItem( "&File" );
 			this.mEdit = new ToolStripMenuItem( "&Edit" );
 			this.mTools = new ToolStripMenuItem( "&Tools" );
@@ -674,7 +743,7 @@ namespace RAppMenu.Ui {
 			});
 
 			this.mHelp.DropDownItems.AddRange( new ToolStripItem[]{
-				opWeb
+                opWeb, opLog, opAbout
 			});
 
             // User actions

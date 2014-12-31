@@ -15,7 +15,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 
 			Bitmap icon = new Bitmap(
 				System.Reflection.Assembly.GetEntryAssembly().
-				GetManifestResourceStream( "RAppMenu.Res.r-editor.png" )
+				GetManifestResourceStream( "RAppMenu.Res.appIcon.png" )
 			);
 
 			this.Icon = Icon.FromHandle( icon.GetHicon() );
