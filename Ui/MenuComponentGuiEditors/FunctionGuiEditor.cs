@@ -44,7 +44,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		public override void Show()
 		{
 			base.Show();
-            this.pnlContainer.Show();
+            this.tcPad.Show();
 
 			this.removeFunctionArgumentAction.Enabled = ( this.grdArgsList.Rows.Count > 0 );
 
@@ -248,7 +248,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			pnlInnerGroupDefaultData.Dock = DockStyle.Fill;
 			pnlInnerGroupDefaultData.AutoSize = true;
 			this.pnlGroupDefaultData.Controls.Add( pnlInnerGroupDefaultData );
-			this.pnlContainer.Controls.Add( this.pnlGroupDefaultData );
+            this.tcPad.TabPages[ 1 ].Controls.Add( this.pnlGroupDefaultData );
 
 			// Default data
 			var lblDefaultData = new Label();
@@ -334,7 +334,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
             pnlInnerPDFReference.Dock = DockStyle.Fill;
             pnlInnerPDFReference.AutoSize = true;
             this.pnlPDFReference.Controls.Add( pnlInnerPDFReference );
-            this.pnlContainer.Controls.Add( this.pnlPDFReference );
+            this.tcPad.TabPages[ 1 ].Controls.Add( this.pnlPDFReference );
 
             // Default data
             var lblPDFFile = new Label();
@@ -375,16 +375,16 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
             pnlInnerPDFReference.Controls.Add( lblStartPage );
             pnlInnerPDFReference.Controls.Add( this.udFunctionStartPage );
             pnlInnerPDFReference.ResumeLayout( false );
-            this.pnlGroupDefaultData.ResumeLayout( false );
+            this.pnlPDFReference.ResumeLayout( false );
 
             // Sizes for controls
             Graphics grf = new Form().CreateGraphics();
-            SizeF fontSize = grf.MeasureString( "W", this.udFunctionEndColumn.Font );
+            SizeF fontSize = grf.MeasureString( "W", this.udFunctionStartPage.Font );
             int charWidth = (int) fontSize.Width + 5;
-            this.udFunctionStartPage.MaximumSize = new Size( charWidth * 2, this.udFunctionEndColumn.Height );
+            this.udFunctionStartPage.MaximumSize = new Size( charWidth * 2, this.udFunctionStartPage.Height );
             this.edPDFFileName.MinimumSize = new Size( charWidth * 12, this.edPDFFileName.Height );
             this.pnlPDFReference.MinimumSize = new Size(
-                this.Panel.ClientSize.Width,
+                this.Panel.ClientSize.Width - 100,
                 this.edPDFFileName.Height );
         }
 
@@ -404,7 +404,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			pnlInnerGroupCommands.AutoSize = true;
 			pnlInnerGroupCommands.Font = new Font( pnlInnerGroupCommands.Font, FontStyle.Regular );
 
-			this.pnlContainer.Controls.Add( this.pnlGroupCommands );
+            this.tcPad.TabPages[ 1 ].Controls.Add( this.pnlGroupCommands );
 			this.pnlGroupCommands.Controls.Add( pnlInnerGroupCommands );
 
 			this.pnlPreCommand = new Panel();
@@ -421,7 +421,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.edFunctionPreCommand.KeyUp += (sender, e) => {
 				string contents = this.edFunctionPreCommand.Text.Trim();
 
-				if ( string.IsNullOrEmpty( contents ) ) {
+				if ( !string.IsNullOrEmpty( contents ) ) {
 					this.Function.PreCommand = contents;
 				}
 
@@ -449,7 +449,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.edFunctionExecuteOnce.KeyUp += (sender, e) => {
 				string contents = this.edFunctionExecuteOnce.Text.Trim();
 
-				if ( string.IsNullOrEmpty( contents ) ) {
+				if ( !string.IsNullOrEmpty( contents ) ) {
 					this.Function.PreProgramOnce.AddRange( contents.Split( '\n' ) );
 				}
 
@@ -469,6 +469,13 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		{
             this.OnBuilding = true;
 
+            // Tab control
+            this.tcPad = new TabControl();
+            this.tcPad.SuspendLayout();
+            this.tcPad.Dock = DockStyle.Fill;
+            this.tcPad.TabPages.Add( "Basic" );
+            this.tcPad.TabPages.Add( "Extended" );
+
             // Main panel
             this.Panel.SuspendLayout();
             this.pnlContainer = new TableLayoutPanel();
@@ -476,19 +483,24 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
             this.pnlContainer.Dock = DockStyle.Fill;
             this.pnlContainer.AutoSize = true;
 			this.pnlContainer.Resize += (sender, e) => this.OnResizeEditor();
-            this.Panel.Controls.Add( this.pnlContainer );
+            this.tcPad.TabPages[ 0 ].Controls.Add( this.pnlContainer );
+            this.Panel.Controls.Add( this.tcPad );
 
 			// Sub panels
-			this.BuildCheckBoxes();
-			this.BuildDefaultData();
+            this.BuildCheckBoxes();
+            this.BuildArgumentsListTable();
+            this.BuildCommands();
+            this.BuildDefaultData();
             this.BuildPDFReference();
-			this.BuildCommands();
-			this.BuildArgumentsListTable();
 
 			this.pnlContainer.ResumeLayout( false );
             this.Panel.ResumeLayout( false );
+            this.tcPad.ResumeLayout( false );
 			this.OnResizeEditor();
             this.OnBuilding = false;
+
+            this.tcPad.TabPages[ 0 ].Padding = new Padding( 5 );
+            this.tcPad.TabPages[ 1 ].Padding = new Padding( 5 );
 		}
 
 		/// <summary>
@@ -692,6 +704,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		private Panel pnlPreCommand;
 		private Panel pnlExecuteOnce;
 		private Panel pnlArgButtons;
+        private TabControl tcPad;
 
 		private CheckBox chkFunctionHasData;
 		private CheckBox chkFunctionRemoveQuotes;

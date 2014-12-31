@@ -3,7 +3,6 @@ using System.IO;
 using System.Xml;
 using System.Drawing;
 using System.Diagnostics;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 using RAppMenu.Core;
@@ -23,6 +22,8 @@ namespace RAppMenu.Ui {
 
 			this.Build();
 			this.PrepareView( false );
+
+            Trace.WriteLine( DateTime.Now + ": Ready" );
 		}
 
 		private void OnQuit()

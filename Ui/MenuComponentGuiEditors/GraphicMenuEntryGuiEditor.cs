@@ -88,22 +88,8 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.pnlImageTooltip.MaximumSize = new Size( int.MaxValue, this.btFileName.Height );
 		}
 
-        private void BuildFunctionEditorPanel()
+        private void BuildGraphicFilePanel()
         {
-            this.pnlFunction = new Panel();
-            this.pnlFunction.AutoSize = true;
-            this.pnlFunction.Dock = DockStyle.Fill;
-        }
-
-		private void Build()
-		{
-			this.Panel.SuspendLayout();
-
-            this.pnlContainer = new TableLayoutPanel();
-            this.pnlContainer.Dock = DockStyle.Fill;
-            this.pnlContainer.AutoSize = true;
-            this.pnlContainer.SuspendLayout();
-
             this.pnlFile = new GroupBox();
             this.pnlFile.Text = "Graphic file";
             this.pnlFile.Font = new Font( this.pnlFile.Font, FontStyle.Bold );
@@ -115,19 +101,38 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
             pnlInnerFile.Font = new Font( pnlInnerFile.Font, FontStyle.Regular );
             pnlInnerFile.Dock = DockStyle.Fill;
 
-			this.BuildFileNamePanel();
-			this.BuildTooltipPanel();
-            this.BuildFunctionEditorPanel();
-
             pnlInnerFile.Controls.Add( this.pnlEdFileName );
             pnlInnerFile.Controls.Add( this.pnlImageTooltip );
             this.pnlFile.Controls.Add( pnlInnerFile );
             this.pnlContainer.Controls.Add( this.pnlFile );
-            this.pnlContainer.Controls.Add( this.pnlFunction );
-            this.Panel.Controls.Add( this.pnlContainer );
 
             pnlInnerFile.ResumeLayout( false );
             this.pnlFile.ResumeLayout( false );
+        }
+
+        private void BuildFunctionEditorPanel()
+        {
+            this.pnlFunction = new TableLayoutPanel();
+            this.pnlFunction.AutoSize = true;
+            this.pnlFunction.Dock = DockStyle.Fill;
+            this.pnlContainer.Controls.Add( this.pnlFunction );
+        }
+
+		private void Build()
+		{
+			this.Panel.SuspendLayout();
+
+            this.pnlContainer = new TableLayoutPanel();
+            this.pnlContainer.Dock = DockStyle.Fill;
+            this.pnlContainer.AutoSize = true;
+            this.pnlContainer.SuspendLayout();
+
+            this.BuildFileNamePanel();
+			this.BuildTooltipPanel();
+            this.BuildGraphicFilePanel();
+            this.BuildFunctionEditorPanel();
+
+            this.Panel.Controls.Add( this.pnlContainer );
             this.pnlContainer.ResumeLayout( false );
 			this.Panel.ResumeLayout( false );
 		}
