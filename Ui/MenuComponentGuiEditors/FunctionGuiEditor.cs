@@ -450,6 +450,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 				string contents = this.edFunctionExecuteOnce.Text.Trim();
 
 				if ( !string.IsNullOrEmpty( contents ) ) {
+                    this.Function.PreProgramOnce.Clear();
 					this.Function.PreProgramOnce.AddRange( contents.Split( '\n' ) );
 				}
 

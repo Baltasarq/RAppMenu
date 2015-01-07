@@ -90,7 +90,7 @@ namespace RAppMenu.Core {
                 PrepareAppConfigFolder(),
                 LogFile );
 
-            Trace.Listeners.Add( new TextWriterTraceListener( 
+            Trace.Listeners.Add( new TextWriterTraceListener(
                 new FileStream( logPath, FileMode.Create )
             ) );
 
@@ -118,6 +118,16 @@ namespace RAppMenu.Core {
 
         public static string GetPathToMainApp()
         {
+                /**
+                 *
+                 * Root: "HKLM"; Subkey: "Software\RWizard"; ValueType: string; ValueName: "InstallPath"; ValueData: "{app}"
+
+{app}à aquí pondrá la ruta donde está instalado el RWizard. Si tu lo tienes ya instalado puedes comprobar que es lo que pone.
+
+
+
+Root: "HKLM"; Subkey: "Software\RWizard"; ValueType: string; ValueName: "Version"; ValueData: "1.0"
+                 */
             if ( string.IsNullOrEmpty( pathToMainApp ) ) {
                 Trace.WriteLine( DateTime.Now + ": " + "Trying to locate RWizard..." );
 
