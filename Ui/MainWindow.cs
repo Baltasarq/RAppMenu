@@ -581,6 +581,10 @@ namespace RAppMenu.Ui {
 				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.add.png" )
 			);
 
+            this.checkIconBmp = new Bitmap(
+                entryAssembly.GetManifestResourceStream( "RAppMenu.Res.check.png" )
+            );
+
 			this.editFnCallsIconBmp = new Bitmap(
 				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.editFnCalls.png" )
 			);
@@ -1009,7 +1013,7 @@ namespace RAppMenu.Ui {
                 this.pdfIconBmp, this.separatorIconBmp,
                 this.deleteIconBmp, this.upIconBmp, this.downIconBmp,
 				this.playIconBmp, this.addIconBmp, this.editFnCallsIconBmp,
-				this.saveAsIconBmp
+                this.saveAsIconBmp, this.checkIconBmp
             });
 
             this.newAction = new UserAction( "New", 0, this.OnNew );
@@ -1037,6 +1041,9 @@ namespace RAppMenu.Ui {
 			new UserAction( "Remove function call argument", 9, null );
 			new UserAction( "Add argument to function call", 13, null );
 			new UserAction( "Remove argument from function call", 9, null );
+
+            // For the CSV editor
+            new UserAction( "Check", 17, null );
 		}
 
 		private void BuildContextlMenu()
@@ -1306,6 +1313,7 @@ namespace RAppMenu.Ui {
 
 		private Bitmap appIconBmp;
 		private Bitmap addIconBmp;
+        private Bitmap checkIconBmp;
 		private Bitmap editFnCallsIconBmp;
 		private Bitmap deleteIconBmp;
         private Bitmap downIconBmp;

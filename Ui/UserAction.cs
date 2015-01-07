@@ -56,6 +56,14 @@ namespace RAppMenu.Ui {
 			this.controls.Add( c );
 		}
 
+        /// <summary>
+        /// Clears all components.
+        /// </summary>
+        public void ClearComponents()
+        {
+            this.controls.Clear();
+        }
+
 		/// <summary>
 		/// Returns the count of controls.
 		/// </summary>
