@@ -20,6 +20,25 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.Build();
 		}
 
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing( e );
+
+            if ( this.DialogResult != DialogResult.OK ) {
+                DialogResult result = MessageBox.Show( "Discard changes",
+                    "Changes will be lost. Are you sure?",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button2 );
+
+                if ( result == DialogResult.No ) {
+                    e.Cancel = true;
+                }
+            }
+
+            return;
+        }
+
 		/// <summary>
 		/// Gets the function this editor modifies its function call arguments.
 		/// </summary>
@@ -122,6 +141,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 		private void BuildToolbar()
 		{
 			var quitAction = UserAction.LookUp( "quit" );
+            var saveAction = UserAction.LookUp( "save" );
 
 			this.tbToolbar = new ToolStrip();
 			this.tbToolbar.BackColor = Color.DarkGray;
@@ -132,9 +152,21 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.tbbQuit = new ToolStripButton();
 			this.tbbQuit.ImageIndex = quitAction.ImageIndex;
 			this.tbbQuit.ToolTipText = quitAction.Text;
-			this.tbbQuit.Click += (sender, e) => this.Close();
+            this.tbbQuit.Click += (sender, e) => {
+                this.DialogResult = DialogResult.Cancel;
+                this.Close();
+            };
 
-			this.tbToolbar.Items.Add( tbbQuit );
+            this.tbbSave = new ToolStripButton();
+            this.tbbSave.ImageIndex = saveAction.ImageIndex;
+            this.tbbSave.ToolTipText = saveAction.Text;
+            this.tbbSave.Click += (sender, e) =>  {
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            };
+
+            this.tbToolbar.Items.AddRange(
+                new ToolStripItem[]{ tbbQuit, tbbSave } );
 		}
 
 		/// <summary>
@@ -565,6 +597,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 		private DataGridView grdFnCallArgsList;
 
 		private ToolStripButton tbbQuit;
+        private ToolStripButton tbbSave;
 		private Button btFunctionAddFnCall;
 		private Button btFunctionRemoveFnCall;
 		private Button btFunctionAddFnCallArg;

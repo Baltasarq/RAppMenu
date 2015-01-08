@@ -87,6 +87,17 @@ namespace RAppMenu.Core.MenuComponents {
 				return toret;
 			}
 
+            public void Copy(ArgumentList dest)
+            {
+                dest.Clear();
+
+                foreach(BaseArgument arg in this) {
+                    dest.Add( (BaseArgument) arg.Copy( dest.Owner ) );
+                }
+
+                return;
+            }
+
 			public override string ToString()
 			{
 				var toret = new StringBuilder();

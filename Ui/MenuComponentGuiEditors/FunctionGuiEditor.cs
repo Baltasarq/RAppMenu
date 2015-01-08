@@ -624,11 +624,23 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		/// </summary>
 		private void OnEditFunctionCallArguments()
 		{
+            var fakeRoot = new RootMenu( new MenuDesign() );
+            Function old = (Function) this.Function.Copy( fakeRoot );
+
 			if ( this.fnCallsEditor == null ) {
 				this.fnCallsEditor = new FunctionCallsGuiEditor( this.Function );
 			}
 
-			this.fnCallsEditor.ShowDialog();
+            if ( this.fnCallsEditor.ShowDialog() != DialogResult.OK ) {
+                this.Function.FunctionCallsArgumentList.Clear();
+
+                foreach(Function.CallArgument fnCall in old.FunctionCallsArgumentList) {
+                    this.Function.FunctionCallsArgumentList.Add(
+                        (Function.CallArgument) fnCall.Copy( this.Function ) );
+                }
+            }
+
+            return;
 		}
 
 		/// <summary>

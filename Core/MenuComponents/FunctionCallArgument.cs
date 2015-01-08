@@ -209,7 +209,6 @@ namespace RAppMenu.Core.MenuComponents {
                     arg.Copy( toret );
                 }
 
-                functionOwner.FunctionCallsArgumentList.Add( toret );
                 return toret;
             }
 

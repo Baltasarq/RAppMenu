@@ -250,14 +250,8 @@ namespace RAppMenu.Core.MenuComponents {
                 toret.PreProgramOnce.Add( sentence );
             }
 
-            foreach(Argument arg in this.RegularArgumentList) {
-                arg.Copy( toret );
-            }
-
-            foreach(Argument arg in this.FunctionCallsArgumentList) {
-                arg.Copy( toret );
-            }
-
+            this.RegularArgumentList.Copy( toret.RegularArgumentList );
+            this.FunctionCallsArgumentList.Copy( toret.FunctionCallsArgumentList );
             return toret;
         }
 

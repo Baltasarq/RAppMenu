@@ -121,7 +121,6 @@ namespace RAppMenu.Core.MenuComponents {
 					Tag = this.Tag
 				};
 
-                functionOwner.RegularArgumentList.Add( toret );
                 return toret;
 			}
 
