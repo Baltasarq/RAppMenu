@@ -11,15 +11,6 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.numFnCalls = 0;
 			this.numFnCallArgs = 0;
 			this.function = f;
-			this.StartPosition = FormStartPosition.CenterParent;
-
-			Bitmap icon = new Bitmap(
-				System.Reflection.Assembly.GetEntryAssembly().
-				GetManifestResourceStream( "RAppMenu.Res.appIcon.png" )
-			);
-
-			this.Icon = Icon.FromHandle( icon.GetHicon() );
-			this.Text = "Function call arguments editor";
 
 			this.addFunctionCallAction = UserAction.LookUp( "addfunctioncallargument" );
 			this.removeFunctionCallAction = UserAction.LookUp( "removefunctioncallargument" );
@@ -94,6 +85,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.BuildToolbar();
 			this.BuildFunctionCallListTable();
 			this.BuildFunctionCallArgumentsListTable();
+			this.BuildIcon();
 
 			this.spFnCallLists.Panel1.Controls.Add( this.pnlFnCalls );
 			this.spFnCallLists.Panel2.Controls.Add( this.pnlFnCallArgs );
@@ -105,6 +97,26 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 
 			this.pnlFnCallsLists.ResumeLayout( false );
 			this.MinimumSize = new Size( 640, 480 );
+			this.StartPosition = FormStartPosition.CenterParent;
+			this.Text = "Function call arguments editor";
+		}
+
+		private void BuildIcon()
+		{
+			Bitmap appIconBmp;
+			System.Reflection.Assembly entryAssembly;
+
+			try {
+				entryAssembly = System.Reflection.Assembly.GetEntryAssembly();
+
+				appIconBmp = new Bitmap(
+					entryAssembly.GetManifestResourceStream( "RAppMenu.Res.appIcon.png" )
+					);
+			} catch (Exception) {
+				throw new ArgumentException( "Unable to load embedded icons" );
+			}
+
+			this.Icon = Icon.FromHandle( appIconBmp.GetHicon() );
 		}
 
 		private void BuildToolbar()

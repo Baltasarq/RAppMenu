@@ -1043,7 +1043,7 @@ namespace RAppMenu.Ui {
 			new UserAction( "Remove argument from function call", 9, null );
 
             // For the CSV editor
-            new UserAction( "Check", 17, null );
+            new UserAction( "Verify", 16, null );
 		}
 
 		private void BuildContextlMenu()
