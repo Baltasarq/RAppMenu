@@ -16,6 +16,8 @@ namespace RAppMenu {
                 AppInfo.BuildLog();
 
 				mainForm = new MainWindow();
+             //   mainForm = new Ui.MenuComponentGuiEditors.FunctionGuiEditors.CsvEditor();
+             //   mainForm = new Ui.MenuComponentGuiEditors.FunctionGuiEditors.FunctionCallsGuiEditor();
 				Application.EnableVisualStyles();
 				Application.Run( mainForm );
 			}

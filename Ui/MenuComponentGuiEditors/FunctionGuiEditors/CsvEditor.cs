@@ -155,6 +155,25 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.StartPosition = FormStartPosition.CenterParent;
         }
 
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing( e );
+
+            if ( this.DialogResult != DialogResult.OK ) {
+                DialogResult result = MessageBox.Show( "Discard changes",
+                    "Changes will be lost. Are you sure?",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button2 );
+
+                if ( result == DialogResult.No ) {
+                    e.Cancel = true;
+                }
+            }
+
+            return;
+        }
+
 		private void ShowData()
 		{
 			var dlgData = new Form();
