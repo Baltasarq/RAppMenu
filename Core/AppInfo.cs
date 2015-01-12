@@ -162,11 +162,16 @@ namespace RAppMenu.Core {
             try {
 				var regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey( "Software\\RWizard" );
 
-				pathToMainApp = (string) regKey.GetValue( "InstallPath" );
-				mainAppVersion = (string) regKey.GetValue( "Version" );
-				mainAppLocated = true;
+                if ( regKey != null ) {
+    				pathToMainApp = (string) regKey.GetValue( "InstallPath" );
+    				mainAppVersion = (string) regKey.GetValue( "Version" );
+    				mainAppLocated = true;
 
-				Trace.WriteLine( DateTime.Now + ": " + "RWizard located at: " + pathToMainApp );
+                    Trace.WriteLine( DateTime.Now + ": " + "RWizard "
+                        + mainAppVersion + " located at: " + pathToMainApp );
+                } else {
+                    Trace.WriteLine( DateTime.Now + ": " + "RWizard not installed." );
+                }
             } catch(Exception exc)
             {
                 Trace.WriteLine( DateTime.Now + ": " + "Error trying to locate RWizard:" );
