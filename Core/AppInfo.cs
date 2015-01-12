@@ -31,8 +31,9 @@ namespace RAppMenu.Core {
 		public static string ApplicationsFolder {
             get {
                 if ( string.IsNullOrWhiteSpace( pathToApplications ) ) {
+					GetMainAppInfo();
                     pathToApplications = Path.Combine(
-                        GetPathToMainApp(),
+                        PathToMainApp,
                         "Applications" );
                 }
 
@@ -50,8 +51,9 @@ namespace RAppMenu.Core {
 		public static string PdfFolder {
             get {
                 if ( string.IsNullOrWhiteSpace( pathToPDFs ) ) {
+					GetMainAppInfo();
                     pathToPDFs = Path.Combine(
-                        GetPathToMainApp(),
+                        PathToMainApp,
                         "Pdf" );
                 }
 
@@ -69,8 +71,9 @@ namespace RAppMenu.Core {
 		public static string GraphsFolder {
             get {
                 if ( string.IsNullOrWhiteSpace( pathToGraphics ) ) {
+					GetMainAppInfo();
                     pathToGraphics = Path.Combine(
-                        GetPathToMainApp(),
+                        PathToMainApp,
                         "Graphs" );
                 }
 
@@ -79,6 +82,36 @@ namespace RAppMenu.Core {
             set {
                 pathToGraphics = value.Trim();
             }
+		}
+
+		/// <summary>
+		/// Gets the path to main app.
+		/// </summary>
+		/// <value>The path to main app, as a string.</value>
+		public static string PathToMainApp {
+			get {
+				return PathToMainApp;
+			}
+		}
+
+		/// <summary>
+		/// Gets the main app version info.
+		/// </summary>
+		/// <value>The main app version, as a string.</value>
+		public static string MainAppVersionInfo {
+			get {
+				return mainAppVersion;
+			}
+		}
+
+		/// <summary>
+		/// Gets a value indicating whether the main app was located.
+		/// </summary>
+		/// <value><c>true</c> if main app located; otherwise, <c>false</c>.</value>
+		public static Boolean MainAppLocated {
+			get {
+				return mainAppLocated;
+			}
 		}
 
         /// <summary>
@@ -116,36 +149,36 @@ namespace RAppMenu.Core {
             Trace.Close();
         }
 
-        public static string GetPathToMainApp()
+		/// <summary>
+		/// Gets the main app info, suing the registry.
+		/// </summary>
+		/// <returns>The main app info.</returns>
+        public static void GetMainAppInfo()
+		// Root: "HKLM"; Subkey: "Software\RWizard"; ValueType: string; ValueName: "InstallPath";
+		// Root: "HKLM"; Subkey: "Software\RWizard"; ValueType: string; ValueName: "Version";
         {
-                /**
-                 *
-                 * Root: "HKLM"; Subkey: "Software\RWizard"; ValueType: string; ValueName: "InstallPath"; ValueData: "{app}"
+            Trace.WriteLine( DateTime.Now + ": " + "Trying to locate RWizard..." );
 
-{app}à aquí pondrá la ruta donde está instalado el RWizard. Si tu lo tienes ya instalado puedes comprobar que es lo que pone.
+            try {
+				var regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey( "Software\\RWizard" );
 
+				pathToMainApp = (string) regKey.GetValue( "InstallPath" );
+				mainAppVersion = (string) regKey.GetValue( "Version" );
+				mainAppLocated = true;
 
-
-Root: "HKLM"; Subkey: "Software\RWizard"; ValueType: string; ValueName: "Version"; ValueData: "1.0"
-                 */
-            if ( string.IsNullOrEmpty( pathToMainApp ) ) {
-                Trace.WriteLine( DateTime.Now + ": " + "Trying to locate RWizard..." );
-
-                try {
-                    string[] keys = Microsoft.Win32.Registry.CurrentUser.GetSubKeyNames();
-                } catch(Exception exc)
-                {
-                    Trace.WriteLine( DateTime.Now + ": " + "Error trying to locate RWizard:" );
-                    Trace.WriteLine( exc.Message + "\n" + exc.StackTrace );
-                }
-
-                Trace.WriteLine( DateTime.Now + ": " + "Finished trying to locate RWizard." );
+				Trace.WriteLine( DateTime.Now + ": " + "RWizard located at: " + pathToMainApp );
+            } catch(Exception exc)
+            {
+                Trace.WriteLine( DateTime.Now + ": " + "Error trying to locate RWizard:" );
+                Trace.WriteLine( exc.Message + "\n" + exc.StackTrace );
             }
 
-            return pathToMainApp;
+            Trace.WriteLine( DateTime.Now + ": " + "Finished trying to locate RWizard." );
         }
 
-        private static string pathToMainApp = "";
+		private static string mainAppVersion = "";
+        private static string pathToMainApp = ".";
+		private static bool mainAppLocated = false;
         private static string pathToApplications = "";
         private static string pathToPDFs = "";
         private static string pathToGraphics = "";

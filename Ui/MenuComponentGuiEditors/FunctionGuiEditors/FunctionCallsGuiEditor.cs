@@ -25,8 +25,9 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
             base.OnFormClosing( e );
 
             if ( this.DialogResult != DialogResult.OK ) {
-                DialogResult result = MessageBox.Show( "Discard changes",
+                DialogResult result = MessageBox.Show(
                     "Changes will be lost. Are you sure?",
+					"Discard changes",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Information,
                     MessageBoxDefaultButton.Button2 );

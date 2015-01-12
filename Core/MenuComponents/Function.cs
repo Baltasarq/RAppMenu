@@ -37,6 +37,7 @@ namespace RAppMenu.Core.MenuComponents {
             this.DefaultData = "";
             this.PDFPageNumber = 1;
             this.PDFName = "";
+			this.PreCommand = "";
 		}
 
 		/// <summary>

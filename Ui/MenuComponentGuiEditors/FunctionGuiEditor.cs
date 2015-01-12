@@ -483,7 +483,6 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.pnlContainer.SuspendLayout();
             this.pnlContainer.Dock = DockStyle.Fill;
             this.pnlContainer.AutoSize = true;
-			this.pnlContainer.Resize += (sender, e) => this.OnResizeEditor();
             this.tcPad.TabPages[ 0 ].Controls.Add( this.pnlContainer );
             this.Panel.Controls.Add( this.tcPad );
 
@@ -497,7 +496,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			this.pnlContainer.ResumeLayout( false );
             this.Panel.ResumeLayout( false );
             this.tcPad.ResumeLayout( false );
-			this.OnResizeEditor();
+			this.pnlContainer.Resize += (sender, e) => this.OnResizeEditor();
             this.OnBuilding = false;
 
             this.tcPad.TabPages[ 0 ].Padding = new Padding( 5 );

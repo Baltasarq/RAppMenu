@@ -13,12 +13,10 @@ namespace RAppMenu {
 			Form mainForm = null;
 
 			try {
-                AppInfo.BuildLog();
+				AppInfo.BuildLog();
+				AppInfo.GetMainAppInfo();
 
 				mainForm = new MainWindow();
-             //   mainForm = new Ui.MenuComponentGuiEditors.FunctionGuiEditors.CsvEditor();
-             //   mainForm = new Ui.MenuComponentGuiEditors.FunctionGuiEditors.FunctionCallsGuiEditor(
-             //       new RAppMenu.Core.MenuComponents.Function( "f", new Core.MenuComponents.RootMenu( new MenuDesign() ) ) );
 				Application.EnableVisualStyles();
 				Application.Run( mainForm );
 			}
