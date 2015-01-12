@@ -4,11 +4,15 @@ using System.Diagnostics;
 
 namespace RAppMenu.Core {
 	public static class AppInfo {
-		public const string Name = "RAppMenu";
+		public const string Name = "Rawen";
 		public const string Web = "http://www.ipez.es/rwizard/";
-		public const string Version = "1.0.6 20141220";
+        public const string Version = "1.0.6 20150131";
         public const string FileExtension = "xml";
         public const string LogFile = Name + ".errors.log";
+
+        public const string RegistryPath = "Software\\RWizard";
+        public const string RegistryVersionKey = "Version";
+        public const string RegistryInstallPathKey = "InstallPath";
 
         /// <summary>
         /// Gets the application configuration folder ready to work.
@@ -157,28 +161,28 @@ namespace RAppMenu.Core {
 		// Root: "HKLM"; Subkey: "Software\RWizard"; ValueType: string; ValueName: "InstallPath";
 		// Root: "HKLM"; Subkey: "Software\RWizard"; ValueType: string; ValueName: "Version";
         {
-            Trace.WriteLine( DateTime.Now + ": " + "Trying to locate RWizard..." );
+            Trace.WriteLine( DateTime.Now + ": " + "Starting registry search..." );
 
             try {
-				var regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey( "Software\\RWizard" );
+                var regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey( RegistryPath );
 
                 if ( regKey != null ) {
-    				pathToMainApp = (string) regKey.GetValue( "InstallPath" );
-    				mainAppVersion = (string) regKey.GetValue( "Version" );
+                    pathToMainApp = (string) regKey.GetValue( RegistryInstallPathKey );
+                    mainAppVersion = (string) regKey.GetValue( RegistryVersionKey );
     				mainAppLocated = true;
 
-                    Trace.WriteLine( DateTime.Now + ": " + "RWizard "
+                    Trace.WriteLine( DateTime.Now + ": " + "main app "
                         + mainAppVersion + " located at: " + pathToMainApp );
                 } else {
-                    Trace.WriteLine( DateTime.Now + ": " + "RWizard not installed." );
+                    Trace.WriteLine( DateTime.Now + ": " + "main app not installed." );
                 }
             } catch(Exception exc)
             {
-                Trace.WriteLine( DateTime.Now + ": " + "Error trying to locate RWizard:" );
+                Trace.WriteLine( DateTime.Now + ": " + "Error trying to locate main app:" );
                 Trace.WriteLine( exc.Message + "\n" + exc.StackTrace );
             }
 
-            Trace.WriteLine( DateTime.Now + ": " + "Finished trying to locate RWizard." );
+            Trace.WriteLine( DateTime.Now + ": " + "Finished registry search." );
         }
 
 		private static string mainAppVersion = "";
