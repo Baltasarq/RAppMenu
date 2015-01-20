@@ -25,7 +25,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
             this.chkFunctionRemoveQuotes.Checked = this.Function.RemoveQuotationMarks;
 
             this.edFunctionPreCommand.Text = this.Function.PreProgramOnce.ToString();
-            this.edFunctionDefaultData.Text = this.Function.DefaultData;
+            this.edFunctionDefaultData.Text = this.Function.ExampleData;
 		}
 
 		/// <summary>
@@ -261,7 +261,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 				string contents = this.edFunctionDefaultData.Text.Trim();
 
 				if ( !string.IsNullOrEmpty( contents ) ) {
-					this.Function.DefaultData = contents;
+					this.Function.ExampleData = contents;
 				}
 
 				return;
@@ -682,7 +682,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
             this.chkFunctionDataHeader.Checked = this.Function.DataHeader;
 
             // Data
-            this.edFunctionDefaultData.Text = this.Function.DefaultData;
+            this.edFunctionDefaultData.Text = this.Function.ExampleData;
             this.edFunctionPreCommand.Text = this.Function.PreCommand;
             this.edFunctionExecuteOnce.Text = this.Function.PreProgramOnce.ToString();
             this.udFunctionStartColumn.Value = Math.Max( 1, this.Function.StartColumn );

@@ -9,15 +9,17 @@ namespace RAppMenu.Core.MenuComponents {
 	public partial class Function: MenuComponent {
 		public const string TagName = "Function";
 		public const string TagSentences = "ExecuteCommandOnce";
+		public const string TagPDFRef = "PDF";
+		public const string TagExampleData = "ExampleData";
+
 		public const string EtqPreCommand = "PreCommand";
 		public const string EtqName = "Name";
+		public const string EtqPage = "Page";
 		public const string EtqDataHeader = "DataHeader";
 		public const string EtqRemoveQuotationMarks = "RemoveQuotationMarks";
 		public const string EtqHasData = "HasData";
-		public const string EtqDefaultData = "DefaultData";
 		public const string EtqStartColumn = "StartColumn";
-        public const string EtqEndColumn = "EndColumn";
-        public const string EtqPDFRef = "PDF";
+        public const string EtqEndColumn = "EndColumn";        
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RAppMenu.Core.MenuComponents.Function"/> class.
@@ -34,7 +36,7 @@ namespace RAppMenu.Core.MenuComponents {
             this.HasData = false;
             this.DataHeader = false;
             this.RemoveQuotationMarks = false;
-            this.DefaultData = "";
+            this.ExampleData = "";
             this.PDFPageNumber = 1;
             this.PDFName = "";
 			this.PreCommand = "";
@@ -87,12 +89,12 @@ namespace RAppMenu.Core.MenuComponents {
 		/// Gets or sets the default data.
 		/// </summary>
 		/// <value>The default data, as a string.</value>
-		public string DefaultData {
+		public string ExampleData {
 			get {
-				return this.defaultData;
+				return this.exampleData;
 			}
 			set {
-				this.defaultData = value.Trim();
+				this.exampleData = value.Trim();
                 this.SetNeedsSave();
 			}
 		}
@@ -218,7 +220,7 @@ namespace RAppMenu.Core.MenuComponents {
 					+ "PreCommand={3}, DefaultData={4}, StartColumn={5}, EndColumn={6}, "
 					+ "RemoveQuotationMarks={7}, PreProgramOnce={8}, ArgList={9}]",
 			        Name,
-				    HasData, DataHeader, PreCommand, DefaultData, StartColumn,
+				    HasData, DataHeader, PreCommand, ExampleData, StartColumn,
 			        EndColumn, RemoveQuotationMarks, PreProgramOnce, RegularArgumentList.ToString() );
 		}
 
@@ -242,7 +244,7 @@ namespace RAppMenu.Core.MenuComponents {
                 RemoveQuotationMarks = this.RemoveQuotationMarks,
                 StartColumn = this.StartColumn,
                 EndColumn = this.EndColumn,
-                DefaultData = this.DefaultData,
+                ExampleData = this.ExampleData,
                 PDFName = this.PDFName,
                 PDFPageNumber = this.PDFPageNumber
             };
@@ -264,18 +266,6 @@ namespace RAppMenu.Core.MenuComponents {
 		{
             Trace.WriteLine( "Function.ToXml: " + this.ToString() );
             Trace.Indent();
-
-			// Functions must be surrounded by dedicated menus,
-			// unless they are at top level
-			bool needsEnclosingMenu = !( this.Parent is RootMenu )
-                                   && !( this.Parent is GraphicMenuEntry );
-
-			if (  needsEnclosingMenu ) {
-				doc.WriteStartElement( Menu.TagName );
-				doc.WriteStartAttribute( EtqName );
-				doc.WriteString( this.Name );
-				doc.WriteEndAttribute();
-			}
 
 			// The function itself
             doc.WriteStartElement( TagName );
@@ -306,27 +296,6 @@ namespace RAppMenu.Core.MenuComponents {
                 doc.WriteEndAttribute();
             }
 
-            // DefaultData = "Carnivores"
-            if ( !string.IsNullOrWhiteSpace( this.DefaultData ) ) {
-                doc.WriteStartAttribute( EtqDefaultData );
-                doc.WriteString( this.DefaultData );
-                doc.WriteEndAttribute();
-            }
-
-            // StartColumn = "1"
-            if ( this.StartColumn > 0 ) {
-                doc.WriteStartAttribute( EtqStartColumn );
-                doc.WriteString( this.StartColumn.ToString() );
-                doc.WriteEndAttribute();
-            }
-
-            // EndColumn = "1"
-            if ( this.EndColumn > 0 ) {
-                doc.WriteStartAttribute( EtqEndColumn );
-                doc.WriteString( this.EndColumn.ToString() );
-                doc.WriteEndAttribute();
-            }
-
 			// PreCommand = "quit()"
 			if ( !string.IsNullOrWhiteSpace( this.PreCommand ) ) {
 				doc.WriteStartAttribute( EtqPreCommand );
@@ -334,25 +303,49 @@ namespace RAppMenu.Core.MenuComponents {
 				doc.WriteEndAttribute();
 			}
 
-            // PDF = "manual.pdf$6"
+			// <ExampleData Name= "Carnivores" StartColumn=2 EndColumn=5/>
+			if ( !string.IsNullOrWhiteSpace( this.ExampleData ) ) {
+				doc.WriteStartElement( TagExampleData );
+				doc.WriteStartAttribute( EtqName );
+				doc.WriteString( this.ExampleData );
+				doc.WriteEndAttribute();
+
+				// StartColumn = "1"
+				if ( this.StartColumn > 0 ) {
+					doc.WriteStartAttribute( EtqStartColumn );
+					doc.WriteString( this.StartColumn.ToString() );
+					doc.WriteEndAttribute();
+				}
+
+				// EndColumn = "1"
+				if ( this.EndColumn > 0 ) {
+					doc.WriteStartAttribute( EtqEndColumn );
+					doc.WriteString( this.EndColumn.ToString() );
+					doc.WriteEndAttribute();
+				}
+
+				doc.WriteEndElement();
+			}
+
+            // <PDF Name="manual.pdf" Page="2" />
             if ( !string.IsNullOrWhiteSpace( this.PDFName ) ) {
-                string pdfReference = this.PDFName;
+                doc.WriteStartElement( TagPDFRef );
 
-                if ( this.PDFPageNumber > 1 ) {
-                    pdfReference += "$" + this.PDFPageNumber;
-                }
-
-                doc.WriteStartAttribute( EtqPDFRef );
-                doc.WriteString( pdfReference );
+				doc.WriteStartAttribute( EtqName );
+                doc.WriteString( this.PDFName );
                 doc.WriteEndAttribute();
+
+				doc.WriteStartAttribute( EtqPage );
+				doc.WriteString( this.PDFPageNumber.ToString() );
+				doc.WriteEndAttribute();
+
+				doc.WriteEndElement();
             }
 
 			// ExecuteOnce sentences
-			foreach(string sentence in this.PreProgramOnce) {
+			if ( this.PreProgramOnce.Count > 0 ) {
 				doc.WriteStartElement( TagSentences );
-				doc.WriteStartAttribute( EtqName );
-				doc.WriteString( sentence );
-				doc.WriteEndAttribute();
+				doc.WriteString( this.PreProgramOnce.ToString() );
 				doc.WriteEndElement();
 			}
 
@@ -369,41 +362,18 @@ namespace RAppMenu.Core.MenuComponents {
 			// Close the function
             doc.WriteEndElement();
 
-			// Close the enclosing menu, if needed
-			if ( needsEnclosingMenu ) {
-				doc.WriteEndElement();
-			}
-
             Trace.Unindent();
 			return;
 		}
 
 		public static Function FromXml(XmlNode node, Menu menu)
 		{
+			Trace.WriteLine( "Function.FromXml: " + node.AsString() );
+			Trace.Indent();
+
 			string functionName = node.GetAttribute( EtqName ).InnerText.Trim();
-			Menu trueParent = menu;
-
-            Trace.WriteLine( "Function.FromXml: " + node.AsString() );
-            Trace.Indent();
-
-			// Determine the parent for the deletion of the unneeded upper menu
-            // Note that this must not be done if we are at top level,
-            // Or if we are working with a graphic menu.
-			if ( !( menu is RootMenu )
-              && !( menu is GraphicMenuEntry )
-			  && menu.Name == functionName )
-            {
-				trueParent = menu.Parent;
-
-				// Eliminate the unneeded enclosing menu
-				if ( trueParent == null ) {
-					throw new XmlException( "functions should be enclosed in dedicated menu entries" );
-				}
-
-				menu.Remove();
-			}
-
-            var toret = new Function( functionName, trueParent );
+			Trace.WriteLine( "Function Name: " + functionName );
+            var toret = new Function( functionName, menu );
 
 			// Attribute info
 			foreach (XmlAttribute attr in node.Attributes) {
@@ -422,46 +392,54 @@ namespace RAppMenu.Core.MenuComponents {
                     toret.DataHeader = attr.GetValueAsBool();
 				}
 				else
-				// DefaultData = "Carnivores"
-				if ( attr.Name.Equals( EtqDefaultData, StringComparison.OrdinalIgnoreCase ) ) {
-					toret.DefaultData = attr.InnerText.Trim();
-				}
-				else
-				// StartColumn = "1"
-				if ( attr.Name.Equals( EtqStartColumn, StringComparison.OrdinalIgnoreCase ) ) {
-                    toret.StartColumn = attr.GetValueAsInt();
-				}
-				else
-				// EndColumn = "1"
-				if ( attr.Name.Equals( EtqEndColumn, StringComparison.OrdinalIgnoreCase ) ) {
-                    toret.EndColumn = attr.GetValueAsInt();
-				}
-				else
 				// PreCommand = "quit()"
 				if ( attr.Name.Equals( EtqPreCommand, StringComparison.OrdinalIgnoreCase ) ) {
 					toret.PreCommand = attr.InnerText.Trim();
 				}
-                else
-                // PDF = "manual.pdf$5"
-                if ( attr.Name.Equals( EtqPDFRef, StringComparison.OrdinalIgnoreCase ) ) {
-                    string pdfReference = attr.InnerText.Trim();
-
-                    if ( pdfReference.IndexOf( '$' ) >= 0 ) {
-                        string[] parts = pdfReference.Split( '$' );
-
-                        toret.PDFName = parts[ 0 ].Trim();
-                        toret.PDFPageNumber = Convert.ToInt32( parts[ 1 ] );
-                    } else {
-                        toret.PDFName = pdfReference;
-                    }
-                }
 			}
 
-			// Function arguments & execute once sentences
+			// Sub nodes
 			foreach (XmlNode subNode in node.ChildNodes) {
+				// <ExampleData Name= "Carnivores" StartColumn=2 EndColumn=5/>
+				if ( subNode.Name.Equals( TagExampleData, StringComparison.OrdinalIgnoreCase ) ) {
+					XmlAttribute attrName = subNode.GetAttribute( EtqName );
+					XmlAttribute attrStart = subNode.GetAttribute( EtqStartColumn );
+					XmlAttribute attrEnd = subNode.GetAttribute( EtqEndColumn );
+
+					if ( attrName != null ) {
+						toret.ExampleData = attrName.InnerText;
+
+						if ( attrStart != null ) {
+							toret.StartColumn = attrStart.GetValueAsInt();
+						}
+
+						if ( attrEnd != null ) {
+							toret.EndColumn = attrEnd.GetValueAsInt();
+						}
+					} else {
+						throw new XmlException( TagExampleData + " without " + TagName );
+					}
+				}
+				else
+				// <PDF Name="manual.pdf" Page="1"/>
+				if ( subNode.Name.Equals( TagPDFRef, StringComparison.OrdinalIgnoreCase ) ) {
+					XmlAttribute attrName = subNode.GetAttribute( EtqName );
+					XmlAttribute attrPage = subNode.GetAttribute( EtqPage );
+
+					if ( attrName != null ) {
+						toret.PDFName = attrName.InnerText;
+
+						if ( attrPage != null ) {
+							toret.PDFPageNumber = attrPage.GetValueAsInt();
+						}
+					} else {
+						throw new XmlException( TagPDFRef + " without " + TagName );
+					}
+				}
+				else
+				// Execute once
 				if ( subNode.Name.Equals( TagSentences, StringComparison.OrdinalIgnoreCase ) ) {
-					toret.PreProgramOnce.Add(
-						subNode.Attributes.GetNamedItemIgnoreCase( EtqName ).InnerText );
+					toret.PreProgramOnce.AddRange( subNode.InnerText.Split( '\n' ) );
 				}
 				else
 				if ( subNode.Name.Equals( Argument.ArgumentTagName, StringComparison.OrdinalIgnoreCase )
@@ -486,7 +464,7 @@ namespace RAppMenu.Core.MenuComponents {
         private string preCommand;
         private int startColumn;
         private int endColumn;
-        private string defaultData;
+        private string exampleData;
         private int pdfPageNumber;
         private string pdfName;
 		private ExecuteOnceProgram preOnceProgram;
