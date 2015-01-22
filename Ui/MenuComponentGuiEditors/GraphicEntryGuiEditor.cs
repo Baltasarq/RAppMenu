@@ -8,8 +8,8 @@ using RAppMenu.Ui;
 using RAppMenu.Core.MenuComponents;
 
 namespace RAppMenu.Ui.MenuComponentGuiEditors {
-	public class GraphicMenuEntryGuiEditor: MenuComponentGuiEditor {
-		public GraphicMenuEntryGuiEditor(Panel panel, MenuComponentTreeNode mctn, MenuComponent mc)
+	public class GraphicEntryGuiEditor: MenuComponentGuiEditor {
+		public GraphicEntryGuiEditor(Panel panel, MenuComponentTreeNode mctn, MenuComponent mc)
 			: base( panel, mctn, mc )
 		{
             this.Build();
@@ -164,9 +164,9 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
             this.functionEditor.ReadDataFromComponent();
 		}
 
-		public GraphicMenuEntry GraphicMenuEntry {
+		public GraphicEntry GraphicMenuEntry {
 			get {
-				return (GraphicMenuEntry) this.MenuComponent;
+				return (GraphicEntry) this.MenuComponent;
 			}
 		}
 

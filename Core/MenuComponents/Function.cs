@@ -1,6 +1,7 @@
 using System;
-using System.Diagnostics;
 using System.Xml;
+using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace RAppMenu.Core.MenuComponents {
 	/// <summary>
@@ -9,7 +10,7 @@ namespace RAppMenu.Core.MenuComponents {
 	public partial class Function: MenuComponent {
 		public const string TagName = "Function";
 		public const string TagSentences = "ExecuteCommandOnce";
-		public const string TagPDFRef = "PDF";
+		public const string TagPDFRef = "PDFRef";
 		public const string TagExampleData = "ExampleData";
 
 		public const string EtqPreCommand = "PreCommand";
@@ -403,8 +404,8 @@ namespace RAppMenu.Core.MenuComponents {
 				// <ExampleData Name= "Carnivores" StartColumn=2 EndColumn=5/>
 				if ( subNode.Name.Equals( TagExampleData, StringComparison.OrdinalIgnoreCase ) ) {
 					XmlAttribute attrName = subNode.GetAttribute( EtqName );
-					XmlAttribute attrStart = subNode.GetAttribute( EtqStartColumn );
-					XmlAttribute attrEnd = subNode.GetAttribute( EtqEndColumn );
+					XmlNode attrStart = subNode.Attributes.GetNamedItemIgnoreCase( EtqStartColumn );
+					XmlNode attrEnd = subNode.Attributes.GetNamedItemIgnoreCase( EtqEndColumn );
 
 					if ( attrName != null ) {
 						toret.ExampleData = attrName.InnerText;
@@ -423,8 +424,8 @@ namespace RAppMenu.Core.MenuComponents {
 				else
 				// <PDF Name="manual.pdf" Page="1"/>
 				if ( subNode.Name.Equals( TagPDFRef, StringComparison.OrdinalIgnoreCase ) ) {
-					XmlAttribute attrName = subNode.GetAttribute( EtqName );
-					XmlAttribute attrPage = subNode.GetAttribute( EtqPage );
+					XmlNode attrName = subNode.Attributes.GetNamedItemIgnoreCase( EtqName );
+					XmlNode attrPage = subNode.Attributes.GetNamedItemIgnoreCase( EtqPage );
 
 					if ( attrName != null ) {
 						toret.PDFName = attrName.InnerText;
@@ -439,7 +440,27 @@ namespace RAppMenu.Core.MenuComponents {
 				else
 				// Execute once
 				if ( subNode.Name.Equals( TagSentences, StringComparison.OrdinalIgnoreCase ) ) {
-					toret.PreProgramOnce.AddRange( subNode.InnerText.Split( '\n' ) );
+					var sentences = new List<string>( subNode.InnerText.Split( '\n' ) );
+					var sentencesToDelete = new SortedSet<int>();
+
+					// Check the sentences for blank lines
+					for (int i = 0; i < sentences.Count; ++i) {
+						if ( string.IsNullOrWhiteSpace( sentences[ i ] ) ) {
+							sentencesToDelete.Add( i );
+						}
+					}
+					foreach ( int x in sentencesToDelete ) {
+						Console.WriteLine( x );
+					}
+					Console.WriteLine( "'" + subNode.InnerText + "'" );
+					// Remove blank lines
+					int pos = 0;
+					foreach (int x in sentencesToDelete) {
+						sentences.RemoveAt( x - pos );
+						++pos;
+					}
+
+					toret.PreProgramOnce.AddRange( sentences.ToArray() );
 				}
 				else
 				if ( subNode.Name.Equals( Argument.ArgumentTagName, StringComparison.OrdinalIgnoreCase )

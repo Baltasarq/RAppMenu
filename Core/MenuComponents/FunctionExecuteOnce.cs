@@ -54,7 +54,7 @@ namespace RAppMenu.Core.MenuComponents {
             private void Chk(string value)
             {
                 if ( string.IsNullOrWhiteSpace( value ) ) {
-                    throw new ArgumentException( "sentence cannot be null or empty" ); 
+                    throw new ArgumentException( "ExecuteOnce program: sentence cannot be null or empty" ); 
                 }
 
                 return;

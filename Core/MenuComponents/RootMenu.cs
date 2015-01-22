@@ -1,4 +1,5 @@
 using System;
+using System.Xml;
 using System.Diagnostics;
 
 namespace RAppMenu.Core.MenuComponents {
@@ -6,29 +7,39 @@ namespace RAppMenu.Core.MenuComponents {
 	/// This is the root menu emtry.
 	/// In the XML, it is represented as "Menue"
 	/// </summary>
-	public class RootMenu: Menu {
-		public new const string TagName = "Menue";
-
+	public class RootMenu: RegularMenu {
         public RootMenu(MenuDesign owner)
 			:base( "Root" )
 		{
             this.menuDesign = owner;
 		}
 
-        public override void ToXml(System.Xml.XmlTextWriter doc)
+        public override void ToXml(XmlTextWriter doc)
         {
             Trace.WriteLine( "RootMenu.ToXml: " + this.ToString() );
             Trace.Indent();
+			Trace.WriteLine( "Menu Name=" + this.Name );
+			base.ToXml( doc );
+			Trace.Unindent();
+		}
 
-			doc.WriteStartElement( TagName );
+		public void FromXml(XmlNode node)
+		{
+			Trace.WriteLine( "RootMenu.FromXml: " + node.AsString() );
+			this.ClearComponents();
 
-            foreach (MenuComponent mc in this.MenuComponents) {
-                mc.ToXml( doc );
-            }
+			// Name = "m1"
+			var attrName = (XmlAttribute) node.GetAttribute( EtqName );
+			if ( attrName != null ) {
+				this.Name = attrName.InnerText;
+			} else {
+				throw new XmlException( TagName + ": expected attribute " + EtqName );
+			}
 
-			doc.WriteEndElement();
-            Trace.Unindent();
-        }
+			// Subnodes of node
+			this.LoadComponentsFromXml( node );
+			return;
+		}
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="RAppMenu.Core.MenuDesign"/> needs save.

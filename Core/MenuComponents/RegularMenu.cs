@@ -3,18 +3,25 @@
 namespace RAppMenu.Core.MenuComponents {
     public partial class RegularMenu: Menu {
         public RegularMenu(string name, Menu parent)
-            :base( name, parent )
+            : base( name, parent )
         {
         }
+
+		protected RegularMenu(string name)
+			:base( name )
+		{
+		}
 
         public override void Add(MenuComponent mc)
         {
             var pdfFile = mc as PdfFile;
+
             base.Add( mc );
 
             // We need to store the new PDF File in the list
-            if (pdfFile != null ) {
+            if ( pdfFile != null ) {
                 this.Root.Owner.GetPDFList().Add( pdfFile );
+				Console.WriteLine( "Added PDF file: " +  this.Root.Owner.GetPDFList().ToString() );
             }
 
             return;
@@ -23,6 +30,7 @@ namespace RAppMenu.Core.MenuComponents {
         public override void Remove(MenuComponent mc)
         {
             var pdfFile = mc as PdfFile;
+
             base.Remove( mc );
 
             // We need to keep the PDF list in sync

@@ -7,6 +7,7 @@ namespace RAppMenu.Core.MenuComponents {
 	/// Represents a menu composed by images, which launch functions.
 	/// </summary>
 	public class GraphicMenu: Menu {
+		public new const string TagName = "GraphicMenu";
         public const string EtqMinimumNumberOfColumns = "MinNumberColumns";
         public const string EtqImageWidth = "ImageWidth";
         public const string EtqImageHeight = "ImageHeight";
@@ -30,9 +31,9 @@ namespace RAppMenu.Core.MenuComponents {
         /// <param name="ime">The <see cref="GraphicMenuEntry"/> object.</param>
 		public override void Add(MenuComponent ime)
 		{
-			if ( !( ime is GraphicMenuEntry) ) {
+			if ( !( ime is GraphicEntry ) ) {
 				throw new ArgumentException(
-					"argument should be a GraphicMenuEntry for GraphicMenu.Add()" );
+					"argument should be a GraphicEntry for GraphicMenu.Add()" );
 			}
 
 			base.Add( ime );
@@ -104,7 +105,7 @@ namespace RAppMenu.Core.MenuComponents {
 				imageWidth = this.ImageWidth,
 			};
 
-			foreach ( GraphicMenuEntry gmc in this.MenuComponents ) {
+			foreach ( GraphicEntry gmc in this.MenuComponents ) {
 				gmc.Copy( toret );
 			}
 
@@ -126,10 +127,10 @@ namespace RAppMenu.Core.MenuComponents {
             Trace.WriteLine( "GraphicMenu.ToXml: " + this.ToString() );
             Trace.Indent();
 
-            doc.WriteStartElement( Menu.TagName );
+            doc.WriteStartElement( TagName );
 
             // Name = "m1"
-            doc.WriteStartAttribute( Menu.EtqName );
+            doc.WriteStartAttribute( EtqName );
             doc.WriteString( this.Name );
             doc.WriteEndAttribute();
 
@@ -154,7 +155,7 @@ namespace RAppMenu.Core.MenuComponents {
                 doc.WriteEndAttribute();
             }
 
-			foreach(GraphicMenuEntry imgmc in this.MenuComponents) {
+			foreach(GraphicEntry imgmc in this.MenuComponents) {
 				imgmc.ToXml( doc );
 			}
 
@@ -190,9 +191,9 @@ namespace RAppMenu.Core.MenuComponents {
 
             // Retrieve ImageMenuEntries (and, eventually, their enclosed functions)
             foreach(XmlNode subNode in node.ChildNodes) {
-                if ( subNode.Name.Equals( TagName, StringComparison.OrdinalIgnoreCase ) )
+				if ( subNode.Name.Equals( GraphicEntry.TagName, StringComparison.OrdinalIgnoreCase ) )
                 {
-                    GraphicMenuEntry.FromXml( subNode, toret );
+                    GraphicEntry.FromXml( subNode, toret );
                 }
             }
 

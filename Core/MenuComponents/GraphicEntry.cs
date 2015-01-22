@@ -3,11 +3,12 @@ using System.Diagnostics;
 using System.Xml;
 
 namespace RAppMenu.Core.MenuComponents {
-	public class GraphicMenuEntry: Menu {
+	public class GraphicEntry: Menu {
+		public new const string TagName = "GraphicEntry";
 		public const string EtqImagePath = "Image";
         public const string EtqImageToolTip = "ImageTooltip";
 
-		public GraphicMenuEntry(string id, GraphicMenu parent)
+		public GraphicEntry(string id, GraphicMenu parent)
 			:base( id, parent )
 		{
 			this.ImagePath = "image.png";
@@ -115,7 +116,7 @@ namespace RAppMenu.Core.MenuComponents {
 				throw new ArgumentException( "parent of copies graphic menu entry should be a graphic menu" );
 			}
 
-            var toret = new GraphicMenuEntry( this.Name, (GraphicMenu) newParent ) {
+            var toret = new GraphicEntry( this.Name, (GraphicMenu) newParent ) {
 				ImagePath = this.ImagePath,
 				ImageToolTip = this.ImageToolTip
 			};
@@ -127,20 +128,20 @@ namespace RAppMenu.Core.MenuComponents {
 
 		public override string ToString()
 		{
-			return string.Format( "[GraphicMenuEntry: Name={0}, ImagePath={1}, "
+			return string.Format( "[GraphicEntry: Name={0}, ImagePath={1}, "
 				+ "ImageToolTip={2}, Function={3}]",
 			    Name, ImagePath, ImageToolTip, Function.ToString() );
 		}
 
 		public override void ToXml(XmlTextWriter doc)
 		{
-            Trace.WriteLine( "GraphicMenuEntry.ToXml: " + this.ToString() );
+            Trace.WriteLine( "GraphicEntry.ToXml: " + this.ToString() );
             Trace.Indent();
 
-			doc.WriteStartElement( Menu.TagName );
+			doc.WriteStartElement( TagName );
 
             // Name = "m1"
-			doc.WriteStartAttribute( Menu.EtqName );
+			doc.WriteStartAttribute( EtqName );
 			doc.WriteString( this.Name );
 			doc.WriteEndAttribute();
 
@@ -163,12 +164,12 @@ namespace RAppMenu.Core.MenuComponents {
             Trace.Unindent();
 		}
 
-		public static GraphicMenuEntry FromXml(XmlNode node, GraphicMenu menu)
+		public static GraphicEntry FromXml(XmlNode node, GraphicMenu menu)
 		{
             Trace.WriteLine( "GraphicMenuEntry.ToXml: " + node.AsString() );
             Trace.Indent();
 
-            var toret = new GraphicMenuEntry(
+            var toret = new GraphicEntry(
                                        node.GetAttribute( EtqName ).InnerText,
                                        menu );
 

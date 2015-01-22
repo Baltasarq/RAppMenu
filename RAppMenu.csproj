@@ -71,7 +71,6 @@
     <Compile Include="Core\MenuComponents\GraphicMenu.cs" />
     <Compile Include="Core\MenuComponents\GraphicMenuEntry.cs" />
     <Compile Include="Ui\MenuComponentGuiEditors\GraphicMenuEntryGuiEditor.cs" />
-    <Compile Include="Core\XmlReader.cs" />
     <Compile Include="Ui\MenuComponentTreeNodes\PdfFileTreeNode.cs" />
     <Compile Include="Ui\MenuComponentTreeNodes\GraphicMenuEntryTreeNode.cs" />
     <Compile Include="Core\MenuComponents\FunctionArgument.cs" />
@@ -84,6 +83,7 @@
     <Compile Include="Core\MenuComponents\RegularMenu.cs" />
     <Compile Include="Core\MenuComponents\MenuDesignPDFList.cs" />
     <Compile Include="Ui\MenuComponentGuiEditors\FunctionGuiEditors\CsvEditor.cs" />
+    <Compile Include="Core\XmlUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />

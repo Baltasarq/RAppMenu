@@ -73,6 +73,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 		{
 			var pmc = (PdfFile) this.MenuComponent;
 			var dlg = new OpenFileDialog();
+
 			dlg.InitialDirectory = AppInfo.PdfFolder;
 			dlg.CheckFileExists = true;
 			dlg.DefaultExt = "pdf";

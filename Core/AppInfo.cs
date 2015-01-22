@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace RAppMenu.Core {
 	public static class AppInfo {
-		public const string Name = "Rawen";
+		public const string Name = "RWABuilder";
 		public const string Web = "http://www.ipez.es/rwizard/";
         public const string Version = "1.0.6 20150131";
         public const string FileExtension = "xml";
@@ -94,7 +94,7 @@ namespace RAppMenu.Core {
 		/// <value>The path to main app, as a string.</value>
 		public static string PathToMainApp {
 			get {
-				return PathToMainApp;
+				return pathToMainApp;
 			}
 		}
 

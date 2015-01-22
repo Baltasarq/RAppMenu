@@ -168,8 +168,8 @@ namespace RAppMenu.Ui {
 			this.SetStatus( "Creating function..." );
 			if ( parentImagesMenu != null ) {
 				id = "newGraphIdFunction" + ( ++this.numGraphicMenuEntries );
-                var ime = new CoreComponents.GraphicMenuEntry( id, parentImagesMenu );
-				tn = new UiComponents.GraphicMenuEntryTreeNode( ime );
+                var ime = new CoreComponents.GraphicEntry( id, parentImagesMenu );
+				tn = new UiComponents.GraphicEntryTreeNode( ime );
 			} else {
 				id = "newFunction" + ( ++this.numFunctions );
                 var f = new CoreComponents.Function( id, (CoreComponents.Menu) parentMc );
@@ -462,8 +462,8 @@ namespace RAppMenu.Ui {
                     mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
 
                     // Prepare tree menu and editor for each graphic menu entry
-                    foreach(CoreComponents.GraphicMenuEntry grme in grphMenu.MenuComponents) {
-                        var grmetn = new UiComponents.GraphicMenuEntryTreeNode( grme );
+                    foreach(CoreComponents.GraphicEntry grme in grphMenu.MenuComponents) {
+                        var grmetn = new UiComponents.GraphicEntryTreeNode( grme );
 
                         mtn.Nodes.Add( grmetn );
                         grmetn.GetEditor( this.pnlProperties ).ReadDataFromComponent();

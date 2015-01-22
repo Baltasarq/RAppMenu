@@ -82,11 +82,23 @@ namespace RAppMenu.Core {
             Trace.WriteLine( DateTime.Now + ": read XML from " + fileName );
             Trace.Indent();
 
-            var reader = new XmlReader( fileName );
+			var toret = new MenuDesign();
 
-            reader.Read();
+			// Open the file
+			var docXml = new XmlDocument();
+			docXml.Load( fileName );
+
+			if ( !docXml.DocumentElement.Name.Equals( RootMenu.TagName, StringComparison.OrdinalIgnoreCase ) )
+			{
+				throw new XmlException( "root element should be: " + RootMenu.TagName );
+			}
+
+			// Read the immediate upper level nodes
+			toret.Root.FromXml( docXml.DocumentElement );
+			toret.NeedsSave = false;
+
             Trace.Unindent();
-            return reader.MenuDesign;
+            return toret;
         }
 
 		public override string ToString()
@@ -115,10 +127,9 @@ namespace RAppMenu.Core {
         public string[] PDFNameList {
             get {
                 var toret = new string[ this.pdfList.Count ];
-                int pos = 0;
 
-                foreach(PdfFile pdf in this.pdfList) {
-                    toret[ pos ] = pdf.Name;
+				for(int i = 0; i < this.pdfList.Count; ++i) {
+                    toret[ i ] = this.pdfList[ i ].Name;
                 }
 
                 return toret;

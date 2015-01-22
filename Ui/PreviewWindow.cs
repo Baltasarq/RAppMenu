@@ -76,7 +76,7 @@ namespace RAppMenu.Ui {
             var items = new List<GraphMenuUtils.GraphicsMenuTable.GraphMenuItemData>();
 
             // Build the list of images
-            foreach (GraphicMenuEntry submc in menuComponents)
+            foreach (GraphicEntry submc in menuComponents)
             {
 				if ( !File.Exists( submc.ImagePath ) ) {
 					errors.AppendFormat( "Missing graphic file: '{0}' in '{1}' at '{2}'",

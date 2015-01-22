@@ -10,7 +10,7 @@ namespace RAppMenu.Core.MenuComponents {
 	/// Represents menu entries.
 	/// </summary>
 	public abstract class Menu: MenuComponent {
-		public const string TagName = "MenueEntry";
+		public const string TagName = "Menu";
         public const string EtqName = "Name";
 
 		/// <summary>
@@ -92,6 +92,14 @@ namespace RAppMenu.Core.MenuComponents {
             this.menuComponents.Remove( mc );
             this.SetNeedsSave();
         }
+
+		/// <summary>
+		/// Clears all the components.
+		/// </summary>
+		public virtual void ClearComponents()
+		{
+			this.menuComponents.Clear();
+		}
 
 		/// <summary>
 		/// Gets the menu entries.
@@ -232,6 +240,29 @@ namespace RAppMenu.Core.MenuComponents {
 			doc.WriteEndElement();
 		}
 
+		protected void LoadComponentsFromXml(XmlNode node)
+		{
+			foreach(XmlNode subNode in node.ChildNodes) {
+				if ( subNode.Name.Equals( GraphicMenu.TagName, StringComparison.OrdinalIgnoreCase ) ) {
+					GraphicMenu.FromXml( subNode, this );
+				}
+				else
+					if ( subNode.Name.Equals( PdfFile.TagName, StringComparison.OrdinalIgnoreCase ) ) {
+					PdfFile.FromXml( subNode, this );
+				}
+				else
+					if ( subNode.Name.Equals( Separator.TagName, StringComparison.OrdinalIgnoreCase ) ) {
+					Separator.FromXml( subNode, this );
+				}
+				else
+					if ( subNode.Name.Equals( Function.TagName, StringComparison.OrdinalIgnoreCase ) ) {
+					Function.FromXml( subNode, this );
+				}
+			}
+
+			return;
+		}
+
         /// <summary>
         /// Loads a menu from XML.
         /// </summary>
@@ -245,8 +276,15 @@ namespace RAppMenu.Core.MenuComponents {
             var toret = new RegularMenu( "tempMenu", parent );
 
             // Name = "m1"
-            var nameAttr = (XmlAttribute) node.Attributes.GetNamedItemIgnoreCase( EtqName );
-            toret.Name = nameAttr.InnerText;
+			var attrName = (XmlAttribute) node.GetAttribute( EtqName );
+			if ( attrName != null ) {
+				toret.Name = attrName.InnerText;
+			} else {
+				throw new XmlException( TagName + ": expected attribute " + EtqName );
+			}
+
+			// Subnodes of node
+			toret.LoadComponentsFromXml( node );
 
             return toret;
         }
