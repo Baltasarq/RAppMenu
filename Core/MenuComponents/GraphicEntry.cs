@@ -140,11 +140,6 @@ namespace RAppMenu.Core.MenuComponents {
 
 			doc.WriteStartElement( TagName );
 
-            // Name = "m1"
-			doc.WriteStartAttribute( EtqName );
-			doc.WriteString( this.Name );
-			doc.WriteEndAttribute();
-
             if ( !string.IsNullOrWhiteSpace( this.ImagePath ) ) {
                 // Image = "/path/to/image1.png"
                 doc.WriteStartAttribute( EtqImagePath );
@@ -169,9 +164,7 @@ namespace RAppMenu.Core.MenuComponents {
             Trace.WriteLine( "GraphicMenuEntry.ToXml: " + node.AsString() );
             Trace.Indent();
 
-            var toret = new GraphicEntry(
-                                       node.GetAttribute( EtqName ).InnerText,
-                                       menu );
+            var toret = new GraphicEntry( TagName, menu );
 
             // Retrieve attribute data
             // Remember that the data here can invalidate the data in the parent
