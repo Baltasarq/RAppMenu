@@ -7,9 +7,9 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{3FC7E0E9-2175-404B-BCB9-9BA8C34CF5BE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>RAppMenu</RootNamespace>
-    <AssemblyName>RAppMenu</AssemblyName>
-    <StartupObject>RAppMenu.Ppal</StartupObject>
+    <RootNamespace>RWABuilder</RootNamespace>
+    <AssemblyName>RWABuilder</AssemblyName>
+    <StartupObject>RWABuilder.Ppal</StartupObject>
     <ApplicationIcon>Res\appIcon.ico</ApplicationIcon>
     <CodePage>65001</CodePage>
   </PropertyGroup>

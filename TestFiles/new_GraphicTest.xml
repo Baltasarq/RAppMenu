@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Menu Name="GraphicTest">
+  <GraphicMenu Name="GraphicMenu test" ImageWidth="200" ImageHeight="250" MinNumberColumns="2">
+	  <GraphicEntry Image="Graphs/Diapositiva11.GIF" >
+		<Function Name="II1" HasData="TRUE">
+			  <Argument Name="data" Required="TRUE"/>
+			  <Argument Name="variables" Required="TRUE"/>  
+		</Function>
+	  </GraphicEntry>
+	  <GraphicEntry Image="Graphs/Diapositiva14.GIF" ImageTooltip="Tooltip Function1" >
+     		<Function Name="X3" HasData="TRUE">
+       			<Argument Name="data" Required="TRUE"/>
+       			<Argument Name="varInteres" Required="TRUE"/>
+      		</Function>
+	  </GraphicEntry>
+	  <GraphicEntry Image="Graphs/Diapositiva15.GIF" ImageTooltip="Tooltip Function2">
+     		<Function Name="X3" HasData="TRUE">
+       			<Argument Name="data" Required="TRUE"/>
+       			<Argument Name="varInteres" Required="TRUE"/>
+      		</Function>
+  	  </GraphicEntry>
+	  <GraphicEntry Image="Graphs/Diapositiva16.GIF">
+     		<Function Name="X3" HasData="TRUE">
+       			<Argument Name="data" Required="TRUE"/>
+       			<Argument Name="varInteres" Required="TRUE"/>
+      		</Function>
+  	</GraphicEntry>
+  </GraphicMenu>
+</Menu>

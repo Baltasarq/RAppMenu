@@ -2,8 +2,8 @@ using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-using RAppMenu.Core;
-using RAppMenu.Ui;
+using RWABuilder.Core;
+using RWABuilder.Ui;
 
 namespace RAppMenu {
 	public class Ppal {

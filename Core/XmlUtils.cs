@@ -5,9 +5,9 @@ using System.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
 
-using RAppMenu.Core.MenuComponents;
+using RWABuilder.Core.MenuComponents;
 
-namespace RAppMenu.Core {
+namespace RWABuilder.Core {
 	static class XmlUtils {
         public static string AsString(this XmlNode node)
         {
