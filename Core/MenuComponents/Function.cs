@@ -463,8 +463,7 @@ namespace RWABuilder.Core.MenuComponents {
 					toret.PreProgramOnce.AddRange( sentences.ToArray() );
 				}
 				else
-				if ( subNode.Name.Equals( Argument.ArgumentTagName, StringComparison.OrdinalIgnoreCase )
-				  || subNode.Name.Equals( Argument.RequiredArgumentTagName, StringComparison.OrdinalIgnoreCase ) )
+				if ( subNode.Name.Equals( Argument.ArgumentTagName, StringComparison.OrdinalIgnoreCase ) )
 				{
 					Argument.FromXml( subNode, toret );
 				}

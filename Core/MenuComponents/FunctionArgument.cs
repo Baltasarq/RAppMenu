@@ -9,7 +9,8 @@ namespace RWABuilder.Core.MenuComponents {
 		/// </summary>
 		public class Argument: BaseArgument {
 			public const string ArgumentTagName = "Argument";
-			public const string RequiredArgumentTagName = "RequiredArgument";
+			public const string EtqRequired = "Required";
+			public const string EtqReadOnly = "ReadOnly";
 			public const string EtqValue = "Value";
 			public const string EtqViewer = "Viewer";
 			public const string EtqDepends = "DependsFrom";
@@ -36,6 +37,20 @@ namespace RWABuilder.Core.MenuComponents {
 				}
 				set {
 					this.required = value;
+					this.SetNeedsSave();
+				}
+			}
+
+			/// <summary>
+			/// Gets or sets a value indicating whether this argument is read only.
+			/// </summary>
+			/// <value><c>true</c> if this instance is read only; otherwise, <c>false</c>.</value>
+			public bool IsReadOnly {
+				get {
+					return this.readOnly;
+				}
+				set {
+					this.readOnly = value;
 					this.SetNeedsSave();
 				}
 			}
@@ -140,15 +155,6 @@ namespace RWABuilder.Core.MenuComponents {
                 Trace.WriteLine( "Function.ToXml(): " + this.ToString() );
                 Trace.Indent();
 
-				// Emit the required argument tag
-				if ( this.IsRequired ) {
-					doc.WriteStartElement( RequiredArgumentTagName );
-					doc.WriteStartAttribute( EtqName );
-					doc.WriteString( this.Name );
-					doc.WriteEndAttribute();
-					doc.WriteEndElement();
-				}
-
 				doc.WriteStartElement( ArgumentTagName );
 
 				// Name = "arg1"
@@ -167,6 +173,20 @@ namespace RWABuilder.Core.MenuComponents {
 				if ( !string.IsNullOrWhiteSpace( this.Value ) ) {
 					doc.WriteStartAttribute( EtqValue );
 					doc.WriteString( this.Value );
+					doc.WriteEndAttribute();
+				}
+
+				// IsRequired = "TRUE"
+				if ( this.IsRequired ) {
+					doc.WriteStartAttribute( EtqRequired );
+					doc.WriteString( true.ToString().ToUpper() );
+					doc.WriteEndAttribute();
+				}
+
+				// IsReadOnly = "TRUE"
+				if ( this.IsReadOnly ) {
+					doc.WriteStartAttribute( EtqReadOnly );
+					doc.WriteString( true.ToString().ToUpper() );
 					doc.WriteEndAttribute();
 				}
 
@@ -191,22 +211,8 @@ namespace RWABuilder.Core.MenuComponents {
 			{
                 Trace.WriteLine( "Argument.FromXml: " + node.AsString() );
 
-				bool isNewArgument = false;
 				string name = node.GetAttribute( EtqName ).InnerText;
-                var toret = (Argument) fn.RegularArgumentList.LookUp( name );
-
-				// Is it a new argument?
-				if ( toret == null ) {
-					toret = new Argument( "tempArg", fn );
-					isNewArgument = true;
-				}
-
-				// RequiredArgument or Argument ?
-				if ( !toret.IsRequired ) {
-					toret.IsRequired =
-						( node.Name.Equals( RequiredArgumentTagName,
-						                   StringComparison.OrdinalIgnoreCase ) );
-				}
+				Argument toret = new Argument( name, fn );
 
 				foreach(XmlAttribute attr in node.Attributes) {
 					// Name = "arg"
@@ -214,23 +220,33 @@ namespace RWABuilder.Core.MenuComponents {
 						toret.Name = attr.InnerText.Trim();
 					}
 					else
-						// DependsFrom = "?"
-						if ( attr.Name.Equals( EtqDepends, StringComparison.OrdinalIgnoreCase ) ) {
+					// DependsFrom = "?"
+					if ( attr.Name.Equals( EtqDepends, StringComparison.OrdinalIgnoreCase ) ) {
 						toret.DependsFrom = attr.InnerText.Trim();
 					}
 					else
-						// Tag = "?"
-						if ( attr.Name.Equals( EtqValue, StringComparison.OrdinalIgnoreCase ) ) {
+					// Tag = "?"
+					if ( attr.Name.Equals( EtqValue, StringComparison.OrdinalIgnoreCase ) ) {
 						toret.Value = attr.InnerText.Trim();
 					}
 					else
-						// AllowMultiSelect = "TRUE"
-						if ( attr.Name.Equals( EtqAllowMultiSelect, StringComparison.OrdinalIgnoreCase ) ) {
+					// AllowMultiSelect = "TRUE"
+					if ( attr.Name.Equals( EtqAllowMultiSelect, StringComparison.OrdinalIgnoreCase ) ) {
 						toret.AllowMultiselect = attr.GetValueAsBool();
 					}
 					else
-						// Viewer = "Map"
-						if ( attr.Name.Equals( EtqViewer, StringComparison.OrdinalIgnoreCase ) ) {
+					// Required = "TRUE"
+					if ( attr.Name.Equals( EtqRequired, StringComparison.OrdinalIgnoreCase ) ) {
+						toret.IsRequired = attr.GetValueAsBool();
+					}
+					else
+					// ReadOnly = "TRUE"
+					if ( attr.Name.Equals( EtqReadOnly, StringComparison.OrdinalIgnoreCase ) ) {
+						toret.IsReadOnly = attr.GetValueAsBool();
+					}
+					else
+					// Viewer = "Map"
+					if ( attr.Name.Equals( EtqViewer, StringComparison.OrdinalIgnoreCase ) ) {
 						string viewerId = attr.InnerText.Trim();
 						ViewerType viewer;
 
@@ -243,14 +259,12 @@ namespace RWABuilder.Core.MenuComponents {
 					}
 				}
 
-				if ( isNewArgument ) {
-					fn.RegularArgumentList.Add( toret );
-				}
-
+				fn.RegularArgumentList.Add( toret );
 				return toret;
 			}
 
 			private bool required;
+			private bool readOnly;
 			private bool multiSelect;
 			private ViewerType viewer;
 			private string depends;
