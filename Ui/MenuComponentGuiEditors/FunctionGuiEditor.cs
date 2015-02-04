@@ -110,7 +110,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			column0.HeaderText = "Name";
 			column0.Width = 120;
 			column0.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column1.HeaderText = "Tag";
+			column1.HeaderText = "Value";
 			column1.Width = 120;
 			column1.SortMode = DataGridViewColumnSortMode.NotSortable;
 			column2.HeaderText = "Depends";
@@ -584,7 +584,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
 			else
 			// The tag
 			if ( colIndex == 1 ) {
-				arg.Tag = (string) row.Cells[ colIndex ].Value;
+				arg.Value = (string) row.Cells[ colIndex ].Value;
 			}
 			else
 			// The depends info
@@ -652,7 +652,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
             // Name
             this.grdArgsList.Columns[ 0 ].Width = (int) ( width * 0.20 );
 
-            // Tag
+            // Value
             this.grdArgsList.Columns[ 1 ].Width = (int) ( width * 0.15 );
 
             // Depends
@@ -694,7 +694,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors {
                 DataGridViewRow row = this.grdArgsList.Rows[ this.grdArgsList.Rows.Count - 1 ];
 
                 row.Cells[ 0 ].Value = arg.Name;
-                row.Cells[ 1 ].Value = arg.Tag;
+                row.Cells[ 1 ].Value = arg.Value;
                 row.Cells[ 2 ].Value = arg.DependsFrom;
                 row.Cells[ 3 ].Value = arg.IsRequired;
                 row.Cells[ 4 ].Value = arg.AllowMultiselect;

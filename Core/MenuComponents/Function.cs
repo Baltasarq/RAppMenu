@@ -11,7 +11,7 @@ namespace RAppMenu.Core.MenuComponents {
 		public const string TagName = "Function";
 		public const string TagSentences = "ExecuteCommandOnce";
 		public const string TagPDFRef = "PDFRef";
-		public const string TagExampleData = "ExampleData";
+		public const string TagExampleData = "Data";
 
 		public const string EtqPreCommand = "PreCommand";
 		public const string EtqName = "Name";

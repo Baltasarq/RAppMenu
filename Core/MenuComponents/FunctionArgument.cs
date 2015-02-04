@@ -10,12 +10,12 @@ namespace RAppMenu.Core.MenuComponents {
 		public class Argument: BaseArgument {
 			public const string ArgumentTagName = "Argument";
 			public const string RequiredArgumentTagName = "RequiredArgument";
-			public const string EtqTag = "Tag";
+			public const string EtqValue = "Value";
 			public const string EtqViewer = "Viewer";
 			public const string EtqDepends = "DependsFrom";
 			public const string EtqAllowMultiSelect = "AllowMultiSelect";
 
-			public enum ViewerType { DataColumnsViewer, DataValuesViewer, Map, TaxTree };
+			public enum ViewerType { Plain, DataColumns, DataValues, Map, TaxTree };
 
 			/// <summary>
 			/// Initializes a new instance of the <see cref="RAppMenu.Core.MenuComponents.Function+FunctionArgument"/> class.
@@ -69,15 +69,15 @@ namespace RAppMenu.Core.MenuComponents {
 			}
 
 			/// <summary>
-			/// Gets or sets the tag.
+			/// Gets or sets the value of this argument.
 			/// </summary>
-			/// <value>The tag, as a string.</value>
-			public string Tag {
+			/// <value>The value, as a string.</value>
+			public string Value {
 				get {
-					return this.tag;
+					return this.value;
 				}
 				set {
-					this.tag = value.Trim();
+					this.value = value.Trim();
 					this.SetNeedsSave();
 				}
 			}
@@ -118,7 +118,7 @@ namespace RAppMenu.Core.MenuComponents {
 					AllowMultiselect = this.AllowMultiselect,
 					Viewer = this.Viewer,
 					DependsFrom = this.DependsFrom,
-					Tag = this.Tag
+					Value = this.Value
 				};
 
                 return toret;
@@ -128,7 +128,7 @@ namespace RAppMenu.Core.MenuComponents {
 			{
 				return string.Format( "[Argument: IsRequired={0}, Viewer={1}, "
 				                     + "DependsFrom={2}, Tag={3}, AllowMultiselect={4}]",
-				                     IsRequired, Viewer, DependsFrom, Tag, AllowMultiselect );
+				                     IsRequired, Viewer, DependsFrom, Value, AllowMultiselect );
 			}
 
 			/// <summary>
@@ -163,10 +163,10 @@ namespace RAppMenu.Core.MenuComponents {
 					doc.WriteEndAttribute();
 				}
 
-				// Tag = "?"
-				if ( !string.IsNullOrWhiteSpace( this.Tag ) ) {
-					doc.WriteStartAttribute( EtqTag );
-					doc.WriteString( this.Tag );
+				// Value = "9"
+				if ( !string.IsNullOrWhiteSpace( this.Value ) ) {
+					doc.WriteStartAttribute( EtqValue );
+					doc.WriteString( this.Value );
 					doc.WriteEndAttribute();
 				}
 
@@ -220,8 +220,8 @@ namespace RAppMenu.Core.MenuComponents {
 					}
 					else
 						// Tag = "?"
-						if ( attr.Name.Equals( EtqTag, StringComparison.OrdinalIgnoreCase ) ) {
-						toret.Tag = attr.InnerText.Trim();
+						if ( attr.Name.Equals( EtqValue, StringComparison.OrdinalIgnoreCase ) ) {
+						toret.Value = attr.InnerText.Trim();
 					}
 					else
 						// AllowMultiSelect = "TRUE"
@@ -254,7 +254,7 @@ namespace RAppMenu.Core.MenuComponents {
 			private bool multiSelect;
 			private ViewerType viewer;
 			private string depends;
-			private string tag;
+			private string value;
 		}
 	}
 }
