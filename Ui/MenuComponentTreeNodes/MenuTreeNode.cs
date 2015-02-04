@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Windows.Forms;
 
-using RAppMenu.Core;
-using RAppMenu.Ui;
-using RAppMenu.Core.MenuComponents;
-using RAppMenu.Ui.MenuComponentGuiEditors;
+using RWABuilder.Core;
+using RWABuilder.Ui;
+using RWABuilder.Core.MenuComponents;
+using RWABuilder.Ui.MenuComponentGuiEditors;
 
-namespace RAppMenu.Ui.MenuComponentTreeNodes {
+namespace RWABuilder.Ui.MenuComponentTreeNodes {
     /// <summary>
     /// Tree node for a menu entry.
     /// </summary>
     public class MenuTreeNode: MenuComponentTreeNode {
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RAppMenu.Ui.TreeNodes.MenuEntryTreeNode"/> class.
+		/// Initializes a new instance of the <see cref="RWABuilder.Ui.TreeNodes.MenuEntryTreeNode"/> class.
 		/// </summary>
 		/// <param name="menu">The menu component being represented.</param>
 		public MenuTreeNode(Core.MenuComponents.Menu menu)
@@ -22,7 +22,7 @@ namespace RAppMenu.Ui.MenuComponentTreeNodes {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RAppMenu.Ui.MenuComponentTreeNodes.MenuTreeNode"/> class.
+		/// Initializes a new instance of the <see cref="RWABuilder.Ui.MenuComponentTreeNodes.MenuTreeNode"/> class.
 		/// This is internally used in order to created the top root menu.
 		/// </summary>
 		/// <param name="rme">Rme.</param>

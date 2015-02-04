@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Windows.Forms;
 
-using RAppMenu.Ui.MenuComponentGuiEditors;
-using RAppMenu.Core;
+using RWABuilder.Ui.MenuComponentGuiEditors;
+using RWABuilder.Core;
 
-namespace RAppMenu.Ui {
+namespace RWABuilder.Ui {
     /// <summary>
     /// Component GUI editor.
     /// This is the base class for editors modifying the corresponding
-    /// <see cref="RAppMenu.Core.MenuComponent"/> objects.
+    /// <see cref="RWABuilder.Core.MenuComponent"/> objects.
     /// </summary>
     public abstract class MenuComponentGuiEditor {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RAppMenu.Ui.ComponentGuiEditor"/> class.
+        /// Initializes a new instance of the <see cref="RWABuilder.Ui.ComponentGuiEditor"/> class.
         /// </summary>
         /// <param name="panel">A <see cref="Panel"/> object in which to place the controls.</param>
 		/// <param name="mctn">A <see cref="MenuComponentTreeNode"/> which represents the component in the tree.</param>
@@ -90,7 +90,7 @@ namespace RAppMenu.Ui {
 		public abstract void ReadDataFromComponent();
 
         /// <summary>
-        /// Gets a value indicating whether this <see cref="RAppMenu.Ui.MenuComponentGuiEditor"/> is on building.
+        /// Gets a value indicating whether this <see cref="RWABuilder.Ui.MenuComponentGuiEditor"/> is on building.
         /// </summary>
         /// <value><c>true</c> if on building; otherwise, <c>false</c>.</value>
         protected bool OnBuilding {

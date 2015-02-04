@@ -2,12 +2,12 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-using RAppMenu.Core;
-using RAppMenu.Core.MenuComponents;
+using RWABuilder.Core;
+using RWABuilder.Core.MenuComponents;
 
-using RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors;
+using RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors;
 
-namespace RAppMenu.Ui.MenuComponentGuiEditors {
+namespace RWABuilder.Ui.MenuComponentGuiEditors {
 	public class FunctionGuiEditor: NamedComponentGuiEditor {
 		public FunctionGuiEditor(Panel panel, MenuComponentTreeNode mctn, MenuComponent mc)
 			: base( panel, mctn, mc )

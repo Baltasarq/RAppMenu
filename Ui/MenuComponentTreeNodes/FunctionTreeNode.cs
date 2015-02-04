@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Windows.Forms;
 
-using RAppMenu.Core;
-using CoreComponents = RAppMenu.Core.MenuComponents;
+using RWABuilder.Core;
+using CoreComponents = RWABuilder.Core.MenuComponents;
 
-namespace RAppMenu.Ui.MenuComponentTreeNodes {
+namespace RWABuilder.Ui.MenuComponentTreeNodes {
     /// <summary>
     /// Tree node for a function.
     /// </summary>
     public class FunctionTreeNode: MenuComponentTreeNode {		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RAppMenu.Ui.MenuComponentTreeNodes.FunctionTreeNode"/> class.
+		/// Initializes a new instance of the <see cref="RWABuilder.Ui.MenuComponentTreeNodes.FunctionTreeNode"/> class.
 		/// </summary>
         /// <param name="f">The <see cref="Function"/></param>
 		public FunctionTreeNode(CoreComponents.Function f)

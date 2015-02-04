@@ -4,17 +4,17 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
-using RAppMenu.Core;
-using RAppMenu.Core.MenuComponents;
+using RWABuilder.Core;
+using RWABuilder.Core.MenuComponents;
 
-namespace RAppMenu.Ui {
+namespace RWABuilder.Ui {
     /// <summary>
     /// This is the preview window.
     /// This small window just shows the menu the user is building.
     /// </summary>
     public class PreviewWindow: Form {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RAppMenu.Ui.PreviewWindow"/> class.
+        /// Initializes a new instance of the <see cref="RWABuilder.Ui.PreviewWindow"/> class.
         /// </summary>
         /// <param name="doc">The <see cref="Document"/>object, containing the menu.</param>
         /// <param name="icon">The icon for the window.</param>

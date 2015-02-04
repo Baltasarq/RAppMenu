@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using RWABuilder.Core;
 using RWABuilder.Ui;
 
-namespace RAppMenu {
+namespace RWABuilder {
 	public class Ppal {
 		[STAThread]
 		public static void Main()

@@ -2,9 +2,9 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-using RAppMenu.Core.MenuComponents;
+using RWABuilder.Core.MenuComponents;
 
-namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
+namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 	public class FunctionCallsGuiEditor: Form {
 		public FunctionCallsGuiEditor(Function f)
 		{
@@ -130,7 +130,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 				entryAssembly = System.Reflection.Assembly.GetEntryAssembly();
 
 				appIconBmp = new Bitmap(
-					entryAssembly.GetManifestResourceStream( "RAppMenu.Res.appIcon.png" )
+					entryAssembly.GetManifestResourceStream( "RWABuilder.Res.appIcon.png" )
 					);
 			} catch (Exception) {
 				throw new ArgumentException( "Unable to load embedded icons" );

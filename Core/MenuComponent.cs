@@ -3,9 +3,9 @@ using System.Xml;
 using System.Text;
 using System.Collections.Generic;
 
-using RAppMenu.Core.MenuComponents;
+using RWABuilder.Core.MenuComponents;
 
-namespace RAppMenu.Core {
+namespace RWABuilder.Core {
 	/// <summary>
 	/// Base class for all menu components:
 	/// menu entries, functions, separators...

@@ -3,13 +3,13 @@ using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
 
-using RAppMenu.Core;
-using RAppMenu.Core.MenuComponents;
+using RWABuilder.Core;
+using RWABuilder.Core.MenuComponents;
 
-namespace RAppMenu.Ui.MenuComponentGuiEditors {
+namespace RWABuilder.Ui.MenuComponentGuiEditors {
 	public class PdfFileGuiEditor: MenuComponentGuiEditor {
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RAppMenu.Ui.ComponentGuiEditors.PdfFileGuiEditor"/> class.
+		/// Initializes a new instance of the <see cref="RWABuilder.Ui.ComponentGuiEditors.PdfFileGuiEditor"/> class.
 		/// </summary>
 		/// <param name="panel">A <see cref="Panel"/> object.</param>
 		/// <param name="mctn">A <see cref="MenuComponentTreeNode"/> object.</param>

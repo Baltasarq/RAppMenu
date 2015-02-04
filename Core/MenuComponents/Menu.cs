@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 
-namespace RAppMenu.Core.MenuComponents {
+namespace RWABuilder.Core.MenuComponents {
 	/// <summary>
 	/// Represents menu entries.
 	/// </summary>
@@ -14,7 +14,7 @@ namespace RAppMenu.Core.MenuComponents {
         public const string EtqName = "Name";
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RAppMenu.MenuEntry"/> class.
+		/// Initializes a new instance of the <see cref="RWABuilder.MenuEntry"/> class.
 		/// </summary>
 		/// <param name='name'>
 		/// The name of the menu entry.

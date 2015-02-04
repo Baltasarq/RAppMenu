@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RAppMenu.Core.MenuComponents {
+namespace RWABuilder.Core.MenuComponents {
     public partial class RegularMenu: Menu {
         public RegularMenu(string name, Menu parent)
             : base( name, parent )

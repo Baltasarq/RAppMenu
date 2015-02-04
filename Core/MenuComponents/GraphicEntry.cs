@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Xml;
 
-namespace RAppMenu.Core.MenuComponents {
+namespace RWABuilder.Core.MenuComponents {
 	public class GraphicEntry: Menu {
 		public new const string TagName = "GraphicEntry";
 		public const string EtqImagePath = "Image";

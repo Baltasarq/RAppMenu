@@ -4,12 +4,12 @@ using System.IO;
 using System.Xml;
 using System.Text;
 
-using RAppMenu.Core.MenuComponents;
+using RWABuilder.Core.MenuComponents;
 
-namespace RAppMenu.Core {
+namespace RWABuilder.Core {
 	public partial class MenuDesign {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RAppMenu.Core.MenuDesign"/> class.
+        /// Initializes a new instance of the <see cref="RWABuilder.Core.MenuDesign"/> class.
         /// Creates an empty menu, with a Root node.
         /// </summary>
 		public MenuDesign()
@@ -107,7 +107,7 @@ namespace RAppMenu.Core {
 		}
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="RAppMenu.Core.MenuDesign"/> needs save.
+        /// Gets or sets a value indicating whether this <see cref="RWABuilder.Core.MenuDesign"/> needs save.
         /// Honors the NeedsSave property in Root, a <see cref="RootMenu"/>
         /// </summary>
         /// <value><c>true</c> if needs save; otherwise, <c>false</c>.</value>

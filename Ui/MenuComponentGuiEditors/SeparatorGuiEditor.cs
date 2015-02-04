@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
 
-using RAppMenu.Core;
+using RWABuilder.Core;
 
-namespace RAppMenu.Ui.MenuComponentGuiEditors {
+namespace RWABuilder.Ui.MenuComponentGuiEditors {
     /// <summary>
     /// Separator GUI editor.
     /// This GUI editor does nothing, since separators do not have

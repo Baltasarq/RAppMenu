@@ -1,15 +1,15 @@
 ﻿using System.Windows.Forms;
 
-using RAppMenu.Core;
-using RAppMenu.Core.MenuComponents;
+using RWABuilder.Core;
+using RWABuilder.Core.MenuComponents;
 
-namespace RAppMenu.Ui.MenuComponentTreeNodes {
+namespace RWABuilder.Ui.MenuComponentTreeNodes {
     /// <summary>
     /// Tree node for PDF path terminals.
     /// </summary>
     public class PdfFileTreeNode: MenuComponentTreeNode {
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RAppMenu.Ui.MenuComponentTreeNodes.PdfTreeNode"/> class.
+		/// Initializes a new instance of the <see cref="RWABuilder.Ui.MenuComponentTreeNodes.PdfTreeNode"/> class.
 		/// </summary>
 		/// <param name="pdf">The <see cref="PdfFile"/>.</param>
 		public PdfFileTreeNode(PdfFile pdf)

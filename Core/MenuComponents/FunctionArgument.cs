@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Xml;
 
-namespace RAppMenu.Core.MenuComponents {
+namespace RWABuilder.Core.MenuComponents {
 	public partial class Function {
 		/// <summary>
 		/// Represents arguments in functions.
@@ -18,7 +18,7 @@ namespace RAppMenu.Core.MenuComponents {
 			public enum ViewerType { Plain, DataColumns, DataValues, Map, TaxTree };
 
 			/// <summary>
-			/// Initializes a new instance of the <see cref="RAppMenu.Core.MenuComponents.Function+FunctionArgument"/> class.
+			/// Initializes a new instance of the <see cref="RWABuilder.Core.MenuComponents.Function+FunctionArgument"/> class.
 			/// </summary>
 			/// <param name="name">Name.</param>
 			public Argument(string name, Function owner)
@@ -83,7 +83,7 @@ namespace RAppMenu.Core.MenuComponents {
 			}
 
 			/// <summary>
-			/// Gets or sets a value indicating whether this <see cref="RAppMenu.Core.MenuComponents.Function+Argument"/> allow multiselect.
+			/// Gets or sets a value indicating whether this <see cref="RWABuilder.Core.MenuComponents.Function+Argument"/> allow multiselect.
 			/// </summary>
 			/// <value><c>true</c> if allow multiselect; otherwise, <c>false</c>.</value>
 			public bool AllowMultiselect {

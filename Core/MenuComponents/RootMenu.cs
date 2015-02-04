@@ -2,7 +2,7 @@ using System;
 using System.Xml;
 using System.Diagnostics;
 
-namespace RAppMenu.Core.MenuComponents {
+namespace RWABuilder.Core.MenuComponents {
 	/// <summary>
 	/// This is the root menu emtry.
 	/// In the XML, it is represented as "Menue"
@@ -42,7 +42,7 @@ namespace RAppMenu.Core.MenuComponents {
 		}
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="RAppMenu.Core.MenuDesign"/> needs save.
+        /// Gets or sets a value indicating whether this <see cref="RWABuilder.Core.MenuDesign"/> needs save.
         /// </summary>
         /// <value><c>true</c> if needs save; otherwise, <c>false</c>.</value>
         public bool NeedsSave {

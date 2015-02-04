@@ -1,9 +1,9 @@
 using System;
 using System.Windows.Forms;
 
-using RAppMenu.Core;
+using RWABuilder.Core;
 
-namespace RAppMenu.Ui.MenuComponentGuiEditors {
+namespace RWABuilder.Ui.MenuComponentGuiEditors {
 	public class MenuGuiEditor: NamedComponentGuiEditor {
 		public MenuGuiEditor(Panel panel, MenuComponentTreeNode mctn, MenuComponent mc)
 			: base( panel, mctn, mc )

@@ -5,14 +5,14 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace RAppMenu.Ui {
+namespace RWABuilder.Ui {
 	/// <summary>
 	/// User actions involve all kind of widgets (menus, buttons...)
 	/// which can trigger an execution.
 	/// </summary>
 	public class UserAction {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RAppMenu.Ui.UserAction"/> class.
+        /// Initializes a new instance of the <see cref="RWABuilder.Ui.UserAction"/> class.
         /// This class represents a user action, such as Load, Save.
         /// It can be composed by varios controls.
         /// </summary>
@@ -26,7 +26,7 @@ namespace RAppMenu.Ui {
         }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RAppMenu.Ui.UserAction"/> class.
+		/// Initializes a new instance of the <see cref="RWABuilder.Ui.UserAction"/> class.
 		/// This class represents a user action, such as Load, Save.
 		/// It includes controls such as a menu, a button, and the objective
 		/// is to control them all at the same time.
@@ -166,7 +166,7 @@ namespace RAppMenu.Ui {
 		}
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="RAppMenu.Ui.UserAction"/> is enabled.
+		/// Gets or sets a value indicating whether this <see cref="RWABuilder.Ui.UserAction"/> is enabled.
 		/// (i.e., whether its controls are enabled)
 		/// </summary>
 		/// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
@@ -180,7 +180,7 @@ namespace RAppMenu.Ui {
 		}
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="RAppMenu.Ui.UserAction"/> is visible.
+		/// Gets or sets a value indicating whether this <see cref="RWABuilder.Ui.UserAction"/> is visible.
 		/// (i.e., whether the controls are visible)
 		/// </summary>
 		/// <value><c>true</c> if visible; otherwise, <c>false</c>.</value>

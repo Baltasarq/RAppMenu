@@ -2,7 +2,7 @@
 using System.Text;
 using System.Collections.ObjectModel;
 
-namespace RAppMenu.Core.MenuComponents {
+namespace RWABuilder.Core.MenuComponents {
     public partial class Function {
         /// <summary>
         /// Represents the execute once list of string values, a program.

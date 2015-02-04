@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 
-namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
+namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
     public class CsvEditor: Form {
 		public const char DataSeparator = ',';
 		public const char DecimalSeparator = '.';
@@ -23,7 +23,7 @@ namespace RAppMenu.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 				entryAssembly = System.Reflection.Assembly.GetEntryAssembly();
 
 				appIconBmp = new Bitmap(
-					entryAssembly.GetManifestResourceStream( "RAppMenu.Res.appIcon.png" )
+					entryAssembly.GetManifestResourceStream( "RWABuilder.Res.appIcon.png" )
 				);
 			} catch (Exception) {
 				throw new ArgumentException( "Unable to load embedded icons" );

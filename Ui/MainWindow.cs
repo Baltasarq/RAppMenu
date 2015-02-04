@@ -5,11 +5,11 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-using RAppMenu.Core;
-using CoreComponents = RAppMenu.Core.MenuComponents;
-using UiComponents = RAppMenu.Ui.MenuComponentTreeNodes;
+using RWABuilder.Core;
+using CoreComponents = RWABuilder.Core.MenuComponents;
+using UiComponents = RWABuilder.Ui.MenuComponentTreeNodes;
 
-namespace RAppMenu.Ui {
+namespace RWABuilder.Ui {
 	public class MainWindow: Form {
 		public MainWindow()
 		{
@@ -571,83 +571,83 @@ namespace RAppMenu.Ui {
 				entryAssembly = System.Reflection.Assembly.GetEntryAssembly();
 
 				this.appIconBmp = new Bitmap(
-					entryAssembly.GetManifestResourceStream( "RAppMenu.Res.appIcon.png" )
+					entryAssembly.GetManifestResourceStream( "RWABuilder.Res.appIcon.png" )
 				);
 			} catch(Exception) {
 				throw new ArgumentException( "Unable to load embedded icons" );
 			}
 
 			this.addIconBmp = new Bitmap(
-				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.add.png" )
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.add.png" )
 			);
 
             this.checkIconBmp = new Bitmap(
-                entryAssembly.GetManifestResourceStream( "RAppMenu.Res.check.png" )
+                entryAssembly.GetManifestResourceStream( "RWABuilder.Res.check.png" )
             );
 
 			this.editFnCallsIconBmp = new Bitmap(
-				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.editFnCalls.png" )
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.editFnCalls.png" )
 			);
 
 			this.deleteIconBmp = new Bitmap(
-				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.delete.png" )
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.delete.png" )
 			);
 
 			this.openIconBmp = new Bitmap(
-				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.open.png" )
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.open.png" )
 			);
 
 			this.infoIconBmp = new Bitmap(
-				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.info.png" )
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.info.png" )
 			);
 
 			this.newIconBmp = new Bitmap(
-				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.new.png" )
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.new.png" )
 			);
 
 			this.saveIconBmp = new Bitmap(
-				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.save.png" )
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.save.png" )
 			);
 
 			this.saveAsIconBmp = new Bitmap(
-				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.save-as.png" )
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.save-as.png" )
 			);
 
 			this.quitIconBmp = new Bitmap(
-				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.quit.png" )
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.quit.png" )
 			);
 
 			this.menuIconBmp = new Bitmap(
-				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.menu.png" )
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.menu.png" )
 			);
 
 			this.functionIconBmp = new Bitmap(
-				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.function.png" )
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.function.png" )
 			);
 
 			this.pdfIconBmp = new Bitmap(
-				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.pdf.png" )
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.pdf.png" )
 			);
 
 			this.graphicIconBmp = new Bitmap(
 				System.Reflection.Assembly.GetEntryAssembly().
-				GetManifestResourceStream( "RAppMenu.Res.graphic.png" )
+				GetManifestResourceStream( "RWABuilder.Res.graphic.png" )
 			);
 
             this.separatorIconBmp = new Bitmap(
-				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.separator.png" )
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.separator.png" )
             );
 
             this.upIconBmp = new Bitmap(
-				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.up.png" )
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.up.png" )
             );
 
             this.downIconBmp = new Bitmap(
-				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.down.png" )
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.down.png" )
             );
 
 			this.playIconBmp = new Bitmap(
-				entryAssembly.GetManifestResourceStream( "RAppMenu.Res.play.png" )
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.play.png" )
 			);
 		}
 

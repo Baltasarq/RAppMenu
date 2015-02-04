@@ -2,7 +2,7 @@
 using System.Xml;
 using System.Diagnostics;
 
-namespace RAppMenu.Core.MenuComponents {
+namespace RWABuilder.Core.MenuComponents {
     public class PdfFile: MenuComponent {
         public const string TagName = "PDF";
         public const string EtqName = "Name";
@@ -16,7 +16,7 @@ namespace RAppMenu.Core.MenuComponents {
         /// Gets the file path to the PDF file.
         /// </summary>
         /// <value>The file path, as a string.</value>
-        /// <seealso cref="RAppMenu.Core.MenuComponent.Name"/>
+        /// <seealso cref="RWABuilder.Core.MenuComponent.Name"/>
         public string FileName {
             get {
                 return this.Name;

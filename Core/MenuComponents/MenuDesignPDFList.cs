@@ -2,9 +2,9 @@
 using System.Text;
 using System.Collections.ObjectModel;
 
-using RAppMenu.Core.MenuComponents;
+using RWABuilder.Core.MenuComponents;
 
-namespace RAppMenu.Core {
+namespace RWABuilder.Core {
     public partial class MenuDesign {
         /// <summary>
         /// Represents the collection of PDF's in the whole menu design.

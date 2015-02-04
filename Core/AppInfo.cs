@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Diagnostics;
 
-namespace RAppMenu.Core {
+namespace RWABuilder.Core {
 	public static class AppInfo {
 		public const string Name = "RWABuilder";
 		public const string Web = "http://www.ipez.es/rwizard/";

@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Xml;
 
-namespace RAppMenu.Core.MenuComponents {
+namespace RWABuilder.Core.MenuComponents {
 	public partial class Function {
 		/// <summary>
 		/// Arguments for function calls.

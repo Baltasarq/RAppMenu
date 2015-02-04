@@ -2,7 +2,7 @@ using System;
 using System.Xml;
 using System.Diagnostics;
 
-namespace RAppMenu.Core.MenuComponents {
+namespace RWABuilder.Core.MenuComponents {
 	/// <summary>
 	/// Represents a menu composed by images, which launch functions.
 	/// </summary>

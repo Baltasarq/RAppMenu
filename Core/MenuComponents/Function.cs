@@ -3,7 +3,7 @@ using System.Xml;
 using System.Diagnostics;
 using System.Collections.Generic;
 
-namespace RAppMenu.Core.MenuComponents {
+namespace RWABuilder.Core.MenuComponents {
 	/// <summary>
 	/// Represents a function entry in the menu.
 	/// </summary>
@@ -23,7 +23,7 @@ namespace RAppMenu.Core.MenuComponents {
         public const string EtqEndColumn = "EndColumn";        
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RAppMenu.Core.MenuComponents.Function"/> class.
+		/// Initializes a new instance of the <see cref="RWABuilder.Core.MenuComponents.Function"/> class.
 		/// </summary>
 		/// <param name="name">The name of the function, as a string.</param>
 		/// <param name="parent">The parent <see cref="MenuComponent"/> of this function.</param>
@@ -59,7 +59,7 @@ namespace RAppMenu.Core.MenuComponents {
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this
-		/// <see cref="RAppMenu.Core.MenuComponents.Function"/> has a data header.
+		/// <see cref="RWABuilder.Core.MenuComponents.Function"/> has a data header.
 		/// </summary>
 		/// <value><c>true</c> if data header; otherwise, <c>false</c>.</value>
 		public bool DataHeader {
@@ -138,7 +138,7 @@ namespace RAppMenu.Core.MenuComponents {
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this
-		/// <see cref="RAppMenu.Core.MenuComponents.Function"/> should remove
+		/// <see cref="RWABuilder.Core.MenuComponents.Function"/> should remove
 		/// the quotation marks.
 		/// </summary>
 		/// <value><c>true</c> if remove quotation marks; otherwise, <c>false</c>.</value>

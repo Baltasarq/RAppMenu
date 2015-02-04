@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Xml;
 
-namespace RAppMenu.Core.MenuComponents {
+namespace RWABuilder.Core.MenuComponents {
 	/// <summary>
 	/// A separator in the menu.
 	/// It will be stored as "<Separator/>"

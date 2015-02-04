@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
 
-using RAppMenu.Core;
-using RAppMenu.Core.MenuComponents;
+using RWABuilder.Core;
+using RWABuilder.Core.MenuComponents;
 
-namespace RAppMenu.Ui.MenuComponentTreeNodes {
+namespace RWABuilder.Ui.MenuComponentTreeNodes {
     /// <summary>
     /// Tree node for graphical menuterminals.
     /// </summary>

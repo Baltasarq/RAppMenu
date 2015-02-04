@@ -2,10 +2,10 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-using RAppMenu.Core;
-using CoreComponents = RAppMenu.Core.MenuComponents;
+using RWABuilder.Core;
+using CoreComponents = RWABuilder.Core.MenuComponents;
 
-namespace RAppMenu.Ui.MenuComponentGuiEditors {
+namespace RWABuilder.Ui.MenuComponentGuiEditors {
 	public class GraphicMenuGuiEditor: MenuGuiEditor {
 		public GraphicMenuGuiEditor(Panel panel, MenuComponentTreeNode mctn, MenuComponent mc)
 			: base( panel, mctn, mc )

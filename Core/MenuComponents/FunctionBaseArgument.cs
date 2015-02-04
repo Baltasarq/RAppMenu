@@ -1,6 +1,6 @@
 using System;
 
-namespace RAppMenu.Core.MenuComponents {
+namespace RWABuilder.Core.MenuComponents {
 	public partial class Function {
 		public abstract class BaseArgument: MenuComponent {
 			public BaseArgument(string name, Function owner)

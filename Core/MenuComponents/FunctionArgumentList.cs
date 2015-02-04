@@ -2,14 +2,14 @@ using System;
 using System.Text;
 using System.Collections.ObjectModel;
 
-namespace RAppMenu.Core.MenuComponents {
+namespace RWABuilder.Core.MenuComponents {
 	public partial class Function {
 		/// <summary>
 		/// Represents the collection of arguments in this function.
 		/// </summary>
 		public class ArgumentList: Collection<BaseArgument> {
 			/// <summary>
-			/// Initializes a new instance of the <see cref="RAppMenu.Core.MenuComponents.Function.ArgumentList"/> class.
+			/// Initializes a new instance of the <see cref="RWABuilder.Core.MenuComponents.Function.ArgumentList"/> class.
 			/// </summary>
 			/// <param name="owner">The <see cref="Function"/> owner.</param>
 			public ArgumentList(Function owner)

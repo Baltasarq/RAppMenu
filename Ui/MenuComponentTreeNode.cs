@@ -1,13 +1,13 @@
 using System.Windows.Forms;
 
-using RAppMenu.Core;
-using RAppMenu.Core.MenuComponents;
+using RWABuilder.Core;
+using RWABuilder.Core.MenuComponents;
 
-namespace RAppMenu.Ui
+namespace RWABuilder.Ui
 {
 	public abstract class MenuComponentTreeNode: TreeNode {
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RAppMenu.Ui.MenuComponentTreeNode"/> class.
+		/// Initializes a new instance of the <see cref="RWABuilder.Ui.MenuComponentTreeNode"/> class.
 		/// </summary>
 		/// <param name="mc">The <see cref="MenuComponent"/> being represented.</param>
 		public MenuComponentTreeNode(MenuComponent mc)

@@ -2,10 +2,10 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-using RAppMenu.Core;
-using RAppMenu.Core.MenuComponents;
+using RWABuilder.Core;
+using RWABuilder.Core.MenuComponents;
 
-namespace RAppMenu.Ui.MenuComponentGuiEditors {
+namespace RWABuilder.Ui.MenuComponentGuiEditors {
     /// <summary>
     /// Named component GUI editor.
     /// This editor is the base for many other ones, in which

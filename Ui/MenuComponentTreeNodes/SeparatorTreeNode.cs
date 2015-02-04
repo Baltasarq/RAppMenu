@@ -1,17 +1,17 @@
 ﻿using System.Windows.Forms;
 
-using RAppMenu.Ui.MenuComponentGuiEditors;
+using RWABuilder.Ui.MenuComponentGuiEditors;
 
-using RAppMenu.Core;
-using RAppMenu.Core.MenuComponents;
+using RWABuilder.Core;
+using RWABuilder.Core.MenuComponents;
 
-namespace RAppMenu.Ui.MenuComponentTreeNodes {
+namespace RWABuilder.Ui.MenuComponentTreeNodes {
     /// <summary>
     /// Tree node for separators.
     /// </summary>
     public class SeparatorTreeNode: MenuComponentTreeNode {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RAppMenu.Ui.MenuComponentTreeNodes.SeparatorTreeNode"/> class.
+        /// Initializes a new instance of the <see cref="RWABuilder.Ui.MenuComponentTreeNodes.SeparatorTreeNode"/> class.
         /// </summary>
         /// <param name="separator">The <see cref="Separator"/> to represent.</param>
         public SeparatorTreeNode(Separator separator)
