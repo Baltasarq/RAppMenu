@@ -54,16 +54,20 @@ namespace RWABuilder.Ui {
 		private void BuildMetaPanel()
 		{
 			this.pnlMeta = new GroupBox();
+            this.pnlMeta.AutoSize = true;
+            this.pnlMeta.Margin = new Padding( 5 );
 			this.pnlMeta.Dock = DockStyle.Fill;
 			this.pnlMeta.Font = new Font( this.pnlMeta.Font, FontStyle.Bold );
 			this.pnlMeta.SuspendLayout();
 
 			var pnlSubPanel = new TableLayoutPanel();
+            pnlSubPanel.AutoSize = true;
 			pnlSubPanel.Dock = DockStyle.Fill;
 			pnlSubPanel.SuspendLayout();
 
 			// Create e.mail sub-panel
 			var pnlEmail = new Panel();
+            pnlEmail.Margin = new Padding( 5 );
 			var lblEmail = new Label();
 			var edEmail = new TextBox();
 			lblEmail.Text = "Author e.mail";
@@ -73,18 +77,39 @@ namespace RWABuilder.Ui {
 			lblEmail.Dock = DockStyle.Left;
 			pnlEmail.Controls.Add( edEmail );
 			pnlEmail.Controls.Add( lblEmail );
+            pnlEmail.MaximumSize = new Size( int.MaxValue, edEmail.Height );
+
+            // Load data & event
+            edEmail.Text = this.Document.AuthorEmail;
+            edEmail.TextChanged += (sender, e) => {
+                string value = edEmail.Text.Trim();
+
+                if ( !string.IsNullOrWhiteSpace( value ) ) {
+                    this.Document.AuthorEmail = value;
+                }
+            };
 
 			// Create date sub-panel
 			var pnlDate = new Panel();
+            pnlDate.Margin = new Padding( 5 );
 			var lblDate = new Label();
 			var edDate = new DateTimePicker();
 			edDate.Format = DateTimePickerFormat.Short;
-			lblDate.Text = "Date of modification";
+			lblDate.Text = "Modified";
 			lblDate.Font = new Font( lblDate.Font, FontStyle.Regular );
 			edDate.Dock = DockStyle.Fill;
 			lblDate.Dock = DockStyle.Left;
 			pnlDate.Controls.Add( edDate );
 			pnlDate.Controls.Add( lblDate );
+            pnlDate.MaximumSize = new Size( int.MaxValue, edDate.Height );
+
+            // Load data & event
+            if ( this.Document.Date > default(DateTime) ) {
+                edDate.Value = this.Document.Date;
+            } else {
+                edDate.Value = DateTime.Now;
+            }
+            edDate.ValueChanged += (sender, e) => this.Document.Date = edDate.Value;
 
 			// Compose
 			pnlSubPanel.Controls.Add( pnlEmail );

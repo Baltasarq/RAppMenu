@@ -518,47 +518,57 @@ namespace RWABuilder.Ui {
     			dlg.FileName = this.Document.Root.Name;
 
                 if ( dlg.ShowDialog() == DialogResult.OK ) {
-                    this.SetToolbarForNumTasks( 2 );
-                    this.ApplicationsFolder = Path.GetDirectoryName( dlg.FileName );
-                    this.SetToolbarTaskFinished();
-
-                    try {
-                        this.Document.SaveToFile( dlg.FileName );
-                    } catch(XmlException exc)
-                    {
-                        this.SetErrorStatus( "Malformed XML: " + exc.Message );
-                        Trace.WriteLine( exc.Message );
-                        Trace.WriteLine( exc.StackTrace );
-                    }
-                    catch(Exception exc)
-                    {
-                        this.SetErrorStatus( "Unexpected error: " + exc.Message );
-                        Trace.WriteLine( exc.Message );
-                        Trace.WriteLine( exc.StackTrace );
-                    }
-                    finally {
-                        this.SetToolbarTaskFinished();
-                        Trace.Unindent();
-                    }
-
-					this.GetSelectedTreeNode().GetEditor( this.pnlProperties ).Show();
-    				this.TreeMenuRoot.Text = this.Document.Root.Name;
                     this.fileName = dlg.FileName;
+                    Trace.WriteLine( DateTime.Now + ": File set: " + this.fileName );
+                } else {
+                    Trace.WriteLine( DateTime.Now + ": Saving cancelled" );
+                    goto End;
                 }
-            } else {
-                string fileName = this.Document.Root.Name + '.' + AppInfo.FileExtension;
-                this.Document.SaveToFile( Path.Combine( this.ApplicationsFolder, fileName ) );
             }
 
+            this.SetToolbarForNumTasks( 2 );
+            this.ApplicationsFolder = Path.GetDirectoryName( this.fileName );
+            this.SetToolbarTaskFinished();
+
+            try {
+                this.Document.SaveToFile( this.fileName );
+            } catch(XmlException exc)
+            {
+                this.SetErrorStatus( "Malformed XML: " + exc.Message );
+                Trace.WriteLine( exc.Message );
+                Trace.WriteLine( exc.StackTrace );
+            }
+            catch(Exception exc)
+            {
+                this.SetErrorStatus( "Unexpected error: " + exc.Message );
+                Trace.WriteLine( exc.Message );
+                Trace.WriteLine( exc.StackTrace );
+            }
+            finally {
+                this.SetToolbarTaskFinished();
+                Trace.Unindent();
+            }
+
+			this.GetSelectedTreeNode().GetEditor( this.pnlProperties ).Show();
+			this.TreeMenuRoot.Text = this.Document.Root.Name;
+
+            End:
 			this.SetStatus();
 		}
 
 		private void OnProperties()
 		{
+            string oldEmail = this.Document.AuthorEmail;
+            DateTime oldDate = this.Document.Date;
+
 			this.SetStatus( "Editing properties..." );
 
 			var propertiesForm = new PropertiesWindow( this.Document, this.Icon );
-			propertiesForm.ShowDialog();
+			
+            if ( propertiesForm.ShowDialog() == DialogResult.Cancel ) {
+                this.Document.AuthorEmail = oldEmail;
+                this.Document.Date = oldDate;
+            }
 
 			this.SetStatus();
 		}

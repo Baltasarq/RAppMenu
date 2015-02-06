@@ -84,7 +84,7 @@
     <Compile Include="Ui\MenuComponentGuiEditors\FunctionGuiEditors\CsvEditor.cs" />
     <Compile Include="Core\XmlUtils.cs" />
     <Compile Include="Ui\MenuComponentTreeNodes\GraphicEntryTreeNode.cs" />
-    <Compile Include="Ui\PropertiesWindows.cs" />
+    <Compile Include="Ui\PropertiesWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />

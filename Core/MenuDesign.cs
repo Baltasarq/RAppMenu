@@ -7,7 +7,11 @@ using System.Text;
 using RWABuilder.Core.MenuComponents;
 
 namespace RWABuilder.Core {
+    /// <summary>
+    /// Represents applications, specifically the menu's design.
+    /// </summary>
 	public partial class MenuDesign {
+        public const string DefaultEmail = "joh@doe.com";
 		public const string TagName = "RWApp";
 		public const string EtqEmail = "AuthorEmail";
 		public const string EtqDate = "Date";
@@ -20,6 +24,8 @@ namespace RWABuilder.Core {
 		{
             this.root = new RootMenu( this );
             this.pdfList = new PDFList( this );
+            this.AuthorEmail = DefaultEmail;
+            this.Date = DateTime.Now;
             this.NeedsSave = true;
 		}
 
@@ -45,6 +51,12 @@ namespace RWABuilder.Core {
 				return this.authorEmail;
 			}
 			set {
+                if ( string.IsNullOrWhiteSpace( value )
+                  || value.IndexOf( '@' ) < 0 )
+                {
+                    throw new ArgumentException( "invalid email: " + value );
+                }
+
 				this.authorEmail = value.Trim();
 			}
 		}
@@ -151,7 +163,7 @@ namespace RWABuilder.Core {
 			}
 
 			if ( string.IsNullOrWhiteSpace( this.AuthorEmail ) ) {
-				this.AuthorEmail = "john@doe.com";
+                this.AuthorEmail = DefaultEmail;
 			}
 
 			// Write the document's XML
@@ -211,9 +223,16 @@ namespace RWABuilder.Core {
             return toret;
         }
 
+        /// <summary>
+        /// Gets the version of the menu design.
+        /// </summary>
+        /// <returns>
+        /// The version, as a string, in the format <name>-<year><month><day>
+        /// For example: Test-20150206
+        /// </returns>
 		public string GetVersion()
 		{
-			return string.Format( "{0} {1}", this.Name, this.Date.ToString( "yyyyyMMdd" ) );
+			return string.Format( "{0}-{1}", this.Name, this.Date.ToString( "yyyyyMMdd" ) );
 		}
 
 		public override string ToString()
