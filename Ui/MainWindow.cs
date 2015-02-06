@@ -60,6 +60,7 @@ namespace RWABuilder.Ui {
             var formAbout = new Form();
 
             formAbout.Icon = this.Icon;
+			formAbout.Text = AppInfo.Name;
             formAbout.Padding = new Padding( 10 );
             formAbout.FormBorderStyle = FormBorderStyle.FixedSingle;
             formAbout.MaximumSize = formAbout.MinimumSize =
@@ -80,8 +81,8 @@ namespace RWABuilder.Ui {
             lblDesc.Padding = new Padding( 5 );
             lblDesc.Font = new Font( FontFamily.GenericSansSerif, 12 );
             lblDesc.Dock = DockStyle.Fill;
-            lblDesc.Text = "This is an auxiliary tool, written "
-                + "to help make RWizard applications easily.";
+            lblDesc.Text = "This is a companion tool for RWizard, "
+                + "to help make applications easily.";
 
             pnlText.Controls.Add( lblDesc );
             pnlText.Controls.Add( lblInfo );
@@ -141,7 +142,7 @@ namespace RWABuilder.Ui {
 
 			this.SetStatus( "Preparing new document..." );
 			this.doc = new MenuDesign();
-            this.fileNameSet = false;
+            this.fileName = "";
 
             this.PrepareViewStructuresForNewDocument();
 			this.PrepareView( true );
@@ -402,7 +403,7 @@ namespace RWABuilder.Ui {
                     
                 this.PrepareViewStructuresForNewDocument();
                 this.TreeMenuRoot.Text = this.Document.Root.Name;
-                this.fileNameSet = true;
+                this.fileName = dlg.FileName;
 				this.PrepareEditorsForDocument();
                 this.PrepareView( true );
             }
@@ -493,7 +494,7 @@ namespace RWABuilder.Ui {
 			Trace.Indent();
 			this.SetStatus( "Saving menu as..." );
 
-			this.fileNameSet = false;
+			this.fileName = "";
 			this.OnSave();
 
 			Trace.Unindent();
@@ -505,7 +506,7 @@ namespace RWABuilder.Ui {
             Trace.Indent();
             this.SetStatus( "Saving menu..." );
 
-            if ( !this.fileNameSet ) {
+            if ( string.IsNullOrWhiteSpace( this.fileName ) ) {
                 var dlg = new SaveFileDialog();
 
                 dlg.Title = "Save menu";
@@ -542,12 +543,22 @@ namespace RWABuilder.Ui {
 
 					this.GetSelectedTreeNode().GetEditor( this.pnlProperties ).Show();
     				this.TreeMenuRoot.Text = this.Document.Root.Name;
-                    this.fileNameSet = true;
+                    this.fileName = dlg.FileName;
                 }
             } else {
                 string fileName = this.Document.Root.Name + '.' + AppInfo.FileExtension;
                 this.Document.SaveToFile( Path.Combine( this.ApplicationsFolder, fileName ) );
             }
+
+			this.SetStatus();
+		}
+
+		private void OnProperties()
+		{
+			this.SetStatus( "Editing properties..." );
+
+			var propertiesForm = new PropertiesWindow( this.Document, this.Icon );
+			propertiesForm.ShowDialog();
 
 			this.SetStatus();
 		}
@@ -584,6 +595,10 @@ namespace RWABuilder.Ui {
             this.checkIconBmp = new Bitmap(
                 entryAssembly.GetManifestResourceStream( "RWABuilder.Res.check.png" )
             );
+
+			this.editIconBmp = new Bitmap(
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.edit.png" )
+			);
 
 			this.editFnCallsIconBmp = new Bitmap(
 				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.editFnCalls.png" )
@@ -709,6 +724,10 @@ namespace RWABuilder.Ui {
 			this.opRemove.Click += (sender, e) => this.removeEntryAction.CallBack();
 			this.opRemove.Image = UserAction.ImageList.Images[ this.removeEntryAction.ImageIndex ];
 
+			this.opProperties = new ToolStripMenuItem( propertiesAction.Text );
+			this.opProperties.Click += (sender, e) => this.propertiesAction.CallBack();
+			this.opProperties.Image = UserAction.ImageList.Images[ this.propertiesAction.ImageIndex ];
+
 			this.opPreview = new ToolStripMenuItem( previewAction.Text );
 			this.opPreview.Click += (sender, e) => this.previewAction.CallBack();
 			this.opPreview.Image = UserAction.ImageList.Images[ this.previewAction.ImageIndex ];
@@ -741,7 +760,7 @@ namespace RWABuilder.Ui {
 			});
 
 			this.mTools.DropDownItems.AddRange( new ToolStripItem[]{
-				opPreview
+				opProperties, opPreview
 			});
 
 			this.mHelp.DropDownItems.AddRange( new ToolStripItem[]{
@@ -763,6 +782,7 @@ namespace RWABuilder.Ui {
 			this.moveEntryUpAction.AddComponent( this.opMoveEntryUp );
 			this.removeEntryAction.AddComponent( this.opRemove );
 			this.previewAction.AddComponent( this.opPreview );
+			this.propertiesAction.AddComponent( this.opProperties );
 
             // Insert in form
 			this.mMain = new MenuStrip();
@@ -962,13 +982,17 @@ namespace RWABuilder.Ui {
 			this.tbbPreview.ImageIndex = this.previewAction.ImageIndex;
 			this.tbbPreview.ToolTipText = this.previewAction.Text;
 			this.tbbPreview.Click += (sender, e) => this.previewAction.CallBack();
+			this.tbbProperties = new ToolStripButton();
+			this.tbbProperties.ImageIndex = this.propertiesAction.ImageIndex;
+			this.tbbProperties.ToolTipText = this.propertiesAction.Text;
+			this.tbbProperties.Click += (sender, e) => this.propertiesAction.CallBack();
 
 			// Polishing
 			this.tbBar.Dock = DockStyle.Top;
 			this.tbBar.BackColor = Color.DarkGray;
 			this.tbBar.Items.AddRange( new ToolStripButton[] {
 				this.tbbNew, this.tbbOpen, this.tbbSave,
-				this.tbbSaveAs, this.tbbPreview, this.tbbQuit
+				this.tbbSaveAs, this.tbbPreview, this.tbbProperties, this.tbbQuit
 			});
 
             // User actions
@@ -978,6 +1002,7 @@ namespace RWABuilder.Ui {
 			this.saveAsAction.AddComponent( this.tbbSaveAs );
             this.quitAction.AddComponent( this.tbbQuit );
 			this.previewAction.AddComponent( this.tbbPreview );
+			this.propertiesAction.AddComponent( this.tbbProperties );
 		}
 
 		private void BuildSplitPanels()
@@ -1013,7 +1038,7 @@ namespace RWABuilder.Ui {
                 this.pdfIconBmp, this.separatorIconBmp,
                 this.deleteIconBmp, this.upIconBmp, this.downIconBmp,
 				this.playIconBmp, this.addIconBmp, this.editFnCallsIconBmp,
-                this.saveAsIconBmp, this.checkIconBmp
+                this.saveAsIconBmp, this.checkIconBmp, this.editIconBmp
             });
 
             this.newAction = new UserAction( "New", 0, this.OnNew );
@@ -1032,6 +1057,7 @@ namespace RWABuilder.Ui {
 			this.moveEntryUpAction = new UserAction( "Move entry up", 10, this.OnUpTreeNode );
 			this.moveEntryDownAction = new UserAction( "Move entry down", 11, this.OnDownTreeNode );
 			this.previewAction = new UserAction( "Preview", 12, this.OnPreview );
+			this.propertiesAction = new UserAction( "Properties", 17, this.OnProperties );
 
 			// For the function GUI editor
 			new UserAction( "Add function argument", 13, null );
@@ -1132,6 +1158,7 @@ namespace RWABuilder.Ui {
 			this.moveEntryUpAction.Enabled = view;
 			this.removeEntryAction.Enabled = view;
 			this.previewAction.Enabled = view;
+			this.propertiesAction.Enabled = view;
 
 			// Polish
 			if ( view ) {
@@ -1288,6 +1315,7 @@ namespace RWABuilder.Ui {
 		private ToolStripMenuItem opRemove;
 		private ToolStripMenuItem opMoveEntryUp;
 		private ToolStripMenuItem opMoveEntryDown;
+		private ToolStripMenuItem opProperties;
 		private ToolStripMenuItem opPreview;
 
 		private Button btAddMenuEntry;
@@ -1309,11 +1337,13 @@ namespace RWABuilder.Ui {
 		private ToolStripButton tbbSave;
 		private ToolStripButton tbbSaveAs;
 		private ToolStripButton tbbQuit;
+		private ToolStripButton tbbProperties;
 		private ToolStripButton tbbPreview;
 
 		private Bitmap appIconBmp;
 		private Bitmap addIconBmp;
         private Bitmap checkIconBmp;
+		private Bitmap editIconBmp;
 		private Bitmap editFnCallsIconBmp;
 		private Bitmap deleteIconBmp;
         private Bitmap downIconBmp;
@@ -1346,9 +1376,10 @@ namespace RWABuilder.Ui {
 		private UserAction moveEntryDownAction;
 		private UserAction addGraphicMenuAction;
 		private UserAction previewAction;
+		private UserAction propertiesAction;
 
 		private MenuDesign doc;
-        private bool fileNameSet;
+        private string fileName;
 		private int numMenus;
 		private int numFunctions;
 		private int numPDFs;

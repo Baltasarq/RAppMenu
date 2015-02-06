@@ -8,6 +8,10 @@ using RWABuilder.Core.MenuComponents;
 
 namespace RWABuilder.Core {
 	public partial class MenuDesign {
+		public const string TagName = "RWApp";
+		public const string EtqEmail = "AuthorEmail";
+		public const string EtqDate = "Date";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RWABuilder.Core.MenuDesign"/> class.
         /// Creates an empty menu, with a Root node.
@@ -17,6 +21,114 @@ namespace RWABuilder.Core {
             this.root = new RootMenu( this );
             this.pdfList = new PDFList( this );
             this.NeedsSave = true;
+		}
+
+		/// <summary>
+		/// Gets or sets the name of the application.
+		/// </summary>
+		/// <value>The name of the application</value>
+		public string Name {
+			get {
+				return this.Root.Name;
+			}
+			set {
+				this.Root.Name = value.Trim();
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the author email.
+		/// </summary>
+		/// <value>The author email, as a string.</value>
+		public string AuthorEmail {
+			get {
+				return this.authorEmail;
+			}
+			set {
+				this.authorEmail = value.Trim();
+			}
+		}
+
+		/// <summary>
+		/// Gets the root menu component.
+		/// </summary>
+		/// <value>
+		/// The menu root component, as a <see cref="RootMenu"/> object.
+		/// </value>
+		public RootMenu Root {
+			get {
+				return this.root;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the creation date.
+		/// </summary>
+		/// <value>The creation date, as a DateTime.</value>
+		public DateTime Date {
+			get; set;
+		}
+
+		public void ToXml(XmlTextWriter doc)
+		{
+			doc.WriteStartElement( TagName );
+
+			// Email = "jbgarcia@uvigo.es"
+			doc.WriteStartAttribute( EtqEmail );
+			doc.WriteString( this.AuthorEmail );
+			doc.WriteEndAttribute();
+
+			// Date = "2015-01-06"
+			doc.WriteStartAttribute( EtqDate );
+			doc.WriteString( this.Date.ToString( "yyyy-MM-dd" ) );
+			doc.WriteEndAttribute();
+
+			this.Root.ToXml( doc );
+			doc.WriteEndElement();
+		}
+
+		public void FromXml(XmlNode node)
+		{
+			DateTime date;
+			XmlNode attrDate = node.Attributes.GetNamedItemIgnoreCase( EtqDate );
+			XmlNode attrAuthorEmail = node.Attributes.GetNamedItemIgnoreCase( EtqEmail );
+
+			// Attributes
+			if ( attrDate != null ) {
+				if ( !DateTime.TryParseExact(
+									attrDate.InnerText,
+									"yyyy-MM-dd",
+									System.Globalization.DateTimeFormatInfo.InvariantInfo,
+									System.Globalization.DateTimeStyles.None,
+									out date ) )
+				{
+					throw new XmlException( "Date format" );
+				}
+
+				this.Date = date;
+			}
+
+			if ( attrAuthorEmail != null ) {
+				this.AuthorEmail = attrAuthorEmail.InnerText;
+			}
+
+			// Root menu
+			if ( node.HasChildNodes
+			  && node.ChildNodes.Count == 1 )
+			{
+				XmlNode menuNode = node.FirstChild;
+
+				if ( !menuNode.Name.Equals( RootMenu.TagName, StringComparison.OrdinalIgnoreCase ) )
+				{
+					throw new XmlException( "root element should be: " + TagName );
+				}
+
+				this.Root.FromXml( menuNode );
+			} else {
+				throw new XmlException( TagName + " should have exactly one child." );
+			}
+
+			return;
 		}
 
 		/// <summary>
@@ -33,14 +145,22 @@ namespace RWABuilder.Core {
 			string fileNameOrg = Path.GetTempFileName();
 			var xmlDocWriter = new XmlTextWriter( fileNameOrg, Encoding.UTF8 );
 
+			// Get default values
+			if ( this.Date == default(DateTime) ) {
+				this.Date = DateTime.Now.Date;
+			}
+
+			if ( string.IsNullOrWhiteSpace( this.AuthorEmail ) ) {
+				this.AuthorEmail = "john@doe.com";
+			}
+
+			// Write the document's XML
 			xmlDocWriter.WriteStartDocument();
-
-			this.Root.ToXml( xmlDocWriter );
-
-			// Produce the file
+			this.ToXml( xmlDocWriter );
 			xmlDocWriter.WriteEndDocument();
 			xmlDocWriter.Close();
 
+			// Save the file
 			try {
 				if ( File.Exists( fileNameDest ) ) {
 					File.Delete( fileNameDest );
@@ -53,23 +173,9 @@ namespace RWABuilder.Core {
 				File.Copy( fileNameOrg, fileNameDest, true );
 			}
 
-            this.Root.Name = Path.GetFileNameWithoutExtension( fileNameDest );
             this.NeedsSave = false;
-
             Trace.Unindent();
 			return;
-		}
-
-		/// <summary>
-		/// Gets the root menu component.
-		/// </summary>
-		/// <value>
-		/// The menu root component, as a <see cref="RootMenu"/> object.
-		/// </value>
-		public RootMenu Root {
-			get {
-				return this.root;
-			}
 		}
 
         /// <summary>
@@ -88,22 +194,32 @@ namespace RWABuilder.Core {
 			var docXml = new XmlDocument();
 			docXml.Load( fileName );
 
-			if ( !docXml.DocumentElement.Name.Equals( RootMenu.TagName, StringComparison.OrdinalIgnoreCase ) )
+			if ( !docXml.DocumentElement.Name.Equals( TagName, StringComparison.OrdinalIgnoreCase ) )
 			{
-				throw new XmlException( "root element should be: " + RootMenu.TagName );
+				throw new XmlException( "root element should be: " + TagName );
 			}
 
-			// Read the immediate upper level nodes
-			toret.Root.FromXml( docXml.DocumentElement );
+			// Read the data
+			toret.FromXml( docXml.DocumentElement );
 			toret.NeedsSave = false;
+
+			if ( string.IsNullOrWhiteSpace( toret.Name ) ) {
+				throw new XmlException( "missing name of application" );
+			}
 
             Trace.Unindent();
             return toret;
         }
 
+		public string GetVersion()
+		{
+			return string.Format( "{0} {1}", this.Name, this.Date.ToString( "yyyyyMMdd" ) );
+		}
+
 		public override string ToString()
 		{
-            return string.Format( "[MenuDesign: Root={0}]", Root.ToString() );
+			return string.Format( "[MenuDesign: Name: {0} Date: {1} AuthorEmail: {2} Root: {3}]",
+			                     Name, Date, AuthorEmail, Root.ToString() );
 		}
 
         /// <summary>
@@ -147,6 +263,7 @@ namespace RWABuilder.Core {
         }
 
 		private RootMenu root;
+		private string authorEmail;
         private PDFList pdfList;
 	}
 }

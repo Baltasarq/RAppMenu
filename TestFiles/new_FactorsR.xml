@@ -1,17 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Menu Name="FactorsR">
-	<Function Name="Factors" HasData="TRUE" PreCommand="@_Build_AdWorld_">
-		<ExampleData Name="data(Sharks)"/>
-		<ExecuteCommandOnce>
-			require(MapsR)
-			data(adworld)
-		</ExecuteCommandOnce>
-		<Argument Name="Area" Tag="adworld1" Viewer="Map" />
-		<Argument Name="exclude" Tag="adworld2" Viewer="Map" />
-		<Argument Name="data" />
-		<Argument Name="varInteresX" Required="TRUE" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" />
-		<Argument Name="varInteresY" Viewer="DataColumnsViewer" Required="TRUE"/>
-	</Function>
-	<Separator />
-	<PDF Name="FactorsR-manual.pdf" />
-</Menu>
+
+<RWapp Date="2015-02-06" AuthorEmail="jbgarcia@uvigo.es">
+	<Menu Name="FactorsR">
+		<Function Name="Factors" HasData="TRUE" PreCommand="@_Build_AdWorld_">
+			<ExampleData Name="data(Sharks)"/>
+			<ExecuteCommandOnce>
+				require(MapsR)
+				data(adworld)
+			</ExecuteCommandOnce>
+			<Argument Name="Area" Tag="adworld1" Viewer="Map" />
+			<Argument Name="exclude" Tag="adworld2" Viewer="Map" />
+			<Argument Name="data" />
+			<Argument Name="varInteresX" Required="TRUE" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" />
+			<Argument Name="varInteresY" Viewer="DataColumnsViewer" Required="TRUE"/>
+		</Function>
+		<Separator />
+		<PDF Name="FactorsR-manual.pdf" />
+	</Menu>
+</RWapp>

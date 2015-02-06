@@ -30,11 +30,7 @@ namespace RWABuilder.Core.MenuComponents {
 
 			// Name = "m1"
 			var attrName = (XmlAttribute) node.GetAttribute( EtqName );
-			if ( attrName != null ) {
-				this.Name = attrName.InnerText;
-			} else {
-				throw new XmlException( TagName + ": expected attribute " + EtqName );
-			}
+			this.Name = attrName.InnerText;
 
 			// Subnodes of node
 			this.LoadComponentsFromXml( node );
