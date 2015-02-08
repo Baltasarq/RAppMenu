@@ -25,7 +25,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             this.chkFunctionRemoveQuotes.Checked = this.Function.RemoveQuotationMarks;
 
             this.edFunctionPreCommand.Text = this.Function.PreProgramOnce.ToString();
-            this.edFunctionDefaultData.Text = this.Function.ExampleData;
+            this.edFunctionData.Text = this.Function.ExampleData;
 		}
 
 		/// <summary>
@@ -82,13 +82,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
 			var comboBoxCellTemplate = new DataGridViewComboBoxCell();
 			comboBoxCellTemplate.Style.BackColor = Color.AntiqueWhite;
-			comboBoxCellTemplate.Items.AddRange (new string[] {
-				"DataColumnsViewer",
-				"DataValuesViewer",
-				"Map",
-				"TaxTree"
-			}
-			);
+            comboBoxCellTemplate.Items.AddRange(
+                Enum.GetNames( typeof( Function.Argument.ViewerType ) ) );
 
 			var checkBoxCellTemplate = new DataGridViewCheckBoxCell();
 			checkBoxCellTemplate.Style.BackColor = Color.AntiqueWhite;
@@ -235,30 +230,30 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
 		private void BuildDefaultData()
 		{
-			this.pnlGroupDefaultData = new GroupBox();
-			this.pnlGroupDefaultData.SuspendLayout();
-			this.pnlGroupDefaultData.AutoSize = true;
-			this.pnlGroupDefaultData.Dock = DockStyle.Top;
-			this.pnlGroupDefaultData.Text = "Default data";
-			this.pnlGroupDefaultData.Font = new Font( this.pnlGroupDefaultData.Font, FontStyle.Bold );
+            this.pnlGroupData = new GroupBox();
+			this.pnlGroupData.SuspendLayout();
+			this.pnlGroupData.AutoSize = true;
+			this.pnlGroupData.Dock = DockStyle.Top;
+			this.pnlGroupData.Text = "Data";
+			this.pnlGroupData.Font = new Font( this.pnlGroupData.Font, FontStyle.Bold );
 
-			var pnlInnerGroupDefaultData = new FlowLayoutPanel();
-			pnlInnerGroupDefaultData.SuspendLayout();
-			pnlInnerGroupDefaultData.Font = new Font( pnlInnerGroupDefaultData.Font, FontStyle.Regular );
-			pnlInnerGroupDefaultData.Dock = DockStyle.Fill;
-			pnlInnerGroupDefaultData.AutoSize = true;
-			this.pnlGroupDefaultData.Controls.Add( pnlInnerGroupDefaultData );
-            this.tcPad.TabPages[ 1 ].Controls.Add( this.pnlGroupDefaultData );
+            var pnlInnerGroupData = new FlowLayoutPanel();
+			pnlInnerGroupData.SuspendLayout();
+			pnlInnerGroupData.Font = new Font( pnlInnerGroupData.Font, FontStyle.Regular );
+			pnlInnerGroupData.Dock = DockStyle.Fill;
+			pnlInnerGroupData.AutoSize = true;
+			this.pnlGroupData.Controls.Add( pnlInnerGroupData );
+            this.tcPad.TabPages[ 1 ].Controls.Add( this.pnlGroupData );
 
 			// Default data
-			var lblDefaultData = new Label();
-			lblDefaultData.Text = "Default data:";
-			lblDefaultData.AutoSize = false;
-			lblDefaultData.TextAlign = ContentAlignment.MiddleLeft;
-			this.edFunctionDefaultData = new TextBox();
-			this.edFunctionDefaultData.Font = new Font( this.edFunctionDefaultData.Font, FontStyle.Bold );
-			this.edFunctionDefaultData.KeyUp += (sender, e) => {
-				string contents = this.edFunctionDefaultData.Text.Trim();
+            var lblData = new Label();
+			lblData.Text = "Data:";
+			lblData.AutoSize = false;
+			lblData.TextAlign = ContentAlignment.MiddleLeft;
+            this.edFunctionData = new TextBox();
+			this.edFunctionData.Font = new Font( this.edFunctionData.Font, FontStyle.Bold );
+			this.edFunctionData.KeyUp += (sender, e) => {
+				string contents = this.edFunctionData.Text.Trim();
 
 				if ( !string.IsNullOrEmpty( contents ) ) {
 					this.Function.ExampleData = contents;
@@ -266,8 +261,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
 				return;
 			};
-			pnlInnerGroupDefaultData.Controls.Add( lblDefaultData );
-			pnlInnerGroupDefaultData.Controls.Add( this.edFunctionDefaultData );
+			pnlInnerGroupData.Controls.Add( lblData );
+			pnlInnerGroupData.Controls.Add( this.edFunctionData );
 
 			// Start column
 			var lblStartColumn = new Label();
@@ -285,8 +280,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
                         (int) this.udFunctionStartColumn.Value;
                 }
             };
-			pnlInnerGroupDefaultData.Controls.Add( lblStartColumn );
-			pnlInnerGroupDefaultData.Controls.Add( this.udFunctionStartColumn );
+			pnlInnerGroupData.Controls.Add( lblStartColumn );
+			pnlInnerGroupData.Controls.Add( this.udFunctionStartColumn );
 
 			// End column
 			var lblEndColumn = new Label();
@@ -305,10 +300,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
                 }
             };
 
-			pnlInnerGroupDefaultData.Controls.Add( lblEndColumn );
-			pnlInnerGroupDefaultData.Controls.Add( this.udFunctionEndColumn );
-			pnlInnerGroupDefaultData.ResumeLayout( false );
-			this.pnlGroupDefaultData.ResumeLayout( false );
+			pnlInnerGroupData.Controls.Add( lblEndColumn );
+			pnlInnerGroupData.Controls.Add( this.udFunctionEndColumn );
+			pnlInnerGroupData.ResumeLayout( false );
+			this.pnlGroupData.ResumeLayout( false );
 
             // Sizes for controls
             Graphics grf = new Form().CreateGraphics();
@@ -316,7 +311,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             int charWidth = (int) fontSize.Width + 5;
             this.udFunctionEndColumn.MaximumSize = new Size( charWidth * 2, this.udFunctionEndColumn.Height );
             this.udFunctionStartColumn.MaximumSize = new Size( charWidth * 2, this.udFunctionStartColumn.Height );
-            this.edFunctionDefaultData.MinimumSize = new Size( charWidth * 12, this.edFunctionDefaultData.Height );
+            this.edFunctionData.MinimumSize = new Size( charWidth * 12, this.edFunctionData.Height );
 		}
 
         private void BuildPDFReference()
@@ -682,7 +677,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             this.chkFunctionDataHeader.Checked = this.Function.DataHeader;
 
             // Data
-            this.edFunctionDefaultData.Text = this.Function.ExampleData;
+            this.edFunctionData.Text = this.Function.ExampleData;
             this.edFunctionPreCommand.Text = this.Function.PreCommand;
             this.edFunctionExecuteOnce.Text = this.Function.PreProgramOnce.ToString();
             this.udFunctionStartColumn.Value = Math.Max( 1, this.Function.StartColumn );
@@ -709,7 +704,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
         private TableLayoutPanel pnlContainer;
 		private FlowLayoutPanel pnlChecks;
 		private GroupBox pnlGroupChecks;
-		private GroupBox pnlGroupDefaultData;
+		private GroupBox pnlGroupData;
         private GroupBox pnlPDFReference;
 		private GroupBox pnlGroupCommands;
 		private GroupBox pnlArgsList;
@@ -726,7 +721,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		private Button btEditFnCallArguments;
 		private Button btFunctionRemoveArgument;
 
-		private TextBox edFunctionDefaultData;
+		private TextBox edFunctionData;
 		private TextBox edFunctionPreCommand;
 		private TextBox edFunctionExecuteOnce;
         private ComboBox edPDFFileName;
