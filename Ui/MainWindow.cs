@@ -63,10 +63,10 @@ namespace RWABuilder.Ui {
 			formAbout.Text = AppInfo.Name;
             formAbout.Padding = new Padding( 10 );
             formAbout.FormBorderStyle = FormBorderStyle.FixedSingle;
-            formAbout.MaximumSize = formAbout.MinimumSize =
-                new Size( 480, 200 );
 
             var pnlText = new Panel();
+			pnlText.Padding = new Padding( 10 );
+			pnlText.AutoSize = true;
             pnlText.Dock = DockStyle.Fill;
 
             var lblInfo = new Label();
@@ -88,20 +88,22 @@ namespace RWABuilder.Ui {
             pnlText.Controls.Add( lblInfo );
 
             var picIcon = new PictureBox();
-            picIcon.Padding = new Padding( 20 );
+			picIcon.Padding = new Padding( 10 );
             picIcon.Dock = DockStyle.Left;
             picIcon.Image = this.appIconBmp;
-            picIcon.MinimumSize = new Size(
-                this.appIconBmp.Width + 50,
-                this.appIconBmp.Height + 50 );
+            picIcon.MinimumSize = picIcon.MaximumSize = new Size(
+                this.appIconBmp.Width + 10,
+                this.appIconBmp.Height + 10 );
 
             var pnlAbout = new Panel();
+			pnlAbout.AutoSize = true;
             pnlAbout.Dock = DockStyle.Fill;
             pnlAbout.Controls.Add( pnlText );
             pnlAbout.Controls.Add( picIcon );
 
             formAbout.Controls.Add( pnlAbout );
             formAbout.StartPosition = FormStartPosition.CenterParent;
+			formAbout.MinimumSize = new Size( 400, 100 );
             formAbout.ShowDialog();
         }
 
@@ -1080,6 +1082,10 @@ namespace RWABuilder.Ui {
 
             // For the CSV editor
             new UserAction( "Verify", 16, null );
+
+			// For the color picker editor
+			new UserAction( "Add color", 13, null );
+			new UserAction( "Remove color", 9, null );
 		}
 
 		private void BuildContextlMenu()

@@ -85,6 +85,7 @@
     <Compile Include="Core\XmlUtils.cs" />
     <Compile Include="Ui\MenuComponentTreeNodes\GraphicEntryTreeNode.cs" />
     <Compile Include="Ui\PropertiesWindow.cs" />
+    <Compile Include="Ui\MenuComponentGuiEditors\FunctionGuiEditors\ColorPickerEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />
