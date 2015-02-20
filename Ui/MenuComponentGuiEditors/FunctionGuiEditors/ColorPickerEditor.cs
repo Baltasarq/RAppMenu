@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -9,12 +10,13 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 
 		public ColorPickerEditor(string strColors)
 		{
-			this.colors = new List<Color>();
-			this.DecodeColors( strColors );
-			this.Build();
-
 			this.addColorAction = UserAction.LookUp( "addcolor" );
 			this.removeColorAction = UserAction.LookUp( "removecolor" );
+			this.colors = new List<Color>();
+			this.DecodeColors( strColors );
+
+			this.Build();
+			this.OnResize( null );
 		}
 
 		protected override void OnShown(EventArgs e)
@@ -25,7 +27,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.removeColorAction.CallBack = this.OnRemoveColor;
 
 			this.addColorAction.Enabled = true;
-			this.removeColorAction.Enabled = ( this.grdColors.Rows.Count > 0 );
+			this.removeColorAction.Enabled = ( this.colors.Count > 0 );
 
 			this.Populate();
 		}
@@ -35,7 +37,9 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			string[] strColors = strColor.Trim().Split( Separator );
 
 			foreach (string sc in strColors) {
+				Color c = new Color();
 
+				this.colors.Add( c );
 			}
 
 			return;
@@ -43,6 +47,11 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 
 		private void Populate()
 		{
+			foreach (Color c in this.colors) {
+				this.grdColors.Rows.Add( c.ToString() );
+			}
+
+			return;
 		}
 
 		private void BuildIcon()
@@ -56,6 +65,12 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 				appIconBmp = new Bitmap(
 					entryAssembly.GetManifestResourceStream( "RWABuilder.Res.appIcon.png" )
 				);
+
+				this.paletteIconBmp = new Bitmap(
+					System.Reflection.Assembly.GetEntryAssembly().
+					GetManifestResourceStream( "RWABuilder.Res.palette.png" )
+				);
+
 			} catch (Exception) {
 				throw new ArgumentException( "Unable to load embedded app icon" );
 			}
@@ -88,10 +103,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			base.OnResize( e );
 
 			// FnCall: Name
-			this.grdColors.Columns[ 0 ].Width = (int) ( this.ClientSize.Width * 0.80 );
+			this.grdColors.Columns[ 0 ].Width = (int) ( this.ClientSize.Width * 0.85 );
 
 			// FnCall: Function name
-			this.grdColors.Columns[ 1 ].Width = (int) ( this.ClientSize.Height * 0.20 );
+			this.grdColors.Columns[ 1 ].Width = (int) ( this.ClientSize.Height * 0.15 );
 		}
 
 		private void BuildColorDialog()
@@ -147,25 +162,24 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.grdColors.Dock = DockStyle.Fill;
 			this.grdColors.AllowUserToOrderColumns = false;
 
-			var buttonCellTemplate = new DataGridViewButtonCell();
-			buttonCellTemplate.Style.BackColor = Color.White;
-			buttonCellTemplate.ToolTipText = "Select color";
-			buttonCellTemplate.UseColumnTextForButtonValue = true;
+			var imageCellTemplate = new DataGridViewImageCell();
+			imageCellTemplate.ToolTipText = "Select color";
+			imageCellTemplate.Value = this.paletteIconBmp;
 
 			var textCellTemplateMonoSpaced = new DataGridViewTextBoxCell();
 			textCellTemplateMonoSpaced.Style.BackColor = Color.Wheat;
 			textCellTemplateMonoSpaced.Style.Font = new Font( FontFamily.GenericMonospace, 8 );
 
 			var column0 = new DataGridViewTextBoxColumn();
-			var column1 = new DataGridViewButtonColumn();
-
-			column0.CellTemplate = textCellTemplateMonoSpaced;
-			column1.CellTemplate = buttonCellTemplate;
+			var column1 = new DataGridViewImageColumn();
 
 			column0.HeaderText = "Color hex code";
+			column0.CellTemplate = textCellTemplateMonoSpaced;
 			column0.Width = 120;
 			column0.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column1.HeaderText = "...";
+			column0.ReadOnly = true;
+			column1.HeaderText = "";
+			column1.CellTemplate = imageCellTemplate;
 			column1.Width = 120;
 			column1.SortMode = DataGridViewColumnSortMode.NotSortable;
 
@@ -174,15 +188,16 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 				column1,
 			} );
 
-			this.grdColors.CellEndEdit +=
+			this.grdColors.CellClick +=
 				(object sender, DataGridViewCellEventArgs evt) => {
-					this.OnColorEdited( evt.RowIndex, evt.ColumnIndex );
+					if ( evt.ColumnIndex == 1 ) {
+						this.OnColorEdited( evt.RowIndex );
+					}
 			};
 
 			// Buttons panel
 			var toolTips = new ToolTip();
 			this.pnlButtons = new FlowLayoutPanel();
-			this.pnlButtons.AutoSize = true;
 			this.pnlButtons.Dock = DockStyle.Bottom;
 			this.btAddColor = new Button();
 			this.btRemoveColor = new Button();
@@ -245,8 +260,6 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.MinimumSize = this.pnlEditor.Size;
 		}
 
-
-
 		private bool GetColorFromUser(ref Color c)
 		{
 			this.colorDialog.Color = c;
@@ -275,8 +288,11 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			return toret;
 		}
 
-		private void OnColorEdited(int row, int col)
+		private void OnColorEdited(int row)
 		{
+			Color c = new Color();
+
+			this.GetColorFromUser( ref c );
 		}
 
 		private void OnAddColor()
@@ -285,6 +301,29 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 
 		private void OnRemoveColor()
 		{
+		}
+
+		public override string ToString()
+		{
+			StringBuilder toret = new StringBuilder();
+
+			foreach (Color c in this.colors) {
+				toret.Append( c.ToString() );
+				toret.Append( ',' );
+			}
+
+			toret.Remove( toret.Length - 1, 1 );
+			return toret.ToString();
+		}
+
+		/// <summary>
+		/// Gets the colors.
+		/// </summary>
+		/// <value>The colors.</value>
+		public Color[] Colors {
+			get {
+				return this.colors.ToArray();
+			}
 		}
 
 		private DataGridView grdColors;
@@ -298,6 +337,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 		private ToolStripButton tbbSave;
 		private Button btAddColor;
 		private Button btRemoveColor;
+
+		private Bitmap paletteIconBmp;
 
 		private UserAction addColorAction;
 		private UserAction removeColorAction;

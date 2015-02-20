@@ -19,10 +19,9 @@ namespace RWABuilder {
 				mainForm = new MainWindow();
 				new Ui.MenuComponentGuiEditors.FunctionGuiEditors.ColorPickerEditor( "#000000, #ffffff" )
 					.ShowDialog();
-				return;
 
 				Application.EnableVisualStyles();
-//				Application.Run( mainForm );
+				Application.Run( mainForm );
 			}
 			catch(Exception exc) {
                 if ( mainForm != null ) {

@@ -118,5 +118,6 @@
     <EmbeddedResource Include="Res\appIcon.png" />
     <EmbeddedResource Include="Res\check.png" />
     <EmbeddedResource Include="Res\edit.png" />
+    <EmbeddedResource Include="Res\palette.png" />
   </ItemGroup>
 </Project>
