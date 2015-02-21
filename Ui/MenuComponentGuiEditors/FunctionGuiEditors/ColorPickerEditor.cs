@@ -103,10 +103,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			base.OnResize( e );
 
 			// FnCall: Name
-			this.grdColors.Columns[ 0 ].Width = (int) ( this.pnlColorList.Size.Width * 0.85 );
+            this.grdColors.Columns[ 0 ].Width = (int) ( this.grdColors.Size.Width * 0.85 );
 
 			// FnCall: Function name
-            this.grdColors.Columns[ 1 ].Width = (int) ( this.pnlColorList.Size.Height * 0.15 );
+            this.grdColors.Columns[ 1 ].Width = (int) ( this.grdColors.Size.Height * 0.15 );
 		}
 
 		private void BuildColorDialog()
@@ -162,10 +162,6 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.grdColors.Dock = DockStyle.Fill;
 			this.grdColors.AllowUserToOrderColumns = false;
 
-			var imageCellTemplate = new DataGridViewImageCell();
-			imageCellTemplate.ToolTipText = "Select color";
-			imageCellTemplate.Value = this.paletteIconBmp;
-
 			var textCellTemplateMonoSpaced = new DataGridViewTextBoxCell();
 			textCellTemplateMonoSpaced.Style.BackColor = Color.Wheat;
 			textCellTemplateMonoSpaced.Style.Font = new Font( FontFamily.GenericMonospace, 8 );
@@ -179,7 +175,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			column0.SortMode = DataGridViewColumnSortMode.NotSortable;
 			column0.ReadOnly = true;
 			column1.HeaderText = "";
-			column1.CellTemplate = imageCellTemplate;
+            column1.Image = this.paletteIconBmp;
+            column1.ToolTipText = "Select color";
 			column1.Width = 120;
 			column1.SortMode = DataGridViewColumnSortMode.NotSortable;
 
