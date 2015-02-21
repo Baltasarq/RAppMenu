@@ -103,10 +103,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			base.OnResize( e );
 
 			// FnCall: Name
-			this.grdColors.Columns[ 0 ].Width = (int) ( this.ClientSize.Width * 0.85 );
+			this.grdColors.Columns[ 0 ].Width = (int) ( this.pnlColorList.Size.Width * 0.85 );
 
 			// FnCall: Function name
-			this.grdColors.Columns[ 1 ].Width = (int) ( this.ClientSize.Height * 0.15 );
+            this.grdColors.Columns[ 1 ].Width = (int) ( this.pnlColorList.Size.Height * 0.15 );
 		}
 
 		private void BuildColorDialog()
@@ -148,7 +148,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 		private void BuildColorTable()
 		{
 			this.pnlColorList = new Panel();
-			this.pnlColorList.AutoScroll = true;
+            this.pnlColorList.AutoSize = true;
 			this.pnlColorList.SuspendLayout();
 			this.pnlColorList.Dock = DockStyle.Fill;
 
@@ -199,6 +199,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			var toolTips = new ToolTip();
 			this.pnlButtons = new FlowLayoutPanel();
 			this.pnlButtons.Dock = DockStyle.Bottom;
+            this.pnlButtons.AutoSize = true;
 			this.btAddColor = new Button();
 			this.btRemoveColor = new Button();
 
@@ -216,17 +217,23 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.btRemoveColor.Click += (sender, e) => this.removeColorAction.CallBack();
 			toolTips.SetToolTip( this.btRemoveColor, this.removeColorAction.Text );
 
-			// Prepare
+            this.pnlButtons.Controls.Add( this.btAddColor );
+            this.pnlButtons.Controls.Add( this.btRemoveColor );
+
+            // Finish
 			this.pnlColorList.Controls.Add( this.grdColors );
 			this.pnlColorList.Controls.Add( this.pnlButtons );
+            this.pnlColorList.ResumeLayout( false );
 		}
 
 		private void BuildEditorPanel()
 		{
 			this.pnlColors = new GroupBox();
+            this.pnlColors.AutoSize = true;
 			this.pnlColors.Dock = DockStyle.Fill;
 			this.pnlEditor = new TableLayoutPanel();
 			this.pnlEditor.Dock = DockStyle.Fill;
+            this.pnlEditor.AutoSize = true;
 			this.pnlColors.SuspendLayout();
 			this.pnlEditor.SuspendLayout();
 
@@ -249,7 +256,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.BuildEditorPanel();
 
 			// Add
-			this.pnlEditor.Controls.Add( this.grdColors );
+            this.pnlEditor.Controls.Add( this.pnlColorList );
 			this.Controls.Add( this.pnlColors );
 			this.Controls.Add( this.tbToolbar );
 
@@ -257,7 +264,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.StartPosition = FormStartPosition.CenterParent;
 			this.MinimizeBox = this.MaximizeBox = false;
 			this.Text = "Colors editor";
-			this.MinimumSize = this.pnlEditor.Size;
+            this.MinimumSize = new Size( 450, 400 );
 		}
 
 		private bool GetColorFromUser(ref Color c)
