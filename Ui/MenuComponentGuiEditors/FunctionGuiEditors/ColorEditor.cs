@@ -1,19 +1,36 @@
 using System;
 using System.Text;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
+using Components = RWABuilder.Core.MenuComponents;
+
 namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
-	public class ColorPickerEditor: Form {
+	public class ColorEditor: Form {
 		public const char Separator = ',';
 
-		public ColorPickerEditor(string strColors)
+        public ColorEditor(string strColors, Components.Function.Argument.ViewerType vt)
 		{
 			this.addColorAction = UserAction.LookUp( "addcolor" );
 			this.removeColorAction = UserAction.LookUp( "removecolor" );
-			this.colors = new List<Color>();
-			this.DecodeColors( strColors );
+
+            if ( vt != Components.Function.Argument.ViewerType.SimpleColorPicker
+              && vt !=Components.Function.Argument.ViewerType.MultiColorPicker )
+            {
+                throw new ArgumentException(
+                    "type should be Multi or SimpleColorPicker, not " + vt );
+            }
+
+            this.type = vt;
+            this.colors = new List<Color>( DecodeColors( strColors ) );
+
+            // If simple color, trim excess
+            if ( vt == Components.Function.Argument.ViewerType.SimpleColorPicker )
+            {
+                this.colors.RemoveRange( 1, this.colors.Count - 1 );
+            }
 
 			this.Build();
 			this.OnResize( null );
@@ -26,29 +43,67 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.addColorAction.CallBack = this.OnAddColor;
 			this.removeColorAction.CallBack = this.OnRemoveColor;
 
-			this.addColorAction.Enabled = true;
-			this.removeColorAction.Enabled = ( this.colors.Count > 0 );
+            this.addColorAction.Enabled =
+                ( this.Type != Components.Function.Argument.ViewerType.SimpleColorPicker );
+			this.removeColorAction.Enabled = ( this.colors.Count > 1 );
 
 			this.Populate();
 		}
 
-		private void DecodeColors(string strColor)
+        public static Color[] DecodeColors(string strColor)
 		{
+            Trace.WriteLine( "ColorEditor: decoding color(s): " + strColor );
+            Trace.Indent();
+
 			string[] strColors = strColor.Trim().Split( Separator );
+            Color[] toret = new Color[ strColors.Length ];
 
-			foreach (string sc in strColors) {
-				Color c = new Color();
+            for (int i = 0; i < strColors.Length; ++i) {
+                Color c;
+                string sc = strColors[ i ];
 
-				this.colors.Add( c );
+                try {
+                    c = ColorTranslator.FromHtml( sc );
+                } catch(Exception)
+                {
+                    c = Color.Black;
+                    Trace.WriteLine( "ERROR decoding color: " + sc );
+                }
+
+                toret[ i ] = ( c == Color.Empty )? Color.Black : c;
 			}
 
-			return;
+            Trace.Unindent();
+            Trace.WriteLine( "Finished decoding colors" );
+            return toret;
 		}
+
+        public static string EncodeColor(Color c)
+        {
+            Trace.WriteLine( "ColorEditor: encoding color: " + c );
+            Trace.Indent();
+
+            KnownColor kc = c.ToKnownColor();
+            string toret = "";
+            string strFormat = "#{0:x2}{1:x2}{2:x2}";
+
+            if ( (int) kc != 0 ) {
+                toret = string.Format( strFormat + " [{3}]", c.R, c.G, c.B, kc );
+                Trace.WriteLine( "Known color" );
+            } else {
+                toret = string.Format( strFormat, c.R, c.G, c.B, kc );
+                Trace.WriteLine( "Unknown color" );
+            }
+
+            Trace.Unindent();
+            Trace.WriteLine( "Finished encoding color: " + toret );
+            return toret;
+        }
 
 		private void Populate()
 		{
 			foreach (Color c in this.colors) {
-				this.grdColors.Rows.Add( c.ToString() );
+                this.grdColors.Rows.Add( EncodeColor( c ) );
 			}
 
 			return;
@@ -103,10 +158,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			base.OnResize( e );
 
 			// FnCall: Name
-            this.grdColors.Columns[ 0 ].Width = (int) ( this.grdColors.Size.Width * 0.85 );
+            this.grdColors.Columns[ 0 ].Width = (int) ( this.grdColors.ClientSize.Width * 0.85 );
 
 			// FnCall: Function name
-            this.grdColors.Columns[ 1 ].Width = (int) ( this.grdColors.Size.Height * 0.15 );
+            this.grdColors.Columns[ 1 ].Width = (int) ( this.grdColors.ClientSize.Width * 0.14 );
 		}
 
 		private void BuildColorDialog()
@@ -187,7 +242,9 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 
 			this.grdColors.CellClick +=
 				(object sender, DataGridViewCellEventArgs evt) => {
-					if ( evt.ColumnIndex == 1 ) {
+					if ( evt.ColumnIndex == 1
+                      && evt.RowIndex >= 0 )
+                    {
 						this.OnColorEdited( evt.RowIndex );
 					}
 			};
@@ -206,6 +263,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.btAddColor.ImageIndex = this.addColorAction.ImageIndex;
 			this.btAddColor.Click += (sender, e) => this.addColorAction.CallBack();
 			toolTips.SetToolTip( this.btAddColor, this.addColorAction.Text );
+            this.addColorAction.AddComponent( this.btAddColor );
 
 			this.btRemoveColor.Size = this.btRemoveColor.MinimumSize = 
 				this.btRemoveColor.MaximumSize = new Size( 32, 32 );
@@ -213,6 +271,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.btRemoveColor.ImageIndex = this.removeColorAction.ImageIndex;
 			this.btRemoveColor.Click += (sender, e) => this.removeColorAction.CallBack();
 			toolTips.SetToolTip( this.btRemoveColor, this.removeColorAction.Text );
+            this.removeColorAction.AddComponent( this.btRemoveColor );
 
             this.pnlButtons.Controls.Add( this.btAddColor );
             this.pnlButtons.Controls.Add( this.btRemoveColor );
@@ -294,17 +353,58 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 
 		private void OnColorEdited(int row)
 		{
-			Color c = new Color();
+            Trace.WriteLine( "ColorEditor: editing color" );
+            Trace.Indent();
 
-			this.GetColorFromUser( ref c );
+            if ( row < 0
+              || row >= this.colors.Count )
+            {
+                Trace.WriteLine( "ERROR removing color at: " + row );
+                throw new ArgumentException( "trying to edit color at: " + row );
+            }
+
+            Color c = this.colors[ row ];
+
+            this.GetColorFromUser( ref c );
+
+            this.colors[ row ] = c;
+            this.grdColors.Rows[ row ].Cells[ 0 ].Value = EncodeColor( c );
+
+            Trace.Unindent();
+            Trace.WriteLine( "Finished editing color at: " + row );
 		}
 
 		private void OnAddColor()
 		{
+            Trace.WriteLine( "ColorEditor: adding color" );
+
+            this.colors.Add( Color.Black );
+            this.grdColors.Rows.Add( EncodeColor( Color.Black ) );
+            this.removeColorAction.Enable();
 		}
 
 		private void OnRemoveColor()
 		{
+            Trace.WriteLine( "ColorEditor: removing color" );
+            Trace.Indent();
+
+            int row = this.GetCurrentRow();
+
+            // Chk
+            if ( row < 0
+              || row >= this.colors.Count )
+            {
+                Trace.WriteLine( "ERROR removing color at: " + row );
+                throw new ArgumentException( "trying to edit color at: " + row );
+            }
+
+            // Remove
+            this.colors.RemoveAt( row );
+            this.grdColors.Rows.RemoveAt( row );
+            this.removeColorAction.Enabled = ( this.colors.Count > 1 );
+
+            Trace.Unindent();
+            Trace.WriteLine( "Finished removing color at: " + row );
 		}
 
 		public override string ToString()
@@ -330,6 +430,16 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			}
 		}
 
+        /// <summary>
+        /// Gets the type.
+        /// </summary>
+        /// <value>The type, as a Components.Function.Argument.ViewerType</value>
+        public Components.Function.Argument.ViewerType Type {
+            get {
+                return this.type;
+            }
+        }
+
 		private DataGridView grdColors;
 		private ColorDialog colorDialog;
 		private Panel pnlEditor;
@@ -348,5 +458,6 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 		private UserAction removeColorAction;
 
 		private List<Color> colors;
+        private Components.Function.Argument.ViewerType type;
 	}
 }

@@ -103,7 +103,7 @@ namespace RWABuilder.Ui {
 
             formAbout.Controls.Add( pnlAbout );
             formAbout.StartPosition = FormStartPosition.CenterParent;
-			formAbout.MinimumSize = new Size( 400, 100 );
+			formAbout.MinimumSize = new Size( 500, 100 );
             formAbout.ShowDialog();
         }
 

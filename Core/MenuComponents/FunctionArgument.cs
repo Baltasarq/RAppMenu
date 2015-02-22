@@ -16,7 +16,11 @@ namespace RWABuilder.Core.MenuComponents {
 			public const string EtqDepends = "DependsFrom";
 			public const string EtqAllowMultiSelect = "AllowMultiSelect";
 
-			public enum ViewerType { Plain, DataColumns, DataValues, Map, TaxTree };
+            public enum ViewerType {
+                Plain, DataColumns, DataValues, Map, TaxTree,
+                SimpleValueSet, MultiValueSet,
+                SimpleColorPicker, MultiColorPicker
+            };
 
 			/// <summary>
 			/// Initializes a new instance of the <see cref="RWABuilder.Core.MenuComponents.Function+FunctionArgument"/> class.
