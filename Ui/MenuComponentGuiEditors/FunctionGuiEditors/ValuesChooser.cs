@@ -116,6 +116,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.pnlValues.Text = "Values";
 
 			this.lbValues = new ListBox();
+			this.lbValues.BackColor = Color.Wheat;
 			this.lbValues.Dock = DockStyle.Fill;
 			this.lbValues.Font = new Font( FontFamily.GenericMonospace, 12 );
 
