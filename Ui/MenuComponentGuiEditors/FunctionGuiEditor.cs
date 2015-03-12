@@ -131,11 +131,24 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			}
 			);
 
-			this.grdArgsList.CellEndEdit += (object sender, DataGridViewCellEventArgs evt) => {
-				this.OnArgsListCellEdited (evt.RowIndex, evt.ColumnIndex);
-			};
-            this.grdArgsList.MinimumSize = new Size( 240, 100 );
 
+            this.grdArgsList.CellEnter += (object sender, DataGridViewCellEventArgs evt) => {
+                if ( evt.RowIndex >= 0
+                  && evt.ColumnIndex == 1 )
+                {
+                    this.OnArgsListCellEntered(evt.RowIndex, evt.ColumnIndex);
+                }
+            };
+
+			this.grdArgsList.CellEndEdit += (object sender, DataGridViewCellEventArgs evt) => {
+                if ( evt.RowIndex >= 0
+                  && evt.ColumnIndex >= 0 )
+                {
+                    this.OnArgsListCellEdited(evt.RowIndex, evt.ColumnIndex);
+                }
+			};
+
+            this.grdArgsList.MinimumSize = new Size( 240, 100 );
 			this.grdArgsList.Font = new Font( this.grdArgsList.Font, FontStyle.Regular );
 			this.pnlArgsList.Font = new Font( this.pnlArgsList.Font, FontStyle.Bold );
 
@@ -558,6 +571,28 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			return;
 		}
 
+        private void OnArgsListCellEntered(int rowIndex, int colIndex)
+        {
+            DataGridViewRow row = this.grdArgsList.Rows[ rowIndex ];
+
+            if ( this.Function.RegularArgumentList.Count > rowIndex ) {
+                var arg = (Function.Argument) this.Function.RegularArgumentList[ rowIndex ];
+
+                if ( arg.Viewer == Function.Argument.ViewerType.SimpleColorPicker
+                  || arg.Viewer == Function.Argument.ViewerType.MultiColorPicker )
+                {
+                    var colorEditor = new ColorEditor( arg.Value, arg.Viewer );
+
+                    if ( colorEditor.ShowDialog() == DialogResult.OK ) {
+                        arg.Value = colorEditor.ToString();
+                        row.Cells[ colIndex ].Value = arg.Value;
+                    }
+                }
+            }
+
+            return;
+        }
+
 		/// <summary>
 		/// Updates the information of the regular argument being modified.
 		/// </summary>
@@ -577,9 +612,9 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 				}
 			}
 			else
-			// The tag
+			// The value
 			if ( colIndex == 1 ) {
-				arg.Value = (string) row.Cells[ colIndex ].Value;
+                arg.Value = (string) row.Cells[ colIndex ].Value;
 			}
 			else
 			// The depends info

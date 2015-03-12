@@ -23,6 +23,8 @@ namespace RWABuilder.Core.MenuComponents {
 					:base( name, callArgument.Owner )
 				{
 					this.callArgument = callArgument;
+                    this.value = "";
+                    this.IsReadOnly = false;
 				}
 
                 /// <summary>
@@ -66,7 +68,7 @@ namespace RWABuilder.Core.MenuComponents {
                 {
                     var callArgumentOwner = newOwner as CallArgument;
 
-                    if ( callArgumentOwner != null ) {
+                    if ( callArgumentOwner == null ) {
                         throw new ArgumentException( "new owner should be call argument copying arg" );
                     }
 
@@ -147,6 +149,8 @@ namespace RWABuilder.Core.MenuComponents {
 				:base( name, owner )
 			{
                 this.args = new ArgumentList( owner );
+                this.functionName = "";
+                this.variant = "";
 			}
 
             /// <summary>
@@ -196,7 +200,7 @@ namespace RWABuilder.Core.MenuComponents {
             {
                 var functionOwner = newOwner as Function;
 
-                if ( functionOwner != null ) {
+                if ( functionOwner == null ) {
                     throw new ArgumentException( "new owner should be a Function when copying CallArgument's" );
                 }
 

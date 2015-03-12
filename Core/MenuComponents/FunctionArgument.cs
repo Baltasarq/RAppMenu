@@ -29,6 +29,8 @@ namespace RWABuilder.Core.MenuComponents {
 			public Argument(string name, Function owner)
 				: base( name, owner )
 			{
+                this.depends = "";
+                this.value = "";
 			}
 
 			/// <summary>
@@ -128,7 +130,7 @@ namespace RWABuilder.Core.MenuComponents {
 			{
                 var functionOwner = newOwner as Function;
 
-                if ( functionOwner != null ) {
+                if ( functionOwner == null ) {
 					throw new ArgumentException( "need a function for the owner of copied Argument" );
 				}
 

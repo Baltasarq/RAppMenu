@@ -412,8 +412,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			StringBuilder toret = new StringBuilder();
 
 			foreach (Color c in this.colors) {
-				toret.Append( c.ToString() );
-				toret.Append( ',' );
+                toret.Append( EncodeColor( c ) );
+                toret.Append( Separator );
 			}
 
 			toret.Remove( toret.Length - 1, 1 );
