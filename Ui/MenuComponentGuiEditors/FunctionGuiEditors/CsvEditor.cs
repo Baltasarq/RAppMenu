@@ -9,9 +9,25 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 		public const char DataSeparator = ',';
 		public const char DecimalSeparator = '.';
 
-        public CsvEditor()
+		public CsvEditor()
+			:this(new string[0])
+		{
+		}
+
+		public CsvEditor(string[] data)
         {
             this.Build();
+
+			// Load input data in control
+			for(int i = 0; i < data.Length; ++i) {
+				this.edData.Text += data[ i ];
+
+				if ( i < data.Length - 1 ) {
+					this.edData.Text += DataSeparator;
+				}
+			}
+
+			return;
         }
 
 		private void BuildIcon()

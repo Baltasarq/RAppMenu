@@ -88,12 +88,16 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			var checkBoxCellTemplate = new DataGridViewCheckBoxCell();
 			checkBoxCellTemplate.Style.BackColor = Color.AntiqueWhite;
 
+			var imageCellTemplate = new DataGridViewImageCell();
+			imageCellTemplate.Style.BackColor = Color.AntiqueWhite;
+
 			var column0 = new DataGridViewTextBoxColumn();
 			var column1 = new DataGridViewTextBoxColumn();
 			var column2 = new DataGridViewTextBoxColumn();
 			var column3 = new DataGridViewCheckBoxColumn();
 			var column4 = new DataGridViewCheckBoxColumn();
 			var column5 = new DataGridViewComboBoxColumn();
+			var column6 = new DataGridViewImageColumn();
 
 			column0.CellTemplate = textCellTemplate;
 			column1.CellTemplate = textCellTemplate;
@@ -101,6 +105,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			column3.CellTemplate = checkBoxCellTemplate;
 			column4.CellTemplate = checkBoxCellTemplate;
 			column5.CellTemplate = comboBoxCellTemplate;
+			column6.CellTemplate = imageCellTemplate;
 
 			column0.HeaderText = "Name";
 			column0.Width = 120;
@@ -120,6 +125,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			column5.HeaderText = "Viewer";
 			column5.Width = 80;
 			column5.SortMode = DataGridViewColumnSortMode.NotSortable;
+			column6.HeaderText = "";
+			column6.ReadOnly = true;
+			column6.Width = 10;
+			column6.SortMode = DataGridViewColumnSortMode.NotSortable;
 
 			this.grdArgsList.Columns.AddRange (new DataGridViewColumn[] {
 				column0,
@@ -128,6 +137,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 				column3,
 				column4,
 				column5,
+				column6,
 			}
 			);
 
@@ -139,6 +149,14 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
                     this.OnArgsListCellEntered(evt.RowIndex, evt.ColumnIndex);
                 }
             };
+
+			this.grdArgsList.CellClick += (object sender, DataGridViewCellEventArgs e) => {
+				if ( e.ColumnIndex == 6
+				  && e.RowIndex >= 0 )
+				{
+					this.OnEditViewer( e.RowIndex );
+				}
+			};
 
 			this.grdArgsList.CellEndEdit += (object sender, DataGridViewCellEventArgs evt) => {
                 if ( evt.RowIndex >= 0
@@ -531,8 +549,12 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
 			// Select the first value of the drop-down list
 			DataGridViewRow cmbRow = this.grdArgsList.Rows[ rowCount ];
-			var cmbCell = (DataGridViewComboBoxCell) cmbRow.Cells[ colCount -1 ];
+			var cmbCell = (DataGridViewComboBoxCell) cmbRow.Cells[ colCount - 2 ];
 			cmbCell.Value = cmbCell.Items[ 0 ];
+
+			// Put the edit image in the last column
+			var imgCell = (DataGridViewImageCell) cmbRow.Cells[ colCount - 1 ];
+			imgCell.Value = UserAction.ImageList.Images[ UserAction.LookUp( "properties" ).ImageIndex ];
 
 			// Activate remove button
 			this.btFunctionRemoveArgument.Enabled = true;
@@ -578,20 +600,52 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             if ( this.Function.RegularArgumentList.Count > rowIndex ) {
                 var arg = (Function.Argument) this.Function.RegularArgumentList[ rowIndex ];
 
-                if ( arg.Viewer == Function.Argument.ViewerType.SimpleColorPicker
-                  || arg.Viewer == Function.Argument.ViewerType.MultiColorPicker )
-                {
-                    var colorEditor = new ColorEditor( arg.Value, arg.Viewer );
+				if ( arg.Viewer == Function.Argument.ViewerType.SimpleColorPicker
+				  || arg.Viewer == Function.Argument.ViewerType.MultiColorPicker )
+				{
+					var colorEditor = new ColorEditor( arg.Value, arg.Viewer );
 
-                    if ( colorEditor.ShowDialog() == DialogResult.OK ) {
-                        arg.Value = colorEditor.ToString();
-                        row.Cells[ colIndex ].Value = arg.Value;
-                    }
-                }
+					if ( colorEditor.ShowDialog() == DialogResult.OK ) {
+						arg.Value = colorEditor.ToString();
+						row.Cells[ colIndex ].Value = arg.Value;
+					}
+				}
+				else
+				if ( arg.Viewer == Function.Argument.ViewerType.SimpleValueSet
+				  || arg.Viewer == Function.Argument.ViewerType.MultiValueSet )
+				{
+					var valed = new ValuesChooser( arg.ValueSet );
+
+					if ( valed.ShowDialog() != DialogResult.Cancel ) {
+						row.Cells[ 1 ].Value = valed.GetSelectedItem();
+					}
+				}
             }
 
             return;
         }
+
+		private void OnEditViewer(int rowIndex)
+		{
+			DataGridViewRow row = this.grdArgsList.Rows[ rowIndex ];
+
+			if ( this.Function.RegularArgumentList.Count > rowIndex ) {
+				var arg = (Function.Argument) this.Function.RegularArgumentList[ rowIndex ];
+				var valed = new CsvEditor( arg.ValueSet );
+
+				if ( valed.ShowDialog() != DialogResult.Cancel ) {
+					// Set simple value set
+					arg.Viewer = Function.Argument.ViewerType.SimpleValueSet;
+					var cmbCell = (DataGridViewComboBoxCell) row.Cells[ 5 ];
+					cmbCell.Value = cmbCell.Items[ (int) Function.Argument.ViewerType.SimpleValueSet ];
+
+					// Load data
+					arg.ValueSet = valed.Data;
+				}
+			}
+
+			return;
+		}
 
 		/// <summary>
 		/// Updates the information of the regular argument being modified.
@@ -696,6 +750,9 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
             // Viewer
             this.grdArgsList.Columns[ 5 ].Width = (int) ( width * 0.20 );
+
+			// Editor
+			this.grdArgsList.Columns[ 6 ].Width = (int) ( width * 0.05 );
         }
 
         /// <summary>

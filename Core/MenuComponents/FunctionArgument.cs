@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace RWABuilder.Core.MenuComponents {
@@ -31,6 +32,7 @@ namespace RWABuilder.Core.MenuComponents {
 			{
                 this.depends = "";
                 this.value = "";
+				this.valueSet = new List<string>();
 			}
 
 			/// <summary>
@@ -114,6 +116,21 @@ namespace RWABuilder.Core.MenuComponents {
 				set {
 					this.multiSelect = value;
 					this.SetNeedsSave();
+				}
+			}
+
+			/// <summary>
+			/// Gets or sets the value set for this argument.
+			/// The value set is only relevant when the viewer is a Simple/MultiValueSet.
+			/// </summary>
+			/// <value>The value set.</value>
+			public string[] ValueSet {
+				get {
+					return this.valueSet.ToArray();
+				}
+				set {
+					this.valueSet.Clear();
+					this.valueSet.AddRange( value );
 				}
 			}
 
@@ -269,6 +286,7 @@ namespace RWABuilder.Core.MenuComponents {
 				return toret;
 			}
 
+			private List<string> valueSet;
 			private bool required;
 			private bool readOnly;
 			private bool multiSelect;
