@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Text;
 using System.Xml;
 
 namespace RWABuilder.Core.MenuComponents {
@@ -10,12 +11,20 @@ namespace RWABuilder.Core.MenuComponents {
 		/// </summary>
 		public class Argument: BaseArgument {
 			public const string ArgumentTagName = "Argument";
+			public const string TagViewer = "Viewer";
+			public const string TagData = "Data";
+			public const string TagDesc = "Description";
+			public const string TagText = "Text";
+
 			public const string EtqRequired = "Required";
+			public const string EtqType = "Type";
+			public const string EtqLang = "Language";
 			public const string EtqReadOnly = "ReadOnly";
 			public const string EtqValue = "Value";
-			public const string EtqViewer = "Viewer";
 			public const string EtqDepends = "DependsFrom";
 			public const string EtqAllowMultiSelect = "AllowMultiSelect";
+
+			public const string ValueSetSeparator = ",";
 
             public enum ViewerType {
                 Plain, DataColumns, DataValues, Map, TaxTree,
@@ -32,6 +41,7 @@ namespace RWABuilder.Core.MenuComponents {
 			{
                 this.depends = "";
                 this.value = "";
+				this.desc = "";
 				this.valueSet = new List<string>();
 			}
 
@@ -120,6 +130,19 @@ namespace RWABuilder.Core.MenuComponents {
 			}
 
 			/// <summary>
+			/// Gets or sets the description.
+			/// </summary>
+			/// <value>The description.</value>
+			public string Description {
+				get {
+					return this.desc;
+				}
+				set {
+					this.desc = value;
+				}
+			}
+
+			/// <summary>
 			/// Gets or sets the value set for this argument.
 			/// The value set is only relevant when the viewer is a Simple/MultiValueSet.
 			/// </summary>
@@ -131,6 +154,37 @@ namespace RWABuilder.Core.MenuComponents {
 				set {
 					this.valueSet.Clear();
 					this.valueSet.AddRange( value );
+				}
+			}
+
+			/// <summary>
+			/// Gets the value set as string.
+			/// </summary>
+			/// <returns>The value set as a list in a string.</returns>
+			public string GetValueSetAsString()
+			{
+				StringBuilder toret = new StringBuilder();
+				string[] valueSet = this.ValueSet;
+
+				for(int i = 0; i < valueSet.Length; ++i) {
+					toret.Append( valueSet[ i ] );
+
+					if ( i < ( valueSet.Length - 1 ) ) {
+						toret.Append( ValueSetSeparator );
+					}
+				}
+
+				return toret.ToString();
+			}
+
+			/// <summary>
+			/// Gets a value indicating whether this <see cref="RWABuilder.Core.MenuComponents.Function+Argument"/> needs value set.
+			/// </summary>
+			/// <value><c>true</c> if needs value set; otherwise, <c>false</c>.</value>
+			public bool NeedsValueSet {
+				get {
+					return ( this.viewer == ViewerType.SimpleValueSet
+						  || this.viewer == ViewerType.MultiValueSet );
 				}
 			}
 
@@ -156,7 +210,9 @@ namespace RWABuilder.Core.MenuComponents {
 					AllowMultiselect = this.AllowMultiselect,
 					Viewer = this.Viewer,
 					DependsFrom = this.DependsFrom,
-					Value = this.Value
+					Value = this.Value,
+					ValueSet = this.ValueSet,
+					Description = this.Description
 				};
 
                 return toret;
@@ -220,10 +276,32 @@ namespace RWABuilder.Core.MenuComponents {
 					doc.WriteEndAttribute();
 				}
 
-				// Viewer = "Map"
-				doc.WriteStartAttribute( EtqViewer );
+				// <Viewer Type="Map"...
+				doc.WriteStartElement( TagViewer );
+				doc.WriteStartAttribute( EtqType );
 				doc.WriteString( this.Viewer.ToString() );
 				doc.WriteEndAttribute();
+
+				if ( this.NeedsValueSet ) {
+
+					doc.WriteStartElement( TagData );
+					doc.WriteString( this.GetValueSetAsString() );
+					doc.WriteEndElement();
+				}
+
+				doc.WriteEndElement();
+
+				// <Description...
+				if ( !string.IsNullOrWhiteSpace( this.Description ) ) {
+					doc.WriteStartElement( TagDesc );
+					doc.WriteStartElement( TagText );
+					doc.WriteStartAttribute( EtqLang );
+					doc.WriteString( "ES" );
+					doc.WriteEndAttribute();
+					doc.WriteString( this.Description );
+					doc.WriteEndElement();
+					doc.WriteEndElement();
+				}
 
 				doc.WriteEndElement();
                 Trace.Unindent();
@@ -267,17 +345,39 @@ namespace RWABuilder.Core.MenuComponents {
 					if ( attr.Name.Equals( EtqReadOnly, StringComparison.OrdinalIgnoreCase ) ) {
 						toret.IsReadOnly = attr.GetValueAsBool();
 					}
-					else
-					// Viewer = "Map"
-					if ( attr.Name.Equals( EtqViewer, StringComparison.OrdinalIgnoreCase ) ) {
-						string viewerId = attr.InnerText.Trim();
-						ViewerType viewer;
+				}
 
+				// Explore subnodes...
+				foreach(XmlNode subNode in node.ChildNodes) {
+					// <Viewer Type="Map"...
+					if ( subNode.Name.Equals( TagViewer, StringComparison.OrdinalIgnoreCase ) ) {
+						ViewerType viewer;
+						string viewerId = subNode.GetAttribute( EtqType ).InnerText;
+
+						// Viewer Type
 						if ( Enum.TryParse<ViewerType>( viewerId, true, out viewer ) ) {
 							toret.Viewer = viewer;
 						} else {
 							throw new XmlException( "unknown viewer type: " + viewerId
 							                       + " at argument " + toret.Name );
+						}
+
+						// ValueSet
+						foreach(XmlNode subsubNode in subNode.ChildNodes) {
+							if ( subsubNode.Name.Equals( TagData, StringComparison.OrdinalIgnoreCase ) ) {
+								string valueSet = subsubNode.InnerText;
+
+								toret.ValueSet = valueSet.Split( ValueSetSeparator[ 0 ] );
+							}
+						}
+					}
+					else
+					// <Description...
+					if ( subNode.Name.Equals( TagDesc, StringComparison.OrdinalIgnoreCase ) ) {
+						foreach(XmlNode subsubNode in subNode.ChildNodes) {
+							if ( subsubNode.Name.Equals( TagText, StringComparison.OrdinalIgnoreCase ) ) {
+								toret.Description = subsubNode.InnerText;
+							}
 						}
 					}
 				}
@@ -293,6 +393,7 @@ namespace RWABuilder.Core.MenuComponents {
 			private ViewerType viewer;
 			private string depends;
 			private string value;
+			private string desc;
 		}
 	}
 }
