@@ -83,17 +83,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
             Trace.WriteLine( "ColorEditor: encoding color: " + c );
             Trace.Indent();
 
-            KnownColor kc = c.ToKnownColor();
-            string toret = "";
-            string strFormat = "#{0:x2}{1:x2}{2:x2}";
+			string toret = string.Format( @"#{0:x2}{1:x2}{2:x2}", c.R, c.G, c.B );
 
-            if ( (int) kc != 0 ) {
-                toret = string.Format( strFormat + " [{3}]", c.R, c.G, c.B, kc );
-                Trace.WriteLine( "Known color" );
-            } else {
-                toret = string.Format( strFormat, c.R, c.G, c.B, kc );
-                Trace.WriteLine( "Unknown color" );
-            }
 
             Trace.Unindent();
             Trace.WriteLine( "Finished encoding color: " + toret );

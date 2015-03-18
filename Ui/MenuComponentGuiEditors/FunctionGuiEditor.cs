@@ -146,7 +146,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
                 if ( evt.RowIndex >= 0
                   && evt.ColumnIndex == 1 )
                 {
-                    this.OnArgsListCellEntered(evt.RowIndex, evt.ColumnIndex);
+                    this.OnArgsListCellEntered( evt.RowIndex, evt.ColumnIndex );
                 }
             };
 
@@ -162,7 +162,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
                 if ( evt.RowIndex >= 0
                   && evt.ColumnIndex >= 0 )
                 {
-                    this.OnArgsListCellEdited(evt.RowIndex, evt.ColumnIndex);
+                    this.OnArgsListCellEdited( evt.RowIndex, evt.ColumnIndex );
                 }
 			};
 
@@ -370,11 +370,13 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             this.edPDFFileName = new ComboBox();
             this.edPDFFileName.DropDownStyle = ComboBoxStyle.DropDownList;
             this.edPDFFileName.Font = new Font( this.edPDFFileName.Font, FontStyle.Bold );
-            this.edPDFFileName.SelectedIndexChanged += (sender, e) => {
-                string contents = this.edPDFFileName.SelectedText.Trim();
+            this.edPDFFileName.SelectionChangeCommitted += (sender, e) => {
+                string contents = this.edPDFFileName.SelectedItem.ToString();
 
+				System.Diagnostics.Trace.WriteLine( "Changing PDF Ref to: " + contents );
                 if ( !string.IsNullOrEmpty( contents ) ) {
                     this.Function.PDFName = contents;
+					System.Diagnostics.Trace.WriteLine( "PDF ref changed" );
                 }
 
                 return;
@@ -606,18 +608,17 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 					var colorEditor = new ColorEditor( arg.Value, arg.Viewer );
 
 					if ( colorEditor.ShowDialog() == DialogResult.OK ) {
-						arg.Value = colorEditor.ToString();
-						row.Cells[ colIndex ].Value = arg.Value;
+						row.Cells[ colIndex ].Value = arg.Value = colorEditor.ToString();
 					}
 				}
 				else
 				if ( arg.Viewer == Function.Argument.ViewerType.SimpleValueSet
 				  || arg.Viewer == Function.Argument.ViewerType.MultiValueSet )
 				{
-					var valed = new ValuesChooser( arg.ValueSet );
+					var valed = new ValuesChooser( arg.ValueSet, arg.Viewer );
 
 					if ( valed.ShowDialog() != DialogResult.Cancel ) {
-						row.Cells[ 1 ].Value = valed.GetSelectedItem();
+						row.Cells[ 1 ].Value = arg.Value = valed.GetSelectedItemsAsList();
 					}
 				}
             }
@@ -774,6 +775,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             this.edFunctionExecuteOnce.Text = this.Function.PreProgramOnce.ToString();
             this.udFunctionStartColumn.Value = Math.Max( 1, this.Function.StartColumn );
             this.udFunctionEndColumn.Value = Math.Max( 1, this.Function.EndColumn );
+			this.edPDFFileName.Text = this.Function.PDFName;
+			this.udFunctionStartPage.Value = this.Function.PDFPageNumber;
 
             // Arguments
             foreach(Function.Argument arg in this.Function.RegularArgumentList) {
@@ -786,6 +789,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
                 row.Cells[ 3 ].Value = arg.IsRequired;
                 row.Cells[ 4 ].Value = arg.AllowMultiselect;
                 row.Cells[ 5 ].Value = arg.Viewer.ToString();
+				row.Cells[ 6 ].Value = UserAction.ImageList.Images[ UserAction.LookUp( "properties" ).ImageIndex ];
             }
 
             this.OnBuilding = false;

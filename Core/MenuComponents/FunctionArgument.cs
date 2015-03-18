@@ -15,6 +15,7 @@ namespace RWABuilder.Core.MenuComponents {
 			public const string TagData = "Data";
 			public const string TagDesc = "Description";
 			public const string TagText = "Text";
+			public const string TagValue = "Value";
 
 			public const string EtqRequired = "Required";
 			public const string EtqType = "Type";
@@ -282,7 +283,9 @@ namespace RWABuilder.Core.MenuComponents {
 				doc.WriteString( this.Viewer.ToString() );
 				doc.WriteEndAttribute();
 
-				if ( this.NeedsValueSet ) {
+				if ( this.NeedsValueSet
+				  && this.ValueSet.Length > 0 )
+				{
 
 					doc.WriteStartElement( TagData );
 					doc.WriteString( this.GetValueSetAsString() );
@@ -300,6 +303,13 @@ namespace RWABuilder.Core.MenuComponents {
 					doc.WriteEndAttribute();
 					doc.WriteString( this.Description );
 					doc.WriteEndElement();
+					doc.WriteEndElement();
+				}
+
+				// <Value>...</Value>
+				if ( !string.IsNullOrWhiteSpace( this.Value ) ) {
+					doc.WriteStartElement( TagValue );
+					doc.WriteString( this.Value );
 					doc.WriteEndElement();
 				}
 
@@ -359,26 +369,29 @@ namespace RWABuilder.Core.MenuComponents {
 							toret.Viewer = viewer;
 						} else {
 							throw new XmlException( "unknown viewer type: " + viewerId
-							                       + " at argument " + toret.Name );
+								+ " at argument " + toret.Name );
 						}
 
 						// ValueSet
-						foreach(XmlNode subsubNode in subNode.ChildNodes) {
+						foreach ( XmlNode subsubNode in subNode.ChildNodes ) {
 							if ( subsubNode.Name.Equals( TagData, StringComparison.OrdinalIgnoreCase ) ) {
 								string valueSet = subsubNode.InnerText;
 
 								toret.ValueSet = valueSet.Split( ValueSetSeparator[ 0 ] );
 							}
 						}
-					}
-					else
+					} else
 					// <Description...
 					if ( subNode.Name.Equals( TagDesc, StringComparison.OrdinalIgnoreCase ) ) {
-						foreach(XmlNode subsubNode in subNode.ChildNodes) {
+						foreach ( XmlNode subsubNode in subNode.ChildNodes ) {
 							if ( subsubNode.Name.Equals( TagText, StringComparison.OrdinalIgnoreCase ) ) {
 								toret.Description = subsubNode.InnerText;
 							}
 						}
+					} else
+					// <Value>...</Value>
+					if ( subNode.Name.Equals( TagValue, StringComparison.OrdinalIgnoreCase ) ) {
+						toret.Value = subNode.InnerText;
 					}
 				}
 

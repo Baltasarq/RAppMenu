@@ -1,11 +1,14 @@
 using System;
+using System.Text;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
+using Function = RWABuilder.Core.MenuComponents.Function;
+
 namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 	public class ValuesChooser: Form {
-		public ValuesChooser(string[] values)
+		public ValuesChooser(string[] values, Function.Argument.ViewerType v)
 		{
 			Trace.WriteLine( "ValuesChooser: Booting dialog..." );
 
@@ -19,6 +22,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			}
 
 			this.values = values;
+			this.viewerType = v;
 			this.Build();
 		}
 
@@ -116,6 +120,13 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.pnlValues.Text = "Values";
 
 			this.lbValues = new ListBox();
+
+			if ( this.viewerType == Function.Argument.ViewerType.MultiValueSet ) {
+				this.lbValues.SelectionMode = SelectionMode.MultiSimple;
+			} else {
+				this.lbValues.SelectionMode = SelectionMode.One;
+			}
+
 			this.lbValues.BackColor = Color.Wheat;
 			this.lbValues.Dock = DockStyle.Fill;
 			this.lbValues.Font = new Font( FontFamily.GenericMonospace, 12 );
@@ -145,11 +156,16 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 		/// Gets the index of the selected item.
 		/// </summary>
 		/// <returns>The selected index, as an int.</returns>
-		public int GetSelectedIndex()
+		public int[] GetSelectedIndexes()
 		{
-			int toret = Math.Max( 0, this.lbValues.SelectedIndex );
+			ListBox.SelectedIndexCollection selections = this.lbValues.SelectedIndices;
+			int[] toret = new int[ selections.Count ];
 
-			Trace.WriteLine( "ValuesChooser: selected index: " + toret );
+			for(int i = 0; i < selections.Count; ++i) {
+				toret[ i ] = Math.Max( 0, selections[ i ] );
+			}
+
+			Trace.WriteLine( "ValuesChooser: selected index: " + toret[0] );
 			return toret;
 		}
 
@@ -157,12 +173,38 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 		/// Gets the selected item.
 		/// </summary>
 		/// <returns>The selected item, as string.</returns>
-		public string GetSelectedItem()
+		public string[] GetSelectedItems()
 		{
-			string toret = this.values[ this.GetSelectedIndex() ];
+			int[] indexes = this.GetSelectedIndexes();
+			string[] toret = new string[ indexes.Length ];
 
-			Trace.WriteLine( "ValuesChooser: selected index: " + toret );
+			for (int i = 0; i < indexes.Length; ++i) {
+				toret[ i ] = this.Values[ indexes[ i ] ];
+			}
+
+			Trace.WriteLine( "ValuesChooser: selected item: " + toret[ 0 ] );
 			return toret;
+		}
+
+		/// <summary>
+		/// Gets the selected items as list.
+		/// </summary>
+		/// <returns>The selected items as a comma-separated list in a string.</returns>
+		/// <param name="separator">The separator to use.</param>
+		public string GetSelectedItemsAsList(char separator = ',')
+		{
+			StringBuilder toret = new StringBuilder();
+			string[] values = this.GetSelectedItems();
+
+			for (int i = 0; i < values.Length; ++i) {
+				toret.Append( values[ i ] );
+
+				if ( i < ( values.Length - 1 ) ) {
+					toret.Append( separator );
+				}
+			}
+
+			return toret.ToString();
 		}
 
 		/// <summary>
@@ -183,6 +225,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 		private ListBox lbValues;
 
 		private string[] values;
+		private Function.Argument.ViewerType viewerType;
 	}
 }
 
