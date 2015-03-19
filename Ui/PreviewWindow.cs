@@ -78,14 +78,16 @@ namespace RWABuilder.Ui {
             // Build the list of images
             foreach (GraphicEntry submc in menuComponents)
             {
-				if ( !File.Exists( submc.ImagePath ) ) {
+				string fileName = Path.Combine( AppInfo.GraphsFolder, submc.ImagePath );
+
+				if ( !File.Exists( fileName ) ) {
 					errors.AppendFormat( "Missing graphic file: '{0}' in '{1}' at '{2}'",
-					                    submc.ImagePath, submc.Name, submc.GetPathAsString() );
+					                    fileName, submc.Name, submc.GetPathAsString() );
 					errors.AppendLine();
 				} else {
 	                items.Add(
 	                    new GraphMenuUtils.GraphicsMenuTable.GraphMenuItemData(
-	                        submc.ImagePath,
+	                        fileName,
 	                        submc.ImageToolTip,
 	                        submc.Function )
 	                );
