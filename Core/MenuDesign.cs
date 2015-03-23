@@ -11,7 +11,7 @@ namespace RWABuilder.Core {
     /// Represents applications, specifically the menu's design.
     /// </summary>
 	public partial class MenuDesign {
-        public const string DefaultEmail = "joh@doe.com";
+        public const string DefaultEmail = "";
 		public const string TagName = "RWApp";
 		public const string EtqEmail = "AuthorEmail";
 		public const string EtqDate = "Date";
@@ -39,6 +39,7 @@ namespace RWABuilder.Core {
 			}
 			set {
 				this.Root.Name = value.Trim();
+				this.NeedsSave = true;
 			}
 		}
 
@@ -51,13 +52,18 @@ namespace RWABuilder.Core {
 				return this.authorEmail;
 			}
 			set {
-                if ( string.IsNullOrWhiteSpace( value )
-                  || value.IndexOf( '@' ) < 0 )
+				if ( value == null ) {
+					throw new ArgumentException( "invalid empty email" );
+				}
+                
+				if ( value.Length > 0
+				  && value.IndexOf( '@' ) < 0 )
                 {
                     throw new ArgumentException( "invalid email: " + value );
                 }
 
 				this.authorEmail = value.Trim();
+				this.NeedsSave = true;
 			}
 		}
 
@@ -78,7 +84,13 @@ namespace RWABuilder.Core {
 		/// </summary>
 		/// <value>The creation date, as a DateTime.</value>
 		public DateTime Date {
-			get; set;
+			get {
+				return this.date;
+			}
+			set {
+				this.date = value;
+				this.NeedsSave = true;
+			}
 		}
 
 		public void ToXml(XmlTextWriter doc)
@@ -86,9 +98,11 @@ namespace RWABuilder.Core {
 			doc.WriteStartElement( TagName );
 
 			// Email = "jbgarcia@uvigo.es"
-			doc.WriteStartAttribute( EtqEmail );
-			doc.WriteString( this.AuthorEmail );
-			doc.WriteEndAttribute();
+			if ( this.AuthorEmail.Length > 0 ) {
+				doc.WriteStartAttribute( EtqEmail );
+				doc.WriteString( this.AuthorEmail );
+				doc.WriteEndAttribute();
+			}
 
 			// Date = "2015-01-06"
 			doc.WriteStartAttribute( EtqDate );
@@ -283,6 +297,7 @@ namespace RWABuilder.Core {
 
 		private RootMenu root;
 		private string authorEmail;
+		private DateTime date;
         private PDFList pdfList;
 	}
 }

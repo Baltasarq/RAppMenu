@@ -53,10 +53,25 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.removeFunctionArgumentAction.CallBack = this.OnRemoveFunctionArgument;
 
             // Load PDF File names
+			string[] pdfList = this.Function.Root.Owner.PDFNameList;
             this.edPDFFileName.Items.Clear();
             this.edPDFFileName.Items.Add( "" );
-            this.edPDFFileName.Items.AddRange( this.Function.Root.Owner.PDFNameList );
-            this.edPDFFileName.SelectedItem = this.Function.PDFName;
+            this.edPDFFileName.Items.AddRange( pdfList );
+
+			if ( pdfList.Length == 0 ) {
+				this.pnlPDFReference.Enabled = false;
+				this.Function.PDFName = "";
+			}
+			else
+			if ( pdfList.Length > 0 ) {
+				this.pnlPDFReference.Enabled = true;
+
+				if ( pdfList.Length == 1 ) {
+					this.edPDFFileName.SelectedItem = this.Function.PDFName = pdfList[ 0 ];
+				} else {
+					this.edPDFFileName.SelectedItem = this.Function.PDFName;
+				}
+			}
 		}
 
 		private void BuildArgumentsListTable()
@@ -233,8 +248,14 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.chkFunctionHasData.Dock = DockStyle.Fill;
 			this.chkFunctionHasData.MinimumSize =
 				new Size( this.chkFunctionHasData.Width, this.chkFunctionHasData.Height );
-			this.chkFunctionHasData.CheckedChanged += (object sender, EventArgs e) =>
-				this.Function.HasData = this.chkFunctionHasData.Checked;
+			this.chkFunctionHasData.CheckedChanged += (object sender, EventArgs e) => {
+				bool value = this.chkFunctionHasData.Checked;
+
+				this.Function.HasData = value;
+				this.Function.DataHeader = value;
+				this.chkFunctionDataHeader.Checked = value;
+				this.pnlGroupData.Enabled = value;
+			};
 			this.pnlChecks.Controls.Add( this.chkFunctionHasData );
 
 			this.chkFunctionDataHeader = new CheckBox();
@@ -274,7 +295,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			pnlInnerGroupData.Dock = DockStyle.Fill;
 			pnlInnerGroupData.AutoSize = true;
 			this.pnlGroupData.Controls.Add( pnlInnerGroupData );
-            this.tcPad.TabPages[ 1 ].Controls.Add( this.pnlGroupData );
+			this.pnlContainer.Controls.Add( this.pnlGroupData );
 
 			// Default data
             var lblData = new Label();
@@ -335,6 +356,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			pnlInnerGroupData.Controls.Add( this.udFunctionEndColumn );
 			pnlInnerGroupData.ResumeLayout( false );
 			this.pnlGroupData.ResumeLayout( false );
+			this.pnlGroupData.Enabled = false;
 
             // Sizes for controls
             Graphics grf = new Form().CreateGraphics();
@@ -360,7 +382,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             pnlInnerPDFReference.Dock = DockStyle.Fill;
             pnlInnerPDFReference.AutoSize = true;
             this.pnlPDFReference.Controls.Add( pnlInnerPDFReference );
-            this.tcPad.TabPages[ 1 ].Controls.Add( this.pnlPDFReference );
+            this.pnlContainer.Controls.Add( this.pnlPDFReference );
 
             // Default data
             var lblPDFFile = new Label();
@@ -516,10 +538,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
 			// Sub panels
             this.BuildCheckBoxes();
+			this.BuildDefaultData();
+			this.BuildPDFReference();
             this.BuildArgumentsListTable();
             this.BuildCommands();
-            this.BuildDefaultData();
-            this.BuildPDFReference();
 
 			this.pnlContainer.ResumeLayout( false );
             this.Panel.ResumeLayout( false );

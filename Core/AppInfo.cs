@@ -6,7 +6,7 @@ namespace RWABuilder.Core {
 	public static class AppInfo {
 		public const string Name = "RWABuilder";
 		public const string Web = "http://www.ipez.es/rwizard/";
-        public const string Version = "1.0.7 20150319";
+        public const string Version = "1.0.8 20150327";
         public const string FileExtension = "xml";
         public const string LogFile = Name + ".errors.log";
 

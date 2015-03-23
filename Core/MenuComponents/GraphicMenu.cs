@@ -13,6 +13,7 @@ namespace RWABuilder.Core.MenuComponents {
         public const string EtqImageHeight = "ImageHeight";
 
 		public const int MinimumGraphicSize = 16;
+		public const int PreferredGraphicSize = 180;
 		public const int MaximumGraphicSize = 250;
 		public const int MinimumColumns = 1;
 		public const int MaximumColumns = 10;
@@ -20,7 +21,7 @@ namespace RWABuilder.Core.MenuComponents {
 		public GraphicMenu(string name, Menu parent)
 			:base( name, parent )
 		{
-			this.ImageWidth = this.ImageHeight = MinimumGraphicSize;
+			this.ImageWidth = this.ImageHeight = PreferredGraphicSize;
             this.MinimumNumberOfColumns = MinimumColumns;
 		}
 

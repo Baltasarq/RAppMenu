@@ -84,8 +84,8 @@ namespace RWABuilder.Ui {
             edEmail.TextChanged += (sender, e) => {
                 string value = edEmail.Text.Trim();
 
-                if ( !string.IsNullOrWhiteSpace( value )
-				  && value.IndexOf( '@' ) >= 0 )
+                if ( value.Length == 0
+				  || value.IndexOf( '@' ) >= 0 )
 				{
                     this.Document.AuthorEmail = value;
                 }
