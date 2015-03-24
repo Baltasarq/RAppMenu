@@ -14,8 +14,8 @@ namespace RWABuilder.Core.MenuComponents {
             public const string EtqVariant = "Variant";
 
 			public class Arg: BaseArgument {
-                public const string TagName = "SetArgument";
-                public const string TagNameReadOnly = "ReadOnlyArgument";
+                public const string TagName = "Argument";
+                public const string EtqReadOnly = "ReadOnly";
                 public const string EtqName = "Name";
                 public const string EtqValue = "Value";
 
@@ -86,18 +86,6 @@ namespace RWABuilder.Core.MenuComponents {
                     Trace.WriteLine( "Arg.ToXml: " + this.ToString() );
                     Trace.Indent();
 
-                    // Decide which tag name to use
-                    if ( this.IsReadOnly ) {
-                        doc.WriteStartElement( TagNameReadOnly );
-
-                        // Name = "x"
-                        doc.WriteStartAttribute( EtqName );
-                        doc.WriteString( this.Name );
-                        doc.WriteEndAttribute();
-
-                        doc.WriteEndElement();
-                    }
-
                     doc.WriteStartElement( TagName ); 
 
                     // Name = "x"
@@ -105,10 +93,19 @@ namespace RWABuilder.Core.MenuComponents {
                     doc.WriteString( this.Name );
                     doc.WriteEndAttribute();
 
+					// ReadOnly = "TRUE"
+					if ( this.IsReadOnly ) {
+						doc.WriteStartAttribute( EtqReadOnly );
+						doc.WriteString( true.ToString() );
+						doc.WriteEndAttribute();
+					}
+
                     // Value = "0"
-                    doc.WriteStartAttribute( EtqValue );
-                    doc.WriteString( this.Value );
-                    doc.WriteEndAttribute();
+					if ( !string.IsNullOrWhiteSpace( this.Value ) ) {
+						doc.WriteStartAttribute( EtqValue );
+						doc.WriteString( this.Value );
+						doc.WriteEndAttribute();
+					}
 
                     doc.WriteEndElement();
                     Trace.Unindent();
@@ -120,6 +117,7 @@ namespace RWABuilder.Core.MenuComponents {
                     string name = node.GetAttribute( EtqName ).InnerText;
                     var toret = (Arg) fnCall.ArgumentList.LookUp( name );
                     XmlNode attrValue = node.Attributes.GetNamedItemIgnoreCase( EtqValue );
+					XmlNode attrReadonly = node.Attributes.GetNamedItemIgnoreCase( EtqReadOnly );
 
                     // Create, if not found
                     if ( toret == null ) {
@@ -128,9 +126,8 @@ namespace RWABuilder.Core.MenuComponents {
                     }
 
                     // Is read only?
-                    if ( node.Name.Equals( TagNameReadOnly, StringComparison.OrdinalIgnoreCase ) )
-                    {
-                        toret.IsReadOnly = true;
+                    if ( attrReadonly != null ) {
+                        toret.IsReadOnly = attrReadonly.GetValueAsBool();
                     }
                         
                     // Value = "v1"
