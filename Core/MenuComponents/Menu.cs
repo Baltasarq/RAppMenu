@@ -243,19 +243,23 @@ namespace RWABuilder.Core.MenuComponents {
 		protected void LoadComponentsFromXml(XmlNode node)
 		{
 			foreach(XmlNode subNode in node.ChildNodes) {
+				if ( subNode.Name.Equals( RegularMenu.TagName, StringComparison.OrdinalIgnoreCase ) ) {
+					RegularMenu.FromXml( subNode, this );
+				}
+				else
 				if ( subNode.Name.Equals( GraphicMenu.TagName, StringComparison.OrdinalIgnoreCase ) ) {
 					GraphicMenu.FromXml( subNode, this );
 				}
 				else
-					if ( subNode.Name.Equals( PdfFile.TagName, StringComparison.OrdinalIgnoreCase ) ) {
+				if ( subNode.Name.Equals( PdfFile.TagName, StringComparison.OrdinalIgnoreCase ) ) {
 					PdfFile.FromXml( subNode, this );
 				}
 				else
-					if ( subNode.Name.Equals( Separator.TagName, StringComparison.OrdinalIgnoreCase ) ) {
+				if ( subNode.Name.Equals( Separator.TagName, StringComparison.OrdinalIgnoreCase ) ) {
 					Separator.FromXml( subNode, this );
 				}
 				else
-					if ( subNode.Name.Equals( Function.TagName, StringComparison.OrdinalIgnoreCase ) ) {
+				if ( subNode.Name.Equals( Function.TagName, StringComparison.OrdinalIgnoreCase ) ) {
 					Function.FromXml( subNode, this );
 				}
 			}

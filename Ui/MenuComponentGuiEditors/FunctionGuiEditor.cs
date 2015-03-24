@@ -19,19 +19,18 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
 			this.Build();
 			
-            // Put in some data
-            this.chkFunctionHasData.Checked = this.Function.HasData;
+ 		     // Put in some data
+			this.chkFunctionHasData.Checked = this.Function.HasData;
             this.chkFunctionDataHeader.Checked = this.Function.DataHeader;
-            this.chkFunctionRemoveQuotes.Checked = this.Function.RemoveQuotationMarks;
-
-            this.edFunctionPreCommand.Text = this.Function.PreProgramOnce.ToString();
+			this.chkFunctionRemoveQuotes.Checked = this.Function.RemoveQuotationMarks;
+			this.edFunctionPreCommand.Text = this.Function.PreProgramOnce.ToString();
             this.edFunctionData.Text = this.Function.ExampleData;
 		}
 
 		/// <summary>
 		/// Gets the function being modified by this editor
 		/// </summary>
-		/// <value>The <see cref="Function"/> object.</value>
+		/// <value>The Function object</value>
 		public Function Function {
 			get {
 				return (Function) this.MenuComponent;
@@ -39,7 +38,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		}
 
 		/// <summary>
-		/// Shows and prepares the editor
+		/// Shows and preedPackageNamethe editor
 		/// </summary>
 		public override void Show()
 		{
@@ -47,7 +46,6 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             this.tcPad.Show();
 
 			this.removeFunctionArgumentAction.Enabled = ( this.grdArgsList.Rows.Count > 0 );
-
 			this.addFunctionArgumentAction.CallBack = this.OnAddFunctionArgument;
 			this.editFnCallArgumentsAction.CallBack = this.OnEditFunctionCallArguments;
 			this.removeFunctionArgumentAction.CallBack = this.OnRemoveFunctionArgument;
@@ -56,7 +54,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			string[] pdfList = this.Function.Root.Owner.PDFNameList;
             this.edPDFFileName.Items.Clear();
             this.edPDFFileName.Items.Add( "" );
-            this.edPDFFileName.Items.AddRange( pdfList );
+			this.edPDFFileName.Items.AddRange( pdfList );
 
 			if ( pdfList.Length == 0 ) {
 				this.pnlPDFReference.Enabled = false;
@@ -516,6 +514,36 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.pnlGroupCommands.ResumeLayout( false );
 		}
 
+		private void BuildPackageEditor()
+		{
+			this.pnlEdPackage = new Panel();
+			this.pnlEdPackage.SuspendLayout();
+			this.pnlEdPackage.Dock = DockStyle.Top;
+
+			var lblName = new Label();
+			lblName.AutoSize = false;
+			lblName.TextAlign = ContentAlignment.MiddleLeft;
+			lblName.Dock = DockStyle.Left;
+			lblName.Text = "Package name:";
+
+			this.edPackageName = new TextBox();
+			this.edPackageName.Font = new Font( this.edPackageName.Font, FontStyle.Bold );
+			this.edPackageName.Dock = DockStyle.Fill;
+			this.edPackageName.KeyUp += (sender, e) => {
+				string name = this.edPackageName.Text;
+
+				if ( !string.IsNullOrWhiteSpace( name ) ) {
+					this.Function.Package = name;
+				}
+			};
+
+			this.pnlEdPackage.Controls.Add( this.edPackageName );
+			this.pnlEdPackage.Controls.Add( lblName );
+			this.pnlEdPackage.MaximumSize = new Size( int.MaxValue, this.edPackageName.Height );
+			this.pnlContainer.Controls.Add( this.pnlEdPackage );
+			this.pnlEdPackage.ResumeLayout( false );
+		}
+
 		private void Build()
 		{
             this.OnBuilding = true;
@@ -537,6 +565,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             this.Panel.Controls.Add( this.tcPad );
 
 			// Sub panels
+			this.BuildPackageEditor();
             this.BuildCheckBoxes();
 			this.BuildDefaultData();
 			this.BuildPDFReference();
@@ -829,6 +858,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		private Panel pnlPreCommand;
 		private Panel pnlExecuteOnce;
 		private Panel pnlArgButtons;
+		private Panel pnlEdPackage;
         private TabControl tcPad;
 
 		private CheckBox chkFunctionHasData;
@@ -842,6 +872,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		private TextBox edFunctionData;
 		private TextBox edFunctionPreCommand;
 		private TextBox edFunctionExecuteOnce;
+		private TextBox edPackageName;
         private ComboBox edPDFFileName;
 		private NumericUpDown udFunctionStartColumn;
 		private NumericUpDown udFunctionEndColumn;

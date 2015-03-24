@@ -15,6 +15,7 @@ namespace RWABuilder.Core.MenuComponents {
 
 		public const string EtqPreCommand = "PreCommand";
 		public const string EtqName = "Name";
+		public const string EtqPackage = "Package";
 		public const string EtqPage = "Page";
 		public const string EtqDataHeader = "DataHeader";
 		public const string EtqRemoveQuotationMarks = "RemoveQuotationMarks";
@@ -41,6 +42,7 @@ namespace RWABuilder.Core.MenuComponents {
             this.PDFPageNumber = 1;
             this.PDFName = "";
 			this.PreCommand = "";
+			this.Package = "";
 		}
 
 		/// <summary>
@@ -215,14 +217,29 @@ namespace RWABuilder.Core.MenuComponents {
             }
         }
 
+		/// <summary>
+		/// Gets or sets the name of the package of this function
+		/// </summary>
+		/// <value>The name of the package.</value>
+		public string Package {
+			get {
+				return this.package;
+			}
+			set {
+				this.package = value.Trim();
+			}
+		}
+
 		public override string ToString()
 		{
-			return string.Format( "[Function: Name={0} HasData={1}, DataHeader={2}, "
-					+ "PreCommand={3}, DefaultData={4}, StartColumn={5}, EndColumn={6}, "
-					+ "RemoveQuotationMarks={7}, PreProgramOnce={8}, ArgList={9}]",
+			return string.Format( "[Function: Name='{0}' PackageName='{10}' HasData={1},"
+			        + "DataHeader={2}, "
+					+ "PreCommand='{3}', DefaultData='{4}', StartColumn={5}, EndColumn={6}, "
+					+ "RemoveQuotationMarks={7}, PreProgramOnce='{8}', ArgList={9}]",
 			        Name,
 				    HasData, DataHeader, PreCommand, ExampleData, StartColumn,
-			        EndColumn, RemoveQuotationMarks, PreProgramOnce, RegularArgumentList.ToString() );
+			        EndColumn, RemoveQuotationMarks, PreProgramOnce, RegularArgumentList.ToString(),
+			        this.Package );
 		}
 
         /// <summary>
@@ -239,6 +256,7 @@ namespace RWABuilder.Core.MenuComponents {
             }
 
             var toret = new Function( this.Name, menuParent ) {
+				Package = this.Package,
                 HasData = this.HasData,
                 DataHeader = this.DataHeader,
                 PreCommand = this.PreCommand,
@@ -275,6 +293,13 @@ namespace RWABuilder.Core.MenuComponents {
             doc.WriteStartAttribute( EtqName );
             doc.WriteString( this.Name );
             doc.WriteEndAttribute();
+
+			// Package = "package"
+			if ( !string.IsNullOrWhiteSpace( this.Package ) ) {
+				doc.WriteStartAttribute( EtqPackage );
+				doc.WriteString( this.Package );
+				doc.WriteEndAttribute();
+			}
 
             // HasData = "TRUE"
             if ( this.HasData ) {
@@ -378,6 +403,11 @@ namespace RWABuilder.Core.MenuComponents {
 
 			// Attribute info
 			foreach (XmlAttribute attr in node.Attributes) {
+				// Package = "base"
+				if ( attr.Name.Equals( EtqPackage, StringComparison.OrdinalIgnoreCase ) ) {
+					toret.Package = attr.InnerText.Trim();
+				}
+				else
 				// HasData = "true"
 				if ( attr.Name.Equals( EtqHasData, StringComparison.OrdinalIgnoreCase ) ) {
                     toret.HasData = attr.GetValueAsBool();
@@ -478,6 +508,7 @@ namespace RWABuilder.Core.MenuComponents {
 			return toret;
 		}
 
+		private string package;
         private bool hasData;
         private bool dataHeader;
         private bool removeQuotes;
