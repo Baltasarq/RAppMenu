@@ -62,7 +62,8 @@ namespace RWABuilder.Core.MenuComponents {
 				}
 
 				if ( this.LookUp( value.Name ) != null ) {
-					throw new ArgumentException( "function argument duplicated" ); 
+					throw new ArgumentException( "function argument duplicated: " 
+					                            	+ this.Owner.Name + '.' + value.Name ); 
 				}
 
 				return;

@@ -1,8 +1,9 @@
 using System;
 using System.Diagnostics;
-using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Xml;
+using System.Collections.Generic;
 
 namespace RWABuilder.Core.MenuComponents {
 	public partial class Function {
@@ -40,9 +41,13 @@ namespace RWABuilder.Core.MenuComponents {
 			public Argument(string name, Function owner)
 				: base( name, owner )
 			{
+				this.viewer = ViewerType.Plain;
                 this.depends = "";
                 this.value = "";
-				this.desc = "";
+				this.desc = new Dictionary<CultureInfo, string>();
+				this.required = false;
+				this.readOnly = false;
+				this.multiSelect = false;
 				this.valueSet = new List<string>();
 			}
 
@@ -131,16 +136,29 @@ namespace RWABuilder.Core.MenuComponents {
 			}
 
 			/// <summary>
-			/// Gets or sets the description.
+			/// Gets the description for this argument, given a CultureInfo object.
 			/// </summary>
-			/// <value>The description.</value>
-			public string Description {
-				get {
-					return this.desc;
+			/// <param name="ci">A CultureInfo object to associate the description with.</param>
+			/// <returns>The description, as a string, or null if not found.</returns>
+			public string GetDescription(CultureInfo ci)
+			{
+				string toret = "";
+
+				if ( !desc.TryGetValue( ci, out toret ) ) {
+					toret = null;
 				}
-				set {
-					this.desc = value;
-				}
+
+				return toret;
+			}
+
+			/// <summary>
+			/// Sets the description for this argument.
+			/// </summary>
+			/// <param name="ci">A CultureInfo object.</value>
+			/// <param name="desc">The corresponding description.</value>
+			public void SetDescription(CultureInfo ci, string desc)
+			{
+				this.desc[ ci ] = desc;
 			}
 
 			/// <summary>
@@ -208,12 +226,13 @@ namespace RWABuilder.Core.MenuComponents {
 
                 var toret = new Argument( this.Name, functionOwner ) {
 					IsRequired = this.IsRequired,
+					IsReadOnly = this.IsReadOnly,
 					AllowMultiselect = this.AllowMultiselect,
 					Viewer = this.Viewer,
 					DependsFrom = this.DependsFrom,
 					Value = this.Value,
 					ValueSet = this.ValueSet,
-					Description = this.Description
+					desc = this.desc
 				};
 
                 return toret;
@@ -278,38 +297,37 @@ namespace RWABuilder.Core.MenuComponents {
 				}
 
 				// <Viewer Type="Map"...
-				doc.WriteStartElement( TagViewer );
-				doc.WriteStartAttribute( EtqType );
-				doc.WriteString( this.Viewer.ToString() );
-				doc.WriteEndAttribute();
+				if ( this.Viewer != ViewerType.Plain ) {
+					if ( !this.NeedsValueSet ) {
+						doc.WriteStartAttribute( TagViewer );
+						doc.WriteString( this.Viewer.ToString() );
+						doc.WriteEndAttribute();
+					} else {
+						doc.WriteStartElement( TagViewer );
+						doc.WriteStartAttribute( EtqType );
+						doc.WriteString( this.Viewer.ToString() );
+						doc.WriteEndAttribute();
 
-				if ( this.NeedsValueSet
-				  && this.ValueSet.Length > 0 )
-				{
-
-					doc.WriteStartElement( TagData );
-					doc.WriteString( this.GetValueSetAsString() );
-					doc.WriteEndElement();
+						doc.WriteStartElement( TagData );
+						doc.WriteString( this.GetValueSetAsString() );
+						doc.WriteEndElement();
+						doc.WriteEndElement();
+					}
 				}
-
-				doc.WriteEndElement();
 
 				// <Description...
-				if ( !string.IsNullOrWhiteSpace( this.Description ) ) {
+				if ( this.desc.Count > 0 ) {
 					doc.WriteStartElement( TagDesc );
-					doc.WriteStartElement( TagText );
-					doc.WriteStartAttribute( EtqLang );
-					doc.WriteString( "ES" );
-					doc.WriteEndAttribute();
-					doc.WriteString( this.Description );
-					doc.WriteEndElement();
-					doc.WriteEndElement();
-				}
 
-				// <Value>...</Value>
-				if ( !string.IsNullOrWhiteSpace( this.Value ) ) {
-					doc.WriteStartElement( TagValue );
-					doc.WriteString( this.Value );
+					foreach ( CultureInfo ci in this.desc.Keys ) {
+						doc.WriteStartElement( TagText );
+						doc.WriteStartAttribute( EtqLang );
+						doc.WriteString( ci.TwoLetterISOLanguageName );
+						doc.WriteEndAttribute();
+						doc.WriteString( this.GetDescription( ci ) );
+						doc.WriteEndElement();
+					}
+
 					doc.WriteEndElement();
 				}
 
@@ -355,6 +373,20 @@ namespace RWABuilder.Core.MenuComponents {
 					if ( attr.Name.Equals( EtqReadOnly, StringComparison.OrdinalIgnoreCase ) ) {
 						toret.IsReadOnly = attr.GetValueAsBool();
 					}
+					else
+					// Viewer = "DataColummns"
+					if ( attr.Name.Equals( TagViewer, StringComparison.OrdinalIgnoreCase ) ) {
+						ViewerType viewer;
+						string viewerId = attr.InnerText;
+
+						// Viewer Type
+						if ( Enum.TryParse<ViewerType>( viewerId, true, out viewer ) ) {
+							toret.Viewer = viewer;
+						} else {
+							throw new XmlException( "unknown viewer type: " + viewerId
+							                       + " at argument " + toret.Name );
+						}
+					}
 				}
 
 				// Explore subnodes...
@@ -385,7 +417,16 @@ namespace RWABuilder.Core.MenuComponents {
 					if ( subNode.Name.Equals( TagDesc, StringComparison.OrdinalIgnoreCase ) ) {
 						foreach ( XmlNode subsubNode in subNode.ChildNodes ) {
 							if ( subsubNode.Name.Equals( TagText, StringComparison.OrdinalIgnoreCase ) ) {
-								toret.Description = subsubNode.InnerText;
+								XmlNode attrLang = subsubNode.GetAttribute( EtqLang );
+								CultureInfo ci = CultureInfo.CurrentUICulture;
+
+								try {
+									ci = CultureInfo.GetCultureInfo( attrLang.InnerText );
+								} catch(CultureNotFoundException) {
+									// do nothing
+								}
+
+								toret.desc[ ci ] = subsubNode.InnerText;
 							}
 						}
 					} else
@@ -404,9 +445,9 @@ namespace RWABuilder.Core.MenuComponents {
 			private bool readOnly;
 			private bool multiSelect;
 			private ViewerType viewer;
-			private string depends;
+			private Dictionary<CultureInfo, string> desc;
 			private string value;
-			private string desc;
+			private string depends;
 		}
 	}
 }

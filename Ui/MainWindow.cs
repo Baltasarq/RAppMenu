@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Xml;
+using System.Text;
 using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -38,6 +39,15 @@ namespace RWABuilder.Ui {
 
 			this.SetStatus( "Launching external browser..." );
 			Process.Start( AppInfo.Web );
+			this.SetStatus();
+		}
+
+		private void OnShowHelp()
+		{
+			Trace.WriteLine( System.DateTime.Now + ": Launching browser..." );
+
+			this.SetStatus( "Launching external browser..." );
+			Process.Start( AppInfo.Help );
 			this.SetStatus();
 		}
 
@@ -387,6 +397,7 @@ namespace RWABuilder.Ui {
                 catch(XmlException exc)
                 {
                     this.SetErrorStatus( "Malformed XML: " + exc.Message );
+					this.fileName = "";
                     Trace.WriteLine( exc.Message );
                     Trace.WriteLine( exc.StackTrace );
                     return;
@@ -394,6 +405,7 @@ namespace RWABuilder.Ui {
                 catch(Exception exc)
                 {
                     this.SetErrorStatus( "Unexpected error: " + exc.Message );
+					this.fileName = "";
                     Trace.WriteLine( exc.Message );
                     Trace.WriteLine( exc.StackTrace );
                     return;
@@ -534,6 +546,7 @@ namespace RWABuilder.Ui {
 
             try {
                 this.Document.SaveToFile( this.fileName );
+				this.SetStatus();
             } catch(XmlException exc)
             {
                 this.SetErrorStatus( "Malformed XML: " + exc.Message );
@@ -555,7 +568,7 @@ namespace RWABuilder.Ui {
 			this.TreeMenuRoot.Text = this.Document.Root.Name;
 
             End:
-			this.SetStatus();
+			this.BuildAppTitle();
 		}
 
 		private void OnProperties()
@@ -612,6 +625,10 @@ namespace RWABuilder.Ui {
 				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.edit.png" )
 			);
 
+			this.notepadIconBmp = new Bitmap(
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.notepad.png" )
+			);
+
 			this.editFnCallsIconBmp = new Bitmap(
 				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.editFnCalls.png" )
 			);
@@ -622,6 +639,10 @@ namespace RWABuilder.Ui {
 
 			this.openIconBmp = new Bitmap(
 				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.open.png" )
+			);
+
+			this.helpIconBmp = new Bitmap(
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.help.png" )
 			);
 
 			this.infoIconBmp = new Bitmap(
@@ -748,6 +769,10 @@ namespace RWABuilder.Ui {
 			opWeb.Click += (sender, e) => this.OnShowWeb();
 			opWeb.Image = this.infoIconBmp;
 
+			var opHelp = new ToolStripMenuItem( "&Help..." );
+			opHelp.Click += (sender, e) => this.OnShowHelp();
+			opHelp.Image = this.helpIconBmp;
+
             var opLog = new ToolStripMenuItem( "&Show log..." );
             opLog.Click += (sender, e) => this.OnShowLog();
 
@@ -776,7 +801,7 @@ namespace RWABuilder.Ui {
 			});
 
 			this.mHelp.DropDownItems.AddRange( new ToolStripItem[]{
-                opWeb, opLog, opAbout
+                opHelp, opWeb, opLog, opAbout
 			});
 
             // User actions
@@ -1050,7 +1075,8 @@ namespace RWABuilder.Ui {
                 this.pdfIconBmp, this.separatorIconBmp,
                 this.deleteIconBmp, this.upIconBmp, this.downIconBmp,
 				this.playIconBmp, this.addIconBmp, this.editFnCallsIconBmp,
-                this.saveAsIconBmp, this.checkIconBmp, this.editIconBmp
+                this.saveAsIconBmp, this.checkIconBmp, this.editIconBmp,
+				this.notepadIconBmp
             });
 
             this.newAction = new UserAction( "New", 0, this.OnNew );
@@ -1074,6 +1100,7 @@ namespace RWABuilder.Ui {
 			// For the function GUI editor
 			new UserAction( "Add function argument", 13, null );
 			new UserAction( "Edit function call arguments", 14, null );
+			new UserAction( "Edit descriptions", 18, null );
 			new UserAction( "Remove function argument", 9, null );
 			new UserAction( "Add function call argument", 13, null );
 			new UserAction( "Remove function call argument", 9, null );
@@ -1121,6 +1148,22 @@ namespace RWABuilder.Ui {
 			return;
 		}
 
+		private void BuildAppTitle()
+		{
+			StringBuilder title = new StringBuilder();
+
+			title.Append( AppInfo.Name );
+			title.Append( ' ' );
+			title.Append( AppInfo.Version );
+
+			if ( !string.IsNullOrWhiteSpace( this.fileName ) ) {
+				title.Insert( 0, Path.GetFileName( this.fileName ) + @" - " );
+			}
+
+			this.Text = title.ToString();
+			return;
+		}
+
 		private void Build()
 		{
             Trace.WriteLine( "Building Gui..." );
@@ -1141,7 +1184,7 @@ namespace RWABuilder.Ui {
 			this.Controls.Add( this.mMain );
             this.Controls.Add( this.stStatus );
 
-			this.Text = AppInfo.Name + ' ' + AppInfo.Version;
+			this.BuildAppTitle();
 			this.FormClosing += (sender, e) => this.OnCloseDocument();
 			this.Icon = Icon.FromHandle( appIconBmp.GetHicon() );
 			this.MinimumSize = new Size( 1000, 740 );
@@ -1180,6 +1223,7 @@ namespace RWABuilder.Ui {
 			if ( view ) {
 				this.SetActionStatusForTreeNode( this.TreeMenuRoot );
                 this.tvMenu.SelectedNode = this.TreeMenuRoot;
+				this.BuildAppTitle();
 			}
 
             // Widgets
@@ -1360,6 +1404,7 @@ namespace RWABuilder.Ui {
 		private Bitmap addIconBmp;
         private Bitmap checkIconBmp;
 		private Bitmap editIconBmp;
+		private Bitmap notepadIconBmp;
 		private Bitmap editFnCallsIconBmp;
 		private Bitmap deleteIconBmp;
         private Bitmap downIconBmp;
@@ -1369,6 +1414,7 @@ namespace RWABuilder.Ui {
 		private Bitmap graphicIconBmp;
 		private Bitmap menuIconBmp;
 		private Bitmap openIconBmp;
+		private Bitmap helpIconBmp;
 		private Bitmap infoIconBmp;
 		private Bitmap newIconBmp;
 		private Bitmap saveIconBmp;

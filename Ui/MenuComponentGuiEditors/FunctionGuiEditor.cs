@@ -15,16 +15,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.fnCallsEditor = null;
 			this.addFunctionArgumentAction = UserAction.LookUp( "addfunctionargument" );
 			this.editFnCallArgumentsAction = UserAction.LookUp( "editfunctioncallarguments" );
+			this.editDescriptionsAction = UserAction.LookUp( "editdescriptions" );
 			this.removeFunctionArgumentAction = UserAction.LookUp( "removefunctionargument" );
 
 			this.Build();
-			
- 		     // Put in some data
-			this.chkFunctionHasData.Checked = this.Function.HasData;
-            this.chkFunctionDataHeader.Checked = this.Function.DataHeader;
-			this.chkFunctionRemoveQuotes.Checked = this.Function.RemoveQuotationMarks;
-			this.edFunctionPreCommand.Text = this.Function.PreProgramOnce.ToString();
-            this.edFunctionData.Text = this.Function.ExampleData;
 		}
 
 		/// <summary>
@@ -48,6 +42,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.removeFunctionArgumentAction.Enabled = ( this.grdArgsList.Rows.Count > 0 );
 			this.addFunctionArgumentAction.CallBack = this.OnAddFunctionArgument;
 			this.editFnCallArgumentsAction.CallBack = this.OnEditFunctionCallArguments;
+			this.editDescriptionsAction.CallBack = this.OnEditDescriptions;
 			this.removeFunctionArgumentAction.CallBack = this.OnRemoveFunctionArgument;
 
             // Load PDF File names
@@ -190,6 +185,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.btFunctionAddArgument = new Button();
 			this.btEditFnCallArguments = new Button();
 			this.btFunctionRemoveArgument = new Button();
+			this.btEditDescriptions = new Button();
 
 			this.btFunctionAddArgument.Size = this.btFunctionAddArgument.MinimumSize = 
 				this.btFunctionAddArgument.MaximumSize = new Size( 32, 32 );
@@ -212,12 +208,22 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.btFunctionRemoveArgument.Click += (sender, e) => this.removeFunctionArgumentAction.CallBack();
 			toolTips.SetToolTip( this.btFunctionRemoveArgument, this.removeFunctionArgumentAction.Text );
 
+			this.btEditDescriptions.Size = this.btEditDescriptions.MinimumSize = 
+				this.btEditDescriptions.MaximumSize = new Size( 32, 32 );
+			this.btEditDescriptions.ImageList = UserAction.ImageList;
+			this.btEditDescriptions.ImageIndex = this.editDescriptionsAction.ImageIndex;
+			this.btEditDescriptions.Click += (sender, e) => this.editDescriptionsAction.CallBack();
+			toolTips.SetToolTip( this.btEditDescriptions, this.editDescriptionsAction.Text );
+
             // Prepare
 			this.addFunctionArgumentAction.AddComponent( this.btFunctionAddArgument );
 			this.removeFunctionArgumentAction.AddComponent( this.btFunctionRemoveArgument );
+			this.editDescriptionsAction.AddComponent( this.btEditDescriptions );
+			this.editFnCallArgumentsAction.AddComponent( this.btEditFnCallArguments );
 			this.pnlArgButtons.Controls.Add( this.btFunctionAddArgument );
-			this.pnlArgButtons.Controls.Add( this.btEditFnCallArguments );
 			this.pnlArgButtons.Controls.Add( this.btFunctionRemoveArgument );
+			this.pnlArgButtons.Controls.Add( this.btEditFnCallArguments );
+			this.pnlArgButtons.Controls.Add( this.btEditDescriptions );
 			this.pnlArgsList.Controls.Add( this.grdArgsList );
 			this.pnlArgsList.Controls.Add( this.pnlArgButtons );
             this.pnlContainer.Controls.Add( this.pnlArgsList );
@@ -247,12 +253,16 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.chkFunctionHasData.MinimumSize =
 				new Size( this.chkFunctionHasData.Width, this.chkFunctionHasData.Height );
 			this.chkFunctionHasData.CheckedChanged += (object sender, EventArgs e) => {
-				bool value = this.chkFunctionHasData.Checked;
+				if ( !this.OnBuilding ) {
+					bool value = this.chkFunctionHasData.Checked;
 
-				this.Function.HasData = value;
-				this.Function.DataHeader = value;
-				this.chkFunctionDataHeader.Checked = value;
-				this.pnlGroupData.Enabled = value;
+					this.Function.HasData = value;
+					this.Function.DataHeader = value;
+					this.chkFunctionDataHeader.Checked = value;
+					this.pnlGroupData.Enabled = value;
+				}
+
+				return;
 			};
 			this.pnlChecks.Controls.Add( this.chkFunctionHasData );
 
@@ -755,6 +765,13 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		}
 
 		/// <summary>
+		/// Shows the dialog of the descriptions editor
+		/// </summary>
+		private void OnEditDescriptions()
+		{
+		}
+
+		/// <summary>
 		/// Show a new dialog to edit the function call arguments
 		/// </summary>
 		private void OnEditFunctionCallArguments()
@@ -829,6 +846,9 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.edPDFFileName.Text = this.Function.PDFName;
 			this.udFunctionStartPage.Value = this.Function.PDFPageNumber;
 
+			// Data enabled
+			this.pnlGroupData.Enabled = this.Function.HasData;
+
             // Arguments
             foreach(Function.Argument arg in this.Function.RegularArgumentList) {
                 this.grdArgsList.Rows.Add();
@@ -867,6 +887,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		private DataGridView grdArgsList;
 		private Button btFunctionAddArgument;
 		private Button btEditFnCallArguments;
+		private Button btEditDescriptions;
 		private Button btFunctionRemoveArgument;
 
 		private TextBox edFunctionData;
@@ -880,6 +901,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
 		private UserAction addFunctionArgumentAction;
 		private UserAction editFnCallArgumentsAction;
+		private UserAction editDescriptionsAction;
 		private UserAction removeFunctionArgumentAction;
 	}
 }

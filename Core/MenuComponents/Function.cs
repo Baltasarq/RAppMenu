@@ -34,6 +34,7 @@ namespace RWABuilder.Core.MenuComponents {
             this.regularArgumentList = new ArgumentList( this );
 			this.fnCallArgumentList = new ArgumentList( this );
             this.preOnceProgram = new ExecuteOnceProgram( this );
+			this.endColumn = 0;
             this.startColumn = 0;
             this.HasData = false;
             this.DataHeader = false;
@@ -308,16 +309,16 @@ namespace RWABuilder.Core.MenuComponents {
                 doc.WriteEndAttribute();
             }
 
+			// DataHeader = "TRUE"
+			if ( this.DataHeader ) {
+				doc.WriteStartAttribute( EtqDataHeader );
+				doc.WriteString( true.ToString().ToUpper() );
+				doc.WriteEndAttribute();
+			}
+
             // RemoveQuotationMarks = "TRUE"
             if ( this.RemoveQuotationMarks ) {
                 doc.WriteStartAttribute( EtqRemoveQuotationMarks );
-                doc.WriteString( true.ToString().ToUpper() );
-                doc.WriteEndAttribute();
-            }
-
-			// DataHeader = "TRUE"
-            if ( this.DataHeader ) {
-                doc.WriteStartAttribute( EtqDataHeader );
                 doc.WriteString( true.ToString().ToUpper() );
                 doc.WriteEndAttribute();
             }
@@ -330,27 +331,37 @@ namespace RWABuilder.Core.MenuComponents {
 			}
 
 			// <ExampleData Name= "Carnivores" StartColumn=2 EndColumn=5/>
-			if ( !string.IsNullOrWhiteSpace( this.ExampleData ) ) {
-				doc.WriteStartElement( TagExampleData );
-				doc.WriteStartAttribute( EtqName );
-				doc.WriteString( this.ExampleData );
-				doc.WriteEndAttribute();
+			if ( this.HasData
+			  && !string.IsNullOrWhiteSpace( this.ExampleData ) )
+			{
+				if ( this.StartColumn > 0
+				  || this.EndColumn > 0 )
+				{
+					doc.WriteStartElement( TagExampleData );
+					doc.WriteStartAttribute( EtqName );
+					doc.WriteString( this.ExampleData );
+					doc.WriteEndAttribute();
 
-				// StartColumn = "1"
-				if ( this.StartColumn > 0 ) {
-					doc.WriteStartAttribute( EtqStartColumn );
-					doc.WriteString( this.StartColumn.ToString() );
+					// StartColumn = "1"
+					if ( this.StartColumn > 0 ) {
+						doc.WriteStartAttribute( EtqStartColumn );
+						doc.WriteString( this.StartColumn.ToString() );
+						doc.WriteEndAttribute();
+					}
+
+					// EndColumn = "1"
+					if ( this.EndColumn > 0 ) {
+						doc.WriteStartAttribute( EtqEndColumn );
+						doc.WriteString( this.EndColumn.ToString() );
+						doc.WriteEndAttribute();
+					}
+
+					doc.WriteEndElement();
+				} else {
+					doc.WriteStartAttribute( TagExampleData );
+					doc.WriteString( this.ExampleData );
 					doc.WriteEndAttribute();
 				}
-
-				// EndColumn = "1"
-				if ( this.EndColumn > 0 ) {
-					doc.WriteStartAttribute( EtqEndColumn );
-					doc.WriteString( this.EndColumn.ToString() );
-					doc.WriteEndAttribute();
-				}
-
-				doc.WriteEndElement();
 			}
 
             // <PDF Name="manual.pdf" Page="2" />
@@ -427,6 +438,12 @@ namespace RWABuilder.Core.MenuComponents {
 				if ( attr.Name.Equals( EtqPreCommand, StringComparison.OrdinalIgnoreCase ) ) {
 					toret.PreCommand = attr.InnerText.Trim();
 				}
+				else
+				// Data = "data(ZII1)"
+				if ( attr.Name.Equals( TagExampleData, StringComparison.OrdinalIgnoreCase ) ) {
+					toret.HasData = true;
+					toret.ExampleData = attr.InnerText.Trim();
+				}
 			}
 
 			// Sub nodes
@@ -439,6 +456,7 @@ namespace RWABuilder.Core.MenuComponents {
 
 					if ( attrName != null ) {
 						toret.ExampleData = attrName.InnerText;
+						toret.HasData = true;
 
 						if ( attrStart != null ) {
 							toret.StartColumn = attrStart.GetValueAsInt();

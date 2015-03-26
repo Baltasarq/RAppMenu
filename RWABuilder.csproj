@@ -80,6 +80,7 @@
     <Compile Include="Ui\PropertiesWindow.cs" />
     <Compile Include="Ui\MenuComponentGuiEditors\FunctionGuiEditors\ColorEditor.cs" />
     <Compile Include="Ui\MenuComponentGuiEditors\FunctionGuiEditors\ValuesChooser.cs" />
+    <Compile Include="Ui\MenuComponentGuiEditors\FunctionGuiEditors\DescriptionsEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />
@@ -113,5 +114,7 @@
     <EmbeddedResource Include="Res\check.png" />
     <EmbeddedResource Include="Res\edit.png" />
     <EmbeddedResource Include="Res\palette.png" />
+    <EmbeddedResource Include="Res\help.png" />
+    <EmbeddedResource Include="Res\notepad.png" />
   </ItemGroup>
 </Project>

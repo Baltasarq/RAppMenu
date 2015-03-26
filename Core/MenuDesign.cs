@@ -170,6 +170,7 @@ namespace RWABuilder.Core {
 
 			string fileNameOrg = Path.GetTempFileName();
 			var xmlDocWriter = new XmlTextWriter( fileNameOrg, Encoding.UTF8 );
+			xmlDocWriter.Formatting = Formatting.Indented;
 
 			// Get default values
 			if ( this.Date == default(DateTime) ) {

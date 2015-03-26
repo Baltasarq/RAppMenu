@@ -96,7 +96,7 @@ namespace RWABuilder.Core.MenuComponents {
 					// ReadOnly = "TRUE"
 					if ( this.IsReadOnly ) {
 						doc.WriteStartAttribute( EtqReadOnly );
-						doc.WriteString( true.ToString() );
+						doc.WriteString( true.ToString().ToUpper() );
 						doc.WriteEndAttribute();
 					}
 
@@ -113,17 +113,15 @@ namespace RWABuilder.Core.MenuComponents {
 
                 public static Arg FromXml(XmlNode node, CallArgument fnCall)
                 {
-                    Trace.WriteLine( "Arg.FromXml: " + node.AsString() );
                     string name = node.GetAttribute( EtqName ).InnerText;
-                    var toret = (Arg) fnCall.ArgumentList.LookUp( name );
                     XmlNode attrValue = node.Attributes.GetNamedItemIgnoreCase( EtqValue );
 					XmlNode attrReadonly = node.Attributes.GetNamedItemIgnoreCase( EtqReadOnly );
 
-                    // Create, if not found
-                    if ( toret == null ) {
-                        toret = new Arg( name, fnCall );
-                        fnCall.ArgumentList.Add( toret );
-                    }
+					Trace.WriteLine( "Arg.FromXml: " + name );
+
+                    // Create
+					Arg toret = new Arg( name, fnCall );
+					fnCall.ArgumentList.Add( toret );
 
                     // Is read only?
                     if ( attrReadonly != null ) {
@@ -230,9 +228,11 @@ namespace RWABuilder.Core.MenuComponents {
                 doc.WriteEndAttribute();
 
                 // Variant = "variant(1)"
-                doc.WriteStartAttribute( EtqVariant );
-                doc.WriteString( this.Variant );
-                doc.WriteEndAttribute();
+				if ( !string.IsNullOrWhiteSpace( this.Variant ) ) {
+					doc.WriteStartAttribute( EtqVariant );
+					doc.WriteString( this.Variant );
+					doc.WriteEndAttribute();
+				}
 
                 // Arguments for the function call
                 foreach(Arg arg in this.ArgumentList) {
@@ -244,11 +244,11 @@ namespace RWABuilder.Core.MenuComponents {
 
             public static CallArgument FromXml(XmlNode node, Function f)
             {
-                Trace.WriteLine( "CallArgument.FromXml node: " + node );
-
                 XmlNode variantAttr = node.Attributes.GetNamedItemIgnoreCase( EtqVariant );
                 string name = node.GetAttribute( EtqName ).InnerText;
                 var toret = new CallArgument( name, f );
+
+				Trace.WriteLine( "CallArgument.FromXml node: " + name );
 
                 toret.FunctionName = node.GetAttribute( EtqFunctionName ).InnerText;
 

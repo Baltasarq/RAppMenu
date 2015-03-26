@@ -34,7 +34,7 @@ namespace RWABuilder.Core {
 
             if ( attrList == null ) {
                 throw new XmlException(
-                    "getting attribute of list: missing attribute list" );
+                    "getting attribute of list: missing attribute list, looking for: " + id );
             }
 
             id = id.Trim();
