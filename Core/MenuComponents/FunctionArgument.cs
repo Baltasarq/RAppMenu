@@ -145,6 +145,7 @@ namespace RWABuilder.Core.MenuComponents {
                 }
                 set {
                     this.desc = value.Trim();
+                    this.SetNeedsSave();
                 }
             }
 
@@ -160,6 +161,7 @@ namespace RWABuilder.Core.MenuComponents {
 				set {
 					this.valueSet.Clear();
 					this.valueSet.AddRange( value );
+                    this.SetNeedsSave();
 				}
 			}
 
