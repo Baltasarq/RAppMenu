@@ -11,6 +11,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
             this.Function = f;
             this.Populate();
 
+            this.grdDescs.CurrentCell = this.grdDescs.Rows[ 0 ].Cells[ 1 ];
+
             this.OnResize( null );
 		}
 
@@ -131,7 +133,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
             mainPanel.ResumeLayout( false );
 
             this.Controls.Add( mainPanel );
-            this.MinimumSize = new Size( 320, 240 );
+            this.MinimumSize = new Size( 600, 400 );
             this.Text = "Descriptions Editor";
             this.StartPosition = FormStartPosition.CenterParent;
         }
