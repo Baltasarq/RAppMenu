@@ -7,7 +7,7 @@ namespace RWABuilder.Core {
 		public const string Name = "RWABuilder";
 		public const string Web = "http://www.ipez.es/rwizard/";
 		public const string Help = "http://github.com/Baltasarq/RWABuilder/wiki/User-Manual";
-        public const string Version = "1.0.8 20150327";
+        public const string Release = "1.1.0";
         public const string FileExtension = "xml";
         public const string LogFile = Name + ".errors.log";
 
@@ -186,12 +186,37 @@ namespace RWABuilder.Core {
             Trace.WriteLine( DateTime.Now + ": " + "Finished registry search." );
         }
 
+        /// <summary>
+        /// Gets the serial for the application
+        /// </summary>
+        /// <value>The serial, as a string with format: YYYYMMDD</value>
+        public static string Serial {
+            get {
+                if ( serial.Length == 0 ) {
+                    serial = DateTime.Now.ToString( "yyyyMMdd" );
+                }
+
+                return serial;
+            }
+        }
+
+        /// <summary>
+        /// Gets the version.
+        /// </summary>
+        /// <value>The version, as a string with release and serial.</value>
+        public static string Version {
+            get {
+                return Release + ' ' + Serial;
+            }
+        }
+
 		private static string mainAppVersion = "";
         private static string pathToMainApp = ".";
 		private static bool mainAppLocated = false;
         private static string pathToApplications = "";
         private static string pathToPDFs = "";
         private static string pathToGraphics = "";
+        private static string serial = "";
 	}
 }
 
