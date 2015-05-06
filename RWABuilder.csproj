@@ -13,6 +13,7 @@
     <ApplicationIcon>Res\appIcon.ico</ApplicationIcon>
     <CodePage>65001</CodePage>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <Description>Applications creator for RWizard</Description>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <Optimize>false</Optimize>

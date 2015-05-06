@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;

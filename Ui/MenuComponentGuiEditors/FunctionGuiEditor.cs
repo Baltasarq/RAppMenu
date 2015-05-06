@@ -32,14 +32,17 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		}
 
 		/// <summary>
-		/// Shows and preedPackageNamethe editor
+		/// Shows and prepares the editor
 		/// </summary>
 		public override void Show()
 		{
 			base.Show();
             this.tcPad.Show();
+            bool existingArgs = ( this.grdArgsList.Rows.Count > 0 );
 
-			this.removeFunctionArgumentAction.Enabled = ( this.grdArgsList.Rows.Count > 0 );
+			this.removeFunctionArgumentAction.Enabled = existingArgs;
+            this.editDescriptionsAction.Enabled = existingArgs;
+
 			this.addFunctionArgumentAction.CallBack = this.OnAddFunctionArgument;
 			this.editFnCallArgumentsAction.CallBack = this.OnEditFunctionCallArguments;
 			this.editDescriptionsAction.CallBack = this.OnEditDescriptions;
@@ -619,8 +622,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			var imgCell = (DataGridViewImageCell) cmbRow.Cells[ colCount - 1 ];
 			imgCell.Value = UserAction.ImageList.Images[ UserAction.LookUp( "properties" ).ImageIndex ];
 
-			// Activate remove button
-			this.btFunctionRemoveArgument.Enabled = true;
+			// Activate actions
+            this.removeFunctionArgumentAction.Enabled =
+                this.editDescriptionsAction.Enabled = true;
+
 
 			// Add the new argument to the function
             this.Function.RegularArgumentList.Add( new Function.Argument( name, this.Function ) );
@@ -644,9 +649,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
 				this.grdArgsList.Rows.RemoveAt( row );
 
-				// Dsiable remove button
+				// Disable related actions
 				if ( this.grdArgsList.Rows.Count == 0 ) {
-					this.btFunctionRemoveArgument.Enabled = false;
+                    this.removeFunctionArgumentAction.Disable();
+                    this.editDescriptionsAction.Disable();
 				}
 
 				// Remove the same argument in the function
@@ -768,7 +774,21 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		/// Shows the dialog of the descriptions editor
 		/// </summary>
 		private void OnEditDescriptions()
-		{
+        {
+            var descsEd = new DescriptionsEditor( this.Function );
+            var fakeRoot = new RootMenu( new MenuDesign() );
+            Function old = (Function) this.Function.Copy( fakeRoot );
+
+            if ( descsEd.ShowDialog() != DialogResult.OK ) {
+                this.Function.FunctionCallsArgumentList.Clear();
+
+                foreach(Function.CallArgument fnCall in old.FunctionCallsArgumentList) {
+                    this.Function.FunctionCallsArgumentList.Add(
+                        (Function.CallArgument) fnCall.Copy( this.Function ) );
+                }
+            }
+
+            return;
 		}
 
 		/// <summary>

@@ -217,9 +217,9 @@ namespace RWABuilder.Core.MenuComponents {
 					AllowMultiselect = this.AllowMultiselect,
 					Viewer = this.Viewer,
 					DependsFrom = this.DependsFrom,
+                    Description = this.Description,
 					Value = this.Value,
-					ValueSet = this.ValueSet,
-					desc = this.desc
+					ValueSet = this.ValueSet
 				};
 
                 return toret;
