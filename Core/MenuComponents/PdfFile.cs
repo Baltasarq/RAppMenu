@@ -46,7 +46,7 @@ namespace RWABuilder.Core.MenuComponents {
 			return string.Format( "[PdfFile: FileName={0}]", FileName );
 		}
 
-        public override void ToXml(XmlTextWriter doc)
+        public override void ToXml(XmlWriter doc)
         {
             Trace.WriteLine( "PdfFile.ToXml: " + this.ToString() );
             doc.WriteStartElement( TagName );

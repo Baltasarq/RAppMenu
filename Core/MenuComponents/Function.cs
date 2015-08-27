@@ -282,7 +282,7 @@ namespace RWABuilder.Core.MenuComponents {
 		/// Converts this menu component to XML.
 		/// </summary>
 		/// <param name="doc">The document, as a XmlTextWriter.</param>
-		public override void ToXml(XmlTextWriter doc)
+		public override void ToXml(XmlWriter doc)
 		{
             Trace.WriteLine( "Function.ToXml: " + this.ToString() );
             Trace.Indent();

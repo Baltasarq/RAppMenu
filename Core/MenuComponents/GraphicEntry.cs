@@ -133,7 +133,7 @@ namespace RWABuilder.Core.MenuComponents {
 			    Name, ImagePath, ImageToolTip, Function.ToString() );
 		}
 
-		public override void ToXml(XmlTextWriter doc)
+		public override void ToXml(XmlWriter doc)
 		{
             Trace.WriteLine( "GraphicEntry.ToXml: " + this.ToString() );
             Trace.Indent();

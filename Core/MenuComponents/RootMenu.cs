@@ -14,7 +14,7 @@ namespace RWABuilder.Core.MenuComponents {
             this.menuDesign = owner;
 		}
 
-        public override void ToXml(XmlTextWriter doc)
+		public override void ToXml(XmlWriter doc)
         {
             Trace.WriteLine( "RootMenu.ToXml: " + this.ToString() );
             Trace.Indent();

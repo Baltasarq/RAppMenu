@@ -49,7 +49,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.removeFunctionArgumentAction.CallBack = this.OnRemoveFunctionArgument;
 
             // Load PDF File names
-			string[] pdfList = this.Function.Root.Owner.PDFNameList;
+			string[] pdfList = this.Function.Root.Owner.GetPDFNameList();
             this.edPDFFileName.Items.Clear();
             this.edPDFFileName.Items.Add( "" );
 			this.edPDFFileName.Items.AddRange( pdfList );

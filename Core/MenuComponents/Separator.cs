@@ -17,7 +17,7 @@ namespace RWABuilder.Core.MenuComponents {
 		/// <summary>
 		/// Converts this node to XML.
 		/// </summary>
-		public override void ToXml(XmlTextWriter doc)
+		public override void ToXml(XmlWriter doc)
 		{
             Trace.WriteLine( "Separator.ToXml()" );
 

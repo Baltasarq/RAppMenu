@@ -123,7 +123,7 @@ namespace RWABuilder.Core.MenuComponents {
                     ImageWidth, ImageHeight, MinimumNumberOfColumns );
 		}
 
-        public override void ToXml(XmlTextWriter doc)
+        public override void ToXml(XmlWriter doc)
         {
             Trace.WriteLine( "GraphicMenu.ToXml: " + this.ToString() );
             Trace.Indent();

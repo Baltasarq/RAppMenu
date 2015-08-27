@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using System.Text;
+using System.Collections.Generic;
 
 using RWABuilder.Core.MenuComponents;
 
@@ -23,7 +24,8 @@ namespace RWABuilder.Core {
 		public MenuDesign()
 		{
             this.root = new RootMenu( this );
-            this.pdfList = new PDFList( this );
+			this.pdfList = new List<PdfFile>();
+			this.grfMenuList = new List<GraphicMenu>();
             this.AuthorEmail = DefaultEmail;
             this.Date = DateTime.Now;
             this.NeedsSave = true;
@@ -93,7 +95,7 @@ namespace RWABuilder.Core {
 			}
 		}
 
-		public void ToXml(XmlTextWriter doc)
+		public void ToXml(XmlWriter doc)
 		{
 			doc.WriteStartElement( TagName );
 
@@ -271,34 +273,55 @@ namespace RWABuilder.Core {
         }
 
         /// <summary>
-        /// Gets the PDF list.
+        /// Gets the PDF list of file names.
         /// </summary>
-        /// <value>A vector of string.</value>
-        public string[] PDFNameList {
-            get {
-                var toret = new string[ this.pdfList.Count ];
-
-				for(int i = 0; i < this.pdfList.Count; ++i) {
-                    toret[ i ] = this.pdfList[ i ].Name;
-                }
-
-                return toret;
-            }
-        }
-
-        /// <summary>
-        /// Gets the PDF list, for internal uses.
-        /// Menus must update the pdf list, after all.
-        /// </summary>
-        /// <returns>The <see cref="PDFList"/>.</returns>
-        internal PDFList GetPDFList()
+        /// <returns>A string array with the file names.</returns>
+		public string[] GetPDFNameList()
         {
-            return this.pdfList;
+			var fileNames = new HashSet<string>();
+
+			for(int i = 0; i < this.pdfList.Count; ++i) {
+				fileNames.Add( this.pdfList[ i ].Name );
+			}
+
+			var toret = new string[ fileNames.Count ];
+			fileNames.CopyTo( toret );
+			return toret;
         }
+
+		/// <summary>
+		/// Gets the graphics file name list.
+		/// </summary>
+		/// <returns>The graphics file name list, as a string array.</returns>
+		public string[] GetGRFNameList()
+		{
+			var fileNames = new HashSet<string>();
+
+			foreach (GraphicMenu grfm in this.grfMenuList) {
+				foreach (GraphicEntry grfe in grfm.MenuComponents) {
+					fileNames.Add( grfe.ImagePath );
+				}
+			}
+
+			var toret = new string[ fileNames.Count ];
+			fileNames.CopyTo( toret );
+			return toret;
+		}
+
+		internal List<PdfFile> GetPDFList()
+		{
+			return this.pdfList;
+		}
+
+		internal List<GraphicMenu> GetGraphicMenuList()
+		{
+			return this.grfMenuList;
+		}
 
 		private RootMenu root;
 		private string authorEmail;
 		private DateTime date;
-        private PDFList pdfList;
+		private List<PdfFile> pdfList;
+		private List<GraphicMenu> grfMenuList;
 	}
 }

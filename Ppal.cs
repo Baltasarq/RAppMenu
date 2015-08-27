@@ -17,7 +17,6 @@ namespace RWABuilder {
 				AppInfo.GetMainAppInfo();
 
 				mainForm = new MainWindow();
-
 				Application.EnableVisualStyles();
 				Application.Run( mainForm );
 			}

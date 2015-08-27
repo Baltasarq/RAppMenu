@@ -90,7 +90,7 @@ namespace RWABuilder.Core {
 		/// <summary>
 		/// Converts this menu component to XML.
 		/// </summary>
-		public abstract void ToXml(XmlTextWriter doc);
+		public abstract void ToXml(XmlWriter doc);
 
 		/// <summary>
 		/// Gets the path.

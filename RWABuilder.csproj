@@ -35,6 +35,8 @@
     <Reference Include="System.Xml" />
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ppal.cs" />
@@ -74,7 +76,6 @@
     <Compile Include="Ui\MenuComponentGuiEditors\FunctionGuiEditors\FunctionCallsGuiEditor.cs" />
     <Compile Include="Core\MenuDesign.cs" />
     <Compile Include="Core\MenuComponents\RegularMenu.cs" />
-    <Compile Include="Core\MenuComponents\MenuDesignPDFList.cs" />
     <Compile Include="Ui\MenuComponentGuiEditors\FunctionGuiEditors\CsvEditor.cs" />
     <Compile Include="Core\XmlUtils.cs" />
     <Compile Include="Ui\MenuComponentTreeNodes\GraphicEntryTreeNode.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Ui\MenuComponentGuiEditors\FunctionGuiEditors\ColorEditor.cs" />
     <Compile Include="Ui\MenuComponentGuiEditors\FunctionGuiEditors\ValuesChooser.cs" />
     <Compile Include="Ui\MenuComponentGuiEditors\FunctionGuiEditors\DescriptionsEditor.cs" />
+    <Compile Include="Core\Packager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />
@@ -117,5 +119,6 @@
     <EmbeddedResource Include="Res\palette.png" />
     <EmbeddedResource Include="Res\help.png" />
     <EmbeddedResource Include="Res\notepad.png" />
+    <EmbeddedResource Include="Res\export.png" />
   </ItemGroup>
 </Project>

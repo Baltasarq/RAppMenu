@@ -219,7 +219,7 @@ namespace RWABuilder.Core.MenuComponents {
 			return toret.Append( "]]" ).ToString();
 		}
 
-		public override void ToXml(XmlTextWriter doc)
+		public override void ToXml(XmlWriter doc)
 		{
             Trace.WriteLine( "Menu.ToXml: " + this.ToString() );
             Trace.Indent();

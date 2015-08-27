@@ -571,6 +571,45 @@ namespace RWABuilder.Ui {
 			this.BuildAppTitle();
 		}
 
+		private void OnExport()
+		{
+			Packager packr;
+
+			Trace.WriteLine( DateTime.Now + ": Exporting " + this.Document.Root.Name );
+			Trace.Indent();
+			this.SetStatus( "Exporting app..." );
+
+			try {
+				packr = new Packager( this.Document );
+				string fileName = Path.GetFileNameWithoutExtension( this.fileName ) + '.' + AppInfo.AppsExtension;
+
+				var dlg = new SaveFileDialog();
+
+				dlg.Title = "Save menu";
+				dlg.DefaultExt = AppInfo.FileExtension;
+				dlg.CheckPathExists = true;
+				dlg.InitialDirectory = this.ApplicationsFolder;
+				dlg.Filter = AppInfo.FileExtension + "|*." + AppInfo.FileExtension
+					+ "|All files|*";
+				dlg.FileName = fileName;
+
+				if ( dlg.ShowDialog() == DialogResult.OK ) {
+					Trace.WriteLine( DateTime.Now + ": App file set: " + this.fileName );
+					packr.Package( fileName );
+				} else {
+					Trace.WriteLine( DateTime.Now + ": Exporting cancelled" );
+				}
+
+				SetStatus();
+			} catch(IOException exc) {
+				this.SetErrorStatus( "Error creating zip file: " + exc.Message );
+			}
+
+			Trace.WriteLine( DateTime.Now + ": Finished exporting " + this.Document.Root.Name );
+			Trace.Unindent();
+			return;
+		}
+
 		private void OnProperties()
 		{
             string oldEmail = this.Document.AuthorEmail;
@@ -697,6 +736,10 @@ namespace RWABuilder.Ui {
 			this.playIconBmp = new Bitmap(
 				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.play.png" )
 			);
+
+			this.exportIconBmp = new Bitmap(
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.export.png" )
+			);
 		}
 
 		private void BuildMenu()
@@ -719,6 +762,10 @@ namespace RWABuilder.Ui {
 			this.opSaveAs = new ToolStripMenuItem( "&" + this.saveAsAction.Text );
 			this.opSaveAs.Click += (sender, e) => this.saveAsAction.CallBack();
 			this.opSaveAs.Image = UserAction.ImageList.Images[ this.saveAsAction.ImageIndex ];
+
+			this.opExport = new ToolStripMenuItem( "&" + this.exportAction.Text );
+			this.opExport.Click += (sender, e) => this.exportAction.CallBack();
+			this.opExport.Image = UserAction.ImageList.Images[ this.exportAction.ImageIndex ];
 
             this.opQuit = new ToolStripMenuItem( "&" + quitAction.Text );
 			this.opQuit.ShortcutKeys = Keys.Control | Keys.Q;
@@ -786,7 +833,8 @@ namespace RWABuilder.Ui {
 
 			this.mFile.DropDownItems.AddRange( new ToolStripItem[] {
                 this.opNew, this.opLoad,
-                this.opSave, this.opSaveAs, this.opQuit
+                this.opSave, this.opSaveAs,
+				this.opExport, this.opQuit
 			});
 
 			this.mEdit.DropDownItems.AddRange( new ToolStripItem[] {
@@ -1076,7 +1124,7 @@ namespace RWABuilder.Ui {
                 this.deleteIconBmp, this.upIconBmp, this.downIconBmp,
 				this.playIconBmp, this.addIconBmp, this.editFnCallsIconBmp,
                 this.saveAsIconBmp, this.checkIconBmp, this.editIconBmp,
-				this.notepadIconBmp
+				this.notepadIconBmp, this.exportIconBmp
             });
 
             this.newAction = new UserAction( "New", 0, this.OnNew );
@@ -1096,6 +1144,7 @@ namespace RWABuilder.Ui {
 			this.moveEntryDownAction = new UserAction( "Move entry down", 11, this.OnDownTreeNode );
 			this.previewAction = new UserAction( "Preview", 12, this.OnPreview );
 			this.propertiesAction = new UserAction( "Properties", 17, this.OnProperties );
+			this.exportAction = new UserAction( "Export", 19, this.OnExport );
 
 			// For the function GUI editor
 			new UserAction( "Add function argument", 13, null );
@@ -1208,6 +1257,7 @@ namespace RWABuilder.Ui {
 			// Actions
 			this.saveAction.Enabled = view;
 			this.saveAsAction.Enabled = view;
+			this.exportAction.Enabled = view;
 			this.addMenuAction.Enabled = view;
 			this.addGraphicMenuAction.Enabled = view;
 			this.addSeparatorAction.Enabled = view;
@@ -1366,6 +1416,7 @@ namespace RWABuilder.Ui {
 		private ToolStripMenuItem opLoad;
 		private ToolStripMenuItem opSave;
 		private ToolStripMenuItem opSaveAs;
+		private ToolStripMenuItem opExport;
 		private ToolStripMenuItem opNew;
 		private ToolStripMenuItem opAddMenu;
 		private ToolStripMenuItem opAddFunction;
@@ -1404,6 +1455,7 @@ namespace RWABuilder.Ui {
 		private Bitmap addIconBmp;
         private Bitmap checkIconBmp;
 		private Bitmap editIconBmp;
+		private Bitmap exportIconBmp;
 		private Bitmap notepadIconBmp;
 		private Bitmap editFnCallsIconBmp;
 		private Bitmap deleteIconBmp;
@@ -1428,6 +1480,7 @@ namespace RWABuilder.Ui {
 		private UserAction loadAction;
 		private UserAction saveAction;
 		private UserAction saveAsAction;
+		private UserAction exportAction;
 
 		private UserAction addMenuAction;
 		private UserAction addFunctionAction;

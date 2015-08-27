@@ -15,14 +15,19 @@ namespace RWABuilder.Core.MenuComponents {
         public override void Add(MenuComponent mc)
         {
             var pdfFile = mc as PdfFile;
+			var grfMenu = mc as GraphicMenu;
 
             base.Add( mc );
 
-            // We need to store the new PDF File in the list
+            // Store the new PDF File in the general PDF list
             if ( pdfFile != null ) {
                 this.Root.Owner.GetPDFList().Add( pdfFile );
-				Console.WriteLine( "Added PDF file: " +  this.Root.Owner.GetPDFList().ToString() );
             }
+
+			// Store the new graphic menu in the general graphic menus list
+			if ( grfMenu != null ) {
+				this.Root.Owner.GetGraphicMenuList().Add( grfMenu );
+			}
 
             return;
         }
@@ -30,13 +35,19 @@ namespace RWABuilder.Core.MenuComponents {
         public override void Remove(MenuComponent mc)
         {
             var pdfFile = mc as PdfFile;
+			var grfMenu = mc as GraphicMenu;
 
             base.Remove( mc );
 
-            // We need to keep the PDF list in sync
+            //Keep the PDF general list in sync
             if ( mc is PdfFile ) {
                 this.Root.Owner.GetPDFList().Remove( pdfFile );
             }
+
+			// Keep the graphic menu general list in sync
+			if ( grfMenu != null ) {
+				this.Root.Owner.GetGraphicMenuList().Remove( grfMenu );
+			}
 
             return;
         }
@@ -44,12 +55,19 @@ namespace RWABuilder.Core.MenuComponents {
         public override void RemoveAt(int index)
         {
             var pdfmc = this.MenuComponents[ index ] as PdfFile;
+			var gmmc = this.MenuComponents[ index ] as GraphicMenu;
+
             base.RemoveAt( index );
 
-            // We need to keep the PDF list in sync
+            // Keep the PDF general list in sync
             if ( pdfmc != null ) {
                 this.Root.Owner.GetPDFList().Remove( pdfmc );
             }
+
+			// Keep the graphic menu general list in sync
+			if ( gmmc != null ) {
+				this.Root.Owner.GetGraphicMenuList().Remove( gmmc );
+			}
 
             return;
         }
