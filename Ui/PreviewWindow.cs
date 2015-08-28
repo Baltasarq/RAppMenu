@@ -35,34 +35,42 @@ namespace RWABuilder.Ui {
 			foreach(MenuComponent mc in menuComponent.MenuComponents) {
                 var graphicMenu = mc as GraphicMenu;
                 var menu = mc as Core.MenuComponents.Menu;
+				var pmc = mc as PdfFile;
+				var fmc = mc as Function;
 
-                if ( graphicMenu != null ) {
-                    var subMenu = (ToolStripMenuItem) mUser.DropDownItems.Add( graphicMenu.Name );
-                    this.BuildUserGraphicSubMenu( subMenu, graphicMenu );
-                }
-                else
+				if ( graphicMenu != null ) {
+					var subMenu = (ToolStripMenuItem) mUser.DropDownItems.Add( graphicMenu.Name );
+					this.BuildUserGraphicSubMenu( subMenu, graphicMenu );
+				}
+				else
 				if ( menu != null ) {
 					var subMenu = (ToolStripMenuItem) mUser.DropDownItems.Add( mc.Name );
 					this.BuildUserSubMenu( subMenu, menu );
 				}
 				else
-				if ( mc is Separator ) {
-					mUser.DropDownItems.Add( new ToolStripSeparator() );
-				}
-				else {
-					var pmc = mc as PdfFile;
+				if ( pmc != null ) {
 					string fileName = Path.Combine( AppInfo.PdfFolder, mc.Name );
 
 					// Pdf
 					if ( pmc != null
-					  && !File.Exists( fileName ) )
+ 					  && !File.Exists( fileName ) )
 					{
 						errors.AppendFormat( "Missing PDF file: '{0}' in '{1}' at '{2}'",
-						                    fileName, pmc.Name, pmc.GetPathAsString() );
+							fileName, pmc.Name, pmc.GetPathAsString() );
 						errors.AppendLine();
 					}
 
-					// Function
+					mUser.DropDownItems.Add( new ToolStripMenuItem( mc.Name ) );
+				}
+				else
+				if ( fmc != null ) {
+					mUser.DropDownItems.Add( new ToolStripMenuItem( fmc.Caption ) );
+				}				
+				else
+				if ( mc is Separator ) {
+					mUser.DropDownItems.Add( new ToolStripSeparator() );
+				}
+				else {
 					mUser.DropDownItems.Add( new ToolStripMenuItem( mc.Name ) );
 				}
 			}

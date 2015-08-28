@@ -19,6 +19,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.removeFunctionArgumentAction = UserAction.LookUp( "removefunctionargument" );
 
 			this.Build();
+			this.ReadDataFromComponent();
 		}
 
 		/// <summary>
@@ -557,6 +558,30 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.pnlEdPackage.ResumeLayout( false );
 		}
 
+		private void BuildCaptionEditor()
+		{
+			this.pnlEdCaption = new Panel();
+			this.pnlEdCaption.SuspendLayout();
+			this.pnlEdCaption.Dock = DockStyle.Top;
+
+			var lblCaption = new Label();
+			lblCaption.AutoSize = false;
+			lblCaption.TextAlign = ContentAlignment.MiddleLeft;
+			lblCaption.Dock = DockStyle.Left;
+			lblCaption.Text = "Caption:";
+
+			this.edCaption = new TextBox();
+			this.edCaption.Font = new Font( this.edCaption.Font, FontStyle.Bold );
+			this.edCaption.Dock = DockStyle.Fill;
+			this.edCaption.KeyUp += (sender, e) => this.Function.Caption = this.edCaption.Text;
+
+			this.pnlEdCaption.Controls.Add( this.edCaption );
+			this.pnlEdCaption.Controls.Add( lblCaption );
+			this.pnlEdCaption.MaximumSize = new Size( int.MaxValue, this.edPackageName.Height );
+			this.pnlContainer.Controls.Add( this.pnlEdCaption );
+			this.pnlEdCaption.ResumeLayout( false );
+		}
+
 		private void Build()
 		{
             this.OnBuilding = true;
@@ -579,6 +604,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
 			// Sub panels
 			this.BuildPackageEditor();
+			this.BuildCaptionEditor();
             this.BuildCheckBoxes();
 			this.BuildDefaultData();
 			this.BuildPDFReference();
@@ -847,7 +873,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
         /// <summary>
         /// Reads the data from component, and reflects it on the editor.
         /// </summary>
-        public override void ReadDataFromComponent()
+        public new void ReadDataFromComponent()
         {
             base.ReadDataFromComponent();
             base.OnBuilding = true;
@@ -865,6 +891,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             this.udFunctionEndColumn.Value = Math.Max( 1, this.Function.EndColumn );
 			this.edPDFFileName.Text = this.Function.PDFName;
 			this.udFunctionStartPage.Value = this.Function.PDFPageNumber;
+			this.edPackageName.Text = this.Function.Package;
+			this.edCaption.Text = this.Function.Caption;
 
 			// Data enabled
 			this.pnlGroupData.Enabled = this.Function.HasData;
@@ -899,6 +927,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		private Panel pnlExecuteOnce;
 		private Panel pnlArgButtons;
 		private Panel pnlEdPackage;
+		private Panel pnlEdCaption;
         private TabControl tcPad;
 
 		private CheckBox chkFunctionHasData;
@@ -914,6 +943,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		private TextBox edFunctionPreCommand;
 		private TextBox edFunctionExecuteOnce;
 		private TextBox edPackageName;
+		private TextBox edCaption;
         private ComboBox edPDFFileName;
 		private NumericUpDown udFunctionStartColumn;
 		private NumericUpDown udFunctionEndColumn;

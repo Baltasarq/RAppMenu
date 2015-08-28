@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <RWapp Date="2015-02-06" AuthorEmail="jbgarcia@uvigo.es">
 	<Menu Name="FactorsR">
@@ -11,8 +11,8 @@
 			<Argument Name="Area" Tag="adworld1" Viewer="Map" />
 			<Argument Name="exclude" Tag="adworld2" Viewer="Map" />
 			<Argument Name="data" />
-			<Argument Name="varInteresX" Required="TRUE" AllowMultiSelect="TRUE" Viewer="DataColumnsViewer" />
-			<Argument Name="varInteresY" Viewer="DataColumnsViewer" Required="TRUE"/>
+			<Argument Name="varInteresX" Required="TRUE" AllowMultiSelect="TRUE" Viewer="DataColumns" />
+			<Argument Name="varInteresY" Viewer="DataColumns" Required="TRUE"/>
 		</Function>
 		<Separator />
 		<PDF Name="FactorsR-manual.pdf" />

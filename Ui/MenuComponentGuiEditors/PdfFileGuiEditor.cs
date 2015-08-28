@@ -20,7 +20,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			: base( panel, mctn, mc )
 		{
 			this.Build();
-			this.edFileName.Text = mc.Name;
+			this.ReadDataFromComponent();
 		}
 
 		public override void Show()
@@ -95,7 +95,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		/// Reads the data from component.
 		/// Stores the filename info in the edFileName control.
 		/// </summary>
-		public override void ReadDataFromComponent()
+		public new void ReadDataFromComponent()
 		{
             if ( !this.OnBuilding ) {
     			string fileName = Path.GetFileName( this.MenuComponent.Name );

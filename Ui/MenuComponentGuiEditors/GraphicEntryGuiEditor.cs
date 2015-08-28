@@ -13,10 +13,12 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			: base( panel, mctn, mc )
 		{
             this.Build();
+
 			this.functionEditor =
                 new FunctionGuiEditor( this.pnlFunction, mctn, this.GraphicMenuEntry.Function );
 
 			this.edFileName.Text = this.GraphicMenuEntry.ImagePath;
+			this.ReadDataFromComponent();
 		}
 
 		public override void Show()
@@ -156,12 +158,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			return;
 		}
 
-		public override void ReadDataFromComponent()
+		public new void ReadDataFromComponent()
 		{
 			this.edFileName.Text = this.GraphicMenuEntry.ImagePath;
 			this.edTooltip.Text = this.GraphicMenuEntry.ImageToolTip;
-
-            this.functionEditor.ReadDataFromComponent();
 		}
 
 		public GraphicEntry GraphicMenuEntry {

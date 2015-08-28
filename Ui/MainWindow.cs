@@ -452,21 +452,18 @@ namespace RWABuilder.Ui {
 					var mtn = new MenuComponentTreeNodes.SeparatorTreeNode( separator );
 
 					mctn.Nodes.Add( mtn );
-					mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
 				}
 				else
 				if ( pdfFile != null ) {
 					var mtn = new MenuComponentTreeNodes.PdfFileTreeNode( pdfFile );
 
 					mctn.Nodes.Add( mtn );
-					mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
 				}
 				else
 				if ( function != null ) {
 					var mtn = new MenuComponentTreeNodes.FunctionTreeNode( function );
 
 					mctn.Nodes.Add( mtn );
-					mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
 				}
                 else
                 if ( grphMenu != null ) {
@@ -474,14 +471,12 @@ namespace RWABuilder.Ui {
 
                     // Prepare tree menu and editor for graphic menu
                     mctn.Nodes.Add( mtn );
-                    mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
 
                     // Prepare tree menu and editor for each graphic menu entry
                     foreach(CoreComponents.GraphicEntry grme in grphMenu.MenuComponents) {
                         var grmetn = new UiComponents.GraphicEntryTreeNode( grme );
 
                         mtn.Nodes.Add( grmetn );
-                        grmetn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
                     }
                 }
                 else
@@ -489,7 +484,6 @@ namespace RWABuilder.Ui {
                     var mtn = new MenuComponentTreeNodes.MenuTreeNode( subMenu );
 
                     mctn.Nodes.Add( mtn );
-                    mtn.GetEditor( this.pnlProperties ).ReadDataFromComponent();
                     this.CreateEditorsFor( mtn, subMenu );
                 }
 

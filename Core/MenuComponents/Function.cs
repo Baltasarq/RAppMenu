@@ -15,6 +15,7 @@ namespace RWABuilder.Core.MenuComponents {
 
 		public const string EtqPreCommand = "PreCommand";
 		public const string EtqName = "Name";
+		public const string EtqCaption = "Caption";
 		public const string EtqPackage = "Package";
 		public const string EtqPage = "Page";
 		public const string EtqDataHeader = "DataHeader";
@@ -44,6 +45,7 @@ namespace RWABuilder.Core.MenuComponents {
             this.PDFName = "";
 			this.PreCommand = "";
 			this.Package = "";
+			this.Caption = "";
 		}
 
 		/// <summary>
@@ -196,6 +198,7 @@ namespace RWABuilder.Core.MenuComponents {
             }
             set {
                 this.pdfName = value.Trim();
+				this.SetNeedsSave();
             }
         }
 
@@ -215,6 +218,7 @@ namespace RWABuilder.Core.MenuComponents {
                 }
 
                 this.pdfPageNumber = value;
+				this.SetNeedsSave();
             }
         }
 
@@ -228,6 +232,27 @@ namespace RWABuilder.Core.MenuComponents {
 			}
 			set {
 				this.package = value.Trim();
+				this.SetNeedsSave();
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the caption in the menu entry for this function.
+		/// </summary>
+		/// <value>The caption, as a string.</value>
+		public string Caption {
+			get {
+				string toret = this.caption;
+
+				if ( string.IsNullOrEmpty( toret ) ) {
+					toret = this.Name;
+				}
+
+				return toret;
+			}
+			set {
+				this.caption = value.Trim();
+				this.SetNeedsSave();
 			}
 		}
 
@@ -299,6 +324,13 @@ namespace RWABuilder.Core.MenuComponents {
 			if ( !string.IsNullOrWhiteSpace( this.Package ) ) {
 				doc.WriteStartAttribute( EtqPackage );
 				doc.WriteString( this.Package );
+				doc.WriteEndAttribute();
+			}
+
+			// Package = "package"
+			if ( !string.IsNullOrWhiteSpace( this.Caption ) ) {
+				doc.WriteStartAttribute( EtqCaption );
+				doc.WriteString( this.Caption );
 				doc.WriteEndAttribute();
 			}
 
@@ -419,6 +451,11 @@ namespace RWABuilder.Core.MenuComponents {
 					toret.Package = attr.InnerText.Trim();
 				}
 				else
+				// Caption = "awesome function"
+				if ( attr.Name.Equals( EtqCaption, StringComparison.OrdinalIgnoreCase ) ) {
+					toret.Caption = attr.InnerText.Trim();
+				}
+				else
 				// HasData = "true"
 				if ( attr.Name.Equals( EtqHasData, StringComparison.OrdinalIgnoreCase ) ) {
                     toret.HasData = attr.GetValueAsBool();
@@ -527,6 +564,7 @@ namespace RWABuilder.Core.MenuComponents {
 		}
 
 		private string package;
+		private string caption;
         private bool hasData;
         private bool dataHeader;
         private bool removeQuotes;

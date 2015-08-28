@@ -87,7 +87,8 @@ namespace RWABuilder.Ui {
 		/// Reads the data from the component.
 		/// The editor reflects the info in the <see cref="MenuComponent"/>
 		/// </summary>
-		public abstract void ReadDataFromComponent();
+		public void ReadDataFromComponent() {
+		}
 
         /// <summary>
         /// Gets a value indicating whether this <see cref="RWABuilder.Ui.MenuComponentGuiEditor"/> is on building.

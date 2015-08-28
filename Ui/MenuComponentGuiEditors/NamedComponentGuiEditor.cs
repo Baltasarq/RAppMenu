@@ -16,7 +16,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             : base( panel, mctn, mc )
         {
 			this.Build();
-			this.edName.Text = mc.Name;
+			this.ReadDataFromComponent();
         }
 
 		public override void Show()
@@ -72,7 +72,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			}
 		}
 
-		public override void ReadDataFromComponent()
+		public new void ReadDataFromComponent()
 		{
             this.OnBuilding = true;
 			this.edName.Text = this.MenuComponent.Name;
