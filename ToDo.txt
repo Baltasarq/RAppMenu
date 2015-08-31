@@ -1,2 +1,1 @@
 ﻿- Needs to avoid copying from regular menu to graphic menu and vice versa.
-- Put package in the "extended" tab.

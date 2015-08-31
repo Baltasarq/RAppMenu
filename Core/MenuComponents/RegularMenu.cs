@@ -16,6 +16,11 @@ namespace RWABuilder.Core.MenuComponents {
         {
             var pdfFile = mc as PdfFile;
 			var grfMenu = mc as GraphicMenu;
+            var grfEntry = mc as GraphicEntry;
+
+            if ( grfEntry != null ) {
+                throw new ArgumentException( "argument should not be a GraphicEntry for Menu.Add()" );
+            }
 
             base.Add( mc );
 
