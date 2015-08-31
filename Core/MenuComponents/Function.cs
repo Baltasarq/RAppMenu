@@ -283,6 +283,7 @@ namespace RWABuilder.Core.MenuComponents {
 
             var toret = new Function( this.Name, menuParent ) {
 				Package = this.Package,
+				Caption = this.Caption,
                 HasData = this.HasData,
                 DataHeader = this.DataHeader,
                 PreCommand = this.PreCommand,

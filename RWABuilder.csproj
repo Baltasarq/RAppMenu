@@ -120,5 +120,10 @@
     <EmbeddedResource Include="Res\help.png" />
     <EmbeddedResource Include="Res\notepad.png" />
     <EmbeddedResource Include="Res\export.png" />
+    <EmbeddedResource Include="Res\copy.png" />
+    <EmbeddedResource Include="Res\paste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ToDo.txt" />
   </ItemGroup>
 </Project>

@@ -11,10 +11,50 @@ namespace RWABuilder.Ui
 		/// </summary>
 		/// <param name="mc">The <see cref="MenuComponent"/> being represented.</param>
 		public MenuComponentTreeNode(MenuComponent mc)
-			:base( mc.Name )
+			: base( mc.Name )
 		{
 			this.editor = null;
 			this.menuComponent = mc;
+		}
+
+		/// <summary>
+		/// Creates the correct menu component tree node for the given menu component.
+		/// </summary>
+		/// <param name="mc">A <see cref="Core.MenuComponent"/> object.</param>
+		public static MenuComponentTreeNode Create(MenuComponent mc) {
+			MenuComponentTreeNode toret = null;
+			var function = mc as Function;
+			var separator = mc as Separator;
+			var pdfFile = mc as PdfFile;
+			var subMenu = mc as RegularMenu;
+			var grphMenu = mc as GraphicMenu;
+			var grphEntry = mc as GraphicEntry;
+
+			if ( separator != null ) {
+				toret = new MenuComponentTreeNodes.SeparatorTreeNode( separator );
+			}
+			else
+			if ( pdfFile != null ) {
+				toret = new MenuComponentTreeNodes.PdfFileTreeNode( pdfFile );
+			}
+			else
+			if ( function != null ) {
+				toret = new MenuComponentTreeNodes.FunctionTreeNode( function );
+			}
+			else
+			if ( grphMenu != null ) {
+				toret = new MenuComponentTreeNodes.GraphicMenuTreeNode( grphMenu );
+			}
+			else
+			if ( grphEntry != null ) {
+				toret = new MenuComponentTreeNodes.GraphicEntryTreeNode( grphEntry );
+			}
+			else
+			if ( subMenu != null ) {
+				toret = new MenuComponentTreeNodes.MenuTreeNode( subMenu );
+			}
+
+			return toret;
 		}
 
 		/// <summary>

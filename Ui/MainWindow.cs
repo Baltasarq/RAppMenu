@@ -20,6 +20,7 @@ namespace RWABuilder.Ui {
 			this.numGraphicMenus = 0;
 			this.numGraphicMenuEntries = 0;
 			this.doc = null;
+			this.menuComponentToCopy = null;
 
 			this.Build();
 			this.PrepareView( false );
@@ -146,6 +147,19 @@ namespace RWABuilder.Ui {
 			this.PrepareView( false );
         }
 
+		private void PrepareMenuDesign(string fileName)
+		{
+			if ( string.IsNullOrWhiteSpace( fileName ) ) {
+				this.doc = new MenuDesign();
+			} else {
+				this.doc = MenuDesign.LoadFromFile( fileName );
+			}
+
+			this.fakeMenuDesignForCopying = new MenuDesign();
+			this.menuComponentToCopy = null;
+			this.fileName = fileName;
+		}
+
 		private void OnNew()
 		{
             Trace.WriteLine( System.DateTime.Now + ": Creating document" );
@@ -153,8 +167,7 @@ namespace RWABuilder.Ui {
             this.OnCloseDocument();
 
 			this.SetStatus( "Preparing new document..." );
-			this.doc = new MenuDesign();
-            this.fileName = "";
+			this.PrepareMenuDesign( "" );
 
             this.PrepareViewStructuresForNewDocument();
 			this.PrepareView( true );
@@ -392,7 +405,7 @@ namespace RWABuilder.Ui {
                 this.SetToolbarTaskFinished();
 
                 try {
-                    this.doc = MenuDesign.LoadFromFile( dlg.FileName );
+					this.PrepareMenuDesign( dlg.FileName );
                 }
                 catch(XmlException exc)
                 {
@@ -417,8 +430,7 @@ namespace RWABuilder.Ui {
                     
                 this.PrepareViewStructuresForNewDocument();
                 this.TreeMenuRoot.Text = this.Document.Root.Name;
-                this.fileName = dlg.FileName;
-				this.PrepareEditorsForDocument();
+				this.PrepareTreeNodesForDocument();
                 this.PrepareView( true );
             }
 
@@ -430,16 +442,16 @@ namespace RWABuilder.Ui {
 		/// Makes the view reflect the document structure.
 		/// Useful when loading.
 		/// </summary>
-		private void PrepareEditorsForDocument()
+		private void PrepareTreeNodesForDocument()
 		{
             this.SetStatus( "Preparing editors..." );
 			this.SetToolbarForNumTasks( this.Document.Root.MenuComponents.Count );
-			this.CreateEditorsFor( this.TreeMenuRoot, this.Document.Root );
+			this.CreateTreeNodesFor( this.TreeMenuRoot, this.Document.Root );
 
             this.TreeMenuRoot.ExpandAll();
 		}
 
-		private void CreateEditorsFor(MenuComponentTreeNode mctn, CoreComponents.Menu menu)
+		private void CreateTreeNodesFor(MenuComponentTreeNode mctn, CoreComponents.Menu menu)
 		{
 			foreach(MenuComponent submc in menu.MenuComponents) {
 				var separator = submc as CoreComponents.Separator;
@@ -449,42 +461,34 @@ namespace RWABuilder.Ui {
                 var subMenu = submc as CoreComponents.RegularMenu;
 
 				if ( separator != null ) {
-					var mtn = new MenuComponentTreeNodes.SeparatorTreeNode( separator );
-
-					mctn.Nodes.Add( mtn );
+					mctn.Nodes.Add( MenuComponentTreeNode.Create( separator ) );
 				}
 				else
 				if ( pdfFile != null ) {
-					var mtn = new MenuComponentTreeNodes.PdfFileTreeNode( pdfFile );
-
-					mctn.Nodes.Add( mtn );
+					mctn.Nodes.Add( MenuComponentTreeNode.Create( pdfFile ) );
 				}
 				else
 				if ( function != null ) {
-					var mtn = new MenuComponentTreeNodes.FunctionTreeNode( function );
-
-					mctn.Nodes.Add( mtn );
+					mctn.Nodes.Add( MenuComponentTreeNode.Create( function ) );
 				}
                 else
                 if ( grphMenu != null ) {
-                    var mtn = new MenuComponentTreeNodes.GraphicMenuTreeNode( grphMenu );
+                    var mtn = MenuComponentTreeNode.Create( grphMenu );
 
                     // Prepare tree menu and editor for graphic menu
                     mctn.Nodes.Add( mtn );
 
                     // Prepare tree menu and editor for each graphic menu entry
                     foreach(CoreComponents.GraphicEntry grme in grphMenu.MenuComponents) {
-                        var grmetn = new UiComponents.GraphicEntryTreeNode( grme );
-
-                        mtn.Nodes.Add( grmetn );
+						mtn.Nodes.Add( MenuComponentTreeNode.Create( grme ) );
                     }
                 }
                 else
                 if ( subMenu != null ) {
-                    var mtn = new MenuComponentTreeNodes.MenuTreeNode( subMenu );
+                    var mtn = MenuComponentTreeNode.Create( subMenu );
 
                     mctn.Nodes.Add( mtn );
-                    this.CreateEditorsFor( mtn, subMenu );
+                    this.CreateTreeNodesFor( mtn, subMenu );
                 }
 
 				// One step more
@@ -632,6 +636,50 @@ namespace RWABuilder.Ui {
 			this.SetStatus();
 		}
 
+		/// <summary>
+		/// Copies the current menu component
+		/// </summary>
+		private void OnCopy()
+		{
+			this.menuComponentToCopy = this.GetMenuComponentOfTreeNode( this.GetSelectedTreeNode() );
+
+			if ( this.menuComponentToCopy != null ) {
+				this.menuComponentToCopy = this.menuComponentToCopy.Copy( this.fakeMenuDesignForCopying.Root );
+			}
+
+			return;
+		}
+
+		private void OnPaste()
+		{
+			// Something to copy?
+			if ( this.menuComponentToCopy != null ) {
+				TreeNode treeNode = this.GetSelectedTreeNode();
+
+				// Which tree node?
+				if ( treeNode != null ) {
+					MenuComponent mc = this.GetMenuComponentOfTreeNode( treeNode );
+
+					// Only copy to (paste in) a menu
+					if ( mc is Core.MenuComponents.Menu ) {
+						var menu = mc as Core.MenuComponents.Menu;
+						MenuComponent toUse = this.menuComponentToCopy;
+
+						// Add the new menu component to the model
+						menu.Add( toUse );
+
+						// Copy again for next use
+						this.menuComponentToCopy = this.menuComponentToCopy.Copy( this.fakeMenuDesignForCopying.Root );
+
+						// Create the new tree node
+						this.AddTreeNode( MenuComponentTreeNode.Create( toUse ) );
+					}
+				}
+			}
+
+			return;
+		}
+
 		private void BuildIcons()
 		{
 			System.Reflection.Assembly entryAssembly;
@@ -734,6 +782,14 @@ namespace RWABuilder.Ui {
 			this.exportIconBmp = new Bitmap(
 				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.export.png" )
 			);
+
+			this.copyIconBmp = new Bitmap(
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.copy.png" )
+			);
+
+			this.pasteIconBmp = new Bitmap(
+				entryAssembly.GetManifestResourceStream( "RWABuilder.Res.paste.png" )
+			);
 		}
 
 		private void BuildMenu()
@@ -794,6 +850,18 @@ namespace RWABuilder.Ui {
 			this.opMoveEntryDown.Click += (sender, e) => this.moveEntryDownAction.CallBack();
 			this.opMoveEntryDown.Image = UserAction.ImageList.Images[ this.moveEntryDownAction.ImageIndex ];
 
+			this.opCopy = new ToolStripMenuItem( this.copyEntryAction.Text );
+			this.opCopy.Click += (sender, e) => this.copyEntryAction.CallBack();
+			this.opCopy.Image = UserAction.ImageList.Images[ this.copyEntryAction.ImageIndex ];
+
+			this.opPaste = new ToolStripMenuItem( this.pasteEntryAction.Text );
+			this.opPaste.Click += (sender, e) => this.pasteEntryAction.CallBack();
+			this.opPaste.Image = UserAction.ImageList.Images[ this.pasteEntryAction.ImageIndex ];
+
+			this.opRemove = new ToolStripMenuItem( removeEntryAction.Text );
+			this.opRemove.Click += (sender, e) => this.removeEntryAction.CallBack();
+			this.opRemove.Image = UserAction.ImageList.Images[ this.removeEntryAction.ImageIndex ];
+
 			this.opRemove = new ToolStripMenuItem( removeEntryAction.Text );
 			this.opRemove.Click += (sender, e) => this.removeEntryAction.CallBack();
 			this.opRemove.Image = UserAction.ImageList.Images[ this.removeEntryAction.ImageIndex ];
@@ -835,6 +903,7 @@ namespace RWABuilder.Ui {
 				this.opAddMenu, this.opAddFunction,
 				this.opAddPdf, this.opAddSeparator,
 				this.opAddGraphicMenu, new ToolStripSeparator(),
+				this.opCopy, this.opPaste,
 				this.opMoveEntryUp, this.opMoveEntryDown, this.opRemove
 			});
 
@@ -862,6 +931,8 @@ namespace RWABuilder.Ui {
 			this.removeEntryAction.AddComponent( this.opRemove );
 			this.previewAction.AddComponent( this.opPreview );
 			this.propertiesAction.AddComponent( this.opProperties );
+			this.copyEntryAction.AddComponent( this.opCopy );
+			this.pasteEntryAction.AddComponent( this.opPaste );
 
             // Insert in form
 			this.mMain = new MenuStrip();
@@ -1118,7 +1189,8 @@ namespace RWABuilder.Ui {
                 this.deleteIconBmp, this.upIconBmp, this.downIconBmp,
 				this.playIconBmp, this.addIconBmp, this.editFnCallsIconBmp,
                 this.saveAsIconBmp, this.checkIconBmp, this.editIconBmp,
-				this.notepadIconBmp, this.exportIconBmp
+				this.notepadIconBmp, this.exportIconBmp,
+				this.copyIconBmp, this.pasteIconBmp,
             });
 
             this.newAction = new UserAction( "New", 0, this.OnNew );
@@ -1139,6 +1211,8 @@ namespace RWABuilder.Ui {
 			this.previewAction = new UserAction( "Preview", 12, this.OnPreview );
 			this.propertiesAction = new UserAction( "Properties", 17, this.OnProperties );
 			this.exportAction = new UserAction( "Export", 19, this.OnExport );
+			this.copyEntryAction = new UserAction( "Copy", 20, this.OnCopy );
+			this.pasteEntryAction = new UserAction( "Paste", 21, this.OnPaste );
 
 			// For the function GUI editor
 			new UserAction( "Add function argument", 13, null );
@@ -1158,7 +1232,7 @@ namespace RWABuilder.Ui {
 			new UserAction( "Remove color", 9, null );
 		}
 
-		private void BuildContextlMenu()
+		private void BuildContextMenu()
 		{
 			var menu = new ContextMenuStrip();
 			menu.ImageList = UserAction.ImageList;
@@ -1176,6 +1250,18 @@ namespace RWABuilder.Ui {
 			cmMoveDown.Click += (sender, e) => this.moveEntryDownAction.CallBack();
 			this.moveEntryDownAction.AddComponent( cmMoveDown );
 
+			var cmCopy = new ToolStripMenuItem( this.copyEntryAction.Text ) {
+				ImageIndex = this.copyEntryAction.ImageIndex,
+			};
+			cmCopy.Click += (sender, e) => this.copyEntryAction.CallBack();
+			this.copyEntryAction.AddComponent( cmCopy );
+
+			var cmPaste = new ToolStripMenuItem( this.pasteEntryAction.Text ) {
+				ImageIndex = this.pasteEntryAction.ImageIndex,
+			};
+			cmPaste.Click += (sender, e) => this.pasteEntryAction.CallBack();
+			this.pasteEntryAction.AddComponent( cmPaste );
+
 			var cmRemove = new ToolStripMenuItem( this.removeEntryAction.Text ) {
 				ImageIndex = this.removeEntryAction.ImageIndex,
 			};
@@ -1183,9 +1269,8 @@ namespace RWABuilder.Ui {
 			this.removeEntryAction.AddComponent( cmRemove );
 
 			menu.Items.AddRange( new ToolStripMenuItem[] {
-				cmMoveUp,
-				cmMoveDown,
-				cmRemove,
+				cmMoveUp, cmMoveDown,
+				cmCopy, cmPaste, cmRemove,
 			} );
 
 			return;
@@ -1219,7 +1304,7 @@ namespace RWABuilder.Ui {
 			this.BuildPropertiesPanel();
 			this.BuildStatus();
 			this.BuildToolBar();
-			this.BuildContextlMenu();
+			this.BuildContextMenu();
 
 			this.SetStatus( "Preparing user interface..." );
 			this.Controls.Add( this.splPanels );
@@ -1259,6 +1344,8 @@ namespace RWABuilder.Ui {
 			this.addFunctionAction.Enabled = view;
 			this.moveEntryDownAction.Enabled = view;
 			this.moveEntryUpAction.Enabled = view;
+			this.copyEntryAction.Enabled = view;
+			this.pasteEntryAction.Enabled = view;
 			this.removeEntryAction.Enabled = view;
 			this.previewAction.Enabled = view;
 			this.propertiesAction.Enabled = view;
@@ -1290,6 +1377,8 @@ namespace RWABuilder.Ui {
 			this.addGraphicMenuAction.Enabled = !isTerminal;
 			this.moveEntryUpAction.Enabled = ( !isRoot && hasPrev );
 			this.moveEntryDownAction.Enabled = ( !isRoot && hasNext );
+			this.copyEntryAction.Enabled = !isRoot;
+			this.pasteEntryAction.Enabled = ( !isTerminal && ( this.menuComponentToCopy != null ) );
 			this.removeEntryAction.Enabled = !isRoot;
 
             this.splPanels.Panel2.Hide();
@@ -1417,6 +1506,8 @@ namespace RWABuilder.Ui {
 		private ToolStripMenuItem opAddGraphicMenu;
 		private ToolStripMenuItem opAddSeparator;
 		private ToolStripMenuItem opAddPdf;
+		private ToolStripMenuItem opCopy;
+		private ToolStripMenuItem opPaste;
 		private ToolStripMenuItem opRemove;
 		private ToolStripMenuItem opMoveEntryUp;
 		private ToolStripMenuItem opMoveEntryDown;
@@ -1468,6 +1559,8 @@ namespace RWABuilder.Ui {
         private Bitmap separatorIconBmp;
         private Bitmap upIconBmp;
 		private Bitmap quitIconBmp;
+		private Bitmap copyIconBmp;
+		private Bitmap pasteIconBmp;
 
 		private UserAction quitAction;
 		private UserAction newAction;
@@ -1486,6 +1579,8 @@ namespace RWABuilder.Ui {
 		private UserAction addGraphicMenuAction;
 		private UserAction previewAction;
 		private UserAction propertiesAction;
+		private UserAction copyEntryAction;
+		private UserAction pasteEntryAction;
 
 		private MenuDesign doc;
         private string fileName;
@@ -1494,6 +1589,9 @@ namespace RWABuilder.Ui {
 		private int numPDFs;
 		private int numGraphicMenus;
 		private int numGraphicMenuEntries;
+
+		private MenuComponent menuComponentToCopy;
+		private MenuDesign fakeMenuDesignForCopying;
 	}
 }
 
