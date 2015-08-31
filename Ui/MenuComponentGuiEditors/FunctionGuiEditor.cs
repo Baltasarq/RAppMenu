@@ -554,7 +554,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.pnlEdPackage.Controls.Add( this.edPackageName );
 			this.pnlEdPackage.Controls.Add( lblName );
 			this.pnlEdPackage.MaximumSize = new Size( int.MaxValue, this.edPackageName.Height );
-			this.pnlContainer.Controls.Add( this.pnlEdPackage );
+            this.tcPad.TabPages[ 1 ].Controls.Add( this.pnlEdPackage );
 			this.pnlEdPackage.ResumeLayout( false );
 		}
 
@@ -577,7 +577,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
 			this.pnlEdCaption.Controls.Add( this.edCaption );
 			this.pnlEdCaption.Controls.Add( lblCaption );
-			this.pnlEdCaption.MaximumSize = new Size( int.MaxValue, this.edPackageName.Height );
+            this.pnlEdCaption.MaximumSize = new Size( int.MaxValue, this.edCaption.Height );
 			this.pnlContainer.Controls.Add( this.pnlEdCaption );
 			this.pnlEdCaption.ResumeLayout( false );
 		}
@@ -603,13 +603,13 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             this.Panel.Controls.Add( this.tcPad );
 
 			// Sub panels
-			this.BuildPackageEditor();
 			this.BuildCaptionEditor();
             this.BuildCheckBoxes();
 			this.BuildDefaultData();
 			this.BuildPDFReference();
             this.BuildArgumentsListTable();
             this.BuildCommands();
+            this.BuildPackageEditor();
 
 			this.pnlContainer.ResumeLayout( false );
             this.Panel.ResumeLayout( false );
