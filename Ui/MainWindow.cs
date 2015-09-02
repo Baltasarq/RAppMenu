@@ -11,69 +11,6 @@ using CoreComponents = RWABuilder.Core.MenuComponents;
 using UiComponents = RWABuilder.Ui.MenuComponentTreeNodes;
 
 namespace RWABuilder.Ui {
-    class MenuComponentCopier {
-        public MenuComponentCopier() {
-            this.fakeMenuDesignForCopying = new MenuDesign();
-            this.fakeGraphMenuForCopying = new Core.MenuComponents.GraphicMenu(
-                "graphicMenu",
-                this.fakeMenuDesignForCopying.Root );
-
-            this.fakeMenuDesignForCopying.Root.Add( this.fakeGraphMenuForCopying );
-            this.menuComponent = null;
-        }
-
-        public MenuComponent MenuComponent {
-            get {
-                MenuComponent toret = this.menuComponent;
-
-                if ( toret != null ) {
-                    this.menuComponent = this.Copy( toret );
-                }
-
-                return toret;
-            }
-            set {
-                if ( value != null ) {
-                    this.menuComponent = this.Copy( value );
-                }
-
-                return;
-            }
-        }
-
-        public bool HasContents {
-            get {
-                return ( this.menuComponent != null );
-            }
-        }
-
-        public bool HasContentsFor(MenuComponent mc) {
-           // var is
-
-            return ( this.menuComponent != null );
-        }
-
-        private MenuComponent Copy(MenuComponent value) {
-            MenuComponent toret = null;
-
-            if ( value != null ) {
-                MenuComponent parent = this.fakeMenuDesignForCopying.Root;
-
-                if ( value is Core.MenuComponents.GraphicEntry ) {
-                    parent = this.fakeGraphMenuForCopying;
-                }
-
-                toret = value.Copy( parent );
-            }
-
-            return toret;
-        }
-
-        private MenuComponent menuComponent;
-        private MenuDesign fakeMenuDesignForCopying;
-        private Core.MenuComponents.GraphicMenu fakeGraphMenuForCopying;
-    }
-
 	public class MainWindow: Form {
 		public MainWindow()
 		{
@@ -218,7 +155,7 @@ namespace RWABuilder.Ui {
 				this.doc = MenuDesign.LoadFromFile( fileName );
 			}
 
-            this.copier = new MenuComponentCopier();
+            this.copier = new MenuComponentClipboard();
 			this.fileName = fileName;
 		}
 
@@ -1417,17 +1354,18 @@ namespace RWABuilder.Ui {
 
 		private void SetActionStatusForTreeNode(MenuComponentTreeNode mctr)
 		{
-			bool isTerminal = !( mctr is UiComponents.MenuTreeNode );
-			bool isGraphicMenu = mctr is UiComponents.GraphicMenuTreeNode;
+			Console.WriteLine( "SetActionStatusForTreeNode(): " + mctr );
+
+			MenuComponent mc = this.GetMenuComponentOfTreeNode( mctr );
+			bool isTerminal = !( mc is Core.MenuComponents.Menu );
 			bool isRoot = ( mctr == this.TreeMenuRoot );
 			bool hasNext = ( mctr.NextNode != null );
 			bool hasPrev = ( mctr.PrevNode != null );
-            MenuComponent mc = this.GetMenuComponentOfTreeNode( mctr );
 
 			this.addPdfAction.Enabled = !isTerminal;
 			this.addSeparatorAction.Enabled = !isTerminal;
 			this.addMenuAction.Enabled = !isTerminal;
-			this.addFunctionAction.Enabled = !isTerminal || isGraphicMenu;
+			this.addFunctionAction.Enabled = !isTerminal;
 			this.addGraphicMenuAction.Enabled = !isTerminal;
 			this.moveEntryUpAction.Enabled = ( !isRoot && hasPrev );
 			this.moveEntryDownAction.Enabled = ( !isRoot && hasNext );
@@ -1637,7 +1575,7 @@ namespace RWABuilder.Ui {
 		private UserAction pasteEntryAction;
 
 		private MenuDesign doc;
-        private MenuComponentCopier copier;
+        private MenuComponentClipboard copier;
         private string fileName;
 		private int numMenus;
 		private int numFunctions;
