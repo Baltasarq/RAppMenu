@@ -1354,8 +1354,6 @@ namespace RWABuilder.Ui {
 
 		private void SetActionStatusForTreeNode(MenuComponentTreeNode mctr)
 		{
-			Console.WriteLine( "SetActionStatusForTreeNode(): " + mctr );
-
 			MenuComponent mc = this.GetMenuComponentOfTreeNode( mctr );
 			bool isTerminal = !( mc is Core.MenuComponents.Menu );
 			bool isRoot = ( mctr == this.TreeMenuRoot );

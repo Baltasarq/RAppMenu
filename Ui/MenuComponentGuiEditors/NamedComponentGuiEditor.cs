@@ -44,14 +44,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.edName = new TextBox();
 			this.edName.Font = new Font( this.edName.Font, FontStyle.Bold );
 			this.edName.Dock = DockStyle.Fill;
-			this.edName.KeyUp += (sender, e) => {
-				string name = this.edName.Text;
-
-				if ( !string.IsNullOrWhiteSpace( name ) ) {
-					this.MenuComponent.Name = name;
-					this.MenuComponentTreeNode.Text = name;
-				}
-			};
+			this.edName.KeyUp += (sender, e) => this.OnNameModified();
 
 			this.pnlEdName.Controls.Add( this.edName );
 			this.pnlEdName.Controls.Add( this.lblName );
@@ -68,8 +61,19 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		/// <value>The name.</value>
 		public string Name {
 			get {
-				return this.edName.Text;
+				return this.edName.Text.Trim();
 			}
+		}
+
+		protected virtual void OnNameModified() {
+			string name = this.Name;
+
+			if ( !string.IsNullOrWhiteSpace( name ) ) {
+				this.MenuComponent.Name = name;
+				this.MenuComponentTreeNode.Text = name;
+			}
+
+			return;
 		}
 
 		public new void ReadDataFromComponent()

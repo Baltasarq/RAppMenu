@@ -32,12 +32,46 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			}
 		}
 
+		protected override void OnNameModified()
+		{
+			string treeNodeText = "";
+			string name = this.Name;
+			string caption = this.edCaption.Text.Trim();
+
+			if ( string.IsNullOrWhiteSpace( name ) ) {
+				name = this.Function.Name;
+			}
+
+			this.Function.Caption = caption;
+			if ( !string.IsNullOrWhiteSpace( caption ) ) {
+				treeNodeText += caption;
+			}
+
+			if ( !string.IsNullOrWhiteSpace( name ) ) {
+				this.MenuComponent.Name = name;
+
+				if ( treeNodeText.Length > 0 ) {
+					treeNodeText += " (" + name + ")";
+				} else {
+					treeNodeText = name;
+				}
+			}
+
+			this.MenuComponentTreeNode.Text = treeNodeText;
+		}
+
 		/// <summary>
 		/// Shows and prepares the editor
 		/// </summary>
 		public override void Show()
 		{
 			base.Show();
+
+			if ( this.Function.Name != this.Function.Caption ) {
+				this.MenuComponentTreeNode.Text =
+					string.Format( "{0} ({1})", this.Function.Caption, this.Function.Name );
+			}
+
             this.tcPad.Show();
             bool existingArgs = ( this.grdArgsList.Rows.Count > 0 );
 
@@ -152,7 +186,6 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 				column6,
 			}
 			);
-
 
             this.grdArgsList.CellEnter += (object sender, DataGridViewCellEventArgs evt) => {
                 if ( evt.RowIndex >= 0
@@ -573,7 +606,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.edCaption = new TextBox();
 			this.edCaption.Font = new Font( this.edCaption.Font, FontStyle.Bold );
 			this.edCaption.Dock = DockStyle.Fill;
-			this.edCaption.KeyUp += (sender, e) => this.Function.Caption = this.edCaption.Text;
+			this.edCaption.KeyUp += (sender, e) => this.OnNameModified();
 
 			this.pnlEdCaption.Controls.Add( this.edCaption );
 			this.pnlEdCaption.Controls.Add( lblCaption );

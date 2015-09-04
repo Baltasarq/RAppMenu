@@ -52,8 +52,6 @@ namespace RWABuilder.Core {
 		public bool HasContentsFor(MenuComponent targetMc) {
 			bool toret = false;
 
-			Console.WriteLine( "HasContentsFor({0}) at {1} ", targetMc, this.menuComponent );
-
 			if ( this.HasContents
 			  && targetMc is Core.MenuComponents.Menu )
 			{
@@ -65,11 +63,6 @@ namespace RWABuilder.Core {
 					( ( targetMc is Core.MenuComponents.RegularMenu ) && !isMenuComponentGraphicEntry );
 
 				toret = isGraphicEntryForGraphicMenu || isNotGraphicEntryForRegularMenu;
-
-				Console.WriteLine( "Paste enabled: {0}\nFor: {1}\nIn: {2}",
-					toret,
-					this.menuComponent,
-					targetMc );
 			}
 
 			return toret;
