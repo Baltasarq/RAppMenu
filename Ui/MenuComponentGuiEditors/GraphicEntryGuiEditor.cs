@@ -145,7 +145,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			dlg.InitialDirectory = AppInfo.GraphsFolder;
 			dlg.CheckFileExists = true;
 			dlg.DefaultExt = "png";
-            dlg.Filter = "PNG|*.png|JPG|*.jpg|All files|*";
+			dlg.Filter = "PNG&JPG|*.*g|PNG|*.png|JPG|*.jpg|All files|*";
 
 			if ( dlg.ShowDialog() == DialogResult.OK ) {
 				string fileName = Path.GetFileName( dlg.FileName );
