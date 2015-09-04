@@ -43,6 +43,7 @@ namespace RWABuilder.Core.MenuComponents {
 		public virtual void Add(MenuComponent mc)
 		{
 			this.menuComponents.Add( mc );
+			mc.Parent = this;
             this.SetNeedsSave();
 		}
 

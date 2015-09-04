@@ -51,12 +51,19 @@ namespace RWABuilder.Core {
 		}
 
 		/// <summary>
-		/// Gets the parent of this menu component.
+		/// Gets or sets the parent of this menu component.
 		/// </summary>
 		/// <value>The parent.</value>
         public Menu Parent {
 			get {
 				return this.parent;
+			}
+			set {
+				if ( value != this.parent ) {
+					this.parent.Remove( this );
+					this.root = null;
+					this.parent = value;
+				}
 			}
 		}
 
