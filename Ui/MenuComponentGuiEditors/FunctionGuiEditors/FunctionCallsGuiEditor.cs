@@ -154,6 +154,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.tbbQuit.ImageIndex = quitAction.ImageIndex;
 			this.tbbQuit.ToolTipText = quitAction.Text;
             this.tbbQuit.Click += (sender, e) => {
+				this.grdFnCallArgsList.CancelEdit();
+				this.grdFnCallList.CancelEdit();
                 this.DialogResult = DialogResult.Cancel;
                 this.Close();
             };
@@ -162,6 +164,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
             this.tbbSave.ImageIndex = saveAction.ImageIndex;
             this.tbbSave.ToolTipText = saveAction.Text;
             this.tbbSave.Click += (sender, e) =>  {
+				this.grdFnCallArgsList.EndEdit();
+				this.grdFnCallList.EndEdit();
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             };
