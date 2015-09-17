@@ -11,7 +11,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
     /// This editor is the base for many other ones, in which
     /// at least the name of the component is edited.
     /// </summary>
-    public class NamedComponentGuiEditor: MenuComponentGuiEditor {
+    public abstract class NamedComponentGuiEditor: MenuComponentGuiEditor {
         protected NamedComponentGuiEditor(Panel panel, MenuComponentTreeNode mctn, MenuComponent mc)
             : base( panel, mctn, mc )
         {

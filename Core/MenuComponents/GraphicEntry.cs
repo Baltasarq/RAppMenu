@@ -30,8 +30,14 @@ namespace RWABuilder.Core.MenuComponents {
 				return this.Function.Name;
 			}
 			set {
-				base.Name = value;
-				this.Function.Name = value;
+				value = value.Trim();
+
+				if ( base.Name != value ) {
+					base.Name = value;
+					this.Function.Name = value;
+				}
+
+				return;
 			}
 		}
 
@@ -72,8 +78,14 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.imagePath;
             }
             set {
-                this.imagePath = value.Trim();
-                this.SetNeedsSave();
+				value = value.Trim();
+
+				if ( this.imagePath != value ) {
+					this.imagePath = value;
+					this.SetNeedsSave();
+				}
+
+				return;
             }
         }
 
@@ -86,8 +98,14 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.imageToolTip;
             }
             set {
-                this.imageToolTip = value.Trim();
-                this.SetNeedsSave();
+				value = value.Trim();
+
+				if ( this.imageToolTip != value ) {
+					this.imageToolTip = value;
+					this.SetNeedsSave();
+				}
+
+				return;
             }
         }
 

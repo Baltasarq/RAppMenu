@@ -9,6 +9,14 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			: base( panel, mctn, mc )
 		{
 		}
+
+		/// <summary>
+		/// Ensures all edits are finished.
+		/// </summary>
+		public override void FinishEditing()
+		{
+		}
+
 	}
 }
 

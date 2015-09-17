@@ -57,8 +57,12 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.hasData;
             }
             set {
-                this.hasData = value;
-                this.SetNeedsSave();
+				if ( this.hasData != value ) {
+					this.hasData = value;
+					this.SetNeedsSave();
+				}
+
+				return;
             }
 		}
 
@@ -72,8 +76,12 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.dataHeader;
             }
             set {
-                this.dataHeader = value;
-                this.SetNeedsSave();
+				if ( this.dataHeader != value ) {
+					this.dataHeader = value;
+					this.SetNeedsSave();
+				}
+
+				return;
             }
 		}
 
@@ -86,8 +94,14 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.preCommand;
             }
             set {
-                this.preCommand = value.Trim();
-                this.SetNeedsSave();
+				value = value.Trim();
+
+				if ( this.preCommand != value ) {
+					this.preCommand = value;
+					this.SetNeedsSave();
+				}
+
+				return;
             }
 		}
 
@@ -100,8 +114,14 @@ namespace RWABuilder.Core.MenuComponents {
 				return this.exampleData;
 			}
 			set {
-				this.exampleData = value.Trim();
-                this.SetNeedsSave();
+				value = value.Trim();
+
+				if ( value != this.exampleData ) {
+					this.exampleData = value;
+					this.SetNeedsSave();
+				}
+
+				return;
 			}
 		}
 
@@ -118,8 +138,12 @@ namespace RWABuilder.Core.MenuComponents {
 					throw new ArgumentOutOfRangeException( "Function.StartColumn should be >= 0" );
 				}
 
-				this.startColumn = value;
-                this.SetNeedsSave();
+				if ( value != this.startColumn ) {
+					this.startColumn = value;
+					this.SetNeedsSave();
+				}
+
+				return;
 			}
 		}
 
@@ -136,8 +160,12 @@ namespace RWABuilder.Core.MenuComponents {
 					throw new ArgumentOutOfRangeException( "Function.EndColumn should be >= 0" );
 				}
 
-				this.endColumn = value;
-                this.SetNeedsSave();
+				if ( value != this.endColumn ) {
+					this.endColumn = value;
+					this.SetNeedsSave();
+				}
+
+				return;
 			}
 		}
 
@@ -152,8 +180,12 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.removeQuotes;
             }
             set {
-                this.removeQuotes = value;
-                this.SetNeedsSave();
+				if ( value != this.removeQuotes ) {
+					this.removeQuotes = value;
+					this.SetNeedsSave();
+				}
+
+				return;
             }
 		}
 
@@ -197,8 +229,14 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.pdfName;
             }
             set {
-                this.pdfName = value.Trim();
-				this.SetNeedsSave();
+				value = value.Trim();
+
+				if ( value != this.pdfName ) {
+					this.pdfName = value;
+					this.SetNeedsSave();
+				}
+
+				return;
             }
         }
 
@@ -217,8 +255,12 @@ namespace RWABuilder.Core.MenuComponents {
                     throw new ArgumentException( "page should be > 0" );
                 }
 
-                this.pdfPageNumber = value;
-				this.SetNeedsSave();
+				if ( value != this.pdfPageNumber ) {
+					this.pdfPageNumber = value;
+					this.SetNeedsSave();
+				}
+
+				return;
             }
         }
 
@@ -231,8 +273,14 @@ namespace RWABuilder.Core.MenuComponents {
 				return this.package;
 			}
 			set {
-				this.package = value.Trim();
-				this.SetNeedsSave();
+				value = value.Trim();
+
+				if ( value != this.package ) {
+					this.package = value;
+					this.SetNeedsSave();
+				}
+
+				return;
 			}
 		}
 
@@ -251,8 +299,14 @@ namespace RWABuilder.Core.MenuComponents {
 				return toret;
 			}
 			set {
-				this.caption = value.Trim();
-				this.SetNeedsSave();
+				value = value.Trim();
+
+				if ( value != this.caption ) {
+					this.caption = value.Trim();
+					this.SetNeedsSave();
+				}
+
+				return;
 			}
 		}
 
@@ -328,8 +382,10 @@ namespace RWABuilder.Core.MenuComponents {
 				doc.WriteEndAttribute();
 			}
 
-			// Package = "package"
-			if ( !string.IsNullOrWhiteSpace( this.Caption ) ) {
+			// Caption = "caption"
+			if ( !string.IsNullOrWhiteSpace( this.Caption )
+			  && this.Caption != this.Name )
+			{
 				doc.WriteStartAttribute( EtqCaption );
 				doc.WriteString( this.Caption );
 				doc.WriteEndAttribute();
@@ -535,10 +591,7 @@ namespace RWABuilder.Core.MenuComponents {
 							sentencesToDelete.Add( i );
 						}
 					}
-					foreach ( int x in sentencesToDelete ) {
-						Console.WriteLine( x );
-					}
-					Console.WriteLine( "'" + subNode.InnerText + "'" );
+
 					// Remove blank lines
 					int pos = 0;
 					foreach (int x in sentencesToDelete) {

@@ -40,8 +40,14 @@ namespace RWABuilder.Core {
 				return this.Root.Name;
 			}
 			set {
-				this.Root.Name = value.Trim();
-				this.NeedsSave = true;
+				value = value.Trim();
+
+				if ( value != this.Root.Name ) {
+					this.Root.Name = value;
+					this.NeedsSave = true;
+				}
+
+				return;
 			}
 		}
 
@@ -58,14 +64,20 @@ namespace RWABuilder.Core {
 					throw new ArgumentException( "invalid empty email" );
 				}
                 
-				if ( value.Length > 0
+				value = value.Trim();
+
+				if ( !string.IsNullOrWhiteSpace( value )
 				  && value.IndexOf( '@' ) < 0 )
                 {
                     throw new ArgumentException( "invalid email: " + value );
                 }
 
-				this.authorEmail = value.Trim();
-				this.NeedsSave = true;
+				if ( value != this.authorEmail ) {
+					this.authorEmail = value;
+					this.NeedsSave = true;
+				}
+
+				return;
 			}
 		}
 
@@ -90,8 +102,12 @@ namespace RWABuilder.Core {
 				return this.date;
 			}
 			set {
-				this.date = value;
-				this.NeedsSave = true;
+				if ( value != this.date ) {
+					this.date = value;
+					this.NeedsSave = true;
+				}
+
+				return;
 			}
 		}
 

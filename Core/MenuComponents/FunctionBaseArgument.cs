@@ -7,6 +7,7 @@ namespace RWABuilder.Core.MenuComponents {
 				:base( name )
 			{
 				this.owner = owner;
+				this.readOnly = false;
 			}
 
 			/// <summary>
@@ -16,6 +17,24 @@ namespace RWABuilder.Core.MenuComponents {
 			public Function Owner {
 				get {
 					return this.owner;
+				}
+			}
+
+			/// <summary>
+			/// Gets or sets a value indicating whether this argument is read only.
+			/// </summary>
+			/// <value><c>true</c> if this instance is read only; otherwise, <c>false</c>.</value>
+			public bool IsReadOnly {
+				get {
+					return this.readOnly;
+				}
+				set {
+					if ( value != this.readOnly ) {
+						this.readOnly = value;
+						this.SetNeedsSave();
+					}
+
+					return;
 				}
 			}
 
@@ -32,6 +51,7 @@ namespace RWABuilder.Core.MenuComponents {
 			}
 
 			private Function owner;
+			private bool readOnly;
 		}
 	}
 }

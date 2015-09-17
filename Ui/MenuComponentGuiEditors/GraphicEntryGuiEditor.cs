@@ -170,6 +170,14 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			}
 		}
 
+		/// <summary>
+		/// Ensures all edits are finished.
+		/// </summary>
+		public override void FinishEditing()
+		{
+			this.functionEditor.FinishEditing();
+		}
+
         private GroupBox pnlFile;
         private TableLayoutPanel pnlContainer;
 		private Panel pnlEdFileName;

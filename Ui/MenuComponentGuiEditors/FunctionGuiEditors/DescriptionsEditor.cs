@@ -50,6 +50,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
             this.tbbQuit.ToolTipText = quitAction.Text;
             this.tbbQuit.Click += (sender, e) => {
                 this.DialogResult = DialogResult.Cancel;
+				this.grdDescs.CancelEdit();
                 this.Close();
             };
 
@@ -58,6 +59,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
             this.tbbSave.ToolTipText = saveAction.Text;
             this.tbbSave.Click += (sender, e) =>  {
                 this.DialogResult = DialogResult.OK;
+				this.grdDescs.EndEdit();
                 this.Close();
             };
 
@@ -114,6 +116,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
                     }
             };
 
+			this.grdDescs.LostFocus += (o, e) => this.grdDescs.EndEdit();
+
             this.pnlDescsEditor.Controls.Add( this.grdDescs );
             this.pnlDescsEditor.ResumeLayout( false );
         }
@@ -150,9 +154,11 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
                     MessageBoxIcon.Information,
                     MessageBoxDefaultButton.Button2 );
 
-                if ( result == DialogResult.No ) {
-                    e.Cancel = true;
-                }
+				if ( result == DialogResult.No ) {
+					e.Cancel = true;
+				} else {
+					this.grdDescs.EndEdit();
+				}
             }
 
             return;

@@ -46,8 +46,14 @@ namespace RWABuilder.Core {
                 throw new ArgumentNullException( "invalid name for menu component" );
             }
 
-            this.name = value;
-            this.SetNeedsSave();
+			value = value.Trim();
+
+			if ( value != this.name ) {
+				this.name = value;
+				this.SetNeedsSave();
+			}
+
+			return;
 		}
 
 		/// <summary>
@@ -60,9 +66,11 @@ namespace RWABuilder.Core {
 			}
 			set {
 				if ( value != this.parent ) {
+					this.parent.SetNeedsSave();
 					this.parent.Remove( this );
 					this.root = null;
 					this.parent = value;
+					this.parent.SetNeedsSave();
 				}
 			}
 		}
@@ -177,6 +185,8 @@ namespace RWABuilder.Core {
         {
             if ( this.Root != null ) {
                 this.Root.NeedsSave = true;
+
+				Console.WriteLine( new System.Diagnostics.StackTrace() );
             }
 
             return;

@@ -240,6 +240,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 					}
 			};
 
+			this.grdColors.LostFocus += (o, e) => this.grdColors.EndEdit();
+
 			// Buttons panel
 			var toolTips = new ToolTip();
 			this.pnlButtons = new FlowLayoutPanel();

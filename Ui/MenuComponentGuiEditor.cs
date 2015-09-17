@@ -84,6 +84,12 @@ namespace RWABuilder.Ui {
 		}
 
 		/// <summary>
+		/// Ensures all edits are finished.
+		/// </summary>
+		public abstract void FinishEditing();
+			
+
+		/// <summary>
 		/// Reads the data from the component.
 		/// The editor reflects the info in the <see cref="MenuComponent"/>
 		/// </summary>

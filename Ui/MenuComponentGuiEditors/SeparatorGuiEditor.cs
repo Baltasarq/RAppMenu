@@ -19,5 +19,12 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		{
 			base.Show();
 		}
+
+		/// <summary>
+		/// Ensures all edits are finished.
+		/// </summary>
+		public override void FinishEditing()
+		{
+		}
     }
 }

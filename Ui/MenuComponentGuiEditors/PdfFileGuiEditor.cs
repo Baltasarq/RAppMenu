@@ -107,6 +107,13 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             return;
 		}
 
+		/// <summary>
+		/// Ensures all edits are finished.
+		/// </summary>
+		public override void FinishEditing()
+		{
+		}
+
 		private Panel pnlEdFileName;
 		private Label lblFileName;
 		private Label edFileName;

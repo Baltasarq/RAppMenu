@@ -32,9 +32,12 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
                     MessageBoxIcon.Information,
                     MessageBoxDefaultButton.Button2 );
 
-                if ( result == DialogResult.No ) {
-                    e.Cancel = true;
-                }
+				if ( result == DialogResult.No ) {
+					e.Cancel = true;
+				} else {
+					this.grdFnCallArgsList.CancelEdit();
+					this.grdFnCallList.CancelEdit();
+				}
             }
 
             return;

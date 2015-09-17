@@ -100,6 +100,7 @@ namespace RWABuilder.Core.MenuComponents {
 		public virtual void ClearComponents()
 		{
 			this.menuComponents.Clear();
+			this.SetNeedsSave();
 		}
 
 		/// <summary>

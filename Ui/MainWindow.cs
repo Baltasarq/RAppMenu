@@ -127,6 +127,8 @@ namespace RWABuilder.Ui {
             if ( this.Document != null
               && this.Document.NeedsSave )
             {
+				this.EnsureEditingFinished();
+
                 Trace.WriteLine( System.DateTime.Now + ": Closing document: "
                                                 + this.Document.Root.Name );
 
@@ -174,6 +176,8 @@ namespace RWABuilder.Ui {
 
 		private void OnAddMenu()
 		{
+			this.EnsureEditingFinished();
+
             MenuComponent parentMc = this.GetMenuComponentOfTreeNode();
             string id = "newMenuEntry";
 
@@ -185,6 +189,8 @@ namespace RWABuilder.Ui {
 
         private void OnAddFunction()
         {
+			this.EnsureEditingFinished();
+
 			MenuComponentTreeNode tn;
             MenuComponent parentMc = this.GetMenuComponentOfTreeNode();
 			var parentImagesMenu = parentMc as CoreComponents.GraphicMenu;
@@ -205,7 +211,9 @@ namespace RWABuilder.Ui {
         }
 
         private void OnAddPdf()
-        {
+		{
+			this.EnsureEditingFinished();
+			
             MenuComponent parentMc = this.GetMenuComponentOfTreeNode();
             string id = "file" + ( ++this.numPDFs ) + ".pdf";
 
@@ -216,6 +224,8 @@ namespace RWABuilder.Ui {
 
         private void OnAddSeparator()
         {
+			this.EnsureEditingFinished();
+
             MenuComponent parentMc = this.GetMenuComponentOfTreeNode();
 
             var sep = new CoreComponents.Separator( (CoreComponents.Menu) parentMc );
@@ -224,6 +234,8 @@ namespace RWABuilder.Ui {
 
         private void OnAddGraphicMenu()
         {
+			this.EnsureEditingFinished();
+
             MenuComponent parentMc = this.GetMenuComponentOfTreeNode();
             string id = "newGraphicMenu";
 
@@ -292,6 +304,8 @@ namespace RWABuilder.Ui {
         /// </summary>
         private void OnRemoveTreeNode()
         {
+			this.EnsureEditingFinished();
+
             MenuComponentTreeNode mctr = this.GetSelectedTreeNode();
 
             if ( mctr != null
@@ -310,6 +324,8 @@ namespace RWABuilder.Ui {
 
         private void OnUpTreeNode()
         {
+			this.EnsureEditingFinished();
+
             TreeNode tr = this.GetSelectedTreeNode();
 
             if ( tr != this.TreeMenuRoot) {
@@ -339,6 +355,8 @@ namespace RWABuilder.Ui {
 
         private void OnDownTreeNode()
         {
+			this.EnsureEditingFinished();
+
             TreeNode tr = this.GetSelectedTreeNode();
 
 			if ( tr != null ) {
@@ -369,6 +387,8 @@ namespace RWABuilder.Ui {
 
         private void OnTreeNodeSelected()
         {
+			this.EnsureEditingFinished();
+
             MenuComponentTreeNode tr = this.GetSelectedTreeNode();
 
             if ( tr != null ) {
@@ -499,8 +519,14 @@ namespace RWABuilder.Ui {
 			return;
 		}
 
+		private void EnsureEditingFinished() {
+			this.GetSelectedTreeNode().GetEditor( this.pnlProperties ).FinishEditing();
+		}
+
 		private void OnSaveAs()
 		{
+			this.EnsureEditingFinished();
+
 			Trace.WriteLine( DateTime.Now + ": Saving " + this.Document.Root.Name );
 			Trace.Indent();
 			this.SetStatus( "Saving menu as..." );
@@ -513,6 +539,8 @@ namespace RWABuilder.Ui {
 
 		private void OnSave()
 		{
+			this.EnsureEditingFinished();
+
             Trace.WriteLine( DateTime.Now + ": Saving " + this.Document.Root.Name );
             Trace.Indent();
             this.SetStatus( "Saving menu..." );

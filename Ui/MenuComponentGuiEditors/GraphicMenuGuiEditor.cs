@@ -118,6 +118,14 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			}
 		}
 
+		/// <summary>
+		/// Ensures all edits are finished.
+		/// </summary>
+		public override void FinishEditing()
+		{
+			base.FinishEditing();
+		}
+
 		private Panel pnlMeasures;
 		private NumericUpDown udImageWidth;
 		private NumericUpDown udImageHeight;

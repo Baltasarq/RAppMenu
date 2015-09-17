@@ -32,32 +32,52 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			}
 		}
 
+		/// <summary>
+		/// Modifies the name accordingly to what the user typed.
+		/// Format: caption (name)
+		/// The first impression of this name is done in the treenode's <see cref="FunctionTreeNode"/> code.
+		/// <seealso cref="FunctionTreeNode"/>
+		/// </summary>
 		protected override void OnNameModified()
 		{
-			string treeNodeText = "";
 			string name = this.Name;
 			string caption = this.edCaption.Text.Trim();
 
-			if ( string.IsNullOrWhiteSpace( name ) ) {
-				name = this.Function.Name;
-			}
-
+			// Set name & caption
 			this.Function.Caption = caption;
-			if ( !string.IsNullOrWhiteSpace( caption ) ) {
-				treeNodeText += caption;
-			}
-
 			if ( !string.IsNullOrWhiteSpace( name ) ) {
-				this.MenuComponent.Name = name;
-
-				if ( treeNodeText.Length > 0 ) {
-					treeNodeText += " (" + name + ")";
-				} else {
-					treeNodeText = name;
-				}
+				this.Function.Name = name;
 			}
 
-			this.MenuComponentTreeNode.Text = treeNodeText;
+			// Set caption in tree node
+			this.MenuComponentTreeNode.Text = BuildCaptionCombination( this.Function, name, caption );
+		}
+
+		public static string BuildCaptionCombination(Function f, string name, string caption) {
+			string toret;
+
+			// Prepare name
+			if ( string.IsNullOrWhiteSpace( name ) ) {
+				name = f.Name;
+			} else {
+				name = name.Trim();
+			}
+
+			// Prepare caption
+			if ( string.IsNullOrWhiteSpace( caption ) ) {
+				caption = f.Caption;
+			} else {
+				caption = caption.Trim();
+			}
+
+			// Build
+			toret = name;
+
+			if ( name != caption ) {
+				toret = string.Format( "{0} ({1})", caption, toret );
+			}
+
+			return toret;
 		}
 
 		/// <summary>
@@ -67,11 +87,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		{
 			base.Show();
 
-			if ( this.Function.Name != this.Function.Caption ) {
-				this.MenuComponentTreeNode.Text =
-					string.Format( "{0} ({1})", this.Function.Caption, this.Function.Name );
-			}
-
+			this.OnNameModified();
             this.tcPad.Show();
             bool existingArgs = ( this.grdArgsList.Rows.Count > 0 );
 
@@ -142,16 +158,18 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			var column2 = new DataGridViewTextBoxColumn();
 			var column3 = new DataGridViewCheckBoxColumn();
 			var column4 = new DataGridViewCheckBoxColumn();
-			var column5 = new DataGridViewComboBoxColumn();
-			var column6 = new DataGridViewImageColumn();
+			var column5 = new DataGridViewCheckBoxColumn();
+			var column6 = new DataGridViewComboBoxColumn();
+			var column7 = new DataGridViewImageColumn();
 
 			column0.CellTemplate = textCellTemplate;
 			column1.CellTemplate = textCellTemplate;
 			column2.CellTemplate = textCellTemplate;
 			column3.CellTemplate = checkBoxCellTemplate;
 			column4.CellTemplate = checkBoxCellTemplate;
-			column5.CellTemplate = comboBoxCellTemplate;
-			column6.CellTemplate = imageCellTemplate;
+			column5.CellTemplate = checkBoxCellTemplate;
+			column6.CellTemplate = comboBoxCellTemplate;
+			column7.CellTemplate = imageCellTemplate;
 
 			column0.HeaderText = "Name";
 			column0.Width = 120;
@@ -162,19 +180,22 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			column2.HeaderText = "Depends";
 			column2.Width = 80;
 			column2.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column3.HeaderText = "Required";
+			column3.HeaderText = "Read only";
 			column3.Width = 80;
 			column3.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column4.HeaderText = "Multiselect";
+			column4.HeaderText = "Required";
 			column4.Width = 80;
 			column4.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column5.HeaderText = "Viewer";
+			column5.HeaderText = "Multiselect";
 			column5.Width = 80;
 			column5.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column6.HeaderText = "";
-			column6.ReadOnly = true;
-			column6.Width = 10;
+			column6.HeaderText = "Viewer";
+			column6.Width = 80;
 			column6.SortMode = DataGridViewColumnSortMode.NotSortable;
+			column7.HeaderText = "";
+			column7.ReadOnly = true;
+			column7.Width = 10;
+			column7.SortMode = DataGridViewColumnSortMode.NotSortable;
 
 			this.grdArgsList.Columns.AddRange (new DataGridViewColumn[] {
 				column0,
@@ -184,6 +205,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 				column4,
 				column5,
 				column6,
+				column7,
 			}
 			);
 
@@ -196,7 +218,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             };
 
 			this.grdArgsList.CellClick += (object sender, DataGridViewCellEventArgs e) => {
-				if ( e.ColumnIndex == 6
+				if ( e.ColumnIndex == 7
 				  && e.RowIndex >= 0 )
 				{
 					this.OnEditViewer( e.RowIndex );
@@ -210,6 +232,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
                     this.OnArgsListCellEdited( evt.RowIndex, evt.ColumnIndex );
                 }
 			};
+
+			this.grdArgsList.LostFocus += (sender, e) => this.grdArgsList.EndEdit();
 
             this.grdArgsList.MinimumSize = new Size( 240, 100 );
 			this.grdArgsList.Font = new Font( this.grdArgsList.Font, FontStyle.Regular );
@@ -669,6 +693,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 				"",
 				"",
 				false,
+				false,
 				false
 			});
 
@@ -763,7 +788,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 				if ( valed.ShowDialog() != DialogResult.Cancel ) {
 					// Set simple value set
 					arg.Viewer = Function.Argument.ViewerType.SimpleValueSet;
-					var cmbCell = (DataGridViewComboBoxCell) row.Cells[ 5 ];
+					var cmbCell = (DataGridViewComboBoxCell) row.Cells[ 6 ];
 					cmbCell.Value = cmbCell.Items[ (int) Function.Argument.ViewerType.SimpleValueSet ];
 
 					// Load data
@@ -803,18 +828,23 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 				arg.DependsFrom = (string) row.Cells[ colIndex ].Value;
 			}
 			else
-			// The required info
+			// The read-only info
 			if ( colIndex == 3 ) {
+				arg.IsReadOnly = (bool) row.Cells[ colIndex ].Value;
+			}
+			else
+			// The required info
+			if ( colIndex == 4 ) {
 				arg.IsRequired = (bool) row.Cells[ colIndex ].Value;
 			}
 			else
 			// The multiselect info
-			if ( colIndex == 4 ) {
+			if ( colIndex == 5 ) {
 				arg.AllowMultiselect = (bool) row.Cells[ colIndex ].Value;
 			}
 			else
 			// The viewer info
-			if ( colIndex == 5 ) {
+			if ( colIndex == 6 ) {
 				Function.Argument.ViewerType viewer;
 
 				bool parsedOk = Enum.TryParse( 
@@ -882,25 +912,28 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             int width = this.pnlContainer.ClientSize.Width;
 
             // Name
-            this.grdArgsList.Columns[ 0 ].Width = (int) ( width * 0.20 );
+            this.grdArgsList.Columns[ 0 ].Width = (int) ( width * 0.15 );
 
             // Value
             this.grdArgsList.Columns[ 1 ].Width = (int) ( width * 0.15 );
 
             // Depends
-            this.grdArgsList.Columns[ 2 ].Width = (int) ( width * 0.20 );
+            this.grdArgsList.Columns[ 2 ].Width = (int) ( width * 0.15 );
+
+			// Read only
+			this.grdArgsList.Columns[ 3 ].Width = (int) ( width * 0.10 );
 
             // Required
-            this.grdArgsList.Columns[ 3 ].Width = (int) ( width * 0.10 );
-
-            // Multiselect
             this.grdArgsList.Columns[ 4 ].Width = (int) ( width * 0.10 );
 
+            // Multiselect
+            this.grdArgsList.Columns[ 5 ].Width = (int) ( width * 0.10 );
+
             // Viewer
-            this.grdArgsList.Columns[ 5 ].Width = (int) ( width * 0.20 );
+            this.grdArgsList.Columns[ 6 ].Width = (int) ( width * 0.17 );
 
 			// Editor
-			this.grdArgsList.Columns[ 6 ].Width = (int) ( width * 0.05 );
+			this.grdArgsList.Columns[ 7 ].Width = (int) ( width * 0.05 );
         }
 
         /// <summary>
@@ -938,15 +971,24 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
                 row.Cells[ 0 ].Value = arg.Name;
                 row.Cells[ 1 ].Value = arg.Value;
                 row.Cells[ 2 ].Value = arg.DependsFrom;
-                row.Cells[ 3 ].Value = arg.IsRequired;
-                row.Cells[ 4 ].Value = arg.AllowMultiselect;
-                row.Cells[ 5 ].Value = arg.Viewer.ToString();
-				row.Cells[ 6 ].Value = UserAction.ImageList.Images[ UserAction.LookUp( "properties" ).ImageIndex ];
+				row.Cells[ 3 ].Value = arg.IsReadOnly;
+                row.Cells[ 4 ].Value = arg.IsRequired;
+                row.Cells[ 5 ].Value = arg.AllowMultiselect;
+                row.Cells[ 6 ].Value = arg.Viewer.ToString();
+				row.Cells[ 7 ].Value = UserAction.ImageList.Images[ UserAction.LookUp( "properties" ).ImageIndex ];
             }
 
             this.OnBuilding = false;
             return;
         }
+
+		/// <summary>
+		/// Ensures all edits are finished.
+		/// </summary>
+		public override void FinishEditing()
+		{
+			this.grdArgsList.EndEdit();
+		}
 
 		private FunctionCallsGuiEditor fnCallsEditor;
         private TableLayoutPanel pnlContainer;

@@ -49,9 +49,13 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.imageWidth;
             }
             set {
-                this.imageWidth = Math.Max( MinimumGraphicSize, value );
-				this.imageWidth = Math.Min( MaximumGraphicSize, value );
-                this.SetNeedsSave();
+				if ( this.imageWidth != value ) {
+					this.imageWidth = Math.Max( MinimumGraphicSize, value );
+					this.imageWidth = Math.Min( MaximumGraphicSize, value );
+					this.SetNeedsSave();
+				}
+
+				return;
             }
         }
 
@@ -64,9 +68,13 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.imageHeight;
             }
             set {
-				this.imageHeight = Math.Max( MinimumGraphicSize, value );
-				this.imageHeight = Math.Min( MaximumGraphicSize, value );
-                this.SetNeedsSave();
+				if ( this.imageHeight != value ) {
+					this.imageHeight = Math.Max( MinimumGraphicSize, value );
+					this.imageHeight = Math.Min( MaximumGraphicSize, value );
+					this.SetNeedsSave();
+				}
+
+				return;
             }
         }
 
@@ -79,9 +87,13 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.minimumNumberOfColumns;
             }
             set {
-				this.minimumNumberOfColumns = Math.Max( MinimumColumns, value );
-				this.minimumNumberOfColumns = Math.Min( MaximumColumns, value );
-                this.SetNeedsSave();
+				if ( this.minimumNumberOfColumns != value ) {
+					this.minimumNumberOfColumns = Math.Max( MinimumColumns, value );
+					this.minimumNumberOfColumns = Math.Min( MaximumColumns, value );
+					this.SetNeedsSave();
+				}
+
+				return;
             }
         }
 

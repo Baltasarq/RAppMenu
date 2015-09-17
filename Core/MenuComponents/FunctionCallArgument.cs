@@ -46,18 +46,16 @@ namespace RWABuilder.Core.MenuComponents {
 						return this.value;
 					}
 					set {
-						this.value = value;
-						this.SetNeedsSave();
+						value = value.Trim();
+
+						if ( value != this.value ) {
+							this.value = value;
+							this.SetNeedsSave();
+						}
+
+						return;
 					}
 				}
-
-                /// <summary>
-                /// Gets or sets a value indicating whether this argument is read only.
-                /// </summary>
-                /// <value><c>true</c> if this instance is read only; otherwise, <c>false</c>.</value>
-                public bool IsReadOnly {
-                    get; set;
-                }
 
                 /// <summary>
                 /// Copies this Arg into a new one.
@@ -201,7 +199,8 @@ namespace RWABuilder.Core.MenuComponents {
 
                 var toret = new CallArgument( this.Name, functionOwner ) {
                     Variant = this.Variant,
-                    FunctionName = this.FunctionName
+                    FunctionName = this.FunctionName,
+					IsReadOnly = this.IsReadOnly,
                 };
 
                 foreach(Arg arg in this.ArgumentList) {

@@ -46,7 +46,6 @@ namespace RWABuilder.Core.MenuComponents {
                 this.value = "";
                 this.desc = "";
 				this.required = false;
-				this.readOnly = false;
 				this.multiSelect = false;
 				this.valueSet = new List<string>();
 			}
@@ -60,22 +59,12 @@ namespace RWABuilder.Core.MenuComponents {
 					return this.required;
 				}
 				set {
-					this.required = value;
-					this.SetNeedsSave();
-				}
-			}
+					if ( value != this.required ) {
+						this.required = value;
+						this.SetNeedsSave();
+					}
 
-			/// <summary>
-			/// Gets or sets a value indicating whether this argument is read only.
-			/// </summary>
-			/// <value><c>true</c> if this instance is read only; otherwise, <c>false</c>.</value>
-			public bool IsReadOnly {
-				get {
-					return this.readOnly;
-				}
-				set {
-					this.readOnly = value;
-					this.SetNeedsSave();
+					return;
 				}
 			}
 
@@ -88,8 +77,12 @@ namespace RWABuilder.Core.MenuComponents {
 					return this.viewer;
 				}
 				set {
-					this.viewer = value;
-					this.SetNeedsSave();
+					if ( value != this.viewer ) {
+						this.viewer = value;
+						this.SetNeedsSave();
+					}
+
+					return;
 				}
 			}
 
@@ -102,8 +95,14 @@ namespace RWABuilder.Core.MenuComponents {
 					return this.depends;
 				}
 				set {
-					this.depends = value.Trim();
-					this.SetNeedsSave();
+					value = value.Trim();
+
+					if ( value != this.depends ) {
+						this.depends = value;
+						this.SetNeedsSave();
+					}
+
+					return;
 				}
 			}
 
@@ -116,8 +115,14 @@ namespace RWABuilder.Core.MenuComponents {
 					return this.value;
 				}
 				set {
-					this.value = value.Trim();
-					this.SetNeedsSave();
+					value = value.Trim();
+
+					if ( value != this.value ) {
+						this.value = value;
+						this.SetNeedsSave();
+					}
+
+					return;
 				}
 			}
 
@@ -130,8 +135,12 @@ namespace RWABuilder.Core.MenuComponents {
 					return this.multiSelect;
 				}
 				set {
-					this.multiSelect = value;
-					this.SetNeedsSave();
+					if ( value != this.multiSelect ) {
+						this.multiSelect = value;
+						this.SetNeedsSave();
+					}
+
+					return;
 				}
 			}
 
@@ -144,8 +153,14 @@ namespace RWABuilder.Core.MenuComponents {
                     return this.desc;
                 }
                 set {
-                    this.desc = value.Trim();
-                    this.SetNeedsSave();
+					value = value.Trim();
+
+					if ( value != this.desc ) {
+						this.desc = value;
+						this.SetNeedsSave();
+					}
+
+					return;
                 }
             }
 
@@ -409,7 +424,6 @@ namespace RWABuilder.Core.MenuComponents {
 
 			private List<string> valueSet;
 			private bool required;
-			private bool readOnly;
 			private bool multiSelect;
 			private ViewerType viewer;
 			private string desc;
