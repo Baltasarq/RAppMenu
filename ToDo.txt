@@ -1,5 +1,1 @@
-﻿- Editor de funciones
-	- Editor de descripciones no permite modificar (?)
-	- Desplegable de visores no se despliega
-
-- Repasar comportamiento editores al terminar o guardar
+﻿
