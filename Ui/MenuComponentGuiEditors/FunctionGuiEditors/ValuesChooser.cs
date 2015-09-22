@@ -8,7 +8,7 @@ using Function = RWABuilder.Core.MenuComponents.Function;
 
 namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 	public class ValuesChooser: Form {
-		public ValuesChooser(string[] values, Function.Argument.ViewerType v)
+		public ValuesChooser(string[] values, bool multiple)
 		{
 			Trace.WriteLine( "ValuesChooser: Booting dialog..." );
 
@@ -22,7 +22,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			}
 
 			this.values = values;
-			this.viewerType = v;
+			this.multiple = multiple;
 			this.Build();
 		}
 
@@ -54,9 +54,11 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 
 				if ( result == DialogResult.No ) {
 					e.Cancel = true;
+				} else {
+					Trace.WriteLine( "ValuesChooser: Closing dialog..." );
 				}
 			}
-
+				
 			return;
 		}
 
@@ -70,7 +72,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 
 				appIconBmp = new Bitmap(
 					entryAssembly.GetManifestResourceStream( "RWABuilder.Res.appIcon.png" )
-					);
+				);
 
 			} catch (Exception) {
 				throw new ArgumentException( "Unable to load embedded app icon" );
@@ -121,7 +123,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 
 			this.lbValues = new ListBox();
 
-			if ( this.viewerType == Function.Argument.ViewerType.MultiValueSet ) {
+			if ( this.Multiple ) {
 				this.lbValues.SelectionMode = SelectionMode.MultiSimple;
 			} else {
 				this.lbValues.SelectionMode = SelectionMode.One;
@@ -217,6 +219,19 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			}
 		}
 
+		/// <summary>
+		/// Gets a value indicating whether this
+		/// <see cref="RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors.ValuesChooser"/> allows multiple
+		/// selections.
+		/// </summary>
+		/// <value><c>true</c> if allows multiple selections; otherwise, <c>false</c>.</value>
+		public bool Multiple {
+			get {
+				return this.multiple;
+			}
+		}
+
+		private bool multiple;
 		private ToolStrip tbToolbar;
 		private ToolStripButton tbbQuit;
 		private ToolStripButton tbbSave;
@@ -225,7 +240,6 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 		private ListBox lbValues;
 
 		private string[] values;
-		private Function.Argument.ViewerType viewerType;
 	}
 }
 

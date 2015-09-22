@@ -24,14 +24,14 @@ namespace RWABuilder.Core.MenuComponents {
 			public const string EtqReadOnly = "ReadOnly";
 			public const string EtqValue = "Value";
 			public const string EtqDepends = "DependsFrom";
+			public const string EtqSecondValueField = "SecondValueField";
 			public const string EtqAllowMultiSelect = "AllowMultiSelect";
 
 			public const string ValueSetSeparator = ",";
 
             public enum ViewerType {
                 Plain, DataColumns, DataValues, Map, TaxTree,
-                SimpleValueSet, MultiValueSet,
-                SimpleColorPicker, MultiColorPicker
+                ValueSet, ColorPicker
             };
 
 			/// <summary>
@@ -206,8 +206,7 @@ namespace RWABuilder.Core.MenuComponents {
 			/// <value><c>true</c> if needs value set; otherwise, <c>false</c>.</value>
 			public bool NeedsValueSet {
 				get {
-					return ( this.viewer == ViewerType.SimpleValueSet
-						  || this.viewer == ViewerType.MultiValueSet );
+					return ( this.viewer == ViewerType.ValueSet );
 				}
 			}
 
@@ -267,7 +266,12 @@ namespace RWABuilder.Core.MenuComponents {
 
 				// DependsFrom = "?"
 				if ( !string.IsNullOrWhiteSpace( this.DependsFrom ) ) {
-					doc.WriteStartAttribute( EtqDepends );
+					if ( this.Viewer == ViewerType.TaxTree ) {
+						doc.WriteStartAttribute( EtqSecondValueField );
+					} else {
+						doc.WriteStartAttribute( EtqDepends );
+					}
+
 					doc.WriteString( this.DependsFrom );
 					doc.WriteEndAttribute();
 				}
@@ -345,7 +349,9 @@ namespace RWABuilder.Core.MenuComponents {
 					}
 					else
 					// DependsFrom = "?"
-					if ( attr.Name.Equals( EtqDepends, StringComparison.OrdinalIgnoreCase ) ) {
+					if ( attr.Name.Equals( EtqDepends, StringComparison.OrdinalIgnoreCase )
+					  || attr.Name.Equals( EtqSecondValueField, StringComparison.OrdinalIgnoreCase ) )
+					{
 						toret.DependsFrom = attr.InnerText.Trim();
 					}
 					else

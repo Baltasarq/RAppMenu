@@ -116,8 +116,6 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
                     }
             };
 
-			this.grdDescs.LostFocus += (o, e) => this.grdDescs.EndEdit();
-
             this.pnlDescsEditor.Controls.Add( this.grdDescs );
             this.pnlDescsEditor.ResumeLayout( false );
         }

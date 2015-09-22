@@ -11,24 +11,23 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 	public class ColorEditor: Form {
 		public const char Separator = ',';
 
-        public ColorEditor(string strColors, Components.Function.Argument.ViewerType vt)
+		public ColorEditor(string strColors, Components.Function.Argument.ViewerType vt, bool multiple)
 		{
 			this.addColorAction = UserAction.LookUp( "addcolor" );
 			this.removeColorAction = UserAction.LookUp( "removecolor" );
 
-            if ( vt != Components.Function.Argument.ViewerType.SimpleColorPicker
-              && vt !=Components.Function.Argument.ViewerType.MultiColorPicker )
-            {
+			this.multiple = multiple;
+
+			if ( vt != Components.Function.Argument.ViewerType.ColorPicker ) {
                 throw new ArgumentException(
-                    "type should be Multi or SimpleColorPicker, not " + vt );
+                    "type should be ColorPicker, not " + vt );
             }
 
             this.type = vt;
             this.colors = new List<Color>( DecodeColors( strColors ) );
 
             // If simple color, trim excess
-            if ( vt == Components.Function.Argument.ViewerType.SimpleColorPicker )
-            {
+			if ( this.Multiple ) {
                 this.colors.RemoveRange( 1, this.colors.Count - 1 );
             }
 
@@ -43,8 +42,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.addColorAction.CallBack = this.OnAddColor;
 			this.removeColorAction.CallBack = this.OnRemoveColor;
 
-            this.addColorAction.Enabled =
-                ( this.Type != Components.Function.Argument.ViewerType.SimpleColorPicker );
+			this.addColorAction.Enabled = this.Multiple;
 			this.removeColorAction.Enabled = ( this.colors.Count > 1 );
 
 			this.Populate();
@@ -433,6 +431,18 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
             }
         }
 
+		/// <summary>
+		/// Gets a value indicating whether this
+		/// <see cref="RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors.ValuesChooser"/> allows multiple
+		/// selections.
+		/// </summary>
+		/// <value><c>true</c> if allows multiple selections; otherwise, <c>false</c>.</value>
+		public bool Multiple {
+			get {
+				return this.multiple;
+			}
+		}
+
 		private DataGridView grdColors;
 		private ColorDialog colorDialog;
 		private Panel pnlEditor;
@@ -452,5 +462,6 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 
 		private List<Color> colors;
         private Components.Function.Argument.ViewerType type;
+		private bool multiple;
 	}
 }

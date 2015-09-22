@@ -197,7 +197,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			column7.Width = 10;
 			column7.SortMode = DataGridViewColumnSortMode.NotSortable;
 
-			this.grdArgsList.Columns.AddRange (new DataGridViewColumn[] {
+			this.grdArgsList.Columns.AddRange( new DataGridViewColumn[] {
 				column0,
 				column1,
 				column2,
@@ -232,8 +232,6 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
                     this.OnArgsListCellEdited( evt.RowIndex, evt.ColumnIndex );
                 }
 			};
-
-			this.grdArgsList.LostFocus += (sender, e) => this.grdArgsList.EndEdit();
 
             this.grdArgsList.MinimumSize = new Size( 240, 100 );
 			this.grdArgsList.Font = new Font( this.grdArgsList.Font, FontStyle.Regular );
@@ -753,20 +751,16 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             if ( this.Function.RegularArgumentList.Count > rowIndex ) {
                 var arg = (Function.Argument) this.Function.RegularArgumentList[ rowIndex ];
 
-				if ( arg.Viewer == Function.Argument.ViewerType.SimpleColorPicker
-				  || arg.Viewer == Function.Argument.ViewerType.MultiColorPicker )
-				{
-					var colorEditor = new ColorEditor( arg.Value, arg.Viewer );
+				if ( arg.Viewer == Function.Argument.ViewerType.ColorPicker ) {
+					var colorEditor = new ColorEditor( arg.Value, arg.Viewer, arg.AllowMultiselect );
 
 					if ( colorEditor.ShowDialog() == DialogResult.OK ) {
 						row.Cells[ colIndex ].Value = arg.Value = colorEditor.ToString();
 					}
 				}
 				else
-				if ( arg.Viewer == Function.Argument.ViewerType.SimpleValueSet
-				  || arg.Viewer == Function.Argument.ViewerType.MultiValueSet )
-				{
-					var valed = new ValuesChooser( arg.ValueSet, arg.Viewer );
+				if ( arg.Viewer == Function.Argument.ViewerType.ValueSet ) {
+					var valed = new ValuesChooser( arg.ValueSet, arg.AllowMultiselect );
 
 					if ( valed.ShowDialog() != DialogResult.Cancel ) {
 						row.Cells[ 1 ].Value = arg.Value = valed.GetSelectedItemsAsList();
@@ -786,10 +780,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 				var valed = new CsvEditor( arg.ValueSet );
 
 				if ( valed.ShowDialog() != DialogResult.Cancel ) {
-					// Set simple value set
-					arg.Viewer = Function.Argument.ViewerType.SimpleValueSet;
+					// Set viewer to value set
+					arg.Viewer = Function.Argument.ViewerType.ValueSet;
 					var cmbCell = (DataGridViewComboBoxCell) row.Cells[ 6 ];
-					cmbCell.Value = cmbCell.Items[ (int) Function.Argument.ViewerType.SimpleValueSet ];
+					cmbCell.Value = cmbCell.Items[ (int) Function.Argument.ViewerType.ValueSet ];
 
 					// Load data
 					arg.ValueSet = valed.Data;
