@@ -3,6 +3,8 @@ using System.Windows.Forms;
 
 using RWABuilder.Core;
 using RWABuilder.Core.MenuComponents;
+using CoreComponents = RWABuilder.Core.MenuComponents;
+using UiEditors = RWABuilder.Ui.MenuComponentGuiEditors;
 
 namespace RWABuilder.Ui.MenuComponentTreeNodes {
 	/// <summary>
@@ -14,6 +16,9 @@ namespace RWABuilder.Ui.MenuComponentTreeNodes {
 		{
 			this.ImageIndex = this.SelectedImageIndex =
 				UserAction.LookUp( "addfunction" ).ImageIndex;
+
+			this.Text = UiEditors.FunctionGuiEditor.BuildCaptionCombination(
+				( (CoreComponents.GraphicEntry) this.MenuComponent ).Function, "", "" );
 		}
 
 		protected override MenuComponentGuiEditor CreateEditor(Panel pnl)
