@@ -1,7 +1,8 @@
 bin/
 obj/
 wiki/
-RAppMenu.userprefs
+*.userprefs
+*~
 
 # Object files
 *.o
