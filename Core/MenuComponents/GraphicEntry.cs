@@ -115,7 +115,13 @@ namespace RWABuilder.Core.MenuComponents {
 		/// <value>The <see cref="Function"/>.</value>
 		public Function Function {
 			get {
-				return (Function) this.MenuComponents[ 0 ];
+				Function toret = null;
+
+				if ( this.MenuComponents.Count > 0 ) {
+					toret = (Function) this.MenuComponents[ 0 ];
+				}
+
+				return toret;
 			}
 		}
 
@@ -140,7 +146,6 @@ namespace RWABuilder.Core.MenuComponents {
 			};
 
 			this.Function.Copy( toret );
-
 			return toret;
 		}
 

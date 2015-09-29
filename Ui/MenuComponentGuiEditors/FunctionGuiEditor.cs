@@ -498,7 +498,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             Graphics grf = new Form().CreateGraphics();
             SizeF fontSize = grf.MeasureString( "W", this.udFunctionStartPage.Font );
             int charWidth = (int) fontSize.Width + 5;
-            this.udFunctionStartPage.MaximumSize = new Size( charWidth * 4, this.udFunctionStartPage.Height );
+            this.udFunctionStartPage.MaximumSize = new Size( charWidth * 3, this.udFunctionStartPage.Height );
             this.edPDFFileName.MinimumSize = new Size( charWidth * 12, this.edPDFFileName.Height );
             this.pnlPDFReference.MinimumSize = new Size(
                 this.Panel.ClientSize.Width - 100,

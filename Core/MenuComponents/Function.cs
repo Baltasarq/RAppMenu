@@ -315,11 +315,12 @@ namespace RWABuilder.Core.MenuComponents {
 			return string.Format( "[Function: Name='{0}' PackageName='{10}' HasData={1},"
 			        + "DataHeader={2}, "
 					+ "PreCommand='{3}', DefaultData='{4}', StartColumn={5}, EndColumn={6}, "
-					+ "RemoveQuotationMarks={7}, PreProgramOnce='{8}', ArgList={9}]",
+					+ "RemoveQuotationMarks={7}, PreProgramOnce='{8}', ArgList={9}, Package='{10}' PDF='{11}'"
+					+ "PDFStartPage='{12}']",
 			        Name,
 				    HasData, DataHeader, PreCommand, ExampleData, StartColumn,
 			        EndColumn, RemoveQuotationMarks, PreProgramOnce, RegularArgumentList.ToString(),
-			        this.Package );
+					this.Package, this.PDFName, this.PDFPageNumber );
 		}
 
         /// <summary>

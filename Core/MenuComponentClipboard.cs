@@ -25,7 +25,6 @@ namespace RWABuilder.Core {
 			set {
 				if ( value != null ) {
 					this.menuComponent = this.Copy( value );
-					Console.WriteLine( "Just copied: {0} == {1}", value, this.menuComponent );
 				}
 
 				return;

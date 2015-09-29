@@ -12,12 +12,9 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		public GraphicEntryGuiEditor(Panel panel, MenuComponentTreeNode mctn, MenuComponent mc)
 			: base( panel, mctn, mc )
 		{
-            this.Build();
-
+			this.Build();
 			this.functionEditor =
                 new FunctionGuiEditor( this.pnlFunction, mctn, this.GraphicMenuEntry.Function );
-
-			this.edFileName.Text = this.GraphicMenuEntry.ImagePath;
 			this.ReadDataFromComponent();
 		}
 
