@@ -111,7 +111,15 @@ namespace RWABuilder.Core.MenuComponents {
 		/// </value>
 		public ReadOnlyCollection<MenuComponent> MenuComponents {
 			get {
-				return this.menuComponents.AsReadOnly();
+				ReadOnlyCollection<MenuComponent> toret = null;
+
+				if ( this.menuComponents != null ) {
+					toret = this.menuComponents.AsReadOnly();
+				} else {
+					toret = new ReadOnlyCollection<MenuComponent>( new MenuComponent[]{} );
+				}
+
+				return toret;
 			}
 		}
 

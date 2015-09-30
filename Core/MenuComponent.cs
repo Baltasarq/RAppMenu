@@ -57,14 +57,6 @@ namespace RWABuilder.Core {
 		}
 
 		/// <summary>
-		/// Forces the recalculation of the parent.
-		/// </summary>
-		public void RecalculateParent() {
-			this.root = null;
-			this.GetRoot();
-		}
-
-		/// <summary>
 		/// Gets or sets the parent of this menu component.
 		/// </summary>
 		/// <value>The parent.</value>
@@ -75,21 +67,20 @@ namespace RWABuilder.Core {
 			set {
 				var menu = this as Menu;
 
+				this.root = null;
+
+				if ( menu != null ) {
+					foreach ( MenuComponent mc in menu.MenuComponents ) {
+						mc.root = null;
+					}
+				}
+
 				if ( value != this.parent ) {
 					if ( this.parent != null ) {
 						this.parent.SetNeedsSave();
 						this.parent.Remove( this );
 					}
-
 					this.parent = value;
-					this.RecalculateParent();
-
-					if ( menu != null ) {
-						foreach ( MenuComponent mc in menu.MenuComponents ) {
-							mc.RecalculateParent();
-						}
-					}
-
 					this.parent.SetNeedsSave();
 				}
 			}
