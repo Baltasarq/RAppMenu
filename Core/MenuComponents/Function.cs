@@ -35,8 +35,8 @@ namespace RWABuilder.Core.MenuComponents {
             this.regularArgumentList = new ArgumentList( this );
 			this.fnCallArgumentList = new ArgumentList( this );
             this.preOnceProgram = new ExecuteOnceProgram( this );
-			this.endColumn = 0;
-            this.startColumn = 0;
+			this.endColumn = -1;
+            this.startColumn = -1;
             this.HasData = false;
             this.DataHeader = false;
             this.RemoveQuotationMarks = false;
@@ -134,8 +134,8 @@ namespace RWABuilder.Core.MenuComponents {
 				return this.startColumn;
 			}
 			set {
-				if ( value < 0 ) {
-					throw new ArgumentOutOfRangeException( "Function.StartColumn should be >= 0" );
+				if ( value < -1 ) {
+					throw new ArgumentOutOfRangeException( "Function.StartColumn should be >= -1" );
 				}
 
 				if ( value != this.startColumn ) {
@@ -156,8 +156,8 @@ namespace RWABuilder.Core.MenuComponents {
 				return this.endColumn;
 			}
 			set {
-				if ( value < 0 ) {
-					throw new ArgumentOutOfRangeException( "Function.EndColumn should be >= 0" );
+				if ( value < -1 ) {
+					throw new ArgumentOutOfRangeException( "Function.EndColumn should be >= -1" );
 				}
 
 				if ( value != this.endColumn ) {
@@ -433,14 +433,14 @@ namespace RWABuilder.Core.MenuComponents {
 					doc.WriteEndAttribute();
 
 					// StartColumn = "1"
-					if ( this.StartColumn > 0 ) {
+					if ( this.StartColumn > -1 ) {
 						doc.WriteStartAttribute( EtqStartColumn );
 						doc.WriteString( this.StartColumn.ToString() );
 						doc.WriteEndAttribute();
 					}
 
 					// EndColumn = "1"
-					if ( this.EndColumn > 0 ) {
+					if ( this.EndColumn > -1 ) {
 						doc.WriteStartAttribute( EtqEndColumn );
 						doc.WriteString( this.EndColumn.ToString() );
 						doc.WriteEndAttribute();
