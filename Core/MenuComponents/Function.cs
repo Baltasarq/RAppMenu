@@ -11,7 +11,7 @@ namespace RWABuilder.Core.MenuComponents {
 		public const string TagName = "Function";
 		public const string TagSentences = "ExecuteCommandOnce";
 		public const string TagPDFRef = "PDFRef";
-		public const string TagExampleData = "Data";
+		public const string TagExampleData = "ExampleData";
 
 		public const string EtqPreCommand = "PreCommand";
 		public const string EtqName = "Name";
@@ -35,8 +35,8 @@ namespace RWABuilder.Core.MenuComponents {
             this.regularArgumentList = new ArgumentList( this );
 			this.fnCallArgumentList = new ArgumentList( this );
             this.preOnceProgram = new ExecuteOnceProgram( this );
-			this.endColumn = -1;
-            this.startColumn = -1;
+			this.endColumn = 0;
+            this.startColumn = 0;
             this.HasData = false;
             this.DataHeader = false;
             this.RemoveQuotationMarks = false;
@@ -50,6 +50,7 @@ namespace RWABuilder.Core.MenuComponents {
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this function has data.
+		/// This is independent of whether there is example data available or not.
 		/// </summary>
 		/// <value><c>true</c> if this instance has data; otherwise, <c>false</c>.</value>
 		public bool HasData {
@@ -134,8 +135,8 @@ namespace RWABuilder.Core.MenuComponents {
 				return this.startColumn;
 			}
 			set {
-				if ( value < -1 ) {
-					throw new ArgumentOutOfRangeException( "Function.StartColumn should be >= -1" );
+				if ( value < 0 ) {
+					throw new ArgumentOutOfRangeException( "Function.StartColumn should be >= 0" );
 				}
 
 				if ( value != this.startColumn ) {
@@ -156,8 +157,8 @@ namespace RWABuilder.Core.MenuComponents {
 				return this.endColumn;
 			}
 			set {
-				if ( value < -1 ) {
-					throw new ArgumentOutOfRangeException( "Function.EndColumn should be >= -1" );
+				if ( value < 0 ) {
+					throw new ArgumentOutOfRangeException( "Function.EndColumn should be >= 0" );
 				}
 
 				if ( value != this.endColumn ) {
@@ -421,37 +422,27 @@ namespace RWABuilder.Core.MenuComponents {
 			}
 
 			// <ExampleData Name= "Carnivores" StartColumn=2 EndColumn=5/>
-			if ( this.HasData
-			  && !string.IsNullOrWhiteSpace( this.ExampleData ) )
-			{
-				if ( this.StartColumn > 0
-				  || this.EndColumn > 0 )
-				{
-					doc.WriteStartElement( TagExampleData );
-					doc.WriteStartAttribute( EtqName );
-					doc.WriteString( this.ExampleData );
-					doc.WriteEndAttribute();
+			if ( !string.IsNullOrWhiteSpace( this.ExampleData ) ) {
+				doc.WriteStartElement( TagExampleData );
+				doc.WriteStartAttribute( EtqName );
+				doc.WriteString( this.ExampleData );
+				doc.WriteEndAttribute();
 
-					// StartColumn = "1"
-					if ( this.StartColumn > -1 ) {
-						doc.WriteStartAttribute( EtqStartColumn );
-						doc.WriteString( this.StartColumn.ToString() );
-						doc.WriteEndAttribute();
-					}
-
-					// EndColumn = "1"
-					if ( this.EndColumn > -1 ) {
-						doc.WriteStartAttribute( EtqEndColumn );
-						doc.WriteString( this.EndColumn.ToString() );
-						doc.WriteEndAttribute();
-					}
-
-					doc.WriteEndElement();
-				} else {
-					doc.WriteStartAttribute( TagExampleData );
-					doc.WriteString( this.ExampleData );
+				// StartColumn = "1"
+				if ( this.StartColumn > 0 ) {
+					doc.WriteStartAttribute( EtqStartColumn );
+					doc.WriteString( this.StartColumn.ToString() );
 					doc.WriteEndAttribute();
 				}
+
+				// EndColumn = "1"
+				if ( this.EndColumn > 0 ) {
+					doc.WriteStartAttribute( EtqEndColumn );
+					doc.WriteString( this.EndColumn.ToString() );
+					doc.WriteEndAttribute();
+				}
+
+				doc.WriteEndElement();
 			}
 
             // <PDF Name="manual.pdf" Page="2" />

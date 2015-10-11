@@ -18,8 +18,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.editDescriptionsAction = UserAction.LookUp( "editdescriptions" );
 			this.removeFunctionArgumentAction = UserAction.LookUp( "removefunctionargument" );
 
+			this.Panel.Hide();
 			this.Build();
 			this.ReadDataFromComponent();
+			this.Panel.Show();
 		}
 
 		/// <summary>
@@ -85,12 +87,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		/// </summary>
 		public override void Show()
 		{
+			bool existingArgs = ( this.grdArgsList.Rows.Count > 0 );
+
 			base.Show();
-
 			this.OnNameModified();
-            this.tcPad.Show();
-            bool existingArgs = ( this.grdArgsList.Rows.Count > 0 );
-
 			this.removeFunctionArgumentAction.Enabled = existingArgs;
             this.editDescriptionsAction.Enabled = existingArgs;
 
@@ -119,6 +119,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 					this.edPDFFileName.SelectedItem = this.Function.PDFName;
 				}
 			}
+
+			this.tcPad.Show();
 		}
 
 		private void BuildArgumentsListTable()
@@ -318,7 +320,6 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 					this.Function.HasData = value;
 					this.Function.DataHeader = value;
 					this.chkFunctionDataHeader.Checked = value;
-					this.pnlGroupData.Enabled = value;
 				}
 
 				return;
@@ -347,13 +348,13 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.pnlGroupChecks.ResumeLayout( false );
 		}
 
-		private void BuildDefaultData()
+		private void BuildExampleData()
 		{
             this.pnlGroupData = new GroupBox();
 			this.pnlGroupData.SuspendLayout();
 			this.pnlGroupData.AutoSize = true;
 			this.pnlGroupData.Dock = DockStyle.Top;
-			this.pnlGroupData.Text = "Data";
+			this.pnlGroupData.Text = "Example data";
 			this.pnlGroupData.Font = new Font( this.pnlGroupData.Font, FontStyle.Bold );
 
             var pnlInnerGroupData = new FlowLayoutPanel();
@@ -391,8 +392,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.udFunctionStartColumn = new NumericUpDown();
 			this.udFunctionStartColumn.TextAlign = HorizontalAlignment.Right;
 			this.udFunctionStartColumn.Font = new Font( this.udFunctionStartColumn.Font, FontStyle.Bold );
-			this.udFunctionStartColumn.Maximum = 99;
-			this.udFunctionStartColumn.Minimum = 1;
+			this.udFunctionStartColumn.Maximum = 999;
+			this.udFunctionStartColumn.Minimum = 0;
             this.udFunctionStartColumn.ValueChanged += (sender, e) => {
                 if ( !this.OnBuilding ) {
                     this.Function.StartColumn =
@@ -410,8 +411,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.udFunctionEndColumn = new NumericUpDown();
 			this.udFunctionEndColumn.Font = new Font( this.udFunctionEndColumn.Font, FontStyle.Bold );
 			this.udFunctionEndColumn.TextAlign = HorizontalAlignment.Right;
-            this.udFunctionEndColumn.Maximum = 99;
-            this.udFunctionEndColumn.Minimum = 1;
+            this.udFunctionEndColumn.Maximum = 999;
+            this.udFunctionEndColumn.Minimum = 0;
             this.udFunctionEndColumn.ValueChanged += (sender, e) => {
                 if ( !this.OnBuilding ) {
                     this.Function.EndColumn =
@@ -423,7 +424,6 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			pnlInnerGroupData.Controls.Add( this.udFunctionEndColumn );
 			pnlInnerGroupData.ResumeLayout( false );
 			this.pnlGroupData.ResumeLayout( false );
-			this.pnlGroupData.Enabled = false;
 
             // Sizes for controls
             Graphics grf = new Form().CreateGraphics();
@@ -643,6 +643,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
             // Tab control
             this.tcPad = new TabControl();
+			this.tcPad.Hide();
             this.tcPad.SuspendLayout();
             this.tcPad.Dock = DockStyle.Fill;
             this.tcPad.TabPages.Add( "Basic" );
@@ -660,7 +661,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			// Sub panels
 			this.BuildCaptionEditor();
             this.BuildCheckBoxes();
-			this.BuildDefaultData();
+			this.BuildExampleData();
 			this.BuildPDFReference();
             this.BuildArgumentsListTable();
             this.BuildCommands();
@@ -674,6 +675,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
             this.tcPad.TabPages[ 0 ].Padding = new Padding( 5 );
             this.tcPad.TabPages[ 1 ].Padding = new Padding( 5 );
+			this.tcPad.Show();
 		}
 
 		/// <summary>
@@ -947,15 +949,12 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             this.edFunctionData.Text = this.Function.ExampleData;
             this.edFunctionPreCommand.Text = this.Function.PreCommand;
             this.edFunctionExecuteOnce.Text = this.Function.PreProgramOnce.ToString();
-            this.udFunctionStartColumn.Value = Math.Max( 1, this.Function.StartColumn );
-            this.udFunctionEndColumn.Value = Math.Max( 1, this.Function.EndColumn );
+            this.udFunctionStartColumn.Value = Math.Max( 0, this.Function.StartColumn );
+            this.udFunctionEndColumn.Value = Math.Max( 0, this.Function.EndColumn );
 			this.edPDFFileName.Text = this.Function.PDFName;
 			this.udFunctionStartPage.Value = this.Function.PDFPageNumber;
 			this.edPackageName.Text = this.Function.Package;
 			this.edCaption.Text = this.Function.Caption;
-
-			// Data enabled
-			this.pnlGroupData.Enabled = this.Function.HasData;
 
             // Arguments
             foreach(Function.Argument arg in this.Function.RegularArgumentList) {
