@@ -1384,15 +1384,16 @@ namespace RWABuilder.Ui {
 		{
 			MenuComponent mc = this.GetMenuComponentOfTreeNode( mctr );
 			bool isTerminal = !( mc is Core.MenuComponents.Menu );
+			bool isImageMenu = mc is Core.MenuComponents.GraphicMenu;
 			bool isRoot = ( mctr == this.TreeMenuRoot );
 			bool hasNext = ( mctr.NextNode != null );
 			bool hasPrev = ( mctr.PrevNode != null );
 
-			this.addPdfAction.Enabled = !isTerminal;
-			this.addSeparatorAction.Enabled = !isTerminal;
-			this.addMenuAction.Enabled = !isTerminal;
+			this.addPdfAction.Enabled = !isTerminal && !isImageMenu;
+			this.addSeparatorAction.Enabled = !isTerminal && !isImageMenu;
+			this.addMenuAction.Enabled = !isTerminal && !isImageMenu;
 			this.addFunctionAction.Enabled = !isTerminal;
-			this.addGraphicMenuAction.Enabled = !isTerminal;
+			this.addGraphicMenuAction.Enabled = !isTerminal && !isImageMenu;
 			this.moveEntryUpAction.Enabled = ( !isRoot && hasPrev );
 			this.moveEntryDownAction.Enabled = ( !isRoot && hasNext );
 			this.copyEntryAction.Enabled = !isRoot;
