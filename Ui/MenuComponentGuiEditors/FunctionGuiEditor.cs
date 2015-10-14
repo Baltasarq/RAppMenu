@@ -865,11 +865,11 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             Function old = (Function) this.Function.Copy( fakeRoot );
 
             if ( descsEd.ShowDialog() != DialogResult.OK ) {
-                this.Function.FunctionCallsArgumentList.Clear();
+				this.Function.RegularArgumentList.Clear();
 
-                foreach(Function.CallArgument fnCall in old.FunctionCallsArgumentList) {
-                    this.Function.FunctionCallsArgumentList.Add(
-                        (Function.CallArgument) fnCall.Copy( this.Function ) );
+				foreach(Function.Argument arg in old.RegularArgumentList) {
+					this.Function.RegularArgumentList.Add(
+                        (Function.Argument) arg.Copy( this.Function ) );
                 }
             }
 
