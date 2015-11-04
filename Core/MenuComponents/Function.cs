@@ -10,7 +10,7 @@ namespace RWABuilder.Core.MenuComponents {
 	public partial class Function: MenuComponent {
 		public const string TagName = "Function";
 		public const string TagSentences = "ExecuteCommandOnce";
-		public const string TagPDFRef = "PDFRef";
+		public const string TagPDFRef = "PDF";
 		public const string TagExampleData = "ExampleData";
 
 		public const string EtqPreCommand = "PreCommand";
