@@ -17,6 +17,8 @@ namespace RWABuilder.Core {
 		public const string ZipPdfDir = "Pdf/";
 		public const string ZipGrfDir = "Graph/";
 		public const string ZipAppsDir = "Applications/";
+		public const string ZipSrcDir = "Src/";
+		public const string ZipDocDir = "Doc/";
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RWABuilder.Core.Packager"/> class.
@@ -47,14 +49,24 @@ namespace RWABuilder.Core {
 				using ( FileStream f = new FileStream( nf, FileMode.Create ) ) {
 					using( var zip = new ZipArchive( f, ZipArchiveMode.Create, true, Encoding.UTF8 ) )
 					{
-						InsertMenuFile( zip );
-						InsertManifest( zip );
+						this.InsertMenuFile( zip );
+						this.InsertManifest( zip );
+
+						if ( this.Menu.SourceCodePath.Length > 0 ) {
+							zip.CreateEntryFromFile( this.Menu.SourceCodePath,
+													  ZipSrcDir + Path.GetFileName( this.Menu.SourceCodePath ) );
+						}
+
+						if ( this.Menu.DocsPath.Length > 0 ) {
+							zip.CreateEntryFromFile( this.Menu.DocsPath,
+								ZipDocDir + Path.GetFileName( this.Menu.DocsPath ) );
+						}
 
 						// Insert each pdf file in the zip
-						InsertFiles( AppInfo.PdfFolder, zip, ZipPdfDir, this.pdfFiles );
+						this.InsertFiles( AppInfo.PdfFolder, zip, ZipPdfDir, this.pdfFiles );
 
 						// Insert each graphic file in the zip
-						InsertFiles( AppInfo.GraphsFolder, zip, ZipGrfDir, this.grfFiles );
+						this.InsertFiles( AppInfo.GraphsFolder, zip, ZipGrfDir, this.grfFiles );
 					}
 				}
 			} catch(ArgumentException exc) {
@@ -89,6 +101,14 @@ namespace RWABuilder.Core {
 					streamWriter.WriteLine( "App: " + ZipAppsDir + Menu.Name + "." + AppInfo.FileExtension );
 					streamWriter.WriteLine( "UUID: " + Guid.NewGuid().ToString() );
 					streamWriter.WriteLine( "Time: " + DateTime.Now.ToString( @"yyyy-MM-dd\THH:mm:sszzz" ) );
+
+					if ( this.Menu.SourceCodePath.Length > 0 ) {
+						streamWriter.WriteLine( "Src: " + ZipSrcDir + Path.GetFileName( this.Menu.SourceCodePath ) );
+					}
+
+					if ( this.Menu.DocsPath.Length > 0 ) {
+						streamWriter.WriteLine( "Doc: " + ZipDocDir + Path.GetFileName( this.Menu.DocsPath ) );
+					}
 
 					foreach ( string file in this.pdfFiles ) {
 						streamWriter.WriteLine( "Pdf: " + ZipPdfDir + file );	

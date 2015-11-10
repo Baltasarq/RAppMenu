@@ -16,6 +16,8 @@ namespace RWABuilder.Core {
 		public const string TagName = "RWApp";
 		public const string EtqEmail = "AuthorEmail";
 		public const string EtqDate = "Date";
+		public const string EtqSourceCodePath = "SourceCodePath";
+		public const string EtqDocsPath = "DocsPath";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RWABuilder.Core.MenuDesign"/> class.
@@ -25,6 +27,7 @@ namespace RWABuilder.Core {
 		{
             this.root = new RootMenu( this );
 			this.pdfList = new List<PdfFile>();
+			this.sourceCodePath = this.docsPath = "";
 			this.grfMenuList = new List<GraphicMenu>();
             this.AuthorEmail = DefaultEmail;
             this.Date = DateTime.Now;
@@ -127,6 +130,20 @@ namespace RWABuilder.Core {
 			doc.WriteString( this.Date.ToString( "yyyy-MM-dd" ) );
 			doc.WriteEndAttribute();
 
+			// SourceCode = "/path/to/source.zip"
+			if ( this.SourceCodePath.Length > 0 ) {
+				doc.WriteStartAttribute( EtqSourceCodePath );
+				doc.WriteString( this.SourceCodePath );
+				doc.WriteEndAttribute();
+			}
+
+			// Documentation = "/path/to/source.tgz"
+			if ( this.DocsPath.Length > 0 ) {
+				doc.WriteStartAttribute( EtqDocsPath );
+				doc.WriteString( this.DocsPath );
+				doc.WriteEndAttribute();
+			}
+
 			this.Root.ToXml( doc );
 			doc.WriteEndElement();
 		}
@@ -136,6 +153,8 @@ namespace RWABuilder.Core {
 			DateTime date;
 			XmlNode attrDate = node.Attributes.GetNamedItemIgnoreCase( EtqDate );
 			XmlNode attrAuthorEmail = node.Attributes.GetNamedItemIgnoreCase( EtqEmail );
+			XmlNode attrSourceCodePath = node.Attributes.GetNamedItemIgnoreCase( EtqSourceCodePath );
+			XmlNode attrDocsCodePath = node.Attributes.GetNamedItemIgnoreCase( EtqDocsPath );
 
 			// Attributes
 			if ( attrDate != null ) {
@@ -154,6 +173,14 @@ namespace RWABuilder.Core {
 
 			if ( attrAuthorEmail != null ) {
 				this.AuthorEmail = attrAuthorEmail.InnerText;
+			}
+
+			if ( attrSourceCodePath != null ) {
+				this.SourceCodePath = attrSourceCodePath.InnerText;
+			}
+
+			if ( attrDocsCodePath != null ) {
+				this.DocsPath = attrDocsCodePath.InnerText;
 			}
 
 			// Root menu
@@ -324,6 +351,34 @@ namespace RWABuilder.Core {
 			return toret;
 		}
 
+		/// <summary>
+		/// Gets or sets the documents path.
+		/// This is a path to a compressed file.
+		/// </summary>
+		/// <value>The documents path, as a string.</value>
+		public string DocsPath {
+			get {
+				return this.docsPath;
+			}
+			set {
+				this.docsPath = value.Trim();
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the source code path.
+		/// This is a path to a compressed file.
+		/// </summary>
+		/// <value>The documents path, as a string.</value>
+		public string SourceCodePath {
+			get {
+				return this.sourceCodePath;
+			}
+			set {
+				this.sourceCodePath = value.Trim();
+			}
+		}
+
 		internal List<PdfFile> GetPDFList()
 		{
 			return this.pdfList;
@@ -336,6 +391,8 @@ namespace RWABuilder.Core {
 
 		private RootMenu root;
 		private string authorEmail;
+		private string sourceCodePath;
+		private string docsPath;
 		private DateTime date;
 		private List<PdfFile> pdfList;
 		private List<GraphicMenu> grfMenuList;

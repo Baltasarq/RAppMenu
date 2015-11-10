@@ -22,7 +22,8 @@ namespace RWABuilder.Core.MenuComponents {
 		public const string EtqRemoveQuotationMarks = "RemoveQuotationMarks";
 		public const string EtqHasData = "HasData";
 		public const string EtqStartColumn = "StartColumn";
-        public const string EtqEndColumn = "EndColumn";        
+        public const string EtqEndColumn = "EndColumn";
+		public const string EtqDefault = "Default";
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RWABuilder.Core.MenuComponents.Function"/> class.
@@ -39,6 +40,7 @@ namespace RWABuilder.Core.MenuComponents {
             this.startColumn = 0;
             this.HasData = false;
             this.DataHeader = false;
+			this.IsDefault = false;
             this.RemoveQuotationMarks = false;
             this.ExampleData = "";
             this.PDFPageNumber = 1;
@@ -46,6 +48,24 @@ namespace RWABuilder.Core.MenuComponents {
 			this.PreCommand = "";
 			this.Package = "";
 			this.Caption = "";
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this function is the default.
+		/// </summary>
+		/// <value><c>true</c> if this instance is the default; otherwise, <c>false</c>.</value>
+		public bool IsDefault {
+			get {
+				return this.isDefault;
+			}
+			set {
+				if ( this.isDefault != value ) {
+					this.isDefault = value;
+					this.SetNeedsSave();
+				}
+
+				return;
+			}
 		}
 
 		/// <summary>
@@ -393,6 +413,13 @@ namespace RWABuilder.Core.MenuComponents {
 				doc.WriteEndAttribute();
 			}
 
+			// Default = "TRUE"
+			if ( this.IsDefault ) {
+				doc.WriteStartAttribute( EtqDefault );
+				doc.WriteString( true.ToString().ToUpper() );
+				doc.WriteEndAttribute();
+			}
+
             // HasData = "TRUE"
             if ( this.HasData ) {
                 doc.WriteStartAttribute( EtqHasData );
@@ -505,6 +532,11 @@ namespace RWABuilder.Core.MenuComponents {
 					toret.Caption = attr.InnerText.Trim();
 				}
 				else
+				// Default = "true"
+				if ( attr.Name.Equals( EtqDefault, StringComparison.OrdinalIgnoreCase ) ) {
+					toret.IsDefault = attr.GetValueAsBool();
+				}
+				else
 				// HasData = "true"
 				if ( attr.Name.Equals( EtqHasData, StringComparison.OrdinalIgnoreCase ) ) {
                     toret.HasData = attr.GetValueAsBool();
@@ -613,6 +645,7 @@ namespace RWABuilder.Core.MenuComponents {
 		private string caption;
         private bool hasData;
         private bool dataHeader;
+		private bool isDefault;
         private bool removeQuotes;
         private string preCommand;
         private int startColumn;

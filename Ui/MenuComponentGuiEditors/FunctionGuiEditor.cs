@@ -293,26 +293,30 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
 		private void BuildCheckBoxes()
 		{
-			this.pnlGroupChecks = new GroupBox();
-			this.pnlGroupChecks.SuspendLayout();
-            this.pnlGroupChecks.AutoSize = true;
-			this.pnlGroupChecks.Text = "Options";
+			this.pnlGroupChecks = new GroupBox() {
+				AutoSize = true,
+				Text = "Options",
+				Dock = DockStyle.Top
+			};
 			this.pnlGroupChecks.Font = new Font( this.pnlGroupChecks.Font, FontStyle.Bold );
-			this.pnlGroupChecks.Dock = DockStyle.Top;
+			this.pnlGroupChecks.SuspendLayout();
 
-			this.pnlChecks = new FlowLayoutPanel();
-			this.pnlChecks.SuspendLayout();
-            this.pnlChecks.AutoSize = true;
+			this.pnlChecks = new FlowLayoutPanel() {
+				AutoSize = true,				
+				Dock = DockStyle.Fill
+			};
 			this.pnlChecks.Font = new Font( this.pnlChecks.Font, FontStyle.Regular );
-			this.pnlChecks.Dock = DockStyle.Fill;
+			this.pnlChecks.SuspendLayout();
+
 			this.pnlGroupChecks.Controls.Add( this.pnlChecks );
 			this.pnlContainer.Controls.Add( this.pnlGroupChecks );
 
-			this.chkFunctionHasData = new CheckBox();
-			this.chkFunctionHasData.Text = "Data";
-			this.chkFunctionHasData.Dock = DockStyle.Fill;
-			this.chkFunctionHasData.MinimumSize =
-				new Size( this.chkFunctionHasData.Width, this.chkFunctionHasData.Height );
+			this.chkFunctionHasData = new CheckBox() {
+				Text = "Data",
+				Dock = DockStyle.Fill
+			};
+			this.chkFunctionHasData.MinimumSize = new Size( this.chkFunctionHasData.Width, this.chkFunctionHasData.Height );
+
 			this.chkFunctionHasData.CheckedChanged += (object sender, EventArgs e) => {
 				if ( !this.OnBuilding ) {
 					bool value = this.chkFunctionHasData.Checked;
@@ -326,23 +330,35 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			};
 			this.pnlChecks.Controls.Add( this.chkFunctionHasData );
 
-			this.chkFunctionDataHeader = new CheckBox();
-			this.chkFunctionDataHeader.Text = "Data header";
-			this.chkFunctionDataHeader.Dock = DockStyle.Fill;
-			this.chkFunctionDataHeader.MinimumSize =
-				new Size( this.chkFunctionDataHeader.Width, this.chkFunctionDataHeader.Height );
+			this.chkFunctionDataHeader = new CheckBox() {
+				Text = "Data header",
+				Dock = DockStyle.Fill
+			};
+			this.chkFunctionDataHeader.MinimumSize = new Size( this.chkFunctionDataHeader.Width, this.chkFunctionDataHeader.Height );
+
 			this.chkFunctionDataHeader.CheckedChanged += (object sender, EventArgs e) =>
 				this.Function.DataHeader = this.chkFunctionDataHeader.Checked;
 			this.pnlChecks.Controls.Add( chkFunctionDataHeader );
 
-			this.chkFunctionRemoveQuotes = new CheckBox();
-			this.chkFunctionRemoveQuotes.Text = "Remove quotes";
-			this.chkFunctionRemoveQuotes.Dock = DockStyle.Fill;
-			this.chkFunctionRemoveQuotes.MinimumSize =
-				new Size( this.chkFunctionRemoveQuotes.Width, this.chkFunctionRemoveQuotes.Height );
+			this.chkFunctionRemoveQuotes = new CheckBox() {
+				Text = "Remove quotes",
+				Dock = DockStyle.Fill
+			};
+			this.chkFunctionRemoveQuotes.MinimumSize = new Size( this.chkFunctionRemoveQuotes.Width, this.chkFunctionRemoveQuotes.Height );
+
 			this.chkFunctionRemoveQuotes.CheckedChanged += (object sender, EventArgs e) => 
 				this.Function.RemoveQuotationMarks = this.chkFunctionRemoveQuotes.Checked;
 			this.pnlChecks.Controls.Add( chkFunctionRemoveQuotes );
+
+			this.chkIsDefault = new CheckBox() {
+				Text = "Is default",
+				Dock = DockStyle.Fill
+			};
+			this.chkIsDefault.MinimumSize = new Size( this.chkIsDefault.Width, this.chkIsDefault.Height );
+
+			this.chkIsDefault.CheckedChanged += (object sender, EventArgs e) => 
+				this.Function.IsDefault = this.chkIsDefault.Checked;
+			this.pnlChecks.Controls.Add( chkIsDefault );
 
 			this.pnlChecks.ResumeLayout( false );
 			this.pnlGroupChecks.ResumeLayout( false );
@@ -944,6 +960,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             this.chkFunctionHasData.Checked = this.Function.HasData;
             this.chkFunctionRemoveQuotes.Checked = this.Function.RemoveQuotationMarks;
             this.chkFunctionDataHeader.Checked = this.Function.DataHeader;
+			this.chkIsDefault.Checked = this.Function.IsDefault;
 
             // Data
             this.edFunctionData.Text = this.Function.ExampleData;
@@ -1001,6 +1018,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		private CheckBox chkFunctionHasData;
 		private CheckBox chkFunctionRemoveQuotes;
 		private CheckBox chkFunctionDataHeader;
+		private CheckBox chkIsDefault;
 		private DataGridView grdArgsList;
 		private Button btFunctionAddArgument;
 		private Button btEditFnCallArguments;

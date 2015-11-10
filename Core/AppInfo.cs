@@ -7,7 +7,7 @@ namespace RWABuilder.Core {
 		public const string Name = "RWABuilder";
 		public const string Web = "http://www.ipez.es/rwizard/";
 		public const string Help = "http://github.com/Baltasarq/RWABuilder/wiki/User-Manual";
-        public const string Version = "1.2.8 20151104";
+        public const string Version = "1.3.0 20151104";
         public const string FileExtension = "xml";
 		public const string AppsExtension = "rwa";
         public const string LogFile = Name + ".errors.log";

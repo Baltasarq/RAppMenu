@@ -66,20 +66,19 @@ namespace RWABuilder.Ui {
 			pnlSubPanel.SuspendLayout();
 
 			// Create e.mail sub-panel
-			var pnlEmail = new Panel();
+			var pnlEmail = new Panel(){ Dock = DockStyle.Top };
             pnlEmail.Margin = new Padding( 5 );
-			var lblEmail = new Label();
-			var edEmail = new TextBox();
-			lblEmail.Text = "Author e.mail";
-			lblEmail.Font = new Font( lblEmail.Font, FontStyle.Regular );
-			pnlEmail.Dock = DockStyle.Top;
-			edEmail.Dock = DockStyle.Fill;
-			lblEmail.Dock = DockStyle.Left;
+			var lblEmail = new Label(){
+				Text = "Author e.mail",
+				Dock = DockStyle.Left,
+				Font = new Font( Font, FontStyle.Regular ) 
+			};
+			var edEmail = new TextBox() { Dock = DockStyle.Fill };
 			pnlEmail.Controls.Add( edEmail );
 			pnlEmail.Controls.Add( lblEmail );
             pnlEmail.MaximumSize = new Size( int.MaxValue, edEmail.Height );
 
-            // Load data & event
+            // Load email's data & event
             edEmail.Text = this.Document.AuthorEmail;
             edEmail.TextChanged += (sender, e) => {
                 string value = edEmail.Text.Trim();
@@ -92,30 +91,102 @@ namespace RWABuilder.Ui {
             };
 
 			// Create date sub-panel
-			var pnlDate = new Panel();
+			var pnlDate = new Panel(){ Dock = DockStyle.Top };
             pnlDate.Margin = new Padding( 5 );
-			var lblDate = new Label();
-			var edDate = new DateTimePicker();
-			edDate.Format = DateTimePickerFormat.Short;
-			lblDate.Text = "Modified";
-			lblDate.Font = new Font( lblDate.Font, FontStyle.Regular );
-			edDate.Dock = DockStyle.Fill;
-			lblDate.Dock = DockStyle.Left;
+			var lblDate = new Label(){
+				Text = "Modified",
+				Dock = DockStyle.Left,
+				Font = new Font( Font, FontStyle.Regular )
+			};
+			var edDate = new DateTimePicker(){
+				Dock = DockStyle.Fill,
+				Format = DateTimePickerFormat.Short
+			};
 			pnlDate.Controls.Add( edDate );
 			pnlDate.Controls.Add( lblDate );
             pnlDate.MaximumSize = new Size( int.MaxValue, edDate.Height );
 
-            // Load data & event
-            if ( this.Document.Date > default(DateTime) ) {
-                edDate.Value = this.Document.Date;
-            } else {
-                edDate.Value = DateTime.Now;
-            }
-            edDate.ValueChanged += (sender, e) => this.Document.Date = edDate.Value;
+			// Load date's data & event
+			if ( this.Document.Date > default(DateTime) ) {
+				edDate.Value = this.Document.Date;
+			} else {
+				edDate.Value = DateTime.Now;
+			}
+			edDate.ValueChanged += (sender, e) => this.Document.Date = edDate.Value;
+
+			// Create the source code sub panel
+			var pnlSource = new Panel(){ Dock = DockStyle.Top };
+			pnlSource.Margin = new Padding( 5 );
+			var lblSource = new Label() {
+				Text = "Source code",
+				Font = new Font( lblDate.Font, FontStyle.Regular ),
+				Dock = DockStyle.Left
+			};
+			var btSource = new Button() {
+				ImageList = UserAction.ImageList,
+				ImageIndex = UserAction.LookUp( "open" ).ImageIndex,
+				Dock = DockStyle.Right,
+				MaximumSize = new Size( 24, 24 )
+			};
+			var edSource = new TextBox() { ReadOnly = true, Dock = DockStyle.Fill };
+			pnlSource.Controls.Add( edSource );
+			pnlSource.Controls.Add( lblSource );
+			pnlSource.Controls.Add( btSource );
+			pnlSource.MaximumSize = new Size( int.MaxValue, btSource.Height );
+
+			// Load source code's data & event
+			edSource.Text = this.Document.SourceCodePath;
+			btSource.Click += (sender, e) => {
+				var fileDlg = new OpenFileDialog() {
+					Title = "Path to source code package",
+					Filter = "Zip files|*.zip|Targ.gz files|*.tar.gz|Tgz files|*.tgz|All files|*"
+				};
+
+				if ( fileDlg.ShowDialog() == DialogResult.OK ) {
+					this.document.SourceCodePath = fileDlg.FileName;
+					edSource.Text = fileDlg.FileName;
+				}
+			};
+
+			// Create the source code sub panel
+			var pnlDocs = new Panel(){ Dock = DockStyle.Top };
+			pnlDocs.Margin = new Padding( 5 );
+			var lblDocs = new Label() {
+				Text = "Documentation",
+				Font = new Font( lblDate.Font, FontStyle.Regular ),
+				Dock = DockStyle.Left
+			};
+			var btDocs = new Button() {
+				ImageList = UserAction.ImageList,
+				ImageIndex = UserAction.LookUp( "open" ).ImageIndex,
+				Dock = DockStyle.Right,
+				MaximumSize = new Size( 24, 24 )
+			};
+			var edDocs = new TextBox() { ReadOnly = true, Dock = DockStyle.Fill };
+			pnlDocs.Controls.Add( edDocs );
+			pnlDocs.Controls.Add( lblDocs );
+			pnlDocs.Controls.Add( btDocs );
+			pnlDocs.MaximumSize = new Size( int.MaxValue, btDocs.Height );
+
+			// Load source code's data & event
+			edDocs.Text = this.Document.DocsPath;
+			btDocs.Click += (sender, e) => {
+				var fileDlg = new OpenFileDialog() {
+					Title = "Path to documents package",
+					Filter = "Zip files|*.zip|Targ.gz files|*.tar.gz|Tgz files|*.tgz|All files|*"
+				};
+
+				if ( fileDlg.ShowDialog() == DialogResult.OK ) {
+					this.document.DocsPath = fileDlg.FileName;
+					edDocs.Text = fileDlg.FileName;
+				}
+			};
 
 			// Compose
 			pnlSubPanel.Controls.Add( pnlEmail );
 			pnlSubPanel.Controls.Add( pnlDate );
+			pnlSubPanel.Controls.Add( pnlSource );
+			pnlSubPanel.Controls.Add( pnlDocs );
 			this.pnlMeta.Controls.Add( pnlSubPanel );
 			pnlSubPanel.ResumeLayout( false );
 			this.pnlMeta.ResumeLayout( false );

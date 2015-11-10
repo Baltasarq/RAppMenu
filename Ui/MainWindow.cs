@@ -611,16 +611,16 @@ namespace RWABuilder.Ui {
 				var dlg = new SaveFileDialog();
 
 				dlg.Title = "Save menu";
-				dlg.DefaultExt = AppInfo.FileExtension;
+				dlg.DefaultExt = AppInfo.AppsExtension;
 				dlg.CheckPathExists = true;
 				dlg.InitialDirectory = this.ApplicationsFolder;
-				dlg.Filter = AppInfo.FileExtension + "|*." + AppInfo.FileExtension
+				dlg.Filter = AppInfo.AppsExtension + "|*." + AppInfo.AppsExtension
 					+ "|All files|*";
 				dlg.FileName = fileName;
 
 				if ( dlg.ShowDialog() == DialogResult.OK ) {
-					Trace.WriteLine( DateTime.Now + ": App file set: " + this.fileName );
-					packr.Package( fileName );
+					Trace.WriteLine( DateTime.Now + ": Packaged app file set: " + dlg.FileName );
+					packr.Package( dlg.FileName );
 				} else {
 					Trace.WriteLine( DateTime.Now + ": Exporting cancelled" );
 				}
@@ -639,6 +639,8 @@ namespace RWABuilder.Ui {
 		{
             string oldEmail = this.Document.AuthorEmail;
             DateTime oldDate = this.Document.Date;
+			string oldSourceCodePath = this.Document.SourceCodePath;
+			string oldDocsPath = this.Document.DocsPath;
 
 			this.SetStatus( "Editing properties..." );
 
@@ -647,6 +649,8 @@ namespace RWABuilder.Ui {
             if ( propertiesForm.ShowDialog() == DialogResult.Cancel ) {
                 this.Document.AuthorEmail = oldEmail;
                 this.Document.Date = oldDate;
+				this.Document.DocsPath = oldDocsPath;
+				this.Document.SourceCodePath = oldSourceCodePath;
             }
 
 			this.SetStatus();
