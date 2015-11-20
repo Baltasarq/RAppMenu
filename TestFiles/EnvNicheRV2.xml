@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RWApp>
+  <Menu Name="EnvNicheR">
+    <Function Caption="Niche estimation" Name="Niche" HasData="True" DataHeader="True" RemoveQuotationMarks="False" StartColumn="1" EndColumn="-1" DefaultData="data(Carnivores)">
+      <Argument Name="variables" Required="True" ReadOnly="False" AllowMultiSelect="True">
+        <Viewer Type="DataColumns" />
+      </Argument>
+      <Argument Name="Taxon" Required="False" ReadOnly="False" AllowMultiSelect="True" DependsFrom="">
+        <Viewer Type="TaxTree" />
+      </Argument>
+      <Argument Name="Level" Required="False" ReadOnly="True" AllowMultiSelect="False">
+        <Viewer Type="Plain" />
+      </Argument>
+      <Argument Name="data" Required="True" ReadOnly="False" AllowMultiSelect="False">
+        <Viewer Type="Plain" />
+      </Argument>
+    </Function>
+    <Function Caption="Niche overlap between taxa" Name="NicheOverlap" HasData="True" DataHeader="True" RemoveQuotationMarks="False" StartColumn="-1" EndColumn="-1" DefaultData="data(Polar.coordinates)">
+      <Argument Name="Taxon2" Required="True" ReadOnly="False" AllowMultiSelect="False" DependsFrom="">
+        <Viewer Type="TaxTree" />
+      </Argument>
+      <Argument Name="Level1" Required="False" ReadOnly="True" AllowMultiSelect="False">
+        <Viewer Type="Plain" />
+      </Argument>
+      <Argument Name="Level2" Required="False" ReadOnly="True" AllowMultiSelect="False">
+        <Viewer Type="Plain" />
+      </Argument>
+      <Argument Name="Taxon1" Required="True" ReadOnly="False" AllowMultiSelect="False" DependsFrom="">
+        <Viewer Type="TaxTree" />
+      </Argument>
+      <Argument Name="data" Required="True" ReadOnly="False" AllowMultiSelect="False">
+        <Viewer Type="Plain" />
+      </Argument>
+    </Function>
+    <Function Caption="Niche overlap among all species within a taxa" Name="OverlapTaxa" HasData="True" DataHeader="True" RemoveQuotationMarks="False" StartColumn="-1" EndColumn="5" DefaultData="data(Polar.coordinates)">
+      <Argument Name="Level" Required="True" ReadOnly="False" AllowMultiSelect="False">
+        <Viewer Type="DataColumns" />
+      </Argument>
+      <Argument Name="data" Required="True" ReadOnly="False" AllowMultiSelect="False">
+        <Viewer Type="Plain" />
+      </Argument>
+    </Function>
+    <Separator />
+    <PDF Name="EnvNicheR-manual.pdf" />
+  </Menu>
+</RWApp>

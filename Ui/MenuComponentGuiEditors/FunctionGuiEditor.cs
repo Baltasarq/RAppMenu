@@ -351,7 +351,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.pnlChecks.Controls.Add( chkFunctionRemoveQuotes );
 
 			this.chkIsDefault = new CheckBox() {
-				Text = "Is default",
+				Text = "Default",
 				Dock = DockStyle.Fill
 			};
 			this.chkIsDefault.MinimumSize = new Size( this.chkIsDefault.Width, this.chkIsDefault.Height );

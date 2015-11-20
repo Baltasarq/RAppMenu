@@ -1387,21 +1387,21 @@ namespace RWABuilder.Ui {
 		private void SetActionStatusForTreeNode(MenuComponentTreeNode mctr)
 		{
 			MenuComponent mc = this.GetMenuComponentOfTreeNode( mctr );
-			bool isTerminal = !( mc is Core.MenuComponents.Menu );
-			bool isImageMenu = mc is Core.MenuComponents.GraphicMenu;
+			bool isRegularMenu = mc is Core.MenuComponents.RegularMenu;
+			bool isMenu = ( ( mc is Core.MenuComponents.GraphicMenu ) || isRegularMenu );
 			bool isRoot = ( mctr == this.TreeMenuRoot );
 			bool hasNext = ( mctr.NextNode != null );
 			bool hasPrev = ( mctr.PrevNode != null );
 
-			this.addPdfAction.Enabled = !isTerminal && !isImageMenu;
-			this.addSeparatorAction.Enabled = !isTerminal && !isImageMenu;
-			this.addMenuAction.Enabled = !isTerminal && !isImageMenu;
-			this.addFunctionAction.Enabled = !isTerminal;
-			this.addGraphicMenuAction.Enabled = !isTerminal && !isImageMenu;
+			this.addPdfAction.Enabled = isRegularMenu;
+			this.addSeparatorAction.Enabled = isRegularMenu;
+			this.addMenuAction.Enabled = isRegularMenu;
+			this.addFunctionAction.Enabled = isMenu;
+			this.addGraphicMenuAction.Enabled = isRegularMenu;
 			this.moveEntryUpAction.Enabled = ( !isRoot && hasPrev );
 			this.moveEntryDownAction.Enabled = ( !isRoot && hasNext );
 			this.copyEntryAction.Enabled = !isRoot;
-            this.pasteEntryAction.Enabled = ( !isTerminal && ( this.copier.HasContentsFor( mc ) ) );
+            this.pasteEntryAction.Enabled = ( isMenu && ( this.copier.HasContentsFor( mc ) ) );
 			this.removeEntryAction.Enabled = !isRoot;
 
             this.splPanels.Panel2.Hide();
