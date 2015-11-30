@@ -974,6 +974,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.edCaption.Text = this.Function.Caption;
 
             // Arguments
+			this.grdArgsList.Rows.Clear();
             foreach(Function.Argument arg in this.Function.RegularArgumentList) {
                 this.grdArgsList.Rows.Add();
                 DataGridViewRow row = this.grdArgsList.Rows[ this.grdArgsList.Rows.Count - 1 ];
