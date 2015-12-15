@@ -17,7 +17,7 @@ namespace RWABuilder.Core {
 		public const string EtqEmail = "AuthorEmail";
 		public const string EtqDate = "Date";
 		public const string EtqSourceCodePath = "SourceCodePath";
-		public const string EtqDocsPath = "DocsPath";
+		public const string EtqDocsPath = "WindowsBinariesPath";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RWABuilder.Core.MenuDesign"/> class.
@@ -27,7 +27,7 @@ namespace RWABuilder.Core {
 		{
             this.root = new RootMenu( this );
 			this.pdfList = new List<PdfFile>();
-			this.sourceCodePath = this.docsPath = "";
+			this.sourceCodePath = this.windowsBinariesPath = "";
 			this.grfMenuList = new List<GraphicMenu>();
             this.AuthorEmail = DefaultEmail;
             this.Date = DateTime.Now;
@@ -138,9 +138,9 @@ namespace RWABuilder.Core {
 			}
 
 			// Documentation = "/path/to/source.tgz"
-			if ( this.DocsPath.Length > 0 ) {
+			if ( this.WindowsBinariesPath.Length > 0 ) {
 				doc.WriteStartAttribute( EtqDocsPath );
-				doc.WriteString( this.DocsPath );
+				doc.WriteString( this.WindowsBinariesPath );
 				doc.WriteEndAttribute();
 			}
 
@@ -180,7 +180,7 @@ namespace RWABuilder.Core {
 			}
 
 			if ( attrDocsCodePath != null ) {
-				this.DocsPath = attrDocsCodePath.InnerText;
+				this.WindowsBinariesPath = attrDocsCodePath.InnerText;
 			}
 
 			// Root menu
@@ -352,16 +352,16 @@ namespace RWABuilder.Core {
 		}
 
 		/// <summary>
-		/// Gets or sets the documents path.
+		/// Gets or sets the windows binaries path.
 		/// This is a path to a compressed file.
 		/// </summary>
-		/// <value>The documents path, as a string.</value>
-		public string DocsPath {
+		/// <value>The binaries path, as a string.</value>
+		public string WindowsBinariesPath {
 			get {
-				return this.docsPath;
+				return this.windowsBinariesPath;
 			}
 			set {
-				this.docsPath = value.Trim();
+				this.windowsBinariesPath = value.Trim();
 			}
 		}
 
@@ -379,12 +379,12 @@ namespace RWABuilder.Core {
 			}
 		}
 
-		internal List<PdfFile> GetPDFList()
+		internal IList<PdfFile> GetPDFList()
 		{
 			return this.pdfList;
 		}
 
-		internal List<GraphicMenu> GetGraphicMenuList()
+		internal IList<GraphicMenu> GetGraphicMenuList()
 		{
 			return this.grfMenuList;
 		}
@@ -392,7 +392,7 @@ namespace RWABuilder.Core {
 		private RootMenu root;
 		private string authorEmail;
 		private string sourceCodePath;
-		private string docsPath;
+		private string windowsBinariesPath;
 		private DateTime date;
 		private List<PdfFile> pdfList;
 		private List<GraphicMenu> grfMenuList;

@@ -40,7 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ppal.cs" />
-    <Compile Include="Ui\MainWindow.cs" />
     <Compile Include="Core\AppInfo.cs" />
     <Compile Include="Core\MenuComponent.cs" />
     <Compile Include="Core\MenuComponents\Separator.cs" />
@@ -85,6 +84,8 @@
     <Compile Include="Ui\MenuComponentGuiEditors\FunctionGuiEditors\DescriptionsEditor.cs" />
     <Compile Include="Core\Packager.cs" />
     <Compile Include="Core\MenuComponentClipboard.cs" />
+    <Compile Include="Ui\MainWindowLogic.cs" />
+    <Compile Include="Ui\MainWindowView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />
@@ -123,6 +124,7 @@
     <EmbeddedResource Include="Res\export.png" />
     <EmbeddedResource Include="Res\copy.png" />
     <EmbeddedResource Include="Res\paste.png" />
+    <EmbeddedResource Include="Res\search.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ToDo.txt" />

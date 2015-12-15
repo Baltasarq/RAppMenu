@@ -18,7 +18,7 @@ namespace RWABuilder.Core {
 		public const string ZipGrfDir = "Graph/";
 		public const string ZipAppsDir = "Applications/";
 		public const string ZipSrcDir = "Src/";
-		public const string ZipDocDir = "Doc/";
+		public const string ZipWinBinDir = "WinBin/";
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RWABuilder.Core.Packager"/> class.
@@ -49,24 +49,25 @@ namespace RWABuilder.Core {
 				using ( FileStream f = new FileStream( nf, FileMode.Create ) ) {
 					using( var zip = new ZipArchive( f, ZipArchiveMode.Create, true, Encoding.UTF8 ) )
 					{
-						this.InsertMenuFile( zip );
-						this.InsertManifest( zip );
-
 						if ( this.Menu.SourceCodePath.Length > 0 ) {
 							zip.CreateEntryFromFile( this.Menu.SourceCodePath,
 													  ZipSrcDir + Path.GetFileName( this.Menu.SourceCodePath ) );
 						}
 
-						if ( this.Menu.DocsPath.Length > 0 ) {
-							zip.CreateEntryFromFile( this.Menu.DocsPath,
-								ZipDocDir + Path.GetFileName( this.Menu.DocsPath ) );
+						if ( this.Menu.WindowsBinariesPath.Length > 0 ) {
+							zip.CreateEntryFromFile( this.Menu.WindowsBinariesPath,
+								ZipWinBinDir + Path.GetFileName( this.Menu.WindowsBinariesPath ) );
 						}
 
 						// Insert each pdf file in the zip
-						this.InsertFiles( AppInfo.PdfFolder, zip, ZipPdfDir, this.pdfFiles );
+						this.InsertFiles( zip, ZipPdfDir, this.pdfFiles );
 
 						// Insert each graphic file in the zip
-						this.InsertFiles( AppInfo.GraphsFolder, zip, ZipGrfDir, this.grfFiles );
+						this.InsertFiles( zip, ZipGrfDir, this.grfFiles );
+
+						// Insert fixed assets
+						this.InsertMenuFile( zip );
+						this.InsertManifest( zip );
 					}
 				}
 			} catch(ArgumentException exc) {
@@ -106,16 +107,16 @@ namespace RWABuilder.Core {
 						streamWriter.WriteLine( "Src: " + ZipSrcDir + Path.GetFileName( this.Menu.SourceCodePath ) );
 					}
 
-					if ( this.Menu.DocsPath.Length > 0 ) {
-						streamWriter.WriteLine( "Doc: " + ZipDocDir + Path.GetFileName( this.Menu.DocsPath ) );
+					if ( this.Menu.WindowsBinariesPath.Length > 0 ) {
+						streamWriter.WriteLine( "WinBin: " + ZipWinBinDir + Path.GetFileName( this.Menu.WindowsBinariesPath ) );
 					}
 
 					foreach ( string file in this.pdfFiles ) {
-						streamWriter.WriteLine( "Pdf: " + ZipPdfDir + file );	
+						streamWriter.WriteLine( "Pdf: " + ZipPdfDir + Path.GetFileName( file ) );	
 					}
 
 					foreach ( string file in this.grfFiles ) {
-						streamWriter.WriteLine( "Grf: " + ZipGrfDir + file );	
+						streamWriter.WriteLine( "Grf: " + ZipGrfDir + Path.GetFileName( file ) );	
 					}
 
 					streamWriter.Flush();
@@ -160,22 +161,34 @@ namespace RWABuilder.Core {
 		/// <param name="zip">The ZipArchive object</param>
 		/// <param name="targetDir">The target dir.</param>
 		/// <param name="fileNames">The file names, as a IList<string> collection.</param>
-		private void InsertFiles(string orgFolder, ZipArchive zip, string targetDir, IList<string> fileNames)
+		private void InsertFiles(ZipArchive zip, string targetDir, IList<string> fileNames)
 		{
-			foreach (string fileName in fileNames) {
-				string pathToFileName = Path.Combine( orgFolder, fileName );
-				Trace.WriteLine(
-					String.Format(
-						"{0}: Inserting file '{1}' in zip at {2}",
-						DateTime.Now, pathToFileName, targetDir
-				) );
-				
-				zip.CreateEntryFromFile( pathToFileName, targetDir + fileName );
+			for (int i = 0; i < fileNames.Count; ++i) {
+				string fileName = fileNames[ i ];
+
+				if ( File.Exists( fileName ) ) {
+					Trace.WriteLine(
+						String.Format(
+							"{0}: Inserting file '{1}' in zip at {2}",
+							DateTime.Now, fileName, targetDir
+						) );
+					
+					zip.CreateEntryFromFile( fileName, targetDir + Path.GetFileName( fileName ) );
+				} else {
+					fileNames.RemoveAt( i );
+					--i;
+					Trace.WriteLine(
+						String.Format(
+							"{0}: Warning, missing file '{1}'",
+							DateTime.Now, fileName
+						) );
+				}
 			}
 		}
 
 		/// <summary>
-		/// Gets the resource files.
+		/// Gets the resource files that were used last time.
+		/// Does only have items after a call to Package()
 		/// </summary>
 		/// <value>The resource files, as an array.</value>
         public string[] ResourceFiles {
@@ -189,7 +202,8 @@ namespace RWABuilder.Core {
 		}
 
 		/// <summary>
-		/// Gets the pdf files to be inserted in the zip.
+		/// Gets the pdf files that were inserted in the zip.
+		/// Does only have items after a call to Package()
 		/// </summary>
 		/// <value>The pdf files, as an array of string.</value>
 		public string[] PdfFiles {
@@ -199,7 +213,8 @@ namespace RWABuilder.Core {
 		}
 
 		/// <summary>
-		/// Gets the grf files to be inserted in the zip.
+		/// Gets the grf files that were inserted in the zip.
+		/// Does only have items after a call to Package()
 		/// </summary>
 		/// <value>The grf files, as an array of string.</value>
 		public string[] GrfFiles {

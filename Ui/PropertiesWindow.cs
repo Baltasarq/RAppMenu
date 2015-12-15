@@ -118,7 +118,7 @@ namespace RWABuilder.Ui {
 			var pnlSource = new Panel(){ Dock = DockStyle.Top };
 			pnlSource.Margin = new Padding( 5 );
 			var lblSource = new Label() {
-				Text = "Source code",
+				Text = "Package source",
 				Font = new Font( lblDate.Font, FontStyle.Regular ),
 				Dock = DockStyle.Left
 			};
@@ -138,8 +138,8 @@ namespace RWABuilder.Ui {
 			edSource.Text = this.Document.SourceCodePath;
 			btSource.Click += (sender, e) => {
 				var fileDlg = new OpenFileDialog() {
-					Title = "Path to source code package",
-					Filter = "Zip files|*.zip|Targ.gz files|*.tar.gz|Tgz files|*.tgz|All files|*"
+					Title = "Path to package source",
+					Filter = "Tar.gz files|*.tar.gz|Tgz files|*.tgz|Zip files|*.zip|All files|*"
 				};
 
 				if ( fileDlg.ShowDialog() == DialogResult.OK ) {
@@ -152,7 +152,7 @@ namespace RWABuilder.Ui {
 			var pnlDocs = new Panel(){ Dock = DockStyle.Top };
 			pnlDocs.Margin = new Padding( 5 );
 			var lblDocs = new Label() {
-				Text = "Documentation",
+				Text = "Windows binaries",
 				Font = new Font( lblDate.Font, FontStyle.Regular ),
 				Dock = DockStyle.Left
 			};
@@ -169,15 +169,15 @@ namespace RWABuilder.Ui {
 			pnlDocs.MaximumSize = new Size( int.MaxValue, btDocs.Height );
 
 			// Load source code's data & event
-			edDocs.Text = this.Document.DocsPath;
+			edDocs.Text = this.Document.WindowsBinariesPath;
 			btDocs.Click += (sender, e) => {
 				var fileDlg = new OpenFileDialog() {
-					Title = "Path to documents package",
+					Title = "Path to windows binaries",
 					Filter = "Zip files|*.zip|Targ.gz files|*.tar.gz|Tgz files|*.tgz|All files|*"
 				};
 
 				if ( fileDlg.ShowDialog() == DialogResult.OK ) {
-					this.document.DocsPath = fileDlg.FileName;
+					this.document.WindowsBinariesPath = fileDlg.FileName;
 					edDocs.Text = fileDlg.FileName;
 				}
 			};

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RWApp AuthorEmail="jbgarcia@uvigo.es" Date="2015-02-06">
   <Menu Name="FactorsR">
-    <Function Name="f46" Package="ghghghghg" Caption="Factors" HasData="TRUE" DataHeader="TRUE" PreCommand="@_Build_AdWorld_" Data="data(Carnivores)">
-      <PDFRef Name="FactorsR-manual.pdf" Page="1" />
-      <ExecuteCommandOnce>				require(MapsR)
-				data(adworld)
+    <Function Name="f46" Package="ghghghghg" Caption="Factors" HasData="TRUE" DataHeader="TRUE" PreCommand="@_Build_AdWorld_">
+      <PDF Name="FactorsR-manual.pdf" Page="1" />
+      <ExecuteCommandOnce>				require(MapsR)
+				data(adworld)
 </ExecuteCommandOnce>
       <Argument Name="Area" Viewer="Map" />
       <Argument Name="exclude" Viewer="Map" />

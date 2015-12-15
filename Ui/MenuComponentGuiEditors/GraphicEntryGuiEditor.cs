@@ -139,17 +139,24 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		private void OnFileNameButtonClicked()
 		{
 			var dlg = new OpenFileDialog();
-			dlg.InitialDirectory = AppInfo.GraphsFolder;
+
 			dlg.CheckFileExists = true;
 			dlg.DefaultExt = "png";
 			dlg.Filter = "PNG&JPG|*.*g|PNG|*.png|JPG|*.jpg|All files|*";
 
-			if ( dlg.ShowDialog() == DialogResult.OK ) {
-				string fileName = Path.GetFileName( dlg.FileName );
+			// Set initial directory
+			if ( Path.GetDirectoryName( this.GraphicMenuEntry.ImagePath ) == string.Empty ) {
+				dlg.InitialDirectory = AppInfo.GraphsFolder;
+			} else {
+				dlg.FileName = this.GraphicMenuEntry.ImagePath;
+			}
 
-				this.edFileName.Text = fileName;
+			if ( dlg.ShowDialog() == DialogResult.OK ) {
+				string fileName = dlg.FileName;
+
+				this.edFileName.Text = Path.GetFileName( fileName );
 				this.GraphicMenuEntry.ImagePath = fileName;
-				AppInfo.GraphsFolder = Path.GetDirectoryName( dlg.FileName );
+				AppInfo.GraphsFolder = Path.GetDirectoryName( fileName );
 			}
 
 			return;
@@ -157,7 +164,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
 		public new void ReadDataFromComponent()
 		{
-			this.edFileName.Text = this.GraphicMenuEntry.ImagePath;
+			this.edFileName.Text = Path.GetFileName( this.GraphicMenuEntry.ImagePath );
 			this.edTooltip.Text = this.GraphicMenuEntry.ImageToolTip;
 			this.functionEditor.ReadDataFromComponent();
 		}

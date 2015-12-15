@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using System.Drawing;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -49,7 +51,14 @@ namespace RWABuilder.Ui {
 				}
 				else
 				if ( pmc != null ) {
-					string fileName = Path.Combine( AppInfo.PdfFolder, mc.Name );
+					string fileName = mc.Name;
+					
+					// Full path or not?
+					if ( Path.GetDirectoryName( fileName ) == string.Empty ) {
+						Console.WriteLine( "PDF file PATH to be combined because: " + fileName );								
+						fileName = Path.Combine( AppInfo.PdfFolder, mc.Name );
+						Console.WriteLine( "PDF file PATH combined: " + fileName );
+					}
 
 					// Pdf
 					if ( pmc != null
@@ -60,18 +69,22 @@ namespace RWABuilder.Ui {
 						errors.AppendLine();
 					}
 
-					mUser.DropDownItems.Add( new ToolStripMenuItem( mc.Name ) );
+					mUser.DropDownItems.Add( new ToolStripMenuItem( Path.GetFileName( fileName ) ) );
+					Trace.WriteLine( DateTime.Now + ": Added PDF: " + fileName );
 				}
 				else
 				if ( fmc != null ) {
 					mUser.DropDownItems.Add( new ToolStripMenuItem( fmc.Caption ) );
+					Trace.WriteLine( DateTime.Now + ": Added function: " + fmc.Caption );
 				}				
 				else
 				if ( mc is Separator ) {
 					mUser.DropDownItems.Add( new ToolStripSeparator() );
+					Trace.WriteLine( DateTime.Now + ": Added separator" );
 				}
 				else {
 					mUser.DropDownItems.Add( new ToolStripMenuItem( mc.Name ) );
+					Trace.WriteLine( DateTime.Now + ": Added other: " + mc.Name );
 				}
 			}
 
@@ -80,18 +93,24 @@ namespace RWABuilder.Ui {
 
         private void BuildUserGraphicSubMenu(ToolStripMenuItem subMenu, GraphicMenu graphicMenu)
         {
+			Trace.WriteLine( DateTime.Now + ": Building graphic menu..." );
+
             IList<MenuComponent> menuComponents = graphicMenu.MenuComponents;
             var items = new List<GraphMenuUtils.GraphicsMenuTable.GraphMenuItemData>();
 
             // Build the list of images
             foreach (GraphicEntry submc in menuComponents)
             {
-				string fileName = Path.Combine( AppInfo.GraphsFolder, submc.ImagePath );
+				string fileName = submc.ImagePath;
+
+				if ( Path.GetDirectoryName( fileName ) == string.Empty ) {
+					fileName = Path.Combine( AppInfo.GraphsFolder, submc.ImagePath );
+				}
 
 				if ( !File.Exists( fileName ) ) {
-					errors.AppendFormat( "Missing graphic file: '{0}' in '{1}' at '{2}'",
+					this.errors.AppendFormat( "Missing graphic file: '{0}' in '{1}' at '{2}'",
 					                    fileName, submc.Name, submc.GetPathAsString() );
-					errors.AppendLine();
+					this.errors.AppendLine();
 				} else {
 	                items.Add(
 	                    new GraphMenuUtils.GraphicsMenuTable.GraphMenuItemData(
@@ -103,19 +122,25 @@ namespace RWABuilder.Ui {
             }
 
             // Build the menu
-            var grphMenu = GraphMenuUtils.GraphicsMenuTable.AddGraphMenuTable( subMenu, items );
-			grphMenu.SizeMode = GraphMenuUtils.GraphicsMenuTable.SizeModeStyle.ZoomImage;
+			try {
+				var grphMenu = GraphMenuUtils.GraphicsMenuTable.AddGraphMenuTable( subMenu, items );
+				grphMenu.SizeMode = GraphMenuUtils.GraphicsMenuTable.SizeModeStyle.ZoomImage;
 
-            // Set properties, if needed
-            grphMenu.ItemHeight = graphicMenu.ImageHeight;
-            grphMenu.ItemWidth = graphicMenu.ImageWidth;
-            grphMenu.NumColumns = graphicMenu.MinimumNumberOfColumns;
+				// Set properties, if needed
+				grphMenu.ItemHeight = graphicMenu.ImageHeight;
+				grphMenu.ItemWidth = graphicMenu.ImageWidth;
+				grphMenu.NumColumns = graphicMenu.MinimumNumberOfColumns;
+			} catch(Exception exc) {
+				Trace.WriteLine( DateTime.Now + ": ERROR creating graphic menu: " + exc.Message );
+			}
 
             return;
         }
 
         private void BuildMainMenu()
         {
+			Trace.WriteLine( DateTime.Now + ": Building main menu" );
+
             // File menu
             var opQuit = new ToolStripMenuItem( "&Quit" );
             opQuit.ShortcutKeys = Keys.Control | Keys.Q;
@@ -146,6 +171,8 @@ namespace RWABuilder.Ui {
 
 		private void BuildErrorsPanel()
 		{
+			Trace.WriteLine( DateTime.Now + ": Building errors panel" );
+
 			this.pnlErrors = new GroupBox();
 			this.pnlErrors.SuspendLayout();
 			this.pnlErrors.Hide();
@@ -164,6 +191,9 @@ namespace RWABuilder.Ui {
 
         private void Build(Icon icon)
         {
+			Trace.WriteLine( DateTime.Now + ": Begin creating preview menu" );
+			Trace.Indent();
+
 			this.BuildErrorsPanel();
 			this.BuildMainMenu();
 
@@ -177,6 +207,9 @@ namespace RWABuilder.Ui {
             this.Icon = icon;
             this.Text = AppInfo.Name + " preview";
             this.MinimumSize = new Size( 600, 400 );
+
+			Trace.Unindent();
+			Trace.WriteLine( DateTime.Now + ": Finished creating preview menu" );
         }
 
         /// <summary>

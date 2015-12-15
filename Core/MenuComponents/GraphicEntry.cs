@@ -236,6 +236,22 @@ namespace RWABuilder.Core.MenuComponents {
             return toret;
 		}
 
+		/// <summary>
+		/// Looks in contents for the given string. Ignores case.
+		/// </summary>
+		/// <returns><c>true</c>, if in contents there is txt, <c>false</c> otherwise.</returns>
+		/// <param name="txt">Text.</param>
+		public override bool LookInContentsFor(string txt)
+		{
+			bool toret = base.LookInContentsFor( txt );
+
+			if ( !toret ) {
+				toret = this.Function.LookInContentsFor( txt );
+			}
+
+			return toret;
+		}
+
 		private string imagePath;
         private string imageToolTip;
 	}

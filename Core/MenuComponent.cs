@@ -189,6 +189,16 @@ namespace RWABuilder.Core {
             return;
         }
 
+		/// <summary>
+		/// Looks in contents for the given string. Ignores case.
+		/// </summary>
+		/// <returns><c>true</c>, if in contents there is txt, <c>false</c> otherwise.</returns>
+		/// <param name="txt">Text.</param>
+		public virtual bool LookInContentsFor(string txt)
+		{
+			return ( this.Name.ToLower().IndexOf( txt.Trim().ToLower() ) >= 0 );
+		}
+
         /// <summary>
         /// Sets this document as needing save.
         /// </summary>
