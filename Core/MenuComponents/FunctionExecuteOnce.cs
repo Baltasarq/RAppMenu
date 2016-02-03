@@ -32,7 +32,6 @@ namespace RWABuilder.Core.MenuComponents {
             {
                 this.Chk( newValue );
                 base.InsertItem( index, newValue );
-                this.Owner.SetNeedsSave();
             }
 
             /// <summary>
@@ -44,7 +43,6 @@ namespace RWABuilder.Core.MenuComponents {
             {
                 this.Chk( newValue );
                 base.SetItem( index, newValue );
-                this.Owner.SetNeedsSave();
             }
 
             /// <summary>
@@ -70,7 +68,7 @@ namespace RWABuilder.Core.MenuComponents {
                     this.Add( sentence );
                 }
 
-                this.Owner.SetNeedsSave();
+				return;
             }
 
             public override string ToString()

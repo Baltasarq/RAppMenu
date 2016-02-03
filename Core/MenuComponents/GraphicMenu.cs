@@ -52,7 +52,6 @@ namespace RWABuilder.Core.MenuComponents {
 				if ( this.imageWidth != value ) {
 					this.imageWidth = Math.Max( MinimumGraphicSize, value );
 					this.imageWidth = Math.Min( MaximumGraphicSize, value );
-					this.SetNeedsSave();
 				}
 
 				return;
@@ -71,7 +70,6 @@ namespace RWABuilder.Core.MenuComponents {
 				if ( this.imageHeight != value ) {
 					this.imageHeight = Math.Max( MinimumGraphicSize, value );
 					this.imageHeight = Math.Min( MaximumGraphicSize, value );
-					this.SetNeedsSave();
 				}
 
 				return;
@@ -90,7 +88,6 @@ namespace RWABuilder.Core.MenuComponents {
 				if ( this.minimumNumberOfColumns != value ) {
 					this.minimumNumberOfColumns = Math.Max( MinimumColumns, value );
 					this.minimumNumberOfColumns = Math.Min( MaximumColumns, value );
-					this.SetNeedsSave();
 				}
 
 				return;

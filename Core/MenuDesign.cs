@@ -31,7 +31,6 @@ namespace RWABuilder.Core {
 			this.grfMenuList = new List<GraphicMenu>();
             this.AuthorEmail = DefaultEmail;
             this.Date = DateTime.Now;
-            this.NeedsSave = true;
 		}
 
 		/// <summary>
@@ -47,7 +46,6 @@ namespace RWABuilder.Core {
 
 				if ( value != this.Root.Name ) {
 					this.Root.Name = value;
-					this.NeedsSave = true;
 				}
 
 				return;
@@ -77,7 +75,6 @@ namespace RWABuilder.Core {
 
 				if ( value != this.authorEmail ) {
 					this.authorEmail = value;
-					this.NeedsSave = true;
 				}
 
 				return;
@@ -107,7 +104,6 @@ namespace RWABuilder.Core {
 			set {
 				if ( value != this.date ) {
 					this.date = value;
-					this.NeedsSave = true;
 				}
 
 				return;
@@ -245,7 +241,6 @@ namespace RWABuilder.Core {
 				File.Copy( fileNameOrg, fileNameDest, true );
 			}
 
-            this.NeedsSave = false;
             Trace.Unindent();
 			return;
 		}
@@ -273,7 +268,6 @@ namespace RWABuilder.Core {
 
 			// Read the data
 			toret.FromXml( docXml.DocumentElement );
-			toret.NeedsSave = false;
 
 			if ( string.IsNullOrWhiteSpace( toret.Name ) ) {
 				throw new XmlException( "missing name of application" );
@@ -300,20 +294,6 @@ namespace RWABuilder.Core {
 			return string.Format( "[MenuDesign: Name: {0} Date: {1} AuthorEmail: {2} Root: {3}]",
 			                     Name, Date, AuthorEmail, Root.ToString() );
 		}
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="RWABuilder.Core.MenuDesign"/> needs save.
-        /// Honors the NeedsSave property in Root, a <see cref="RootMenu"/>
-        /// </summary>
-        /// <value><c>true</c> if needs save; otherwise, <c>false</c>.</value>
-        public bool NeedsSave {
-            get {
-                return this.Root.NeedsSave;
-            }
-            set {
-                this.Root.NeedsSave = value;
-            }
-        }
 
         /// <summary>
         /// Gets the PDF list of file names.

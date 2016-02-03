@@ -107,6 +107,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
     			graphicMenu.ImageHeight = (int) this.udImageHeight.Value;
     			graphicMenu.ImageWidth = (int) this.udImageWidth.Value;
+				graphicMenu.MinimumNumberOfColumns = (int) this.udMinimumColumns.Value;
             }
 
             return;

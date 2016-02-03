@@ -6,8 +6,8 @@ namespace RWABuilder.Core.MenuComponents {
 			public BaseArgument(string name, Function owner)
 				:base( name )
 			{
-				this.owner = owner;
-				this.readOnly = false;
+				this.Owner = owner;
+				this.IsReadOnly = false;
 			}
 
 			/// <summary>
@@ -15,9 +15,7 @@ namespace RWABuilder.Core.MenuComponents {
 			/// </summary>
 			/// <value>The owner, as a <see cref="Function"/>.</value>
 			public Function Owner {
-				get {
-					return this.owner;
-				}
+				get; private set;
 			}
 
 			/// <summary>
@@ -25,33 +23,8 @@ namespace RWABuilder.Core.MenuComponents {
 			/// </summary>
 			/// <value><c>true</c> if this instance is read only; otherwise, <c>false</c>.</value>
 			public bool IsReadOnly {
-				get {
-					return this.readOnly;
-				}
-				set {
-					if ( value != this.readOnly ) {
-						this.readOnly = value;
-						this.SetNeedsSave();
-					}
-
-					return;
-				}
+				get; set;
 			}
-
-			/// <summary>
-			/// Sets this menu as needing save.
-			/// </summary>
-			public override void SetNeedsSave()
-			{
-                if ( this.Owner != null ) {
-                    this.Owner.SetNeedsSave();
-                }
-
-                return;
-			}
-
-			private Function owner;
-			private bool readOnly;
 		}
 	}
 }

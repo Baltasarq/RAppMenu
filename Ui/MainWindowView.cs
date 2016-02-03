@@ -257,6 +257,7 @@ namespace RWABuilder.Ui {
             this.loadAction.AddComponent( this.opLoad );
             this.saveAction.AddComponent( this.opSave );
 			this.saveAsAction.AddComponent( this.opSaveAs );
+			this.exportAction.AddComponent( this.opExport );
 			this.addMenuAction.AddComponent( this.opAddMenu );
 			this.addGraphicMenuAction.AddComponent( this.opAddGraphicMenu );
 			this.addFunctionAction.AddComponent( this.opAddFunction );

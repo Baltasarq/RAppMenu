@@ -50,7 +50,6 @@ namespace RWABuilder.Core {
 
 			if ( value != this.name ) {
 				this.name = value;
-				this.SetNeedsSave();
 			}
 
 			return;
@@ -77,11 +76,10 @@ namespace RWABuilder.Core {
 
 				if ( value != this.parent ) {
 					if ( this.parent != null ) {
-						this.parent.SetNeedsSave();
 						this.parent.Remove( this );
 					}
+
 					this.parent = value;
-					this.parent.SetNeedsSave();
 				}
 			}
 		}
@@ -198,18 +196,6 @@ namespace RWABuilder.Core {
 		{
 			return ( this.Name.ToLower().IndexOf( txt.Trim().ToLower() ) >= 0 );
 		}
-
-        /// <summary>
-        /// Sets this document as needing save.
-        /// </summary>
-        public virtual void SetNeedsSave()
-        {
-            if ( this.Root != null ) {
-                this.Root.NeedsSave = true;
-            }
-
-            return;
-        }
 
 		/// <summary>
 		/// Copies this instance.

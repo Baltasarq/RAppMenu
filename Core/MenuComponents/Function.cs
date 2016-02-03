@@ -55,17 +55,7 @@ namespace RWABuilder.Core.MenuComponents {
 		/// </summary>
 		/// <value><c>true</c> if this instance is the default; otherwise, <c>false</c>.</value>
 		public bool IsDefault {
-			get {
-				return this.isDefault;
-			}
-			set {
-				if ( this.isDefault != value ) {
-					this.isDefault = value;
-					this.SetNeedsSave();
-				}
-
-				return;
-			}
+			get; set;
 		}
 
 		/// <summary>
@@ -74,17 +64,7 @@ namespace RWABuilder.Core.MenuComponents {
 		/// </summary>
 		/// <value><c>true</c> if this instance has data; otherwise, <c>false</c>.</value>
 		public bool HasData {
-            get {
-                return this.hasData;
-            }
-            set {
-				if ( this.hasData != value ) {
-					this.hasData = value;
-					this.SetNeedsSave();
-				}
-
-				return;
-            }
+			get; set;
 		}
 
 		/// <summary>
@@ -93,17 +73,7 @@ namespace RWABuilder.Core.MenuComponents {
 		/// </summary>
 		/// <value><c>true</c> if data header; otherwise, <c>false</c>.</value>
 		public bool DataHeader {
-            get {
-                return this.dataHeader;
-            }
-            set {
-				if ( this.dataHeader != value ) {
-					this.dataHeader = value;
-					this.SetNeedsSave();
-				}
-
-				return;
-            }
+			get; set;
 		}
 
 		/// <summary>
@@ -115,14 +85,7 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.preCommand;
             }
             set {
-				value = value.Trim();
-
-				if ( this.preCommand != value ) {
-					this.preCommand = value;
-					this.SetNeedsSave();
-				}
-
-				return;
+				this.preCommand = value.Trim();
             }
 		}
 
@@ -135,14 +98,7 @@ namespace RWABuilder.Core.MenuComponents {
 				return this.exampleData;
 			}
 			set {
-				value = value.Trim();
-
-				if ( value != this.exampleData ) {
-					this.exampleData = value;
-					this.SetNeedsSave();
-				}
-
-				return;
+				this.exampleData = value.Trim();
 			}
 		}
 
@@ -159,12 +115,7 @@ namespace RWABuilder.Core.MenuComponents {
 					throw new ArgumentOutOfRangeException( "Function.StartColumn should be >= 0" );
 				}
 
-				if ( value != this.startColumn ) {
-					this.startColumn = value;
-					this.SetNeedsSave();
-				}
-
-				return;
+				this.startColumn = value;
 			}
 		}
 
@@ -181,12 +132,7 @@ namespace RWABuilder.Core.MenuComponents {
 					throw new ArgumentOutOfRangeException( "Function.EndColumn should be >= 0" );
 				}
 
-				if ( value != this.endColumn ) {
-					this.endColumn = value;
-					this.SetNeedsSave();
-				}
-
-				return;
+				this.endColumn = value;
 			}
 		}
 
@@ -197,17 +143,7 @@ namespace RWABuilder.Core.MenuComponents {
 		/// </summary>
 		/// <value><c>true</c> if remove quotation marks; otherwise, <c>false</c>.</value>
 		public bool RemoveQuotationMarks {
-            get {
-                return this.removeQuotes;
-            }
-            set {
-				if ( value != this.removeQuotes ) {
-					this.removeQuotes = value;
-					this.SetNeedsSave();
-				}
-
-				return;
-            }
+			get; set;
 		}
 
 		/// <summary>
@@ -250,14 +186,7 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.pdfName;
             }
             set {
-				value = value.Trim();
-
-				if ( value != this.pdfName ) {
-					this.pdfName = value;
-					this.SetNeedsSave();
-				}
-
-				return;
+				this.pdfName = value.Trim();
             }
         }
 
@@ -276,12 +205,7 @@ namespace RWABuilder.Core.MenuComponents {
                     throw new ArgumentException( "page should be > 0" );
                 }
 
-				if ( value != this.pdfPageNumber ) {
-					this.pdfPageNumber = value;
-					this.SetNeedsSave();
-				}
-
-				return;
+				this.pdfPageNumber = value;
             }
         }
 
@@ -294,14 +218,7 @@ namespace RWABuilder.Core.MenuComponents {
 				return this.package;
 			}
 			set {
-				value = value.Trim();
-
-				if ( value != this.package ) {
-					this.package = value;
-					this.SetNeedsSave();
-				}
-
-				return;
+				this.package = value.Trim();
 			}
 		}
 
@@ -320,14 +237,7 @@ namespace RWABuilder.Core.MenuComponents {
 				return toret;
 			}
 			set {
-				value = value.Trim();
-
-				if ( value != this.caption ) {
-					this.caption = value.Trim();
-					this.SetNeedsSave();
-				}
-
-				return;
+				this.caption = value.Trim();
 			}
 		}
 
@@ -659,10 +569,6 @@ namespace RWABuilder.Core.MenuComponents {
 
 		private string package;
 		private string caption;
-        private bool hasData;
-        private bool dataHeader;
-		private bool isDefault;
-        private bool removeQuotes;
         private string preCommand;
         private int startColumn;
         private int endColumn;

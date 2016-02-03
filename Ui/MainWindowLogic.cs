@@ -19,7 +19,6 @@ namespace RWABuilder.Ui {
 			this.numPDFs = 0;
 			this.numGraphicMenus = 0;
 			this.numGraphicMenuEntries = 0;
-			this.doc = null;
 			this.copier = null;
 			this.fileName = "";
 
@@ -59,8 +58,8 @@ namespace RWABuilder.Ui {
 			Trace.Flush();
 
 			string logPath = Path.Combine(
-				AppInfo.PrepareAppConfigFolder(),
-				AppInfo.LogFile );
+				LocalStorageManager.PrepareAppConfigFolder(),
+				LocalStorageManager.LogFile );
 
 			this.SetStatus( "Launching external browser..." );
 			Process.Start( logPath );
@@ -125,13 +124,11 @@ namespace RWABuilder.Ui {
 		/// </summary>
 		private void OnCloseDocument()
 		{
-			if ( this.Document != null
-				&& this.Document.NeedsSave )
-			{
+			if ( this.Package != null ) {
 				this.EnsureEditingFinished();
 
 				Trace.WriteLine( System.DateTime.Now + ": Closing document: "
-					+ this.Document.Root.Name );
+					+ this.Package.Menu.Root.Name );
 
 				DialogResult result =
 					MessageBox.Show( this,
@@ -146,16 +143,16 @@ namespace RWABuilder.Ui {
 				}
 			}
 
-			this.doc = null;
+			this.Package = null;
 			this.PrepareView( false );
 		}
 
 		private void PrepareMenuDesign(string fileName)
 		{
 			if ( string.IsNullOrWhiteSpace( fileName ) ) {
-				this.doc = new MenuDesign();
+				this.Package = new Package();
 			} else {
-				this.doc = MenuDesign.LoadFromFile( fileName );
+				this.Package = Package.Unpack( fileName );
 			}
 
 			this.copier = new MenuComponentClipboard();
@@ -411,10 +408,10 @@ namespace RWABuilder.Ui {
 			var dlg = new OpenFileDialog();
 
 			dlg.Title = "Load menu";
-			dlg.DefaultExt = AppInfo.FileExtension;
+			dlg.DefaultExt = AppInfo.AppsExtension;
 			dlg.CheckPathExists = true;
 			dlg.InitialDirectory = this.ApplicationsFolder;
-			dlg.Filter = AppInfo.FileExtension + "|*." + AppInfo.FileExtension
+			dlg.Filter = AppInfo.AppsExtension + "|*." + AppInfo.AppsExtension
 				+ "|All files|*";
 
 			if ( dlg.ShowDialog() == DialogResult.OK ) {
@@ -449,7 +446,7 @@ namespace RWABuilder.Ui {
 				}
 
 				this.PrepareViewStructuresForNewDocument();
-				this.TreeMenuRoot.Text = this.Document.Root.Name;
+				this.TreeMenuRoot.Text = this.Package.Menu.Root.Name;
 				this.PrepareTreeNodesForDocument();
 				this.PrepareView( true );
 			}
@@ -465,8 +462,8 @@ namespace RWABuilder.Ui {
 		private void PrepareTreeNodesForDocument()
 		{
 			this.SetStatus( "Preparing editors..." );
-			this.SetToolbarForNumTasks( this.Document.Root.MenuComponents.Count );
-			this.CreateTreeNodesFor( this.TreeMenuRoot, this.Document.Root );
+			this.SetToolbarForNumTasks( this.Package.Menu.Root.MenuComponents.Count );
+			this.CreateTreeNodesFor( this.TreeMenuRoot, this.Package.Menu.Root );
 
 			this.TreeMenuRoot.ExpandAll();
 		}
@@ -484,35 +481,37 @@ namespace RWABuilder.Ui {
 					mctn.Nodes.Add( MenuComponentTreeNode.Create( separator ) );
 				}
 				else
-					if ( pdfFile != null ) {
-						mctn.Nodes.Add( MenuComponentTreeNode.Create( pdfFile ) );
+				if ( pdfFile != null ) {
+					var subNode = MenuComponentTreeNode.Create( pdfFile );
+					subNode.Text = ( (CoreComponents.PdfFile) subNode.MenuComponent ).GetFileName();
+					mctn.Nodes.Add( subNode );
+				}
+				else
+				if ( function != null ) {
+					mctn.Nodes.Add( MenuComponentTreeNode.Create( function ) );
+				}
+				else
+				if ( grphMenu != null ) {
+					var mtn = MenuComponentTreeNode.Create( grphMenu );
+
+					// Prepare tree menu and editor for graphic menu
+					mctn.Nodes.Add( mtn );
+
+					// Prepare tree menu and editor for each graphic menu entry
+					foreach(CoreComponents.GraphicEntry grme in grphMenu.MenuComponents) {
+						mtn.Nodes.Add( MenuComponentTreeNode.Create( grme ) );
 					}
-					else
-						if ( function != null ) {
-							mctn.Nodes.Add( MenuComponentTreeNode.Create( function ) );
-						}
-						else
-							if ( grphMenu != null ) {
-								var mtn = MenuComponentTreeNode.Create( grphMenu );
+				}
+				else
+				if ( subMenu != null ) {
+					var mtn = MenuComponentTreeNode.Create( subMenu );
 
-								// Prepare tree menu and editor for graphic menu
-								mctn.Nodes.Add( mtn );
-
-								// Prepare tree menu and editor for each graphic menu entry
-								foreach(CoreComponents.GraphicEntry grme in grphMenu.MenuComponents) {
-									mtn.Nodes.Add( MenuComponentTreeNode.Create( grme ) );
-								}
-							}
-							else
-								if ( subMenu != null ) {
-									var mtn = MenuComponentTreeNode.Create( subMenu );
-
-									mctn.Nodes.Add( mtn );
-									this.CreateTreeNodesFor( mtn, subMenu );
-								}
+					mctn.Nodes.Add( mtn );
+					this.CreateTreeNodesFor( mtn, subMenu );
+				}
 
 				// One step more
-				if ( menu == this.Document.Root ) {
+				if ( menu == this.Package.Menu.Root ) {
 					this.SetToolbarTaskFinished();
 				}
 			}
@@ -528,7 +527,7 @@ namespace RWABuilder.Ui {
 		{
 			this.EnsureEditingFinished();
 
-			Trace.WriteLine( DateTime.Now + ": Saving " + this.Document.Root.Name );
+			Trace.WriteLine( DateTime.Now + ": Saving " + this.Package.Menu.Root.Name );
 			Trace.Indent();
 			this.SetStatus( "Saving menu as..." );
 
@@ -542,7 +541,7 @@ namespace RWABuilder.Ui {
 		{
 			this.EnsureEditingFinished();
 
-			Trace.WriteLine( DateTime.Now + ": Saving " + this.Document.Root.Name );
+			Trace.WriteLine( DateTime.Now + ": Saving " + this.Package.Menu.Root.Name );
 			Trace.Indent();
 			this.SetStatus( "Saving menu..." );
 
@@ -550,12 +549,12 @@ namespace RWABuilder.Ui {
 				var dlg = new SaveFileDialog();
 
 				dlg.Title = "Save menu";
-				dlg.DefaultExt = AppInfo.FileExtension;
+				dlg.DefaultExt = AppInfo.AppsExtension;
 				dlg.CheckPathExists = true;
 				dlg.InitialDirectory = this.ApplicationsFolder;
-				dlg.Filter = AppInfo.FileExtension + "|*." + AppInfo.FileExtension
+				dlg.Filter = AppInfo.AppsExtension + "|*." + AppInfo.AppsExtension
 					+ "|All files|*";
-				dlg.FileName = this.Document.Root.Name;
+				dlg.FileName = this.Package.Menu.Root.Name;
 
 				if ( dlg.ShowDialog() == DialogResult.OK ) {
 					this.fileName = dlg.FileName;
@@ -571,7 +570,7 @@ namespace RWABuilder.Ui {
 			this.SetToolbarTaskFinished();
 
 			try {
-				this.Document.SaveToFile( this.fileName );
+				this.Package.Pack( this.fileName );
 				this.SetStatus();
 			} catch(XmlException exc)
 			{
@@ -591,7 +590,7 @@ namespace RWABuilder.Ui {
 			}
 
 			this.GetSelectedTreeNode().GetEditor( this.pnlProperties ).Show();
-			this.TreeMenuRoot.Text = this.Document.Root.Name;
+			this.TreeMenuRoot.Text = this.Package.Menu.Root.Name;
 
 			End:
 			this.BuildAppTitle();
@@ -599,58 +598,56 @@ namespace RWABuilder.Ui {
 
 		private void OnExport()
 		{
-			Packager packr;
-			string fileName = Path.GetFileNameWithoutExtension( this.Document.Root.Name ) + '.' + AppInfo.AppsExtension;
+			string fileName = Path.GetFileNameWithoutExtension( this.Package.Menu.Root.Name ) + '.' + AppInfo.FileExtension;
 
 			Trace.WriteLine( DateTime.Now + ": Exporting " + fileName );
 			Trace.Indent();
-			this.SetStatus( "Exporting app..." );
+			this.SetStatus( "Exporting menu design as xml..." );
 
 			try {
-				packr = new Packager( this.Document );
 				var dlg = new SaveFileDialog();
 
 				dlg.Title = "Save menu";
 				dlg.DefaultExt = AppInfo.AppsExtension;
 				dlg.CheckPathExists = true;
 				dlg.InitialDirectory = this.ApplicationsFolder;
-				dlg.Filter = AppInfo.AppsExtension + "|*." + AppInfo.AppsExtension
+				dlg.Filter = AppInfo.FileExtension + "|*." + AppInfo.FileExtension
 					+ "|All files|*";
 				dlg.FileName = fileName;
 
 				if ( dlg.ShowDialog() == DialogResult.OK ) {
 					Trace.WriteLine( DateTime.Now + ": Packaged app file set: " + dlg.FileName );
-					packr.Package( dlg.FileName );
+					this.Package.Menu.SaveToFile( dlg.FileName );
 				} else {
 					Trace.WriteLine( DateTime.Now + ": Exporting cancelled" );
 				}
 
 				SetStatus();
 			} catch(IOException exc) {
-				this.SetErrorStatus( "Error creating zip file: " + exc.Message );
+				this.SetErrorStatus( "Error creating XML file: " + exc.Message );
 			}
 
-			Trace.WriteLine( DateTime.Now + ": Finished exporting " + this.Document.Root.Name );
+			Trace.WriteLine( DateTime.Now + ": Finished exporting " + this.Package.Menu.Root.Name );
 			Trace.Unindent();
 			return;
 		}
 
 		private void OnProperties()
 		{
-			string oldEmail = this.Document.AuthorEmail;
-			DateTime oldDate = this.Document.Date;
-			string oldSourceCodePath = this.Document.SourceCodePath;
-			string oldDocsPath = this.Document.WindowsBinariesPath;
+			string oldEmail = this.Package.Menu.AuthorEmail;
+			DateTime oldDate = this.Package.Menu.Date;
+			string oldSourceCodePath = this.Package.Menu.SourceCodePath;
+			string oldDocsPath = this.Package.Menu.WindowsBinariesPath;
 
 			this.SetStatus( "Editing properties..." );
 
-			var propertiesForm = new PropertiesWindow( this.Document, this.Icon );
+			var propertiesForm = new PropertiesWindow( this.Package.Menu, this.Icon );
 
 			if ( propertiesForm.ShowDialog() == DialogResult.Cancel ) {
-				this.Document.AuthorEmail = oldEmail;
-				this.Document.Date = oldDate;
-				this.Document.WindowsBinariesPath = oldDocsPath;
-				this.Document.SourceCodePath = oldSourceCodePath;
+				this.Package.Menu.AuthorEmail = oldEmail;
+				this.Package.Menu.Date = oldDate;
+				this.Package.Menu.WindowsBinariesPath = oldDocsPath;
+				this.Package.Menu.SourceCodePath = oldSourceCodePath;
 			}
 
 			this.SetStatus();
@@ -660,7 +657,7 @@ namespace RWABuilder.Ui {
 		{
 			this.SetStatus( "Creating preview..." );
 
-			var previewForm = new PreviewWindow( this.Document, this.Icon );
+			var previewForm = new PreviewWindow( this.Package.Menu, this.Icon );
 
 			this.SetStatus( "Showing preview..." );
 			previewForm.ShowDialog();
@@ -717,7 +714,7 @@ namespace RWABuilder.Ui {
 		private void OnSearchEntered(KeyEventArgs e)
 		{
 			if ( e.KeyCode == Keys.Enter
-			  && this.Document != null )
+			  && this.Package != null )
 			{
 				this.SetStatus( false );
 
@@ -769,7 +766,7 @@ namespace RWABuilder.Ui {
 
 			// Remove all nodes in the tree view and add a new root
 			this.tvMenu.Nodes.Clear();
-			this.tvMenu.Nodes.Add( new UiComponents.RootMenuTreeNode( this.doc.Root ) );
+			this.tvMenu.Nodes.Add( new UiComponents.RootMenuTreeNode( this.Package.Menu.Root ) );
 		}
 
 		private void PrepareView(bool view)
@@ -882,10 +879,12 @@ namespace RWABuilder.Ui {
 			}
 		}
 
-		public MenuDesign Document {
-			get {
-				return this.doc;
-			}
+		/// <summary>
+		/// Gets the package in which the menu desing is stored.
+		/// </summary>
+		/// <value>The package, as a Package object.</value>
+		public Package Package {
+			get; private set;
 		}
 
 		/// <summary>
@@ -895,10 +894,10 @@ namespace RWABuilder.Ui {
 		/// <value>The applications folder, as a string.</value>
 		public string ApplicationsFolder {
 			get {
-				return AppInfo.ApplicationsFolder;
+				return LocalStorageManager.ApplicationsFolder;
 			}
 			set {
-				AppInfo.ApplicationsFolder = value;
+				LocalStorageManager.ApplicationsFolder = value;
 			}
 		}
 
@@ -909,10 +908,10 @@ namespace RWABuilder.Ui {
 		/// <value>The pdf folder, as a string.</value>
 		public string PdfFolder {
 			get {
-				return AppInfo.PdfFolder;
+				return LocalStorageManager.PdfFolder;
 			}
 			set {
-				AppInfo.PdfFolder = value;
+				LocalStorageManager.PdfFolder = value;
 			}
 		}
 
@@ -923,14 +922,13 @@ namespace RWABuilder.Ui {
 		/// <value>The graphs folder, as a string.</value>
 		public string GraphsFolder {
 			get {
-				return AppInfo.GraphsFolder;
+				return LocalStorageManager.GraphsFolder;
 			}
 			set {
-				AppInfo.GraphsFolder = value;
+				LocalStorageManager.GraphsFolder = value;
 			}
 		}
 
-		private MenuDesign doc;
 		private MenuComponentClipboard copier;
 		private string fileName;
 		private int numMenus;

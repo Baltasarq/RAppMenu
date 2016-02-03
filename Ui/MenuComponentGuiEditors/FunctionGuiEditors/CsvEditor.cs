@@ -250,7 +250,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			// Normalize data
 			this.data = data.Split( dataSeparator );
 			for (int i = 0; i < this.data.Length; ++i ) {
-				string value = this.data[ i ].Trim().ToLower();
+				string value = this.data[ i ].Trim();
 
 				if ( value.Length == 0 ) {
 					value = "0";

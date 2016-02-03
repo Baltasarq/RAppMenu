@@ -44,7 +44,6 @@ namespace RWABuilder.Core.MenuComponents {
 		{
 			this.menuComponents.Add( mc );
 			mc.Parent = this;
-            this.SetNeedsSave();
 		}
 
 		/// <summary>
@@ -81,7 +80,6 @@ namespace RWABuilder.Core.MenuComponents {
         public virtual void RemoveAt(int index)
         {
             this.menuComponents.RemoveAt( index );
-            this.SetNeedsSave();
         }
 
         /// <summary>
@@ -91,7 +89,6 @@ namespace RWABuilder.Core.MenuComponents {
         public virtual void Remove(MenuComponent mc)
         {
             this.menuComponents.Remove( mc );
-            this.SetNeedsSave();
         }
 
 		/// <summary>
@@ -100,7 +97,6 @@ namespace RWABuilder.Core.MenuComponents {
 		public virtual void ClearComponents()
 		{
 			this.menuComponents.Clear();
-			this.SetNeedsSave();
 		}
 
 		/// <summary>
@@ -140,7 +136,6 @@ namespace RWABuilder.Core.MenuComponents {
                 this.menuComponents[ org ] = mcDest;
             }
 
-            this.SetNeedsSave();
             return;
         }
 

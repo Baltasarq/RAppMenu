@@ -36,7 +36,6 @@ namespace RWABuilder.Core.MenuComponents {
 			{
 				this.Chk( item );
 				base.InsertItem( index, item );
-				this.Owner.SetNeedsSave();
 			}
 
 			/// <summary>
@@ -48,7 +47,6 @@ namespace RWABuilder.Core.MenuComponents {
 			{
 				this.Chk( item );
 				base.SetItem( index, item );
-				this.Owner.SetNeedsSave();
 			}
 
 			/// <summary>

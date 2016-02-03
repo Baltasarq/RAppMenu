@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Diagnostics;
 using System.Xml;
 
@@ -78,14 +79,7 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.imagePath;
             }
             set {
-				value = value.Trim();
-
-				if ( this.imagePath != value ) {
-					this.imagePath = value;
-					this.SetNeedsSave();
-				}
-
-				return;
+				this.imagePath = value.Trim();
             }
         }
 
@@ -98,14 +92,7 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.imageToolTip;
             }
             set {
-				value = value.Trim();
-
-				if ( this.imageToolTip != value ) {
-					this.imageToolTip = value;
-					this.SetNeedsSave();
-				}
-
-				return;
+				this.imageToolTip = value.Trim();
             }
         }
 
@@ -147,6 +134,25 @@ namespace RWABuilder.Core.MenuComponents {
 
 			this.Function.Copy( toret );
 			return toret;
+		}
+
+		/// <summary>
+		/// Gets the file's full path.
+		/// Warning: The file is not checked to verify it is an image file.
+		/// </summary>
+		/// <returns>The file full path, as a string.</returns>
+		/// <seealso cref="ImagePath"/>
+		public string GetFileFullPath()
+		{
+			return GetFileFullPathOf( this.ImagePath );
+		}
+
+		/// <summary>
+		/// Gets the name of the file, without any path part.
+		/// </summary>
+		/// <returns>Just the file name and the extension, as a string.</returns>
+		public string GetFileName() {
+			return Path.GetFileName( this.imagePath );
 		}
 
 		public override string ToString()
@@ -250,6 +256,21 @@ namespace RWABuilder.Core.MenuComponents {
 			}
 
 			return toret;
+		}
+
+		/// <summary>
+		/// Gets the full path of the given file.
+		/// Warning: The file is not checked to verify it is an image file.
+		/// </summary>
+		/// <param name="path">The path to the image file.</param>
+		/// <returns>The file full path, as a string.</returns>
+		public static string GetFileFullPathOf(string path)
+		{
+			if ( Path.GetDirectoryName( path ) == string.Empty ) {
+				path = Path.Combine( LocalStorageManager.GraphsFolder, path );
+			}
+
+			return path;
 		}
 
 		private string imagePath;

@@ -1,1 +1,8 @@
-﻿
+﻿* Bugfixes:
+- Cuando se reproduce el script hace mal, porque por ejemplo pone el menú doble, aquí se ve OE diagrams y otra vez OE diagrams
+	Se trata del menú gráfico, aparece duplicado el nombre del menú.
+	Comporbado que en RWizard sale bien (bueno...). -> Es problema de cómo los ha creado él.
+- Editor de function arguments (fx): borrar un valor y guardar: no lo borra.
+- Editor de function arguments (fx): para que se active el botón de más argumentos, hay que crear una nueva fn.
+- Editor de function arguments (fx): excepción: System.InvalidOperationException: SplitterDistance debe estar entre Panel1MinSize y Ancho - Panel2MinSize.
+- Editor de funciones: Value column, borrar valor, no lo hace bien.

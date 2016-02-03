@@ -46,14 +46,7 @@ namespace RWABuilder.Core.MenuComponents {
 						return this.value;
 					}
 					set {
-						value = value.Trim();
-
-						if ( value != this.value ) {
-							this.value = value;
-							this.SetNeedsSave();
-						}
-
-						return;
+						this.value = value.Trim();
 					}
 				}
 
@@ -166,7 +159,6 @@ namespace RWABuilder.Core.MenuComponents {
                 }
                 set {
                     this.variant = value.Trim();
-                    this.SetNeedsSave();
                 }
             }
 
@@ -180,7 +172,6 @@ namespace RWABuilder.Core.MenuComponents {
                 }
                 set {
                     this.functionName = value.Trim();
-                    this.SetNeedsSave();
                 }
             }
 

@@ -56,7 +56,7 @@ namespace RWABuilder.Ui {
 					// Full path or not?
 					if ( Path.GetDirectoryName( fileName ) == string.Empty ) {
 						Console.WriteLine( "PDF file PATH to be combined because: " + fileName );								
-						fileName = Path.Combine( AppInfo.PdfFolder, mc.Name );
+								fileName = Path.Combine( LocalStorageManager.PdfFolder, mc.Name );
 						Console.WriteLine( "PDF file PATH combined: " + fileName );
 					}
 
@@ -104,7 +104,7 @@ namespace RWABuilder.Ui {
 				string fileName = submc.ImagePath;
 
 				if ( Path.GetDirectoryName( fileName ) == string.Empty ) {
-					fileName = Path.Combine( AppInfo.GraphsFolder, submc.ImagePath );
+					fileName = Path.Combine( LocalStorageManager.GraphsFolder, submc.ImagePath );
 				}
 
 				if ( !File.Exists( fileName ) ) {

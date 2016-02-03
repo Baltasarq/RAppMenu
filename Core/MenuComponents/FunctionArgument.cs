@@ -41,12 +41,12 @@ namespace RWABuilder.Core.MenuComponents {
 			public Argument(string name, Function owner)
 				: base( name, owner )
 			{
-				this.viewer = ViewerType.Plain;
+				this.Viewer = ViewerType.Plain;
                 this.depends = "";
                 this.value = "";
                 this.desc = "";
-				this.required = false;
-				this.multiSelect = false;
+				this.IsRequired = false;
+				this.AllowMultiselect = false;
 				this.valueSet = new List<string>();
 			}
 
@@ -55,17 +55,7 @@ namespace RWABuilder.Core.MenuComponents {
 			/// </summary>
 			/// <value><c>true</c> if this instance is required; otherwise, <c>false</c>.</value>
 			public bool IsRequired {
-				get {
-					return this.required;
-				}
-				set {
-					if ( value != this.required ) {
-						this.required = value;
-						this.SetNeedsSave();
-					}
-
-					return;
-				}
+				get; set;
 			}
 
 			/// <summary>
@@ -73,17 +63,7 @@ namespace RWABuilder.Core.MenuComponents {
 			/// </summary>
 			/// <value>The viewer, as a <see cref="ViewerType"/>.</value>
 			public ViewerType Viewer {
-				get {
-					return this.viewer;
-				}
-				set {
-					if ( value != this.viewer ) {
-						this.viewer = value;
-						this.SetNeedsSave();
-					}
-
-					return;
-				}
+				get; set;
 			}
 
 			/// <summary>
@@ -95,14 +75,7 @@ namespace RWABuilder.Core.MenuComponents {
 					return this.depends;
 				}
 				set {
-					value = value.Trim();
-
-					if ( value != this.depends ) {
-						this.depends = value;
-						this.SetNeedsSave();
-					}
-
-					return;
+					this.depends = value.Trim();
 				}
 			}
 
@@ -115,14 +88,7 @@ namespace RWABuilder.Core.MenuComponents {
 					return this.value;
 				}
 				set {
-					value = value.Trim();
-
-					if ( value != this.value ) {
-						this.value = value;
-						this.SetNeedsSave();
-					}
-
-					return;
+					this.value = value.Trim();
 				}
 			}
 
@@ -131,17 +97,7 @@ namespace RWABuilder.Core.MenuComponents {
 			/// </summary>
 			/// <value><c>true</c> if allow multiselect; otherwise, <c>false</c>.</value>
 			public bool AllowMultiselect {
-				get {
-					return this.multiSelect;
-				}
-				set {
-					if ( value != this.multiSelect ) {
-						this.multiSelect = value;
-						this.SetNeedsSave();
-					}
-
-					return;
-				}
+				get; set;
 			}
 
             /// <summary>
@@ -153,14 +109,7 @@ namespace RWABuilder.Core.MenuComponents {
                     return this.desc;
                 }
                 set {
-					value = value.Trim();
-
-					if ( value != this.desc ) {
-						this.desc = value;
-						this.SetNeedsSave();
-					}
-
-					return;
+					this.desc = value.Trim();
                 }
             }
 
@@ -176,7 +125,6 @@ namespace RWABuilder.Core.MenuComponents {
 				set {
 					this.valueSet.Clear();
 					this.valueSet.AddRange( value );
-                    this.SetNeedsSave();
 				}
 			}
 
@@ -206,7 +154,7 @@ namespace RWABuilder.Core.MenuComponents {
 			/// <value><c>true</c> if needs value set; otherwise, <c>false</c>.</value>
 			public bool NeedsValueSet {
 				get {
-					return ( this.viewer == ViewerType.ValueSet );
+					return ( this.Viewer == ViewerType.ValueSet );
 				}
 			}
 
@@ -429,9 +377,6 @@ namespace RWABuilder.Core.MenuComponents {
 			}
 
 			private List<string> valueSet;
-			private bool required;
-			private bool multiSelect;
-			private ViewerType viewer;
 			private string desc;
 			private string value;
 			private string depends;

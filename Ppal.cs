@@ -13,8 +13,8 @@ namespace RWABuilder {
 			Form mainForm = null;
 
 			try {
-				AppInfo.BuildLog();
-				AppInfo.GetMainAppInfo();
+				LocalStorageManager.BuildLog();
+				LocalStorageManager.GetMainAppInfo();
 
 				mainForm = new MainWindow();
 				Application.EnableVisualStyles();
@@ -30,7 +30,7 @@ namespace RWABuilder {
                 Trace.WriteLine( exc.StackTrace );
 			}
             finally {
-                AppInfo.CloseLog();
+				LocalStorageManager.CloseLog();
             }
 		}
 	}

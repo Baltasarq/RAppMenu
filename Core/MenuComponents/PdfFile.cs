@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Xml;
 using System.Diagnostics;
 
@@ -46,6 +47,25 @@ namespace RWABuilder.Core.MenuComponents {
 			return string.Format( "[PdfFile: FileName={0}]", FileName );
 		}
 
+		/// <summary>
+		/// Gets just the name and the extension of the file.
+		/// </summary>
+		/// <returns>The file name and extension, as a string.</returns>
+		public string GetFileName() {
+			return Path.GetFileName( this.FileName );
+		}
+
+		/// <summary>
+		/// Gets the file's full path.
+		/// Warning: The file is not checked to verify it is a PDF file.
+		/// </summary>
+		/// <returns>The file full path, as a string.</returns>
+		/// <seealso cref="FileName"/>
+		public string GetFileFullPath()
+		{
+			return GetFileFullPathOf( this.FileName );
+		}
+
         public override void ToXml(XmlWriter doc)
         {
             Trace.WriteLine( "PdfFile.ToXml: " + this.ToString() );
@@ -69,6 +89,21 @@ namespace RWABuilder.Core.MenuComponents {
 			toret.Name = nameAttr.InnerText;
 
 			return toret;
+		}
+
+		/// <summary>
+		/// Gets the full path of the given file.
+		/// Warning: The file is not checked to verify it is a PDF file.
+		/// </summary>
+		/// <param name="path">The path to the PDF file.</param>
+		/// <returns>The file full path, as a string.</returns>
+		public static string GetFileFullPathOf(string path)
+		{
+			if ( Path.GetDirectoryName( path ) == string.Empty ) {
+				path = Path.Combine( LocalStorageManager.PdfFolder, path );
+			}
+
+			return path;
 		}
     }
 }

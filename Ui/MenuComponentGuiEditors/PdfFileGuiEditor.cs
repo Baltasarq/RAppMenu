@@ -76,7 +76,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
 			// Check for a starting dir
 			if ( Path.GetDirectoryName( pmc.FileName ) == string.Empty ) {
-				dlg.InitialDirectory = AppInfo.PdfFolder;
+				dlg.InitialDirectory = LocalStorageManager.PdfFolder;
 			} else {
 				dlg.FileName = pmc.FileName;
 			}
@@ -86,10 +86,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			dlg.Filter = "PDF|*.pdf|All files|*";
 
 			if ( dlg.ShowDialog() == DialogResult.OK ) {
-				string fileName = dlg.FileName;
+				string fileName = Path.GetFullPath( dlg.FileName );
 
 				pmc.Name = fileName;
-				AppInfo.PdfFolder = Path.GetDirectoryName( dlg.FileName );
+				LocalStorageManager.PdfFolder = Path.GetDirectoryName( fileName );
 				this.ReadDataFromComponent();
 			}
 
@@ -102,11 +102,11 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		/// </summary>
 		public new void ReadDataFromComponent()
 		{
-            if ( !this.OnBuilding ) {
-    			string fileName = this.MenuComponent.Name;
+			if ( !this.OnBuilding ) {
+				string fileName = ( (PdfFile) this.MenuComponent ).GetFileName();
 
-				this.edFileName.Text = Path.GetFileName( fileName );
-				this.MenuComponentTreeNode.Text = Path.GetFileName( fileName );
+				this.edFileName.Text = fileName;
+				this.MenuComponentTreeNode.Text = fileName;
             }
 
             return;
