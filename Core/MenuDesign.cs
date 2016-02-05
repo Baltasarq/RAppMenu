@@ -42,7 +42,7 @@ namespace RWABuilder.Core {
 				return this.Root.Name;
 			}
 			set {
-				value = value.Trim();
+				value = ( value ?? "" ).Trim();
 
 				if ( value != this.Root.Name ) {
 					this.Root.Name = value;
@@ -65,7 +65,7 @@ namespace RWABuilder.Core {
 					throw new ArgumentException( "invalid empty email" );
 				}
                 
-				value = value.Trim();
+				value = ( value ?? "" ).Trim();
 
 				if ( !string.IsNullOrWhiteSpace( value )
 				  && value.IndexOf( '@' ) < 0 )
@@ -341,7 +341,7 @@ namespace RWABuilder.Core {
 				return this.windowsBinariesPath;
 			}
 			set {
-				this.windowsBinariesPath = value.Trim();
+				this.windowsBinariesPath = ( value ?? "" ).Trim();
 			}
 		}
 
@@ -355,8 +355,49 @@ namespace RWABuilder.Core {
 				return this.sourceCodePath;
 			}
 			set {
-				this.sourceCodePath = value.Trim();
+				this.sourceCodePath = ( value ?? "" ).Trim();
 			}
+		}
+
+		/// Tries to find all resource files. Reverts their path to the default RWizard's dir
+		public void FindResourceFiles()
+		{
+			var mcs = new List<MenuComponent>();
+
+			mcs.Add( this.Root );
+
+			while( mcs.Count > 0 ) {
+				MenuComponent mc = mcs[ 0 ];
+				var menu = mc as Menu;
+				var pdf = mc as PdfFile;
+				var grf = mc as GraphicEntry;
+
+				// Add all subnodes to the list
+				if ( menu != null ) {
+					mcs.AddRange( menu.MenuComponents );
+				}
+
+				// Evaluate
+				if ( pdf != null ) {
+					if ( !File.Exists( pdf.GetFileFullPath() ) ) {
+						pdf.Name = Path.Combine(
+							LocalStorageManager.DefaultPdfFolder,
+							Path.GetFileName( pdf.FileName ) );
+					}
+				}
+				else
+				if ( grf != null ) {
+					if ( !File.Exists( pdf.GetFileFullPath() ) ) {
+						grf.ImagePath = Path.Combine(
+							LocalStorageManager.DefaultPdfFolder,
+							Path.GetFileName( grf.ImagePath ) );
+					}
+				}
+
+				mcs.RemoveAt( 0 );
+			}
+
+			return;
 		}
 
 		internal IList<PdfFile> GetPDFList()

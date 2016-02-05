@@ -437,15 +437,12 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
                 if ( colIndex != 1 ) {
                     string value = (string) row.Cells[ colIndex ].Value;
 
-                    if( !string.IsNullOrWhiteSpace( value ) )
-                    {
-                        if ( colIndex == 0 ) {
-                            arg.Name = value;
-                        }
-                        else
-                        if ( colIndex == 2 ) {
-                            arg.Value = value;
-                        }
+                    if ( colIndex == 0 ) {
+                        arg.Name = value;
+                    }
+                    else
+                    if ( colIndex == 2 ) {
+                        arg.Value = value;
                     }
                 }
                 else

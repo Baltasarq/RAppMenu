@@ -31,7 +31,7 @@ namespace RWABuilder.Core.MenuComponents {
 				return this.Function.Name;
 			}
 			set {
-				value = value.Trim();
+				value = ( value ?? "" ).Trim();
 
 				if ( base.Name != value ) {
 					base.Name = value;
@@ -79,7 +79,7 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.imagePath;
             }
             set {
-				this.imagePath = value.Trim();
+				this.imagePath = ( value ?? "" ).Trim();
             }
         }
 
@@ -92,7 +92,7 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.imageToolTip;
             }
             set {
-				this.imageToolTip = value.Trim();
+				this.imageToolTip = ( value ?? "" ).Trim();
             }
         }
 

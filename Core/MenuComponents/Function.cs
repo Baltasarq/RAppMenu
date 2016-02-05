@@ -85,7 +85,7 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.preCommand;
             }
             set {
-				this.preCommand = value.Trim();
+				this.preCommand = ( value ?? "" ).Trim();
             }
 		}
 
@@ -98,7 +98,7 @@ namespace RWABuilder.Core.MenuComponents {
 				return this.exampleData;
 			}
 			set {
-				this.exampleData = value.Trim();
+				this.exampleData = ( value ?? "" ).Trim();
 			}
 		}
 
@@ -186,7 +186,7 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.pdfName;
             }
             set {
-				this.pdfName = value.Trim();
+				this.pdfName = ( value ?? "" ).Trim();
             }
         }
 
@@ -218,7 +218,7 @@ namespace RWABuilder.Core.MenuComponents {
 				return this.package;
 			}
 			set {
-				this.package = value.Trim();
+				this.package = ( value ?? "" ).Trim();
 			}
 		}
 
@@ -237,7 +237,7 @@ namespace RWABuilder.Core.MenuComponents {
 				return toret;
 			}
 			set {
-				this.caption = value.Trim();
+				this.caption = ( value ?? "" ).Trim();
 			}
 		}
 

@@ -147,12 +147,24 @@ namespace RWABuilder.Ui {
 			this.PrepareView( false );
 		}
 
-		private void PrepareMenuDesign(string fileName)
+		private void PreparePackage(string fileName)
 		{
 			if ( string.IsNullOrWhiteSpace( fileName ) ) {
 				this.Package = new Package();
 			} else {
 				this.Package = Package.Unpack( fileName );
+			}
+
+			this.copier = new MenuComponentClipboard();
+			this.fileName = fileName;
+		}
+
+		private void PreparePackageFromMenuDesign(string fileName)
+		{
+			if ( string.IsNullOrWhiteSpace( fileName ) ) {
+				this.Package = new Package();
+			} else {
+				this.Package = new Package( MenuDesign.LoadFromFile( fileName ) );
 			}
 
 			this.copier = new MenuComponentClipboard();
@@ -166,7 +178,7 @@ namespace RWABuilder.Ui {
 			this.OnCloseDocument();
 
 			this.SetStatus( "Preparing new document..." );
-			this.PrepareMenuDesign( "" );
+			this.PreparePackage( "" );
 
 			this.PrepareViewStructuresForNewDocument();
 			this.PrepareView( true );
@@ -422,7 +434,7 @@ namespace RWABuilder.Ui {
 				this.SetToolbarTaskFinished();
 
 				try {
-					this.PrepareMenuDesign( dlg.FileName );
+					this.PreparePackage( dlg.FileName );
 				}
 				catch(XmlException exc)
 				{
@@ -608,7 +620,7 @@ namespace RWABuilder.Ui {
 				var dlg = new SaveFileDialog();
 
 				dlg.Title = "Save menu";
-				dlg.DefaultExt = AppInfo.AppsExtension;
+				dlg.DefaultExt = AppInfo.FileExtension;
 				dlg.CheckPathExists = true;
 				dlg.InitialDirectory = this.ApplicationsFolder;
 				dlg.Filter = AppInfo.FileExtension + "|*." + AppInfo.FileExtension
@@ -622,12 +634,80 @@ namespace RWABuilder.Ui {
 					Trace.WriteLine( DateTime.Now + ": Exporting cancelled" );
 				}
 
-				SetStatus();
+				this.SetStatus();
 			} catch(IOException exc) {
 				this.SetErrorStatus( "Error creating XML file: " + exc.Message );
 			}
 
 			Trace.WriteLine( DateTime.Now + ": Finished exporting " + this.Package.Menu.Root.Name );
+			Trace.Unindent();
+			return;
+		}
+
+		private void OnImport() {
+			this.OnCloseDocument();
+
+			Trace.WriteLine( DateTime.Now + ": Importing " + fileName );
+			Trace.Indent();
+			this.SetStatus( "Importing menu design from xml..." );
+
+			try {
+				var dlg = new OpenFileDialog();
+
+				dlg.Title = "Load menu";
+				dlg.DefaultExt = AppInfo.FileExtension;
+				dlg.CheckPathExists = true;
+				dlg.InitialDirectory = this.ApplicationsFolder;
+				dlg.Filter = AppInfo.FileExtension + "|*." + AppInfo.FileExtension
+					+ "|All files|*";
+				dlg.FileName = fileName;
+
+				if ( dlg.ShowDialog() == DialogResult.OK ) {
+					Trace.WriteLine( DateTime.Now + ": XML file set: " + dlg.FileName );
+					this.PrepareView( false );
+					this.SetStatus( "Loading menu..." );
+					this.SetToolbarForNumTasks( 2 );
+					this.SetToolbarTaskFinished();
+
+					try {
+						this.PreparePackageFromMenuDesign( dlg.FileName );
+						this.Package.Menu.FindResourceFiles();
+					}
+					catch(XmlException exc)
+					{
+						this.SetErrorStatus( "Malformed XML: " + exc.Message );
+						this.fileName = "";
+						Trace.WriteLine( exc.Message );
+						Trace.WriteLine( exc.StackTrace );
+						return;
+					}
+					catch(Exception exc)
+					{
+						this.SetErrorStatus( "Unexpected error: " + exc.Message );
+						this.fileName = "";
+						Trace.WriteLine( exc.Message );
+						Trace.WriteLine( exc.StackTrace );
+						return;
+					}
+					finally {
+						Trace.Unindent();
+						this.SetToolbarTaskFinished();
+					}
+
+					this.PrepareViewStructuresForNewDocument();
+					this.TreeMenuRoot.Text = this.Package.Menu.Root.Name;
+					this.PrepareTreeNodesForDocument();
+					this.PrepareView( true );
+				} else {
+					Trace.WriteLine( DateTime.Now + ": Importing cancelled" );
+				}
+
+				this.SetStatus();
+			} catch(IOException exc) {
+				this.SetErrorStatus( "Error creating package file: " + exc.Message );
+			}
+
+			Trace.WriteLine( DateTime.Now + ": Finished importing " + this.Package.Menu.Root.Name );
 			Trace.Unindent();
 			return;
 		}

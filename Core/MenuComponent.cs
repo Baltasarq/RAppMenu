@@ -46,7 +46,7 @@ namespace RWABuilder.Core {
                 throw new ArgumentNullException( "invalid name for menu component" );
             }
 
-			value = value.Trim();
+			value = ( value ?? "" ).Trim();
 
 			if ( value != this.name ) {
 				this.name = value;

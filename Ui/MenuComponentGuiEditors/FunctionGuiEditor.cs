@@ -823,11 +823,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
 			// The name
 			if ( colIndex == 0 ) {
-				string contents = (string) row.Cells[ colIndex ].Value;
-
-				if ( !string.IsNullOrWhiteSpace( contents ) ) {
-					arg.Name = contents;
-				}
+				arg.Name = (string) row.Cells[ colIndex ].Value;
 			}
 			else
 			// The value

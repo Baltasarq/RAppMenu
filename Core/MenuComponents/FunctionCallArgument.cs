@@ -46,7 +46,7 @@ namespace RWABuilder.Core.MenuComponents {
 						return this.value;
 					}
 					set {
-						this.value = value.Trim();
+						this.value = ( value ?? "" ).Trim();
 					}
 				}
 
@@ -158,7 +158,7 @@ namespace RWABuilder.Core.MenuComponents {
                     return this.variant;
                 }
                 set {
-                    this.variant = value.Trim();
+					this.variant = ( value ?? "" ).Trim();
                 }
             }
 
@@ -171,7 +171,7 @@ namespace RWABuilder.Core.MenuComponents {
                     return this.functionName;
                 }
                 set {
-                    this.functionName = value.Trim();
+					this.functionName = ( value ?? "" ).Trim();
                 }
             }
 

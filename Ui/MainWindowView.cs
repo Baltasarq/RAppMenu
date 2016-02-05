@@ -144,6 +144,10 @@ namespace RWABuilder.Ui {
 			this.opSaveAs.Click += (sender, e) => this.saveAsAction.CallBack();
 			this.opSaveAs.Image = UserAction.ImageList.Images[ this.saveAsAction.ImageIndex ];
 
+			this.opImport = new ToolStripMenuItem( "&" + this.importAction.Text );
+			this.opImport.Click += (sender, e) => this.importAction.CallBack();
+			this.opImport.Image = UserAction.ImageList.Images[ this.importAction.ImageIndex ];
+
 			this.opExport = new ToolStripMenuItem( "&" + this.exportAction.Text );
 			this.opExport.Click += (sender, e) => this.exportAction.CallBack();
 			this.opExport.Image = UserAction.ImageList.Images[ this.exportAction.ImageIndex ];
@@ -232,7 +236,7 @@ namespace RWABuilder.Ui {
 			this.mFile.DropDownItems.AddRange( new ToolStripItem[] {
                 this.opNew, this.opLoad,
                 this.opSave, this.opSaveAs,
-				this.opExport, this.opQuit
+				this.opImport, this.opExport, this.opQuit
 			});
 
 			this.mEdit.DropDownItems.AddRange( new ToolStripItem[] {
@@ -258,6 +262,7 @@ namespace RWABuilder.Ui {
             this.saveAction.AddComponent( this.opSave );
 			this.saveAsAction.AddComponent( this.opSaveAs );
 			this.exportAction.AddComponent( this.opExport );
+			this.importAction.AddComponent( this.opImport );
 			this.addMenuAction.AddComponent( this.opAddMenu );
 			this.addGraphicMenuAction.AddComponent( this.opAddGraphicMenu );
 			this.addFunctionAction.AddComponent( this.opAddFunction );
@@ -559,6 +564,7 @@ namespace RWABuilder.Ui {
 			this.previewAction = new UserAction( "Preview", 12, this.OnPreview );
 			this.propertiesAction = new UserAction( "Properties", 17, this.OnProperties );
 			this.exportAction = new UserAction( "Export", 19, this.OnExport );
+			this.importAction = new UserAction( "Import", 19, this.OnImport );
 			this.copyEntryAction = new UserAction( "Copy", 20, this.OnCopy );
 			this.pasteEntryAction = new UserAction( "Paste", 21, this.OnPaste );
 			this.searchAction = new UserAction( "Search", 22, this.OnSearch );
@@ -685,6 +691,7 @@ namespace RWABuilder.Ui {
 		private ToolStripMenuItem opSave;
 		private ToolStripMenuItem opSaveAs;
 		private ToolStripMenuItem opExport;
+		private ToolStripMenuItem opImport;
 		private ToolStripMenuItem opNew;
 		private ToolStripMenuItem opAddMenu;
 		private ToolStripMenuItem opAddFunction;
@@ -755,6 +762,7 @@ namespace RWABuilder.Ui {
 		private UserAction loadAction;
 		private UserAction saveAction;
 		private UserAction saveAsAction;
+		private UserAction importAction;
 		private UserAction exportAction;
 
 		private UserAction addMenuAction;
