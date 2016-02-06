@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Xml;
 using System.Diagnostics;
 using System.Collections.Generic;
@@ -43,7 +44,7 @@ namespace RWABuilder.Core.MenuComponents {
 			this.IsDefault = false;
             this.RemoveQuotationMarks = false;
             this.ExampleData = "";
-            this.PDFPageNumber = 1;
+			this.PDFPageNumber = 1;
             this.PDFName = "";
 			this.PreCommand = "";
 			this.Package = "";
@@ -186,7 +187,7 @@ namespace RWABuilder.Core.MenuComponents {
                 return this.pdfName;
             }
             set {
-				this.pdfName = ( value ?? "" ).Trim();
+				this.pdfName = Path.GetFileName( ( value ?? "" ).Trim() );
             }
         }
 

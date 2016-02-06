@@ -676,7 +676,6 @@ namespace RWABuilder.Ui {
 					catch(XmlException exc)
 					{
 						this.SetErrorStatus( "Malformed XML: " + exc.Message );
-						this.fileName = "";
 						Trace.WriteLine( exc.Message );
 						Trace.WriteLine( exc.StackTrace );
 						return;
@@ -684,13 +683,13 @@ namespace RWABuilder.Ui {
 					catch(Exception exc)
 					{
 						this.SetErrorStatus( "Unexpected error: " + exc.Message );
-						this.fileName = "";
 						Trace.WriteLine( exc.Message );
 						Trace.WriteLine( exc.StackTrace );
 						return;
 					}
 					finally {
 						Trace.Unindent();
+						this.fileName = "";
 						this.SetToolbarTaskFinished();
 					}
 

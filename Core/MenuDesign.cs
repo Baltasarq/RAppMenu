@@ -304,7 +304,7 @@ namespace RWABuilder.Core {
 			var fileNames = new HashSet<string>();
 
 			for(int i = 0; i < this.pdfList.Count; ++i) {
-				fileNames.Add( this.pdfList[ i ].Name );
+				fileNames.Add( this.pdfList[ i ].GetFileName() );
 			}
 
 			var toret = new string[ fileNames.Count ];
@@ -387,9 +387,9 @@ namespace RWABuilder.Core {
 				}
 				else
 				if ( grf != null ) {
-					if ( !File.Exists( pdf.GetFileFullPath() ) ) {
+					if ( !File.Exists( grf.GetFileFullPath() ) ) {
 						grf.ImagePath = Path.Combine(
-							LocalStorageManager.DefaultPdfFolder,
+							LocalStorageManager.DefaultGraphsFolder,
 							Path.GetFileName( grf.ImagePath ) );
 					}
 				}
