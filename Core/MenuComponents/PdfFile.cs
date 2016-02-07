@@ -72,7 +72,7 @@ namespace RWABuilder.Core.MenuComponents {
             doc.WriteStartElement( TagName );
 
             doc.WriteStartAttribute( EtqName );
-            doc.WriteString( this.FileName );
+			doc.WriteString( this.GetFileName() );
             doc.WriteEndAttribute();
 
             doc.WriteEndElement();

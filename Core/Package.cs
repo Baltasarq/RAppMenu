@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace RWABuilder.Core {
 	/// <summary>
-	/// This is the packager, the class responsible of managing
+	/// This is a package, the class responsible of managing
 	/// Zip files which include the menu design and the resources,
 	/// i.e., PDF's and images.
 	/// </summary>
@@ -47,6 +47,7 @@ namespace RWABuilder.Core {
 			this.Menu = new MenuDesign();
 			this.grfFiles = new List<string>();
 			this.pdfFiles = new List<string>();
+			this.otherFiles = new List<string>();
 			this.UUID = Guid.NewGuid();
 			this.PathToDir = LocalStorageManager.CreateTempFolder();
 		}
@@ -259,6 +260,7 @@ namespace RWABuilder.Core {
 
 			toret.PathToDir = dir;
 			ParseManifestFor( dir, toret );
+			toret.Menu.FindResourceFiles( dir );
 			toret.CheckSanity();
 
 			return toret;
@@ -377,6 +379,7 @@ namespace RWABuilder.Core {
 
 							if ( parts.Length == 2 ) {
 								package.Menu.SourceCodePath = Path.Combine( dir, parts[ 1 ].Trim() );
+								package.AddSrcFile( package.Menu.SourceCodePath );
 							} else {
 								throw new ArgumentException( "parsing manifest: src entry erroneous" );
 							}
@@ -388,6 +391,7 @@ namespace RWABuilder.Core {
 
 							if ( parts.Length == 2 ) {
 								package.Menu.WindowsBinariesPath = Path.Combine( dir, parts[ 1 ].Trim() );
+								package.AddWinBinFile( package.Menu.WindowsBinariesPath );
 							} else {
 								throw new ArgumentException( "parsing manifest: win-bin entry erroneous" );
 							}
@@ -417,6 +421,14 @@ namespace RWABuilder.Core {
 			this.grfFiles.Add( path );
 		}
 
+		public void AddSrcFile(string path) {
+			this.otherFiles.Add( path );
+		}
+
+		public void AddWinBinFile(string path) {
+			this.otherFiles.Add( path );
+		}
+
 		/// <summary>
 		/// Gets the UUI associated with this package.
 		/// </summary>
@@ -436,6 +448,7 @@ namespace RWABuilder.Core {
 
 				toret.AddRange( this.pdfFiles );
 				toret.AddRange( this.grfFiles );
+				toret.AddRange( this.otherFiles );
 				return toret.ToArray();
 			}
 		}
@@ -483,5 +496,6 @@ namespace RWABuilder.Core {
 
 		private List<string> pdfFiles;
 		private List<string> grfFiles;
+		private List<string> otherFiles;
 	}
 }

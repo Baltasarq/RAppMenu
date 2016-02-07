@@ -671,7 +671,6 @@ namespace RWABuilder.Ui {
 
 					try {
 						this.PreparePackageFromMenuDesign( dlg.FileName );
-						this.Package.Menu.FindResourceFiles();
 					}
 					catch(XmlException exc)
 					{
@@ -697,6 +696,8 @@ namespace RWABuilder.Ui {
 					this.TreeMenuRoot.Text = this.Package.Menu.Root.Name;
 					this.PrepareTreeNodesForDocument();
 					this.PrepareView( true );
+					Trace.WriteLine( DateTime.Now + ": Finished importing " + this.Package.Menu.Root.Name );
+					Trace.Unindent();
 				} else {
 					Trace.WriteLine( DateTime.Now + ": Importing cancelled" );
 				}
@@ -705,9 +706,7 @@ namespace RWABuilder.Ui {
 			} catch(IOException exc) {
 				this.SetErrorStatus( "Error creating package file: " + exc.Message );
 			}
-
-			Trace.WriteLine( DateTime.Now + ": Finished importing " + this.Package.Menu.Root.Name );
-			Trace.Unindent();
+				
 			return;
 		}
 

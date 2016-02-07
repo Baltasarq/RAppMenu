@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -105,6 +106,11 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             this.edPDFFileName.Items.Add( "" );
 			this.edPDFFileName.Items.AddRange( pdfList );
 
+			// Modify PDF file name list so only the file name is shown, not the whole path
+			for(int i = 0; i < this.edPDFFileName.Items.Count; ++i) {
+				this.edPDFFileName.Items[ i ] = Path.GetFileName( (string) this.edPDFFileName.Items[ i ] );
+			}
+
 			if ( pdfList.Length == 0 ) {
 				this.pnlPDFReference.Enabled = false;
 				this.Function.PDFName = "";
@@ -116,7 +122,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 				if ( pdfList.Length == 1 ) {
 					this.edPDFFileName.SelectedItem = this.Function.PDFName = pdfList[ 0 ];
 				} else {
-					this.edPDFFileName.SelectedItem = this.Function.PDFName;
+					this.edPDFFileName.SelectedItem = Path.GetFileName( this.Function.PDFName );
 				}
 			}
 
@@ -964,7 +970,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             this.edFunctionExecuteOnce.Text = this.Function.PreProgramOnce.ToString();
             this.udFunctionStartColumn.Value = Math.Max( 0, this.Function.StartColumn );
             this.udFunctionEndColumn.Value = Math.Max( 0, this.Function.EndColumn );
-			this.edPDFFileName.Text = this.Function.PDFName;
+			this.edPDFFileName.Text = Path.GetFileName( this.Function.PDFName );
 			this.udFunctionStartPage.Value = this.Function.PDFPageNumber;
 			this.edPackageName.Text = this.Function.Package;
 			this.edCaption.Text = this.Function.Caption;

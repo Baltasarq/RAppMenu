@@ -303,8 +303,8 @@ namespace RWABuilder.Core {
         {
 			var fileNames = new HashSet<string>();
 
-			for(int i = 0; i < this.pdfList.Count; ++i) {
-				fileNames.Add( this.pdfList[ i ].GetFileName() );
+			foreach(PdfFile pdfFile in this.pdfList) {
+				fileNames.Add( pdfFile.GetFileFullPath() );
 			}
 
 			var toret = new string[ fileNames.Count ];
@@ -322,7 +322,7 @@ namespace RWABuilder.Core {
 
 			foreach (GraphicMenu grfm in this.grfMenuList) {
 				foreach (GraphicEntry grfe in grfm.MenuComponents) {
-					fileNames.Add( grfe.ImagePath );
+					fileNames.Add( grfe.GetFileFullPath() );
 				}
 			}
 
@@ -360,7 +360,8 @@ namespace RWABuilder.Core {
 		}
 
 		/// Tries to find all resource files. Reverts their path to the default RWizard's dir
-		public void FindResourceFiles()
+		/// <param name="packagePath">The path the package was unpacked, as a string</param>
+		public void FindResourceFiles(string packagePath)
 		{
 			var mcs = new List<MenuComponent>();
 
@@ -380,17 +381,33 @@ namespace RWABuilder.Core {
 				// Evaluate
 				if ( pdf != null ) {
 					if ( !File.Exists( pdf.GetFileFullPath() ) ) {
+						// Try in the package dir
 						pdf.Name = Path.Combine(
-							LocalStorageManager.DefaultPdfFolder,
-							Path.GetFileName( pdf.FileName ) );
+							Path.Combine( packagePath, Package.ZipPdfDir ),
+							pdf.GetFileName() );
+
+						// Try in the main app dir
+						if ( !File.Exists( pdf.GetFileFullPath() ) ) {
+							pdf.Name = Path.Combine(
+								LocalStorageManager.DefaultPdfFolder,
+								pdf.GetFileName() );
+						}
 					}
 				}
 				else
 				if ( grf != null ) {
 					if ( !File.Exists( grf.GetFileFullPath() ) ) {
+						// Try in the package dir
 						grf.ImagePath = Path.Combine(
-							LocalStorageManager.DefaultGraphsFolder,
-							Path.GetFileName( grf.ImagePath ) );
+							Path.Combine( packagePath, Package.ZipGrfDir ),
+							grf.GetFileName() );
+
+						// Try in the main app dir
+						if ( !File.Exists( grf.GetFileFullPath() ) ) {
+							grf.ImagePath = Path.Combine(
+								LocalStorageManager.DefaultGraphsFolder,
+								grf.GetFileName() );
+						}
 					}
 				}
 

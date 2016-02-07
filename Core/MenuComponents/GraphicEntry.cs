@@ -148,7 +148,7 @@ namespace RWABuilder.Core.MenuComponents {
 		}
 
 		/// <summary>
-		/// Gets the name of the file, without any path part.
+		/// Gets the name of the file for the image, without any path part.
 		/// </summary>
 		/// <returns>Just the file name and the extension, as a string.</returns>
 		public string GetFileName() {
@@ -172,7 +172,7 @@ namespace RWABuilder.Core.MenuComponents {
             if ( !string.IsNullOrWhiteSpace( this.ImagePath ) ) {
                 // Image = "/path/to/image1.png"
                 doc.WriteStartAttribute( EtqImagePath );
-                doc.WriteString( this.ImagePath );
+				doc.WriteString( this.GetFileName() );
                 doc.WriteEndAttribute();
 
                 if ( !string.IsNullOrWhiteSpace( this.ImageToolTip ) ) {
