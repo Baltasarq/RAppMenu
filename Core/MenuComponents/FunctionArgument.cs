@@ -31,7 +31,7 @@ namespace RWABuilder.Core.MenuComponents {
 
             public enum ViewerType {
                 Plain, DataColumns, DataValues, Map, TaxTree,
-                ValueSet, ColorPicker
+                ValueSet, ColorPicker, FontPicker
             };
 
 			/// <summary>
