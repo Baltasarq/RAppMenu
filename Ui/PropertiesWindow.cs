@@ -81,10 +81,10 @@ namespace RWABuilder.Ui {
 
             // Load email's data & event
             edEmail.Text = this.Document.AuthorEmail;
-            edEmail.TextChanged += (sender, e) => this.Document.AuthorEmail = edEmail.Text.Trim();
+			edEmail.TextChanged += (sender, e) => this.Document.AuthorEmail = edEmail.Text.Trim();
 
 			// Create date sub-panel
-			var pnlDate = new Panel(){ Dock = DockStyle.Top };
+			var pnlDate = new Panel() { Dock = DockStyle.Top };
             pnlDate.Margin = new Padding( 5 );
 			var lblDate = new Label(){
 				Text = "Modified",

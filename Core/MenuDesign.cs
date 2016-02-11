@@ -62,23 +62,7 @@ namespace RWABuilder.Core {
 				return this.authorEmail;
 			}
 			set {
-				if ( value == null ) {
-					throw new ArgumentException( "invalid empty email" );
-				}
-                
-				value = ( value ?? "" ).Trim();
-
-				if ( !string.IsNullOrWhiteSpace( value )
-				  && value.IndexOf( '@' ) < 0 )
-                {
-                    throw new ArgumentException( "invalid email: " + value );
-                }
-
-				if ( value != this.authorEmail ) {
-					this.authorEmail = value;
-				}
-
-				return;
+				this.authorEmail = ( value ?? "" ).Trim();
 			}
 		}
 
