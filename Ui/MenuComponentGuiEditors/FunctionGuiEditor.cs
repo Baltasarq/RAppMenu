@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Drawing;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 using RWABuilder.Core;
@@ -899,22 +900,35 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		/// </summary>
 		private void OnEditFunctionCallArguments()
 		{
-            var fakeRoot = new RootMenu( new MenuDesign() );
-            Function old = (Function) this.Function.Copy( fakeRoot );
+			try {
+	            var fakeRoot = new RootMenu( new MenuDesign() );
+	            Function old = (Function) this.Function.Copy( fakeRoot );
 
-			if ( this.fnCallsEditor == null ) {
-				this.fnCallsEditor = new FunctionCallsGuiEditor( this.Function );
+				if ( this.fnCallsEditor == null ) {
+					this.fnCallsEditor = new FunctionCallsGuiEditor( this.Function );
+				}
+
+				Trace.WriteLine( DateTime.Now + ": Opening function calls editor" );
+	            if ( this.fnCallsEditor.ShowDialog() != DialogResult.OK ) {
+	                this.Function.FunctionCallsArgumentList.Clear();
+
+	                foreach(Function.CallArgument fnCall in old.FunctionCallsArgumentList) {
+	                    this.Function.FunctionCallsArgumentList.Add(
+	                        (Function.CallArgument) fnCall.Copy( this.Function ) );
+	                }
+	            }
+			} catch(Exception exc)
+			{
+				Trace.WriteLine( DateTime.Now + ": Unexpected exception." );
+				Trace.Indent();
+				Trace.WriteLine( exc.Message );
+				Trace.WriteLine( exc.StackTrace );
+				Trace.Unindent();
+				MessageBox.Show( "Unexpected exception. \nPlease send an error report with the log (Help >> Show Log).",
+									AppInfo.Name, MessageBoxButtons.OK, MessageBoxIcon.Error );
 			}
 
-            if ( this.fnCallsEditor.ShowDialog() != DialogResult.OK ) {
-                this.Function.FunctionCallsArgumentList.Clear();
-
-                foreach(Function.CallArgument fnCall in old.FunctionCallsArgumentList) {
-                    this.Function.FunctionCallsArgumentList.Add(
-                        (Function.CallArgument) fnCall.Copy( this.Function ) );
-                }
-            }
-
+			Trace.WriteLine( DateTime.Now + ": Finished function calls editor" );
             return;
 		}
 

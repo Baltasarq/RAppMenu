@@ -18,8 +18,9 @@ namespace RWABuilder.Core {
 		public const string ZipPdfDir = "Pdf/";
 		public const string ZipGrfDir = "Graph/";
 		public const string ZipAppsDir = "Applications/";
-		public const string ZipSrcDir = "Src/";
-		public const string ZipWinBinDir = "WinBin/";
+		public const string ZipOtherDir = "Other/";
+		public const string ZipSrcDir = ZipOtherDir;
+		public const string ZipWinBinDir = ZipOtherDir;
 
 		// Labels for manifest file
 		public const string ManifestFileName = "manifest";
@@ -31,6 +32,7 @@ namespace RWABuilder.Core {
 		public const string EtqGRF = "Grf";
 		public const string EtqWinBin = "WinBin";
 		public const string EtqSrc = "Src";
+		public const string EtqReqPacks = "ReqPacks";
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RWABuilder.Core.Packager"/> class.
@@ -78,6 +80,11 @@ namespace RWABuilder.Core {
 						if ( this.Menu.WindowsBinariesPath.Length > 0 ) {
 							zip.CreateEntryFromFile( this.Menu.WindowsBinariesPath,
 								ZipWinBinDir + Path.GetFileName( this.Menu.WindowsBinariesPath ) );
+						}
+
+						if ( this.Menu.RequiredPackagesPath.Length > 0 ) {
+							zip.CreateEntryFromFile( this.Menu.RequiredPackagesPath,
+								ZipOtherDir + Path.GetFileName( this.Menu.RequiredPackagesPath ) );
 						}
 
 						// Insert each pdf file in the zip
@@ -130,6 +137,10 @@ namespace RWABuilder.Core {
 
 					if ( package.Menu.WindowsBinariesPath.Length > 0 ) {
 						streamWriter.WriteLine( EtqWinBin + ": " + ZipWinBinDir + Path.GetFileName( package.Menu.WindowsBinariesPath ) );
+					}
+
+					if ( package.Menu.RequiredPackagesPath.Length > 0 ) {
+						streamWriter.WriteLine( EtqReqPacks + ": " + ZipOtherDir + Path.GetFileName( package.Menu.RequiredPackagesPath ) );
 					}
 
 					foreach ( string file in package.pdfFiles ) {
@@ -379,7 +390,7 @@ namespace RWABuilder.Core {
 
 							if ( parts.Length == 2 ) {
 								package.Menu.SourceCodePath = Path.Combine( dir, parts[ 1 ].Trim() );
-								package.AddSrcFile( package.Menu.SourceCodePath );
+								package.AddOtherFile( package.Menu.SourceCodePath );
 							} else {
 								throw new ArgumentException( "parsing manifest: src entry erroneous" );
 							}
@@ -391,9 +402,21 @@ namespace RWABuilder.Core {
 
 							if ( parts.Length == 2 ) {
 								package.Menu.WindowsBinariesPath = Path.Combine( dir, parts[ 1 ].Trim() );
-								package.AddWinBinFile( package.Menu.WindowsBinariesPath );
+								package.AddOtherFile( package.Menu.WindowsBinariesPath );
 							} else {
 								throw new ArgumentException( "parsing manifest: win-bin entry erroneous" );
+							}
+						}
+						else
+						// A required packages file
+						if ( line.ToUpper().StartsWith( EtqReqPacks.ToUpper() ) ) {
+							parts = line.Split( new char[]{ ':' } );
+
+							if ( parts.Length == 2 ) {
+								package.Menu.RequiredPackagesPath = Path.Combine( dir, parts[ 1 ].Trim() );
+								package.AddOtherFile( package.Menu.RequiredPackagesPath );
+							} else {
+								throw new ArgumentException( "parsing manifest: req-packs entry erroneous" );
 							}
 						}
 					}
@@ -421,11 +444,11 @@ namespace RWABuilder.Core {
 			this.grfFiles.Add( path );
 		}
 
-		public void AddSrcFile(string path) {
-			this.otherFiles.Add( path );
-		}
-
-		public void AddWinBinFile(string path) {
+		/// <summary>
+		/// Adds a file which is not a PDF nor graphic.
+		/// </summary>
+		/// <param name="path">The path to the file, as a string.</param>
+		public void AddOtherFile(string path) {
 			this.otherFiles.Add( path );
 		}
 

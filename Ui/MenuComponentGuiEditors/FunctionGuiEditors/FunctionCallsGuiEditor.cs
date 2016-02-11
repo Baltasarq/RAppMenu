@@ -64,6 +64,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
             this.grdFnCallList.Rows.Clear();
             this.grdFnCallArgsList.Rows.Clear();
 
+			this.numFnCalls = 0;
             foreach(Function.CallArgument call in this.Function.FunctionCallsArgumentList)
             {
                 this.grdFnCallList.Rows.Add(
@@ -71,6 +72,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
                     call.FunctionName,
                     call.Variant
                 );
+
+				++this.numFnCalls;
             }
 
             this.grdFnCallList.Show();
@@ -87,11 +90,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			this.addFunctionCallArgumentAction.CallBack = this.OnAddFunctionCallArgument;
 			this.removeFunctionCallArgumentAction.CallBack = this.OnRemoveFunctionCallArgument;
 
+			this.Populate();
 			this.removeFunctionCallAction.Enabled = ( this.grdFnCallList.Rows.Count > 0 );
 			this.removeFunctionCallArgumentAction.Enabled = ( this.grdFnCallArgsList.Rows.Count > 0 );
             this.addFunctionCallArgumentAction.Enabled = this.removeFunctionCallAction.Enabled;
-
-            this.Populate();
 		}
 
 		private void Build()
@@ -374,9 +376,11 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors.FunctionGuiEditors {
 			{
                 var call = (Function.CallArgument) this.Function.FunctionCallsArgumentList[ rowIndex ];
 
+				this.numFnCallArgs = 0;
                 foreach(Function.CallArgument.Arg arg in call.ArgumentList) {
                     this.grdFnCallArgsList.Rows.Add(
 										arg.Name, arg.IsReadOnly, arg.Value );
+					++this.numFnCallArgs;
                 }
             }
 

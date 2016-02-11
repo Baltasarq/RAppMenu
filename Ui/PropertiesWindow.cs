@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -80,15 +81,7 @@ namespace RWABuilder.Ui {
 
             // Load email's data & event
             edEmail.Text = this.Document.AuthorEmail;
-            edEmail.TextChanged += (sender, e) => {
-                string value = edEmail.Text.Trim();
-
-                if ( value.Length == 0
-				  || value.IndexOf( '@' ) >= 0 )
-				{
-                    this.Document.AuthorEmail = value;
-                }
-            };
+            edEmail.TextChanged += (sender, e) => this.Document.AuthorEmail = edEmail.Text.Trim();
 
 			// Create date sub-panel
 			var pnlDate = new Panel(){ Dock = DockStyle.Top };
@@ -135,7 +128,7 @@ namespace RWABuilder.Ui {
 			pnlSource.MaximumSize = new Size( int.MaxValue, btSource.Height );
 
 			// Load source code's data & event
-			edSource.Text = this.Document.SourceCodePath;
+			edSource.Text = Path.GetFileName( this.Document.SourceCodePath );
 			btSource.Click += (sender, e) => {
 				var fileDlg = new OpenFileDialog() {
 					Title = "Path to package source",
@@ -144,11 +137,11 @@ namespace RWABuilder.Ui {
 
 				if ( fileDlg.ShowDialog() == DialogResult.OK ) {
 					this.document.SourceCodePath = fileDlg.FileName;
-					edSource.Text = fileDlg.FileName;
+					edSource.Text = Path.GetFileName( fileDlg.FileName );
 				}
 			};
 
-			// Create the source code sub panel
+			// Create the windows binaries sub panel
 			var pnlDocs = new Panel(){ Dock = DockStyle.Top };
 			pnlDocs.Margin = new Padding( 5 );
 			var lblDocs = new Label() {
@@ -168,8 +161,8 @@ namespace RWABuilder.Ui {
 			pnlDocs.Controls.Add( btDocs );
 			pnlDocs.MaximumSize = new Size( int.MaxValue, btDocs.Height );
 
-			// Load source code's data & event
-			edDocs.Text = this.Document.WindowsBinariesPath;
+			// Load windows binaries's data & event
+			edDocs.Text = Path.GetFileName( this.Document.WindowsBinariesPath );
 			btDocs.Click += (sender, e) => {
 				var fileDlg = new OpenFileDialog() {
 					Title = "Path to windows binaries",
@@ -178,7 +171,40 @@ namespace RWABuilder.Ui {
 
 				if ( fileDlg.ShowDialog() == DialogResult.OK ) {
 					this.document.WindowsBinariesPath = fileDlg.FileName;
-					edDocs.Text = fileDlg.FileName;
+					edDocs.Text = Path.GetFileName( fileDlg.FileName );
+				}
+			};
+
+			// Create the required packages sub panel
+			var pnlReqPacks = new Panel(){ Dock = DockStyle.Top, Margin = new Padding( 5 ) };
+			var lblReqPacks = new Label() {
+				Text = "Required packages",
+				Font = new Font( lblDate.Font, FontStyle.Regular ),
+				Dock = DockStyle.Left
+			};
+			var btReqPacks = new Button() {
+				ImageList = UserAction.ImageList,
+				ImageIndex = UserAction.LookUp( "open" ).ImageIndex,
+				Dock = DockStyle.Right,
+				MaximumSize = new Size( 24, 24 )
+			};
+			var edReqPacks = new TextBox() { ReadOnly = true, Dock = DockStyle.Fill };
+			pnlReqPacks.Controls.Add( edReqPacks );
+			pnlReqPacks.Controls.Add( lblReqPacks );
+			pnlReqPacks.Controls.Add( btReqPacks );
+			pnlReqPacks.MaximumSize = new Size( int.MaxValue, btReqPacks.Height );
+
+			// Load windows binaries's data & event
+			edReqPacks.Text = Path.GetFileName( this.Document.RequiredPackagesPath );
+			btReqPacks.Click += (sender, e) => {
+				var fileDlg = new OpenFileDialog() {
+					Title = "Path to required packages",
+					Filter = "Txt files|*.txt|All files|*"
+				};
+
+				if ( fileDlg.ShowDialog() == DialogResult.OK ) {
+					this.document.RequiredPackagesPath = fileDlg.FileName;
+					edReqPacks.Text = Path.GetFileName( fileDlg.FileName );
 				}
 			};
 
@@ -187,6 +213,7 @@ namespace RWABuilder.Ui {
 			pnlSubPanel.Controls.Add( pnlDate );
 			pnlSubPanel.Controls.Add( pnlSource );
 			pnlSubPanel.Controls.Add( pnlDocs );
+			pnlSubPanel.Controls.Add( pnlReqPacks );
 			this.pnlMeta.Controls.Add( pnlSubPanel );
 			pnlSubPanel.ResumeLayout( false );
 			this.pnlMeta.ResumeLayout( false );
@@ -211,7 +238,8 @@ namespace RWABuilder.Ui {
 			this.MinimizeBox = this.MaximizeBox = false;
 			this.Icon = icon;
 			this.Text = AppInfo.Name + " app properties";
-			this.MinimumSize = this.pnlMeta.Size;
+			this.MinimumSize = new Size( this.pnlMeta.Size.Width + 20, this.pnlMeta.Size.Height + 20 );
+			this.Size = this.MinimumSize;
 		}
 
 		/// <summary>

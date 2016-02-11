@@ -18,6 +18,7 @@ namespace RWABuilder.Core {
 		public const string EtqDate = "Date";
 		public const string EtqSourceCodePath = "SourceCodePath";
 		public const string EtqDocsPath = "WindowsBinariesPath";
+		public const string EtqReqPacksPath = "RequiredPackagesPath";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RWABuilder.Core.MenuDesign"/> class.
@@ -27,7 +28,7 @@ namespace RWABuilder.Core {
 		{
             this.root = new RootMenu( this );
 			this.pdfList = new List<PdfFile>();
-			this.sourceCodePath = this.windowsBinariesPath = "";
+			this.sourceCodePath = this.windowsBinariesPath = this.requiredPackagesPath = "";
 			this.grfMenuList = new List<GraphicMenu>();
             this.AuthorEmail = DefaultEmail;
             this.Date = DateTime.Now;
@@ -129,14 +130,21 @@ namespace RWABuilder.Core {
 			// SourceCode = "/path/to/source.zip"
 			if ( this.SourceCodePath.Length > 0 ) {
 				doc.WriteStartAttribute( EtqSourceCodePath );
-				doc.WriteString( this.SourceCodePath );
+				doc.WriteString( Path.GetFileName( this.SourceCodePath ) );
 				doc.WriteEndAttribute();
 			}
 
 			// Documentation = "/path/to/source.tgz"
 			if ( this.WindowsBinariesPath.Length > 0 ) {
 				doc.WriteStartAttribute( EtqDocsPath );
-				doc.WriteString( this.WindowsBinariesPath );
+				doc.WriteString( Path.GetFileName( this.WindowsBinariesPath ) );
+				doc.WriteEndAttribute();
+			}
+
+			// RequiredPackages = "/path/to/source.txt"
+			if ( this.RequiredPackagesPath.Length > 0 ) {
+				doc.WriteStartAttribute( EtqReqPacksPath );
+				doc.WriteString( Path.GetFileName( this.RequiredPackagesPath ) );
 				doc.WriteEndAttribute();
 			}
 
@@ -151,6 +159,7 @@ namespace RWABuilder.Core {
 			XmlNode attrAuthorEmail = node.Attributes.GetNamedItemIgnoreCase( EtqEmail );
 			XmlNode attrSourceCodePath = node.Attributes.GetNamedItemIgnoreCase( EtqSourceCodePath );
 			XmlNode attrDocsCodePath = node.Attributes.GetNamedItemIgnoreCase( EtqDocsPath );
+			XmlNode attrReqPacksPath = node.Attributes.GetNamedItemIgnoreCase( EtqReqPacksPath );
 
 			// Attributes
 			if ( attrDate != null ) {
@@ -177,6 +186,10 @@ namespace RWABuilder.Core {
 
 			if ( attrDocsCodePath != null ) {
 				this.WindowsBinariesPath = attrDocsCodePath.InnerText;
+			}
+
+			if ( attrReqPacksPath != null ) {
+				this.RequiredPackagesPath = attrReqPacksPath.InnerText;
 			}
 
 			// Root menu
@@ -359,6 +372,19 @@ namespace RWABuilder.Core {
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the required packages path.
+		/// </summary>
+		/// <value>The required packages path.</value>
+		public string RequiredPackagesPath {
+			get {
+				return this.requiredPackagesPath;
+			}
+			set {
+				this.requiredPackagesPath = ( value ?? "" ).Trim();
+			}
+		}
+
 		/// Tries to find all resource files. Reverts their path to the default RWizard's dir
 		/// <param name="packagePath">The path the package was unpacked, as a string</param>
 		public void FindResourceFiles(string packagePath)
@@ -380,6 +406,7 @@ namespace RWABuilder.Core {
 
 				// Evaluate
 				if ( pdf != null ) {
+					// This is a PDF file
 					if ( !File.Exists( pdf.GetFileFullPath() ) ) {
 						// Try in the package dir
 						pdf.Name = Path.Combine(
@@ -396,6 +423,7 @@ namespace RWABuilder.Core {
 				}
 				else
 				if ( grf != null ) {
+					// This is a graphic file
 					if ( !File.Exists( grf.GetFileFullPath() ) ) {
 						// Try in the package dir
 						grf.ImagePath = Path.Combine(
@@ -431,6 +459,7 @@ namespace RWABuilder.Core {
 		private string authorEmail;
 		private string sourceCodePath;
 		private string windowsBinariesPath;
+		private string requiredPackagesPath;
 		private DateTime date;
 		private List<PdfFile> pdfList;
 		private List<GraphicMenu> grfMenuList;

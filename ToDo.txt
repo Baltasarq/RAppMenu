@@ -1,3 +1,2 @@
 ﻿* Bugfixes:
-- Editor de function arguments (fx): para que se active el botón de más argumentos, hay que crear una nueva fn.
 - Editor de function arguments (fx): excepción: System.InvalidOperationException: SplitterDistance debe estar entre Panel1MinSize y Ancho - Panel2MinSize.

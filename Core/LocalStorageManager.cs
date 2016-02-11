@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Diagnostics;
+using Microsoft.Win32;
 
 namespace RWABuilder.Core {
 	/// <summary>
@@ -11,9 +12,12 @@ namespace RWABuilder.Core {
 	public static class LocalStorageManager {
 		public const string LogFile = AppInfo.Name + ".errors.log";
 
-		public const string RegistryPath = "Software\\RWizard";
+		public const string RegistryPath = "SOFTWARE\\RWizard";
 		public const string RegistryVersionKey = "Version";
 		public const string RegistryInstallPathKey = "InstallPath";
+
+		public const string PdfDir = "Pdf";
+		public const string GrfDir = "Graphs";
 
 		/// <summary>
 		/// Gets the application configuration folder ready to work.
@@ -83,7 +87,7 @@ namespace RWABuilder.Core {
 		public static string DefaultPdfFolder {
 			get {
 				GetMainAppInfo();
-				return Path.Combine( PathToMainApp, "Pdf" );
+				return Path.Combine( PathToMainApp, PdfDir );
 			}
 		}
 
@@ -107,7 +111,7 @@ namespace RWABuilder.Core {
 		public static string DefaultGraphsFolder {
 			get {
 				GetMainAppInfo();
-				return Path.Combine( PathToMainApp, "Graphs" );
+				return Path.Combine( PathToMainApp, GrfDir );
 			}
 		}
 
@@ -194,7 +198,7 @@ namespace RWABuilder.Core {
 		}
 
 		/// <summary>
-		/// Gets the main app info, suing the registry.
+		/// Gets the main app info, using the registry.
 		/// </summary>
 		/// <returns>The main app info.</returns>
 		public static void GetMainAppInfo()
@@ -204,7 +208,15 @@ namespace RWABuilder.Core {
 			Trace.WriteLine( DateTime.Now + ": " + "Starting registry search..." );
 
 			try {
-				var regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey( RegistryPath );
+				// Check the 64-bit registry for "HKEY_LOCAL_MACHINE\SOFTWARE" 1st:
+				RegistryKey localMachineRegistry64 = RegistryKey.OpenBaseKey( RegistryHive.LocalMachine, RegistryView.Registry64 );
+				RegistryKey regKey = localMachineRegistry64.OpenSubKey( RegistryPath, false );
+
+				// Check the 32-bit registry for "HKEY_LOCAL_MACHINE\SOFTWARE" if not found in the 64-bit registry:
+				if ( regKey == null ) {
+					RegistryKey localMachineRegistry32 = RegistryKey.OpenBaseKey( RegistryHive.LocalMachine, RegistryView.Registry32 );
+					regKey = localMachineRegistry32.OpenSubKey( RegistryPath, false );
+				}
 
 				if ( regKey != null ) {
 					pathToMainApp = (string) regKey.GetValue( RegistryInstallPathKey );
