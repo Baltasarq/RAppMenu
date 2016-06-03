@@ -168,8 +168,9 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			var column3 = new DataGridViewCheckBoxColumn();
 			var column4 = new DataGridViewCheckBoxColumn();
 			var column5 = new DataGridViewCheckBoxColumn();
-			var column6 = new DataGridViewComboBoxColumn();
-			var column7 = new DataGridViewImageColumn();
+			var column6 = new DataGridViewCheckBoxColumn();
+			var column7 = new DataGridViewComboBoxColumn();
+			var column8 = new DataGridViewImageColumn();
 
 			column0.CellTemplate = textCellTemplate;
 			column1.CellTemplate = textCellTemplate;
@@ -177,8 +178,9 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			column3.CellTemplate = checkBoxCellTemplate;
 			column4.CellTemplate = checkBoxCellTemplate;
 			column5.CellTemplate = checkBoxCellTemplate;
-			column6.CellTemplate = comboBoxCellTemplate;
-			column7.CellTemplate = imageCellTemplate;
+			column6.CellTemplate = checkBoxCellTemplate;
+			column7.CellTemplate = comboBoxCellTemplate;
+			column8.CellTemplate = imageCellTemplate;
 
 			column0.HeaderText = "Name";
 			column0.Width = 120;
@@ -195,16 +197,19 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			column4.HeaderText = "Required";
 			column4.Width = 80;
 			column4.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column5.HeaderText = "Multiselect";
+			column5.HeaderText = "Is data";
 			column5.Width = 80;
 			column5.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column6.HeaderText = "Viewer";
+			column6.HeaderText = "Multiselect";
 			column6.Width = 80;
 			column6.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column7.HeaderText = "";
-			column7.ReadOnly = true;
-			column7.Width = 10;
+			column7.HeaderText = "Viewer";
+			column7.Width = 80;
 			column7.SortMode = DataGridViewColumnSortMode.NotSortable;
+			column8.HeaderText = "";
+			column8.ReadOnly = true;
+			column8.Width = 10;
+			column8.SortMode = DataGridViewColumnSortMode.NotSortable;
 
 			this.grdArgsList.Columns.AddRange( new DataGridViewColumn[] {
 				column0,
@@ -215,9 +220,11 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 				column5,
 				column6,
 				column7,
+				column8,
 			}
 			);
 
+			// Edit argument cell
             this.grdArgsList.CellEnter += (object sender, DataGridViewCellEventArgs evt) => {
                 if ( evt.RowIndex >= 0
                   && evt.ColumnIndex == 1 )
@@ -226,20 +233,21 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
                 }
             };
 
+			this.grdArgsList.CellEndEdit += (object sender, DataGridViewCellEventArgs evt) => {
+				if ( evt.RowIndex >= 0
+					&& evt.ColumnIndex >= 0 )
+				{
+					this.OnArgsListCellEdited( evt.RowIndex, evt.ColumnIndex );
+				}
+			};
+
+			// Enter the editor
 			this.grdArgsList.CellClick += (object sender, DataGridViewCellEventArgs e) => {
-				if ( e.ColumnIndex == 7
+				if ( e.ColumnIndex == 8
 				  && e.RowIndex >= 0 )
 				{
 					this.OnEditViewer( e.RowIndex );
 				}
-			};
-
-			this.grdArgsList.CellEndEdit += (object sender, DataGridViewCellEventArgs evt) => {
-                if ( evt.RowIndex >= 0
-                  && evt.ColumnIndex >= 0 )
-                {
-                    this.OnArgsListCellEdited( evt.RowIndex, evt.ColumnIndex );
-                }
 			};
 
             this.grdArgsList.MinimumSize = new Size( 240, 100 );
@@ -717,6 +725,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 				"",
 				false,
 				false,
+				false,
 				false
 			});
 
@@ -852,14 +861,19 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			if ( colIndex == 4 ) {
 				arg.IsRequired = (bool) row.Cells[ colIndex ].Value;
 			}
+		    else
+			// The "is data" info
+			if ( colIndex == 5 ) {
+				arg.IsDataArgument = (bool) row.Cells[ colIndex ].Value;
+			}
 			else
 			// The multiselect info
-			if ( colIndex == 5 ) {
+			if ( colIndex == 6 ) {
 				arg.AllowMultiselect = (bool) row.Cells[ colIndex ].Value;
 			}
 			else
 			// The viewer info
-			if ( colIndex == 6 ) {
+			if ( colIndex == 7 ) {
 				Function.Argument.ViewerType viewer;
 
 				bool parsedOk = Enum.TryParse( 
@@ -940,28 +954,31 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             int width = this.pnlContainer.ClientSize.Width;
 
             // Name
-            this.grdArgsList.Columns[ 0 ].Width = (int) ( width * 0.15 );
+            this.grdArgsList.Columns[ 0 ].Width = (int) ( width * 0.10 );
 
             // Value
             this.grdArgsList.Columns[ 1 ].Width = (int) ( width * 0.15 );
 
             // Depends
-            this.grdArgsList.Columns[ 2 ].Width = (int) ( width * 0.15 );
+            this.grdArgsList.Columns[ 2 ].Width = (int) ( width * 0.10 );
 
 			// Read only
 			this.grdArgsList.Columns[ 3 ].Width = (int) ( width * 0.10 );
 
-            // Required
+            // Is data
             this.grdArgsList.Columns[ 4 ].Width = (int) ( width * 0.10 );
 
-            // Multiselect
-            this.grdArgsList.Columns[ 5 ].Width = (int) ( width * 0.10 );
+			// Multiselect
+			this.grdArgsList.Columns[ 5 ].Width = (int) ( width * 0.10 );
+
+			// Required
+            this.grdArgsList.Columns[ 6 ].Width = (int) ( width * 0.10 );
 
             // Viewer
-            this.grdArgsList.Columns[ 6 ].Width = (int) ( width * 0.17 );
+            this.grdArgsList.Columns[ 7 ].Width = (int) ( width * 0.15 );
 
 			// Editor
-			this.grdArgsList.Columns[ 7 ].Width = (int) ( width * 0.05 );
+			this.grdArgsList.Columns[ 8 ].Width = (int) ( width * 0.07 );
         }
 
         /// <summary>
@@ -1000,9 +1017,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
                 row.Cells[ 2 ].Value = arg.DependsFrom;
 				row.Cells[ 3 ].Value = arg.IsReadOnly;
                 row.Cells[ 4 ].Value = arg.IsRequired;
-                row.Cells[ 5 ].Value = arg.AllowMultiselect;
-                row.Cells[ 6 ].Value = arg.Viewer.ToString();
-				row.Cells[ 7 ].Value = UserAction.ImageList.Images[ UserAction.LookUp( "properties" ).ImageIndex ];
+				row.Cells[ 5 ].Value = arg.IsDataArgument;
+                row.Cells[ 6 ].Value = arg.AllowMultiselect;
+                row.Cells[ 7 ].Value = arg.Viewer.ToString();
+				row.Cells[ 8 ].Value = UserAction.ImageList.Images[ UserAction.LookUp( "properties" ).ImageIndex ];
             }
 
             this.OnBuilding = false;
