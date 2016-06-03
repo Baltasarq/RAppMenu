@@ -19,6 +19,7 @@ namespace RWABuilder.Core.MenuComponents {
 			public const string TagValue = "Value";
 
 			public const string EtqRequired = "Required";
+			public const string EtqIsDataArgument = "IsDataArgument";
 			public const string EtqType = "Type";
 			public const string EtqLang = "Language";
 			public const string EtqReadOnly = "ReadOnly";
@@ -45,6 +46,7 @@ namespace RWABuilder.Core.MenuComponents {
                 this.depends = "";
                 this.value = "";
                 this.desc = "";
+				this.IsDataArgument = false;
 				this.IsRequired = false;
 				this.AllowMultiselect = false;
 				this.valueSet = new List<string>();
@@ -55,6 +57,14 @@ namespace RWABuilder.Core.MenuComponents {
 			/// </summary>
 			/// <value><c>true</c> if this instance is required; otherwise, <c>false</c>.</value>
 			public bool IsRequired {
+				get; set;
+			}
+
+			/// <summary>
+			/// Gets or sets a value indicating whether this one is data argument.
+			/// </summary>
+			/// <value><c>true</c> if this instance is data argument; otherwise, <c>false</c>.</value>
+			public bool IsDataArgument {
 				get; set;
 			}
 
@@ -238,6 +248,13 @@ namespace RWABuilder.Core.MenuComponents {
 					doc.WriteEndAttribute();
 				}
 
+				// IsDataArgument = "TRUE"
+				if ( this.IsDataArgument ) {
+					doc.WriteStartAttribute( EtqIsDataArgument );
+					doc.WriteString( true.ToString().ToUpper() );
+					doc.WriteEndAttribute();
+				}
+
 				// IsReadOnly = "TRUE"
 				if ( this.IsReadOnly ) {
 					doc.WriteStartAttribute( EtqReadOnly );
@@ -316,6 +333,11 @@ namespace RWABuilder.Core.MenuComponents {
 					// Required = "TRUE"
 					if ( attr.Name.Equals( EtqRequired, StringComparison.OrdinalIgnoreCase ) ) {
 						toret.IsRequired = attr.GetValueAsBool();
+					}
+				    else
+					// IsDataArgument = "TRUE"
+					if ( attr.Name.Equals( EtqIsDataArgument, StringComparison.OrdinalIgnoreCase ) ) {
+						toret.IsDataArgument = attr.GetValueAsBool();
 					}
 					else
 					// ReadOnly = "TRUE"
