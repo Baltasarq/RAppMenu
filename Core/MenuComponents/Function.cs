@@ -455,7 +455,7 @@ namespace RWABuilder.Core.MenuComponents {
 				else
 				// RemoveQuotationMarks = "TRUE"
 				if ( attr.Name.Equals( EtqRemoveQuotationMarks, StringComparison.OrdinalIgnoreCase ) ) {
-                    toret.HasData = attr.GetValueAsBool();
+					toret.RemoveQuotationMarks = attr.GetValueAsBool();
 				}
 				else
 				// DataHeader = "TRUE"
