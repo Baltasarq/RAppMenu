@@ -197,7 +197,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			column4.HeaderText = "Required";
 			column4.Width = 80;
 			column4.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column5.HeaderText = "Is data";
+			column5.HeaderText = "Data";
 			column5.Width = 80;
 			column5.SortMode = DataGridViewColumnSortMode.NotSortable;
 			column6.HeaderText = "Multiselect";
@@ -951,25 +951,25 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 		/// </summary>
         private void OnResizeEditor()
         {
-            int width = this.pnlContainer.ClientSize.Width;
+			int width = this.grdArgsList.ClientSize.Width;
 
             // Name
             this.grdArgsList.Columns[ 0 ].Width = (int) ( width * 0.10 );
 
             // Value
-            this.grdArgsList.Columns[ 1 ].Width = (int) ( width * 0.15 );
+            this.grdArgsList.Columns[ 1 ].Width = (int) ( width * 0.20 );
 
             // Depends
-            this.grdArgsList.Columns[ 2 ].Width = (int) ( width * 0.10 );
+            this.grdArgsList.Columns[ 2 ].Width = (int) ( width * 0.15 );
 
 			// Read only
-			this.grdArgsList.Columns[ 3 ].Width = (int) ( width * 0.10 );
+			this.grdArgsList.Columns[ 3 ].Width = (int) ( width * 0.07 );
 
             // Is data
             this.grdArgsList.Columns[ 4 ].Width = (int) ( width * 0.10 );
 
 			// Multiselect
-			this.grdArgsList.Columns[ 5 ].Width = (int) ( width * 0.10 );
+			this.grdArgsList.Columns[ 5 ].Width = (int) ( width * 0.07 );
 
 			// Required
             this.grdArgsList.Columns[ 6 ].Width = (int) ( width * 0.10 );
