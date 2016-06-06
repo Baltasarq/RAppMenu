@@ -19,6 +19,7 @@ namespace RWABuilder.Core.MenuComponents {
 			public const string TagValue = "Value";
 
 			public const string EtqRequired = "Required";
+			public const string EtqRemoveQuotationMarks = "RemoveQuotationMarks";
 			public const string EtqIsDataArgument = "IsDataArgument";
 			public const string EtqType = "Type";
 			public const string EtqLang = "Language";
@@ -47,6 +48,7 @@ namespace RWABuilder.Core.MenuComponents {
                 this.value = "";
                 this.desc = "";
 				this.IsDataArgument = false;
+				this.RemoveQuotationMarks = false;
 				this.IsRequired = false;
 				this.AllowMultiselect = false;
 				this.valueSet = new List<string>();
@@ -57,6 +59,16 @@ namespace RWABuilder.Core.MenuComponents {
 			/// </summary>
 			/// <value><c>true</c> if this instance is required; otherwise, <c>false</c>.</value>
 			public bool IsRequired {
+				get; set;
+			}
+
+			/// <summary>
+			/// Gets or sets a value indicating whether this
+			/// <see cref="RWABuilder.Core.MenuComponents.Function"/> should remove
+			/// the quotation marks.
+			/// </summary>
+			/// <value><c>true</c> if remove quotation marks; otherwise, <c>false</c>.</value>
+			public bool RemoveQuotationMarks {
 				get; set;
 			}
 
@@ -193,6 +205,7 @@ namespace RWABuilder.Core.MenuComponents {
 					DependsFrom = this.DependsFrom,
                     Description = this.Description,
 					Value = this.Value,
+					RemoveQuotationMarks = this.RemoveQuotationMarks,
 					ValueSet = this.ValueSet
 				};
 
@@ -202,8 +215,8 @@ namespace RWABuilder.Core.MenuComponents {
 			public override string ToString()
 			{
 				return string.Format( "[Argument: IsRequired={0}, Viewer={1}, "
-				                     + "DependsFrom={2}, Tag={3}, AllowMultiselect={4}]",
-				                     IsRequired, Viewer, DependsFrom, Value, AllowMultiselect );
+					+ "DependsFrom={2}, Value={3}, AllowMultiselect={4} Quotes={5}]",
+					IsRequired, Viewer, DependsFrom, Value, AllowMultiselect, RemoveQuotationMarks );
 			}
 
 			/// <summary>
@@ -251,6 +264,13 @@ namespace RWABuilder.Core.MenuComponents {
 				// IsDataArgument = "TRUE"
 				if ( this.IsDataArgument ) {
 					doc.WriteStartAttribute( EtqIsDataArgument );
+					doc.WriteString( true.ToString().ToUpper() );
+					doc.WriteEndAttribute();
+				}
+
+				// RemoveQuotationMarks = "TRUE"
+				if ( this.RemoveQuotationMarks ) {
+					doc.WriteStartAttribute( EtqRemoveQuotationMarks );
 					doc.WriteString( true.ToString().ToUpper() );
 					doc.WriteEndAttribute();
 				}
@@ -323,6 +343,11 @@ namespace RWABuilder.Core.MenuComponents {
 					// Tag = "?"
 					if ( attr.Name.Equals( EtqValue, StringComparison.OrdinalIgnoreCase ) ) {
 						toret.Value = attr.InnerText.Trim();
+					}
+					else
+					// RemoveQuotationMarks = "TRUE"
+					if ( attr.Name.Equals( EtqRemoveQuotationMarks, StringComparison.OrdinalIgnoreCase ) ) {
+						toret.RemoveQuotationMarks = attr.GetValueAsBool();
 					}
 					else
 					// AllowMultiSelect = "TRUE"

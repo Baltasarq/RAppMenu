@@ -169,8 +169,9 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			var column4 = new DataGridViewCheckBoxColumn();
 			var column5 = new DataGridViewCheckBoxColumn();
 			var column6 = new DataGridViewCheckBoxColumn();
-			var column7 = new DataGridViewComboBoxColumn();
-			var column8 = new DataGridViewImageColumn();
+			var column7 = new DataGridViewCheckBoxColumn();
+			var column8 = new DataGridViewComboBoxColumn();
+			var column9 = new DataGridViewImageColumn();
 
 			column0.CellTemplate = textCellTemplate;
 			column1.CellTemplate = textCellTemplate;
@@ -179,8 +180,9 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			column4.CellTemplate = checkBoxCellTemplate;
 			column5.CellTemplate = checkBoxCellTemplate;
 			column6.CellTemplate = checkBoxCellTemplate;
-			column7.CellTemplate = comboBoxCellTemplate;
-			column8.CellTemplate = imageCellTemplate;
+			column7.CellTemplate = checkBoxCellTemplate;
+			column8.CellTemplate = comboBoxCellTemplate;
+			column9.CellTemplate = imageCellTemplate;
 
 			column0.HeaderText = "Name";
 			column0.Width = 120;
@@ -200,18 +202,21 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			column5.HeaderText = "Data";
 			column5.Width = 80;
 			column5.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column6.HeaderText = "Multiselect";
+			column6.HeaderText = "Quotes";
 			column6.Width = 80;
 			column6.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column7.HeaderText = "Viewer";
+			column7.HeaderText = "Multiselect";
 			column7.Width = 80;
 			column7.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column8.HeaderText = "";
-			column8.ReadOnly = true;
-			column8.Width = 10;
+			column8.HeaderText = "Viewer";
+			column8.Width = 80;
 			column8.SortMode = DataGridViewColumnSortMode.NotSortable;
+			column9.HeaderText = "";
+			column9.ReadOnly = true;
+			column9.Width = 10;
+			column9.SortMode = DataGridViewColumnSortMode.NotSortable;
 
-			this.grdArgsList.Columns.AddRange( new DataGridViewColumn[] {
+			var columns = new DataGridViewColumn[] {
 				column0,
 				column1,
 				column2,
@@ -221,8 +226,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 				column6,
 				column7,
 				column8,
-			}
-			);
+				column9
+			};
+
+			this.grdArgsList.Columns.AddRange( columns );
 
 			// Edit argument cell
             this.grdArgsList.CellEnter += (object sender, DataGridViewCellEventArgs evt) => {
@@ -243,7 +250,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
 			// Enter the editor
 			this.grdArgsList.CellClick += (object sender, DataGridViewCellEventArgs e) => {
-				if ( e.ColumnIndex == 8
+				if ( e.ColumnIndex == columns.Length - 1
 				  && e.RowIndex >= 0 )
 				{
 					this.OnEditViewer( e.RowIndex );
@@ -354,16 +361,6 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			this.chkFunctionDataHeader.CheckedChanged += (object sender, EventArgs e) =>
 				this.Function.DataHeader = this.chkFunctionDataHeader.Checked;
 			this.pnlChecks.Controls.Add( chkFunctionDataHeader );
-
-			this.chkFunctionRemoveQuotes = new CheckBox() {
-				Text = "Remove quotes",
-				Dock = DockStyle.Fill
-			};
-			this.chkFunctionRemoveQuotes.MinimumSize = new Size( this.chkFunctionRemoveQuotes.Width, this.chkFunctionRemoveQuotes.Height );
-
-			this.chkFunctionRemoveQuotes.CheckedChanged += (object sender, EventArgs e) => 
-				this.Function.RemoveQuotationMarks = this.chkFunctionRemoveQuotes.Checked;
-			this.pnlChecks.Controls.Add( chkFunctionRemoveQuotes );
 
 			this.chkIsDefault = new CheckBox() {
 				Text = "Default",
@@ -726,6 +723,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 				false,
 				false,
 				false,
+				false,
 				false
 			});
 
@@ -867,13 +865,18 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 				arg.IsDataArgument = (bool) row.Cells[ colIndex ].Value;
 			}
 			else
-			// The multiselect info
+			// The "remove quotes" info
 			if ( colIndex == 6 ) {
+				arg.RemoveQuotationMarks = (bool) row.Cells[ colIndex ].Value;
+			}
+			else
+			// The multiselect info
+			if ( colIndex == 7 ) {
 				arg.AllowMultiselect = (bool) row.Cells[ colIndex ].Value;
 			}
 			else
 			// The viewer info
-			if ( colIndex == 7 ) {
+			if ( colIndex == 8 ) {
 				Function.Argument.ViewerType viewer;
 
 				bool parsedOk = Enum.TryParse( 
@@ -957,28 +960,31 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             this.grdArgsList.Columns[ 0 ].Width = (int) ( width * 0.10 );
 
             // Value
-            this.grdArgsList.Columns[ 1 ].Width = (int) ( width * 0.20 );
+            this.grdArgsList.Columns[ 1 ].Width = (int) ( width * 0.17 );
 
             // Depends
-            this.grdArgsList.Columns[ 2 ].Width = (int) ( width * 0.15 );
+            this.grdArgsList.Columns[ 2 ].Width = (int) ( width * 0.10 );
 
 			// Read only
 			this.grdArgsList.Columns[ 3 ].Width = (int) ( width * 0.07 );
 
+			// Required
+			this.grdArgsList.Columns[ 4 ].Width = (int) ( width * 0.10 );
+
             // Is data
-            this.grdArgsList.Columns[ 4 ].Width = (int) ( width * 0.10 );
+            this.grdArgsList.Columns[ 5 ].Width = (int) ( width * 0.07 );
+
+			// Quotes
+			this.grdArgsList.Columns[ 6 ].Width = (int) ( width * 0.07 );
 
 			// Multiselect
-			this.grdArgsList.Columns[ 5 ].Width = (int) ( width * 0.07 );
-
-			// Required
-            this.grdArgsList.Columns[ 6 ].Width = (int) ( width * 0.10 );
+			this.grdArgsList.Columns[ 7 ].Width = (int) ( width * 0.10 );
 
             // Viewer
-            this.grdArgsList.Columns[ 7 ].Width = (int) ( width * 0.15 );
+            this.grdArgsList.Columns[ 8 ].Width = (int) ( width * 0.15 );
 
 			// Editor
-			this.grdArgsList.Columns[ 8 ].Width = (int) ( width * 0.07 );
+			this.grdArgsList.Columns[ 9 ].Width = (int) ( width * 0.07 );
         }
 
         /// <summary>
@@ -991,7 +997,6 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 
             // Checkboxes
             this.chkFunctionHasData.Checked = this.Function.HasData;
-            this.chkFunctionRemoveQuotes.Checked = this.Function.RemoveQuotationMarks;
             this.chkFunctionDataHeader.Checked = this.Function.DataHeader;
 			this.chkIsDefault.Checked = this.Function.IsDefault;
 
@@ -1018,9 +1023,10 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 				row.Cells[ 3 ].Value = arg.IsReadOnly;
                 row.Cells[ 4 ].Value = arg.IsRequired;
 				row.Cells[ 5 ].Value = arg.IsDataArgument;
-                row.Cells[ 6 ].Value = arg.AllowMultiselect;
-                row.Cells[ 7 ].Value = arg.Viewer.ToString();
-				row.Cells[ 8 ].Value = UserAction.ImageList.Images[ UserAction.LookUp( "properties" ).ImageIndex ];
+				row.Cells[ 6 ].Value = arg.RemoveQuotationMarks;
+                row.Cells[ 7 ].Value = arg.AllowMultiselect;
+                row.Cells[ 8 ].Value = arg.Viewer.ToString();
+				row.Cells[ 9 ].Value = UserAction.ImageList.Images[ UserAction.LookUp( "properties" ).ImageIndex ];
             }
 
             this.OnBuilding = false;
@@ -1051,7 +1057,6 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
         private TabControl tcPad;
 
 		private CheckBox chkFunctionHasData;
-		private CheckBox chkFunctionRemoveQuotes;
 		private CheckBox chkFunctionDataHeader;
 		private CheckBox chkIsDefault;
 		private DataGridView grdArgsList;

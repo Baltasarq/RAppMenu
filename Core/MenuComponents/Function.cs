@@ -20,7 +20,6 @@ namespace RWABuilder.Core.MenuComponents {
 		public const string EtqPackage = "Package";
 		public const string EtqPage = "Page";
 		public const string EtqDataHeader = "DataHeader";
-		public const string EtqRemoveQuotationMarks = "RemoveQuotationMarks";
 		public const string EtqHasData = "HasData";
 		public const string EtqStartColumn = "StartColumn";
         public const string EtqEndColumn = "EndColumn";
@@ -42,7 +41,6 @@ namespace RWABuilder.Core.MenuComponents {
             this.HasData = false;
             this.DataHeader = false;
 			this.IsDefault = false;
-            this.RemoveQuotationMarks = false;
             this.ExampleData = "";
 			this.PDFPageNumber = 1;
             this.PDFName = "";
@@ -135,16 +133,6 @@ namespace RWABuilder.Core.MenuComponents {
 
 				this.endColumn = value;
 			}
-		}
-
-		/// <summary>
-		/// Gets or sets a value indicating whether this
-		/// <see cref="RWABuilder.Core.MenuComponents.Function"/> should remove
-		/// the quotation marks.
-		/// </summary>
-		/// <value><c>true</c> if remove quotation marks; otherwise, <c>false</c>.</value>
-		public bool RemoveQuotationMarks {
-			get; set;
 		}
 
 		/// <summary>
@@ -244,14 +232,13 @@ namespace RWABuilder.Core.MenuComponents {
 
 		public override string ToString()
 		{
-			return string.Format( "[Function: Name='{0}' PackageName='{10}' HasData={1},"
+			return string.Format( "[Function: Name='{0}' HasData={1},"
 			        + "DataHeader={2}, "
-					+ "PreCommand='{3}', DefaultData='{4}', StartColumn={5}, EndColumn={6}, "
-					+ "RemoveQuotationMarks={7}, PreProgramOnce='{8}', ArgList={9}, Package='{10}' PDF='{11}'"
-					+ "PDFStartPage='{12}']",
-			        Name,
-				    HasData, DataHeader, PreCommand, ExampleData, StartColumn,
-			        EndColumn, RemoveQuotationMarks, PreProgramOnce, RegularArgumentList.ToString(),
+					+ "PreCommand='{3}', ExampleData='{4}', StartColumn={5}, EndColumn={6}, "
+					+ "PreProgramOnce='{7}', ArgList={8}, Package='{9}' PDF='{10}'"
+					+ "PDFStartPage='{11}']",
+			        Name, HasData, DataHeader, PreCommand, ExampleData, StartColumn,
+			        EndColumn, PreProgramOnce, RegularArgumentList.ToString(),
 					this.Package, this.PDFName, this.PDFPageNumber );
 		}
 
@@ -274,7 +261,6 @@ namespace RWABuilder.Core.MenuComponents {
                 HasData = this.HasData,
                 DataHeader = this.DataHeader,
                 PreCommand = this.PreCommand,
-                RemoveQuotationMarks = this.RemoveQuotationMarks,
                 StartColumn = this.StartColumn,
                 EndColumn = this.EndColumn,
                 ExampleData = this.ExampleData,
@@ -344,13 +330,6 @@ namespace RWABuilder.Core.MenuComponents {
 				doc.WriteString( true.ToString().ToUpper() );
 				doc.WriteEndAttribute();
 			}
-
-            // RemoveQuotationMarks = "TRUE"
-            if ( this.RemoveQuotationMarks ) {
-                doc.WriteStartAttribute( EtqRemoveQuotationMarks );
-                doc.WriteString( true.ToString().ToUpper() );
-                doc.WriteEndAttribute();
-            }
 
 			// PreCommand = "quit()"
 			if ( !string.IsNullOrWhiteSpace( this.PreCommand ) ) {
@@ -451,11 +430,6 @@ namespace RWABuilder.Core.MenuComponents {
 				// HasData = "true"
 				if ( attr.Name.Equals( EtqHasData, StringComparison.OrdinalIgnoreCase ) ) {
                     toret.HasData = attr.GetValueAsBool();
-				}
-				else
-				// RemoveQuotationMarks = "TRUE"
-				if ( attr.Name.Equals( EtqRemoveQuotationMarks, StringComparison.OrdinalIgnoreCase ) ) {
-					toret.RemoveQuotationMarks = attr.GetValueAsBool();
 				}
 				else
 				// DataHeader = "TRUE"
