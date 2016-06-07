@@ -202,7 +202,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 			column5.HeaderText = "Data";
 			column5.Width = 80;
 			column5.SortMode = DataGridViewColumnSortMode.NotSortable;
-			column6.HeaderText = "Quotes";
+			column6.HeaderText = "No quotes";
 			column6.Width = 80;
 			column6.SortMode = DataGridViewColumnSortMode.NotSortable;
 			column7.HeaderText = "Multiselect";
@@ -814,7 +814,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
 				if ( valed.ShowDialog() != DialogResult.Cancel ) {
 					// Set viewer to value set
 					arg.Viewer = Function.Argument.ViewerType.ValueSet;
-					var cmbCell = (DataGridViewComboBoxCell) row.Cells[ 6 ];
+					var cmbCell = (DataGridViewComboBoxCell) row.Cells[ row.Cells.Count - 2 ];
 					cmbCell.Value = cmbCell.Items[ (int) Function.Argument.ViewerType.ValueSet ];
 
 					// Load data
@@ -960,7 +960,7 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             this.grdArgsList.Columns[ 0 ].Width = (int) ( width * 0.10 );
 
             // Value
-            this.grdArgsList.Columns[ 1 ].Width = (int) ( width * 0.17 );
+            this.grdArgsList.Columns[ 1 ].Width = (int) ( width * 0.14 );
 
             // Depends
             this.grdArgsList.Columns[ 2 ].Width = (int) ( width * 0.10 );
@@ -974,8 +974,8 @@ namespace RWABuilder.Ui.MenuComponentGuiEditors {
             // Is data
             this.grdArgsList.Columns[ 5 ].Width = (int) ( width * 0.07 );
 
-			// Quotes
-			this.grdArgsList.Columns[ 6 ].Width = (int) ( width * 0.07 );
+			// No Quotes
+			this.grdArgsList.Columns[ 6 ].Width = (int) ( width * 0.12 );
 
 			// Multiselect
 			this.grdArgsList.Columns[ 7 ].Width = (int) ( width * 0.10 );
